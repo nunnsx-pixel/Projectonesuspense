@@ -35,6 +35,7 @@ BREATH_SHAPES = {
     "gasp":         {"in": 1.0, "hold": 0.0, "out": 0.0, "amp": 1.9},           # susto: inspira seco e já grita
     "pant":         {"in": 0.5, "hold": 0.0, "out": 0.5, "amp": 1.2, "cycles": 3},   # huh-huh-huh
     "swallow":      {"in": 0.3, "hold": 0.1, "out": 0.6, "amp": 0.2},           # engole seco (quase sem peito)
+    "hyperventilate": {"in": 0.5, "hold": 0.0, "out": 0.5, "amp": 1.5, "cycles": 5},  # hiperventilação audível
 }
 
 _V = "aeiouáéíóúâêôãõà"
@@ -100,7 +101,7 @@ def tokenize(text: str, lexicon: dict[str, str]) -> list[dict]:
 def layout_scene(scene: dict, lexicon: dict[str, str], pauses: dict[str, float]) -> dict:
     """Distribui os itens da cena dentro da janela. Retorna itens com tempos + estatísticas."""
     w0, w1 = scene["window"]
-    syl0 = 1.0 / scene["pace_syl_s"]
+    scene_syl0 = 1.0 / scene["pace_syl_s"]
     drag0, drag1 = scene.get("drag", [1.0, 1.0])
 
     entries = []
@@ -122,6 +123,7 @@ def layout_scene(scene: dict, lexicon: dict[str, str], pauses: dict[str, float])
             if gap:
                 slots.append({"type": "gap", "dur": gap, "flex": False})
             continue
+        syl0 = 1.0 / item["pace_syl_s"] if item.get("pace_syl_s") else scene_syl0   # ritmo próprio (ex.: motorista)
         for wd in words:
             drag = lerp(drag0, drag1, (cum + wd["syl"] / 2) / total_syl)
             cum += wd["syl"]

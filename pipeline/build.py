@@ -18,7 +18,7 @@ CSV_COLUMNS = [
     "vignette", "edge_blur", "eyelid", "black",
     "breath", "heart", "speed_kmh", "step",
 ]
-OPTIONAL_COLUMNS = ("light", "motion_blur", "bump")     # entram no CSV só se camera.json pedir em `csv_extra`
+OPTIONAL_COLUMNS = ("light", "motion_blur", "bump", "red_fog")     # entram no CSV só se camera.json pedir em `csv_extra`
 
 
 def _load(path: Path) -> dict:
@@ -138,7 +138,7 @@ def build_episode(ep_id: str, root: Path = ROOT, write: bool = True) -> dict:
 
     # ---- SFX (cues + passos da câmera) ----------------------------------------------
     sfx_out = sfx.build(sfx_cfg, res, cam["steps"], cam_cfg.get("seed", 348), windows, cam_cfg.get("gait_table"),
-                        cam["bumps"], cam["flickers"], cam_cfg.get("flicker", {}).get("sfx"))
+                        cam["bumps"], cam["flickers"], cam_cfg.get("flicker", {}).get("sfx"), cam["heartbeats"])
     columns = CSV_COLUMNS + [c for c in cam_cfg.get("csv_extra", []) if c in OPTIONAL_COLUMNS]
     for cue in sfx_out["cues"]:
         _check_inside(f"cue {cue['id']}", cue["start"], cue["end"], duration)
@@ -163,7 +163,7 @@ def build_episode(ep_id: str, root: Path = ROOT, write: bool = True) -> dict:
             warnings.append(f"{it['id']} cai numa faixa de tela preta")
 
     timeline = _assemble(project, ep, scenes, items, fits, beats, breath_events, cam, sfx_out, n_frames,
-                         duration, warnings, columns)
+                         duration, warnings, columns, narr.get("speakers"))
     if write:
         _write(ep_dir / "build", ep_id, timeline, cam["rows"], columns)
     timeline["_cam"] = cam          # uso interno (testes); não vai para o JSON
@@ -198,7 +198,7 @@ def _check_inside(what: str, start: float, end: float, duration: float) -> None:
 
 
 def _assemble(project, ep, scenes, items, fits, beats, breath_events, cam, sfx_out, n_frames, duration,
-              warnings, columns) -> dict:
+              warnings, columns, speakers=None) -> dict:
     def stamp(d: dict, *keys: str) -> dict:
         out = dict(d)
         for k in keys:
@@ -217,6 +217,7 @@ def _assemble(project, ep, scenes, items, fits, beats, breath_events, cam, sfx_o
             "narration_timing": "ESTIMADO por sílabas e pontuação (ainda sem gravação).",
         },
         "warnings": warnings,
+        **({"speakers": speakers} if speakers else {}),
         "scenes": [{
             "id": s["id"], "name": s["name"], **stamp({"start": s["start"], "end": s["end"]}, "start", "end"),
             "set": s.get("set"), "narration_fit": fits.get(s["id"]),
@@ -229,6 +230,7 @@ def _assemble(project, ep, scenes, items, fits, beats, breath_events, cam, sfx_o
             "footsteps": [stamp(f, "start") for f in sfx_out["footsteps"]],
             **({"bumps": [stamp(f, "start") for f in sfx_out["bumps"]]} if sfx_out["bumps"] else {}),
             **({"flicker": [stamp(f, "start", "end") for f in sfx_out["flicker"]]} if sfx_out["flicker"] else {}),
+            **({"heartbeat": [stamp(f, "start") for f in sfx_out["heartbeat"]]} if sfx_out["heartbeat"] else {}),
             "mix": sfx_out["mix"],
         },
         "camera": {
@@ -283,7 +285,10 @@ def cue_sheet(tl: dict) -> str:
     for i in tl["narration"]:
         if i["kind"] == "speech":
             how = f" _[{i['direction']}]_" if i.get("direction") else ""
-            add(i["start"], "VOZ", f"`{i['id']}`{how} “{i['text']}” _(até {tc(i['end'])})_", 2)
+            who = f" **{i['speaker']}**" if i.get("speaker") else ""
+            add(i["start"], "VOZ", f"`{i['id']}`{who}{how} “{i['text']}” _(até {tc(i['end'])})_", 2)
+        elif i["kind"] == "silence":
+            add(i["start"], "SILÊNCIO", f"`{i['id']}` {i['label']} _(até {tc(i['end'])})_", 2)
         else:
             add(i["start"], "RESPIRO", f"`{i['id']}` {i['label']} _(até {tc(i['end'])})_", 2)
     for c in tl["sfx"]["cues"]:
@@ -296,6 +301,11 @@ def cue_sheet(tl: dict) -> str:
     for seg, fs in by_seg.items():
         add(fs[0]["start"], "PASSOS", f"`{seg}` {len(fs)} passos até {tc(fs[-1]['start'])} — {fs[0]['surface']} "
             f"({fs[0]['origin']}); cada passo = frame de contato da câmera", 3)
+    beats_ = tl["sfx"].get("heartbeat", [])
+    if beats_:
+        add(beats_[0]["start"], "CORAÇÃO", f"{len(beats_)} batimentos de {tc(beats_[0]['start'])} a {tc(beats_[-1]['start'])} "
+            f"({beats_[0]['bpm']:g}→{beats_[-1]['bpm']:g} bpm; {beats_[0]['gain_db']:g}→{beats_[-1]['gain_db']:g} dB): "
+            f"cada um cai no frame do pulso da câmera (`heart` no CSV) — o som e o tremor são o mesmo evento", 3)
     bumps = tl["sfx"].get("bumps", [])
     for seg in dict.fromkeys(b["segment"] for b in bumps):
         bs = [b for b in bumps if b["segment"] == seg]

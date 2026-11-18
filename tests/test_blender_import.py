@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CSV = ROOT / "ep01" / "build" / "ep01.camera.csv"
 CSV2 = ROOT / "ep02" / "build" / "ep02.camera.csv"
+CSV3 = ROOT / "ep03" / "build" / "ep03.camera.csv"
 
 spec = importlib.util.spec_from_file_location("import_camera_csv", ROOT / "blender" / "import_camera_csv.py")
 imp = importlib.util.module_from_spec(spec)
@@ -73,7 +74,7 @@ class MathConventions(unittest.TestCase):
         self.assertAlmostEqual(prev[2], -math.radians(170), places=6)  # sem pulo de 2π
 
     def test_euler_has_no_flips_over_whole_episodes(self):
-        for path in (CSV, CSV2):                           # Ep. 2 chega a yaw +150° (olhar para trás)
+        for path in (CSV, CSV2, CSV3):                     # Ep. 2: yaw +150°; Ep. 3: yaw +176° e mergulho final
             prev, worst = None, 0.0
             for r in imp.read_rows(path):
                 _, e = imp.camera_pose(r, 0.01, prev)
@@ -194,6 +195,25 @@ class BlenderScene(unittest.TestCase):
         self.assertIn(("POV:preto", 1), marks)                                 # tela preta já no 1º frame
         self.assertEqual([m for m in marks if m[0] == "POV:preto"], [("POV:preto", 1)])   # e só essa
         self.assertIn(("POV:s2", 1 + 1080), marks)
+
+    def test_ep03_extreme_poses_red_fog_and_final_black(self):
+        scene = self.fresh_scene()
+        imp.import_csv(CSV3)
+        cam = scene.camera
+        rows = {int(r["frame"]): r for r in imp.read_rows(CSV3)}
+        # 2538: olhando para trás (yaw ~172°); 2808: revelação; 3539: mergulho na neblina (pitch -70°, roll 45°)
+        for f in (0, 13, 84, 1200, 2538, 2700, 2808, 3141, 3444, 3498, 3531, 3539):
+            self.assert_pose(scene, cam, rows[f], f)
+        self.assertGreater(rows[2700]["look_yaw"], 165)
+        self.assertLess(rows[3539]["look_pitch"], -60)
+        for f, want in ((3100, 0.0), (3170, 1.0), (3539, 1.0)):              # neblina vermelha sobe com a porta
+            self.at(scene, f)
+            self.assertAlmostEqual(cam["red_fog"], want, places=3, msg=f"frame {f}")
+        self.at(scene, 3539)
+        self.assertEqual(cam["black"], 0.0)
+        self.at(scene, 3540)                                                   # corte seco aos 59,0 s
+        self.assertEqual(cam["black"], 1.0)
+        self.assertIn(("POV:preto", 1 + 3540), [(m.name, m.frame) for m in scene.timeline_markers])
 
     def test_ep01_has_no_extra_channels(self):
         scene = self.fresh_scene()

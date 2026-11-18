@@ -303,11 +303,14 @@ def make_flicker(cfg: dict, res: Resolver, duration: float, seed: int):
     rate = curve_from_spec({"mode": "linear", "keys": fl["rate_hz"]}, res)
     rnd = random.Random(seed * 104729 + 17)
     t, t_end = res.time(fl.get("from", 0.0)), min(res.time(fl.get("to", duration)), duration - 0.1)
+    hard_end = res.time(fl["hard_end"]) if "hard_end" in fl else None   # `to` = última rajada que COMEÇA; hard_end = corte total
     while True:
         t += rnd.expovariate(max(rate(t), 1e-3))
         if t >= t_end:
             break
         for _ in range(rnd.randint(*fl["burst_count"])):
+            if hard_end is not None and t >= hard_end:   # opcional: nenhuma queda depois de `hard_end`
+                break
             frames = rnd.randint(*fl["burst_frames"])
             events.append({"t": snap(t), "frames": frames, "depth": round(rnd.uniform(*fl["depth"]), 3),
                            "origin": "rajada", "note": ""})
@@ -443,7 +446,8 @@ def build(cfg: dict, res: Resolver, breath_events: list[dict], speech_spans: lis
                "eyelid": c("eyelid", t), "black": black,
                "breath": level(t), "heart": hp, "speed_kmh": c("speed_kmh", t),
                "step": 1 if fr in step_frames else 0,
-               "light": light[fr], "motion_blur": c("motion_blur", t), "bump": 1 if fr in bump_frames else 0}
+               "light": light[fr], "motion_blur": c("motion_blur", t), "bump": 1 if fr in bump_frames else 0,
+               "red_fog": c("red_fog", t)}
         if black:
             row["eyelid"] = 1.0
         rows.append(row)

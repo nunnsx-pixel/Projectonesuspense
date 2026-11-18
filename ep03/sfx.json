@@ -1,0 +1,105 @@
+{
+  "episode": "ep03",
+  "_comment": "Cues de SFX do Ep. 3. origin: \"roteiro\" = está no .md; \"inferido\" = som implícito (pode apagar). gain_db é sugestão inicial. NÃO ficam aqui, porque são gerados da câmera/luz para cair no frame exato: passos (camera.json > locomotion), batidas do chassi (road), falhas elétricas (flicker) e OS BATIMENTOS CARDÍACOS (bloco `heartbeat` abaixo, mesmas batidas que fazem a câmera tremer). Todos os beds terminam em 59,0 s: depois do corte vem silêncio absoluto.",
+
+  "cues": [
+    {
+      "id": "motor-onibus", "layer": "veiculo", "origin": "inferido",
+      "desc": "Ronco do ônibus em alta velocidade na estrada de terra (continuidade dos Ep. 1 e 2).",
+      "at": 0.0, "until": 59.0, "gain_db": -16, "loop": true,
+      "pitch_from_speed": { "max_semitones": 9, "max_kmh": 62 }
+    },
+    {
+      "id": "chassi-balancando", "layer": "veiculo", "origin": "roteiro",
+      "desc": "Chassi balançando violentamente (cama contínua; os solavancos individuais são gerados de camera.json > road).",
+      "at": 0.0, "until": 59.0, "gain_db": -12, "loop": true,
+      "automation": { "gain_db": [[0.0, -12], [20.0, -14], [42.0, -9], [58.9, -6]] }
+    },
+    {
+      "id": "mao-balaustre-1", "layer": "foley", "origin": "inferido", "desc": "Mão agarrando o balaústre de metal enferrujado (rangido curto).", "at": 1.4, "gain_db": -7
+    },
+    {
+      "id": "mao-balaustre-2", "layer": "foley", "origin": "inferido", "desc": "Mão agarrando o balaústre.", "at": 2.6, "gain_db": -7
+    },
+    {
+      "id": "mao-balaustre-3", "layer": "foley", "origin": "inferido", "desc": "Mão agarrando o balaústre.", "at": 3.9, "gain_db": -7
+    },
+    {
+      "id": "mao-balaustre-4", "layer": "foley", "origin": "inferido", "desc": "Mão agarrando o balaústre.", "at": 5.1, "gain_db": -7
+    },
+    {
+      "id": "radio-am", "layer": "interface", "origin": "roteiro",
+      "desc": "Chiado de rádio AM antigo fora de sintonia: cresce quando o pescoço do motorista gira, cola na voz dele (que soa como esse rádio) e recua quando o protagonista fala.",
+      "at": 19.6, "until": 42.0, "fade_in": 0.7, "fade_out": 0.6, "gain_db": -18, "loop": true,
+      "automation": {
+        "gain_db": [
+          [19.6, -34], [20.3, -24],
+          [{ "ref": "s2-02", "edge": "start", "offset": -0.3 }, -15], [{ "ref": "s2-03", "edge": "end" }, -15],
+          [{ "ref": "s2-05", "edge": "start" }, -26], [41.8, -26]
+        ]
+      }
+    },
+    {
+      "id": "estalo-pescoco-1", "layer": "foley", "origin": "roteiro",
+      "desc": "Estalo seco de ossos: o pescoço do motorista começa a virar.", "at": { "beat": "b2-pescoco", "offset": 0.5 }, "gain_db": -2
+    },
+    {
+      "id": "estalo-pescoco-2", "layer": "foley", "origin": "roteiro",
+      "desc": "Estalo seco de ossos (meio da volta).", "at": { "beat": "b2-pescoco", "offset": 1.4 }, "gain_db": -2
+    },
+    {
+      "id": "estalo-pescoco-3", "layer": "foley", "origin": "roteiro",
+      "desc": "Estalo seco de ossos: o rosto chega à câmera.", "at": { "beat": "b2-pescoco", "offset": 2.4 }, "gain_db": 0
+    },
+    {
+      "id": "costas-catraca", "layer": "foley", "origin": "inferido",
+      "desc": "Costas do protagonista batendo na catraca de metal.",
+      "at": { "ref": "s2-05", "edge": "start", "offset": 1.0 }, "gain_db": -3
+    },
+    {
+      "id": "passos-passageiro", "layer": "foley", "origin": "inferido",
+      "desc": "Passos rápidos do passageiro decomposto se aproximando pelo corredor (cresce com a proximidade).",
+      "at": { "beat": "b3-levanta", "offset": 0.4 }, "until": { "beat": "b3-revela", "offset": 0.3 }, "gain_db": -12,
+      "automation": { "gain_db": [[{ "beat": "b3-levanta", "offset": 0.4 }, -34], [{ "beat": "b3-revela" }, -8]] }
+    },
+    {
+      "id": "botao-vermelho", "layer": "interface", "origin": "inferido",
+      "desc": "Clique do botão vermelho apertado pelo motorista.", "at": { "beat": "b3-botao" }, "gain_db": -6
+    },
+    {
+      "id": "porta-pneumatica", "layer": "impacto", "origin": "roteiro",
+      "desc": "Chiado alto de ar comprimido da porta pneumática abrindo.",
+      "at": { "beat": "b3-porta" }, "dur": 1.6, "fade_out": 0.4, "gain_db": -1
+    },
+    {
+      "id": "vento-forte", "layer": "ambiencia", "origin": "roteiro",
+      "desc": "Vento forte entrando pela porta aberta.",
+      "at": { "beat": "b3-porta" }, "until": 59.0, "fade_in": 0.6, "gain_db": -9, "loop": true
+    },
+    {
+      "id": "murmurios-neblina", "layer": "ambiencia", "origin": "roteiro",
+      "desc": "Murmúrios distantes vindos da neblina vermelha (as mãos pálidas).",
+      "at": { "beat": "b3-porta", "offset": -0.2 }, "until": 59.0, "fade_in": 1.2, "gain_db": -14, "loop": true,
+      "automation": { "gain_db": [[{ "beat": "b3-porta" }, -22], [58.9, -8]] }
+    },
+    {
+      "id": "mao-ombro", "layer": "foley", "origin": "inferido",
+      "desc": "Mão podre agarrando o ombro do protagonista (úmido, seco, ossos).", "at": { "beat": "b3-ombro" }, "gain_db": -5
+    },
+    {
+      "id": "freada-metal", "layer": "impacto", "origin": "roteiro",
+      "desc": "[Corte Seco 59,0 s] Som ensurdecedor de freada brusca e metal retorcendo — e depois SILÊNCIO ABSOLUTO (nada soa de 59,6 s ao fim).",
+      "at": { "beat": "b3-corte" }, "dur": 0.6, "fade_out": 0.05, "gain_db": 0
+    }
+  ],
+
+  "_comment_heart": "Batimentos cardíacos acelerados crescendo no fundo (roteiro). Gerados da MESMA lista de batidas da câmera (pulso lub-dub): o som e o tremor da câmera são um evento só. `gain_db` é a curva do volume: o coração vai abafando o som ambiente.",
+  "heartbeat": {
+    "tag": "batimento-cardiaco", "origin": "roteiro", "from": 0.0, "to": 59.0,
+    "gain_db": [[0.0, -30], [10.0, -24], [20.0, -19], [42.0, -11], [52.0, -7], [58.9, -2]]
+  },
+
+  "mix": {
+    "ambience_gain_db": [[0.0, 0], [20.0, -2], [42.0, -6], [52.0, -10], [58.9, -14]]
+  }
+}

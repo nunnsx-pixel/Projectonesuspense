@@ -1,0 +1,186 @@
+{
+  "episode": "ep03",
+  "_comment": "Rig da câmera POV do Ep. 3 (em pé no corredor, ônibus em velocidade na estrada de terra). Mesma convenção dos Ep. 1 e 2: camada ADITIVA de balanço (shake_*) + intenção de olhar (look_*); final = look + shake. Posição em cm, rotação em graus; +X direita, +Y cima, +Z frente; yaw+ direita, pitch+ cima, roll+ inclina p/ direita. Frente do ônibus = yaw 0; olhar para o fundo do corredor = yaw ~172. A porta fica à DIREITA da cabine.",
+
+  "seed": 3,
+  "intensity": 1.0,
+  "csv_extra": ["light", "motion_blur", "bump", "red_fog"],
+
+  "gait_connect_gap_s": 1.1,
+  "gait_table": [
+    { "cadence": 1.2, "bob_y_cm": 0.8, "sway_x_cm": 1.2, "pitch_deg": 0.30, "roll_deg": 0.40, "yaw_deg": 0.50, "impact_pitch_deg": 0.04, "impact_y_cm": 0.02 },
+    { "cadence": 1.8, "bob_y_cm": 1.3, "sway_x_cm": 1.7, "pitch_deg": 0.50, "roll_deg": 0.60, "yaw_deg": 0.80, "impact_pitch_deg": 0.10, "impact_y_cm": 0.06 },
+    { "cadence": 2.3, "bob_y_cm": 2.2, "sway_x_cm": 2.0, "pitch_deg": 0.90, "roll_deg": 0.90, "yaw_deg": 1.20, "impact_pitch_deg": 0.35, "impact_y_cm": 0.25 },
+    { "cadence": 2.9, "bob_y_cm": 3.4, "sway_x_cm": 2.3, "pitch_deg": 1.50, "roll_deg": 1.20, "yaw_deg": 1.60, "impact_pitch_deg": 0.80, "impact_y_cm": 0.60 }
+  ],
+
+  "locomotion": [
+    {
+      "id": "cambaleio-corredor", "from": 0.35, "to": 6.3,
+      "cadence": { "keys": [[0.35, 1.5], [1.2, 2.3], [3.0, 2.0], [3.3, 1.4], [4.0, 2.2], [6.3, 1.8]] },
+      "scale": { "sway_x_cm": 2.6, "roll_deg": 2.4, "yaw_deg": 1.7, "bob_y_cm": 1.3, "pitch_deg": 1.2 },
+      "surface": "piso metálico do corredor (ônibus em movimento violento)",
+      "sfx": { "tag": "passos-pesados-metal", "gain_db": -5, "origin": "roteiro" }
+    },
+    {
+      "id": "recua-catraca", "from": { "ref": "s2-05", "edge": "start", "offset": 0.05 }, "steps": 2, "cadence": 1.6,
+      "scale": { "sway_x_cm": 2.2, "roll_deg": 2.0, "bob_y_cm": 1.2 },
+      "surface": "piso metálico (recuando de costas)",
+      "sfx": { "tag": "passos-pesados-metal", "gain_db": -5, "origin": "roteiro" }
+    },
+    {
+      "id": "empurrado", "from": { "beat": "b3-empurra", "offset": 0.1 }, "steps": 3, "cadence": 2.6,
+      "scale": { "sway_x_cm": 3.0, "roll_deg": 3.0, "bob_y_cm": 1.6, "pitch_deg": 1.6 },
+      "surface": "piso metálico (empurrado até a porta)",
+      "sfx": { "tag": "passos-pesados-metal", "gain_db": -3, "origin": "inferido" }
+    }
+  ],
+
+  "amplitudes": {
+    "_comment": "Pico típico de cada camada em escala 1.0 (multiplicada pelas curvas abaixo).",
+    "noise": { "band_hz": [0.35, 3.6], "x_cm": 0.5, "y_cm": 0.5, "z_cm": 0.6, "yaw": 2.2, "pitch": 1.6, "roll": 1.1, "fov_pct": 0.5 },
+    "breath": { "pitch_deg": 1.6, "y_cm": 1.2, "z_cm": 0.4 },
+    "heart": { "pitch_deg": 0.30, "y_cm": 0.18, "fov_pct": 0.50 },
+    "bus_vibration": { "freq_hz": [8.5, 13.0], "x_cm": 0.15, "y_cm": 0.35, "pitch": 0.15, "roll": 0.14 },
+    "bus_sway": { "x_cm": 2.2, "roll": 1.2, "yaw": 0.7 },
+    "bus_lean": { "pitch_deg_per_ms2": 0.9, "z_cm_per_ms2": -1.6 }
+  },
+
+  "_comment_road": "O ônibus NÃO reduz a velocidade: terreno muito irregular o tempo todo. Cada batida = solavanco da câmera (bump=1) + SFX do chassi no MESMO frame.",
+  "bump_response": { "f_hz": 5.0, "tau_s": 0.18, "y_cm": 2.2, "pitch": 1.8, "roll": 2.2, "x_cm": 1.3 },
+  "road": [
+    {
+      "id": "estrada-corredor", "from": 0.4, "to": 20.0,
+      "rate_hz": [[0.4, 2.6], [20.0, 2.0]],
+      "sfx": { "tag": "rangido-chassi", "tag_big": "batida-suspensao", "big_from": 0.8, "gain_db": -13, "origin": "roteiro" }
+    },
+    {
+      "id": "estrada-revelacao", "from": 20.0, "to": 42.0,
+      "rate_hz": [[20.0, 1.6], [42.0, 2.0]],
+      "sfx": { "tag": "rangido-chassi", "tag_big": "batida-suspensao", "big_from": 0.8, "gain_db": -13, "origin": "roteiro" }
+    },
+    {
+      "id": "estrada-climax", "from": 42.0, "to": 58.9,
+      "rate_hz": [[42.0, 2.4], [58.9, 3.2]],
+      "sfx": { "tag": "rangido-chassi", "tag_big": "batida-suspensao", "big_from": 0.8, "gain_db": -11, "origin": "roteiro" }
+    }
+  ],
+
+  "_comment_flicker": "Luz verde com falha elétrica. `events` marcados = as piscadas da REVELAÇÃO (a cada uma o passageiro está mais perto) e as quedas dramáticas; o resto são rajadas aleatórias (semente fixa). light=1 normal, 0 apagada.",
+  "flicker": {
+    "from": 0.4, "to": 58.9, "hard_end": 59.0,
+    "rate_hz": [[0.4, 0.85], [20.0, 0.75], [42.0, 0.85], [52.0, 1.0], [58.0, 1.3]],
+    "burst_count": [1, 3], "burst_frames": [1, 4], "burst_gap_frames": [1, 3], "depth": [0.55, 1.0],
+    "events": [
+      { "at": { "beat": "b2-rosto", "offset": -0.2 }, "frames": 6, "depth": 1.0, "note": "a luz falha quando o rosto do motorista vira para a câmera" },
+      { "at": { "beat": "b3-caminha", "offset": 1.0 }, "frames": 5, "depth": 0.95, "note": "piscada: o passageiro está no meio do corredor" },
+      { "at": { "beat": "b3-caminha", "offset": 1.9 }, "frames": 6, "depth": 1.0, "note": "piscada: mais perto" },
+      { "at": { "beat": "b3-revela", "offset": -0.08 }, "frames": 9, "depth": 1.0, "note": "piscada bem perto: REVELAÇÃO (o mesmo rosto, em decomposição)" },
+      { "at": { "beat": "b3-porta" }, "frames": 10, "depth": 0.8, "note": "a luz cai quando a porta abre" }
+    ],
+    "sfx": { "tag": "falha-eletrica-lampada", "gain_db": -17, "origin": "inferido" }
+  },
+
+  "curves": {
+    "_comment": "Envelopes no tempo. Lista = suavizada; {\"mode\":\"linear\",\"keys\":[...]} = linear.",
+    "noise": [
+      [0.0, 2.0], [0.35, 2.4], [6.3, 1.8], [20.0, 1.0], [24.0, 1.2], [{ "ref": "s2-05", "edge": "start" }, 2.6],
+      [{ "ref": "s2-05", "edge": "start", "offset": 2.0 }, 1.6], [42.0, 2.0], [46.4, 3.4], [53.0, 2.4], [57.0, 3.0], [58.6, 4.6]
+    ],
+    "breath": [[0.0, 1.6], [20.0, 1.5], [42.0, 1.6], [58.9, 1.9]],
+    "heart": [[0.0, 1.2], [42.0, 1.5], [58.9, 1.9]],
+    "hr_bpm": {
+      "mode": "linear",
+      "keys": [[0.0, 150], [10.0, 160], [20.0, 168], [30.0, 172], [42.0, 176], [52.0, 182], [58.9, 190]]
+    },
+    "breath_rate": { "mode": "linear", "keys": [[0.0, 50], [20.0, 55], [42.0, 60], [58.9, 65]] },
+    "bus_vib": [[0.0, 1.3], [60.0, 1.3]],
+    "bus_sway": [[0.0, 1.8], [20.0, 1.4], [42.0, 1.6], [58.9, 2.0]],
+    "speed_kmh": [[0.0, 55.0], [60.0, 55.0]],
+
+    "vignette": [[0.0, 0.35], [20.0, 0.40], [42.0, 0.50], [52.0, 0.62], [58.9, 0.90]],
+    "edge_blur": [[0.0, 0.15], [42.0, 0.20], [58.9, 0.60]],
+    "motion_blur": [
+      [0.0, 0.5], [0.8, 0.1], [2.0, 0.0],
+      [41.9, 0.0], [42.1, 0.9], [42.6, 0.0],
+      [{ "beat": "b3-revela", "offset": -0.1 }, 0.0], [{ "beat": "b3-revela", "offset": 0.1 }, 0.5], [{ "beat": "b3-revela", "offset": 0.7 }, 0.0],
+      [{ "beat": "b3-vira-frente" }, 0.0], [{ "beat": "b3-vira-frente", "offset": 0.25 }, 0.9], [{ "beat": "b3-vira-frente", "offset": 0.8 }, 0.0],
+      [{ "beat": "b3-empurra" }, 0.2], [{ "beat": "b3-empurra", "offset": 0.9 }, 0.85], [58.9, 1.0]
+    ],
+    "red_fog": [[{ "beat": "b3-porta" }, 0.0], [{ "beat": "b3-porta", "offset": 0.9 }, 1.0], [59.0, 1.0]],
+    "fov_pct": [
+      [20.3, 0.0], [23.4, -7.0], [{ "ref": "s2-05", "edge": "start" }, -7.0], [{ "ref": "s2-05", "edge": "start", "offset": 0.15 }, 6.0],
+      [{ "ref": "s2-05", "edge": "start", "offset": 1.6 }, 0.0],
+      [{ "beat": "b3-empurra", "offset": 0.3 }, 0.0], [58.95, 14.0]
+    ]
+  },
+
+  "fx": { "black_ranges": [[59.0, 60.0]] },
+
+  "_comment_look": "Intenção de olhar. Cada chave = pose de CHEGADA; entre chaves a transição é suave. Frente = yaw 0; fundo do corredor = yaw ~172; porta à DIREITA.",
+  "look": [
+    { "at": 0.0, "yaw": -2, "pitch": 6, "note": "continuidade: o Ep. 2 terminou na nuca do motorista" },
+    { "at": 0.22, "yaw": 0, "pitch": -16, "note": "levanta num salto: a cabeça cai para a frente" },
+    { "at": 0.75, "yaw": -3, "pitch": 5, "note": "olha o motorista lá na frente" },
+    { "at": { "cue": "mao-balaustre-1", "offset": -0.15 }, "yaw": 12, "pitch": -22, "note": "olha o balaústre que vai agarrar (direita)" },
+    { "at": { "cue": "mao-balaustre-1", "offset": 0.4 }, "yaw": -2, "pitch": 5 },
+    { "at": { "cue": "mao-balaustre-2", "offset": -0.15 }, "yaw": -12, "pitch": -22, "note": "balaústre da esquerda" },
+    { "at": { "cue": "mao-balaustre-2", "offset": 0.4 }, "yaw": -2, "pitch": 5 },
+    { "at": { "cue": "mao-balaustre-3", "offset": -0.15 }, "yaw": 12, "pitch": -24 },
+    { "at": { "cue": "mao-balaustre-3", "offset": 0.4 }, "yaw": -2, "pitch": 5 },
+    { "at": { "cue": "mao-balaustre-4", "offset": -0.15 }, "yaw": -10, "pitch": -22 },
+    { "at": { "cue": "mao-balaustre-4", "offset": 0.4 }, "yaw": -4, "pitch": 5, "note": "chega à catraca: o motorista de costas" },
+    { "at": { "beat": "b1-porta", "offset": 0.25 }, "yaw": 58, "pitch": -6, "note": "olha a porta (direita): me deixa descer" },
+    { "at": { "beat": "b1-porta", "offset": 0.85 }, "yaw": 58, "pitch": -6, "note": "(segura o olhar na porta)" },
+    { "at": { "beat": "b1-porta", "edge": "end" }, "yaw": -4, "pitch": 5 },
+    { "at": { "ref": "s1-05", "edge": "start" }, "yaw": 6, "pitch": 9, "note": "olha a estrada pelo para-brisa: neblina" },
+    { "at": { "beat": "b1-olha" }, "yaw": -12, "pitch": 2, "note": "tenta ver o rosto do motorista (ele não vira)" },
+    { "at": { "beat": "b1-grito", "offset": 0.2 }, "yaw": -6, "pitch": -4, "note": "investe contra a cabine" },
+    { "at": 20.0, "yaw": -6, "pitch": 3 },
+
+    { "at": 20.6, "yaw": -8, "pitch": 3, "note": "o motorista começa a girar o pescoço: o protagonista paralisa" },
+    { "at": { "beat": "b2-rosto", "offset": 0.3 }, "yaw": -8, "pitch": 3 },
+    { "at": { "ref": "s2-05", "edge": "start" }, "yaw": -12, "pitch": 12, "note": "recua: cabeça para trás (gasp)" },
+    { "at": { "ref": "s2-05", "edge": "start", "offset": 1.2 }, "yaw": -8, "pitch": 4, "note": "volta a encarar o rosto" },
+    { "at": { "beat": "b2-porta", "offset": 0.3 }, "yaw": 56, "pitch": -4, "note": "olha a porta" },
+    { "at": { "beat": "b2-porta", "offset": 0.8 }, "yaw": 56, "pitch": -4, "note": "(segura o olhar na porta)" },
+    { "at": { "beat": "b2-porta", "edge": "end" }, "yaw": -8, "pitch": 3 },
+    { "at": 41.8, "yaw": -8, "pitch": 3 },
+
+    { "at": 42.3, "yaw": 172, "pitch": 2, "note": "olha para trás, desesperado: o corredor até o fundo" },
+    { "at": { "beat": "b3-levanta", "offset": 0.3 }, "yaw": 170, "pitch": 3, "note": "a silhueta se levanta no último banco" },
+    { "at": { "beat": "b3-caminha", "offset": 1.5 }, "yaw": 174, "pitch": 1, "note": "acompanha o vulto que se aproxima" },
+    { "at": { "beat": "b3-revela" }, "yaw": 176, "pitch": -4, "note": "REVELAÇÃO: é ele mesmo, em decomposição" },
+    { "at": { "ref": "s3-05", "edge": "end" }, "yaw": 176, "pitch": -4 },
+    { "at": { "beat": "b3-vira-frente", "edge": "end" }, "yaw": -6, "pitch": 3, "note": "vira para a frente (o motorista vai apertar o botão)" },
+    { "at": { "beat": "b3-porta", "offset": 0.5 }, "yaw": 38, "pitch": 2, "note": "olha a porta aberta: neblina vermelha e mãos pálidas" },
+    { "at": { "beat": "b3-ombro" }, "yaw": 30, "pitch": 2 },
+    { "at": { "beat": "b3-ombro", "offset": 0.3 }, "yaw": 22, "pitch": -4, "note": "a mão podre agarra o ombro, por trás" },
+    { "at": { "beat": "b3-empurra", "offset": 0.9 }, "yaw": 75, "pitch": -12, "note": "é empurrado para a porta" },
+    { "at": 58.85, "yaw": 95, "pitch": -62, "roll": 38, "note": "cai na neblina vermelha, girando" },
+    { "at": 58.98, "yaw": 100, "pitch": -70, "roll": 45 }
+  ],
+
+  "_comment_kicks": "Impactos de mola amortecida (valor = pico do 1º balanço).",
+  "kicks": [
+    { "id": "k-levanta", "at": 0.0, "f_hz": 3.0, "tau_s": 0.30, "y_cm": 4.0, "pitch": -6.0, "note": "levanta num salto" },
+    { "id": "k-grab-1", "at": { "cue": "mao-balaustre-1" }, "f_hz": 4.5, "tau_s": 0.22, "pitch": -5.0, "roll": 4.0, "y_cm": -1.4, "x_cm": 2.0, "note": "agarra o balaústre" },
+    { "id": "k-grab-2", "at": { "cue": "mao-balaustre-2" }, "f_hz": 4.5, "tau_s": 0.22, "pitch": -5.0, "roll": -4.0, "y_cm": -1.4, "x_cm": -2.0, "note": "agarra o balaústre" },
+    { "id": "k-grab-3", "at": { "cue": "mao-balaustre-3" }, "f_hz": 4.5, "tau_s": 0.22, "pitch": -6.0, "roll": 4.5, "y_cm": -1.6, "x_cm": 2.2, "note": "agarra o balaústre" },
+    { "id": "k-grab-4", "at": { "cue": "mao-balaustre-4" }, "f_hz": 4.5, "tau_s": 0.22, "pitch": -5.0, "roll": -4.0, "y_cm": -1.4, "x_cm": -2.0, "note": "agarra o balaústre" },
+    { "id": "k-grito", "at": { "beat": "b1-grito" }, "f_hz": 3.6, "tau_s": 0.30, "z_cm": 4.0, "pitch": -4.0, "note": "investe gritando" },
+    { "id": "k-costas", "at": { "cue": "costas-catraca" }, "f_hz": 4.2, "tau_s": 0.28, "z_cm": -5.0, "pitch": 7.0, "y_cm": -1.6, "note": "costas batem na catraca" },
+    { "id": "k-revela", "at": { "beat": "b3-revela" }, "f_hz": 3.2, "tau_s": 0.40, "z_cm": -5.0, "pitch": 6.0, "yaw": 4.0, "note": "recua ao ver o próprio rosto" },
+    { "id": "k-porta", "at": { "beat": "b3-porta" }, "f_hz": 2.5, "tau_s": 0.40, "pitch": 2.0, "z_cm": -3.0, "note": "a pressão da porta abrindo" },
+    { "id": "k-ombro", "at": { "beat": "b3-ombro" }, "f_hz": 4.0, "tau_s": 0.30, "roll": -10.0, "x_cm": 6.0, "yaw": -8.0, "note": "a mão agarra o ombro" },
+    { "id": "k-empurra", "at": { "beat": "b3-empurra" }, "f_hz": 2.6, "tau_s": 0.50, "x_cm": 12.0, "roll": 16.0, "yaw": 10.0, "y_cm": -3.0, "note": "é empurrado" }
+  ],
+
+  "_comment_pulses": "Sobe e desce suave (attack/decay em s).",
+  "pulses": [
+    { "id": "p-estalo-1", "at": { "cue": "estalo-pescoco-1" }, "attack": 0.05, "decay": 0.25, "pitch": -1.1, "note": "estalo do pescoço" },
+    { "id": "p-estalo-2", "at": { "cue": "estalo-pescoco-2" }, "attack": 0.05, "decay": 0.25, "pitch": -1.1 },
+    { "id": "p-estalo-3", "at": { "cue": "estalo-pescoco-3" }, "attack": 0.05, "decay": 0.3, "pitch": -1.6, "note": "o rosto chega à câmera" },
+    { "id": "p-hiper", "at": { "ref": "s1-01", "edge": "start" }, "attack": 0.3, "decay": 1.0, "pitch": 2.0, "y_cm": 0.8, "note": "o ar entra aos soluços ao levantar" }
+  ]
+}

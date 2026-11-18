@@ -1,0 +1,32 @@
+{
+  "id": "s1",
+  "config_index": 0,
+  "name": "O Confronto no Corredor",
+  "source": "ep03-fim-da-linha.md · [00:00 - 00:20]",
+
+  "set": {
+    "location": "Corredor estreito do ônibus em movimento violento, até a catraca, logo atrás da cabine do motorista",
+    "lighting": "Luz verde piscando (falha elétrica), como no Ep. 2.",
+    "character_state": "Pânico absoluto: hiperventilando, voz embargada, quase chorando.",
+    "props": [
+      { "name": "balaústres", "state": "enferrujados; o protagonista se segura neles; mãos visíveis tremendo em quadro" }
+    ],
+    "assumption": "Continuidade: o protagonista estava sentado na quarta fileira, banco da janela (esquerda); a porta de embarque fica à DIREITA da cabine."
+  },
+
+  "beats": [
+    { "id": "b1-levanta", "at": 0.0, "dur": 0.6, "text": "O protagonista levanta num salto (o Ep. 2 terminou na nuca do motorista)." },
+    { "id": "b1-cambaleia", "at": 0.35, "until": 6.3,
+      "text": "Cambaleia pelo corredor estreito do ônibus em movimento violento, agarrando os balaústres enferrujados (mãos tremendo em quadro)." },
+    { "id": "b1-hiper", "at": { "ref": "s1-01", "edge": "start" }, "until": { "ref": "s1-01", "edge": "end" },
+      "text": "Hiperventilando enquanto levanta e tropeça (a respiração é audível)." },
+    { "id": "b1-catraca", "at": 6.3, "until": 19.2,
+      "text": "Chega à catraca, logo atrás da cabine do motorista, e grita para ele." },
+    { "id": "b1-porta", "at": { "ref": "s1-03", "word": "porta", "edge": "start", "offset": -0.2 }, "dur": 1.2,
+      "text": "Olha para a porta (à direita): \"abre a porta e me deixa descer\".", "origin": "inferido" },
+    { "id": "b1-olha", "at": { "ref": "s1-06", "edge": "start" }, "dur": 1.7,
+      "text": "Tenta ver o rosto do motorista, que não vira (\"Olha pra mim\").", "origin": "inferido" },
+    { "id": "b1-grito", "at": { "ref": "s1-07", "edge": "start" }, "dur": 1.4,
+      "text": "Investe contra a cabine gritando \"PARA ESSE ÔNIBUS!\".", "origin": "inferido" }
+  ]
+}

@@ -10,7 +10,8 @@ O que o script faz
     Blender (+Y frente, +Z cima).
   * Expõe os canais de sincronia como propriedades custom da câmera, também keyadas por frame:
     vignette, edge_blur, eyelid, black, breath, heart, speed_kmh, step (use em drivers/compositor)
-    e, se o CSV tiver (ex.: Ep. 2): light (luz do ônibus, 1 = normal), motion_blur, bump (batida da estrada).
+    e, se o CSV tiver (Ep. 2 e 3): light (luz do ônibus, 1 = normal), motion_blur, bump (batida da estrada),
+    red_fog (brilho da neblina vermelha, 0..1).
   * Cria marcadores na timeline: cenas (POV:s1...), cada início de tela preta (POV:preto) e,
     com --step-markers, cada pisada (POV:passo = frame de contato do pé, para plantar os pés).
 
@@ -49,7 +50,7 @@ HEAD_NAME = "POV_Head"
 MARK = "POV:"
 SMOOTH_PROPS = ("vignette", "edge_blur", "eyelid", "breath", "heart", "speed_kmh")
 CONSTANT_PROPS = ("black", "step")                   # flags: degrau, sem interpolar
-OPTIONAL_SMOOTH = ("motion_blur",)                   # só existem em alguns episódios (colunas extras do CSV)
+OPTIONAL_SMOOTH = ("motion_blur", "red_fog")         # só existem em alguns episódios (colunas extras do CSV)
 OPTIONAL_CONSTANT = ("light", "bump")                # luz com falha = degrau; bump = pulso de 1 frame
 REQUIRED = ["frame", "scene", "shake_x_cm", "shake_y_cm", "shake_z_cm",
             "shake_yaw", "shake_pitch", "shake_roll", "look_yaw", "look_pitch", "look_roll",

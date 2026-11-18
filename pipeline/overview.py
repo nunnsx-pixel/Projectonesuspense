@@ -50,7 +50,7 @@ def render(tl: dict, rows: list[dict]) -> str:
     top = lane("voz / respiros", 36)
     for i, it in enumerate(tl["narration"]):
         w = max(1.5, (it["end"] - it["start"]) * PX)
-        col = COL["voz"] if it["kind"] == "speech" else COL["respiro"]
+        col = {"speech": COL["voz"], "silence": "#cbd5e1"}.get(it["kind"], COL["respiro"])
         yy = top + 3 + (i % 2) * 16
         out.append(f'<rect x="{x(it["start"])}" y="{yy}" width="{w}" height="14" fill="{col}" opacity="0.85"/>')
         out.append(f'<text x="{x(it["start"]) + 2}" y="{yy + 11}" font-size="9" fill="#fff">{escape(it["id"])}</text>')
@@ -94,6 +94,10 @@ def render(tl: dict, rows: list[dict]) -> str:
 
     top = lane("coração", 30)
     series(top, 30, "heart", 0, 1.6, "#dc2626", 0.7, every=1)
+    for hb in tl["sfx"].get("heartbeat", []):                 # SFX de batimento: o mesmo frame do pulso
+        out.append(f'<line x1="{x(hb["start"])}" x2="{x(hb["start"])}" y1="{top}" y2="{top + 6}" stroke="#1d4ed8" stroke-width="1.5"/>')
+    if tl["sfx"].get("heartbeat"):
+        label(top, "vermelho = pulso da câmera · azul = SFX de batimento (mesmo frame)")
 
     span = max(90, 30 * math.ceil(max(max(abs(r["look_yaw"]) for r in rows), max(abs(r["look_pitch"]) for r in rows)) / 30))
     top = lane(f"olhar yaw / pitch (±{span}°)", 70)
@@ -105,11 +109,14 @@ def render(tl: dict, rows: list[dict]) -> str:
     top = lane("ônibus (km/h)", 28)
     series(top, 28, "speed_kmh", 0, 70, "#7c3aed", 1.4)
 
-    if "light" in rows[0]:
+    cols = tl["camera"]["columns"]                     # só o que o episódio realmente exporta
+    if "light" in cols:
         top = lane("luz (1 = normal) / motion blur", 40)
         series(top, 40, "light", 0, 1, "#15803d", 1.0, every=1)
         series(top, 40, "motion_blur", 0, 1, "#9333ea", 1.2)
-        label(top, "verde = luz (quedas = falhas elétricas) · roxo = motion blur")
+        if "red_fog" in cols:
+            series(top, 40, "red_fog", 0, 1, "#dc2626", 1.4)
+        label(top, "verde = luz (quedas = falhas elétricas) · roxo = motion blur" + (" · vermelho = neblina vermelha" if "red_fog" in cols else ""))
 
     top = lane("tela: vinheta / blur / pálpebra", 50)
     series(top, 50, "vignette", 0, 1, "#111827", 1.3)

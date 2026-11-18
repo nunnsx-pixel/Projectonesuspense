@@ -8,12 +8,13 @@ from __future__ import annotations
 
 import random
 
-from .timeline import Resolver, curve_from_spec
+from .timeline import Resolver, curve_from_spec, snap
 
 
 def build(cfg: dict, res: Resolver, steps: list[dict], seed: int,
           scene_windows: list[tuple[str, float, float]], gait_table: list[dict] | None = None,
-          bumps: list[dict] = (), flickers: list[dict] = (), flicker_sfx: dict | None = None) -> dict:
+          bumps: list[dict] = (), flickers: list[dict] = (), flicker_sfx: dict | None = None,
+          heartbeats: list[tuple[float, float]] = ()) -> dict:
     def scene_of(t: float) -> str:
         return next((sid for sid, a, b in scene_windows if a <= t < b), scene_windows[-1][0])
 
@@ -60,9 +61,21 @@ def build(cfg: dict, res: Resolver, steps: list[dict], seed: int,
             "depth": e["depth"], "origin_event": e["origin"], "scene": scene_of(e["t"]),
             "generated": "camera.flicker"})
 
+    heart = []
+    hb = cfg.get("heartbeat")
+    if hb:                                   # áudio do coração = MESMAS batidas que movem a câmera
+        gain = curve_from_spec(hb["gain_db"], res)
+        t0, t1 = res.time(hb.get("from", 0.0)), res.time(hb.get("to", 1e9))
+        for n, (tb, period) in enumerate((b for b in heartbeats if t0 <= b[0] < t1), 1):
+            t = snap(tb)
+            heart.append({"id": f"coracao-{n:03d}", "layer": "corpo", "kind": "heartbeat",
+                          "origin": hb.get("origin", "roteiro"), "tag": hb.get("tag", "batimento-cardiaco"),
+                          "start": t, "end": t, "gain_db": round(gain(t), 2), "bpm": round(60.0 / period, 1),
+                          "scene": scene_of(t), "generated": "camera.heartbeat"})
+
     mix = {p: _keys(spec, res) for p, spec in cfg.get("mix", {}).items()}
     return {"cues": sorted(cues, key=lambda c: c["start"]), "footsteps": foot, "bumps": road, "flicker": lamp,
-            "mix": mix}
+            "heartbeat": heart, "mix": mix}
 
 
 def _keys(spec, res: Resolver) -> list[list[float]]:

@@ -29,9 +29,9 @@ Importar leva alguns segundos (3600 frames x ~14 canais).
   pai precisa seguir a convenção do Blender: +Y frente, +Z cima.
 - **Canais de sincronia** como propriedades custom da câmera, keyadas por frame (use em drivers, nós do
   compositor ou materiais): `vignette`, `edge_blur`, `eyelid`, `black`, `breath`, `heart`, `speed_kmh`,
-  `step`; e, quando o CSV tem (Ep. 2): `light` (luz do ônibus, 1 = normal, com as quedas de falha elétrica),
-  `motion_blur` e `bump` (batida da estrada). `black`, `step`, `light` e `bump` são degraus (sem
-  interpolar); os demais são lineares.
+  `step`; e, quando o CSV tem (Ep. 2 e 3): `light` (luz do ônibus, 1 = normal, com as quedas de falha
+  elétrica), `motion_blur`, `bump` (batida da estrada) e `red_fog` (brilho da neblina vermelha da porta,
+  0..1). `black`, `step`, `light` e `bump` são degraus (sem interpolar); os demais são lineares.
 - **Marcadores** `POV:s1/s2/s3` (início das cenas), `POV:preto` (início de **cada** tela preta: no Ep. 1 o
   corte final, frame 3571 com início em 1; no Ep. 2 a tela preta inicial, frame 1) e,
   com `--step-markers`, `POV:passo` em cada pisada — são os frames de contato do pé: plante os pés
@@ -54,8 +54,9 @@ câmera do Blender (a câmera olha para −Z). Os ângulos são keyados em Euler
 ## Testado
 
 `tests/test_blender_import.py`: a matemática de eixos/sinais roda em qualquer Python; os testes de cena
-rodam o importador no Blender **4.2 LTS e 5.3** (módulo `bpy`, sem interface), com os CSVs do Ep. 1 e do
-Ep. 2: direção do olhar (inclusive +148° para trás), roll, posição, FOV, flags em degrau, canais extras,
-marcadores, reimportação, rig existente, salvar/reabrir o `.blend`.
+rodam o importador no Blender **4.2 LTS e 5.3** (módulo `bpy`, sem interface), com os CSVs dos três
+episódios: direção do olhar (inclusive +148° e +172° para trás, e o mergulho final do Ep. 3 com pitch −70° e
+roll 45°), roll, posição, FOV, flags em degrau, canais extras, marcadores, reimportação, rig existente,
+salvar/reabrir o `.blend`.
 **Não testado:** o botão *Run Script* da interface e o `blender -b -P` em si (mesmo código, outro
 ponto de entrada). Para rodar os testes com Blender: `pip install bpy` e `python -m unittest tests.test_blender_import`.
