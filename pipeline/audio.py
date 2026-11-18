@@ -483,8 +483,15 @@ def analyse_episode(ep_id: str, root: Path = ROOT, audio_dir: Path | None = None
     placed: dict[str, Placed] = {}
     report = {"episode": ep_id, "audio": {}, "warnings": []}
     last_clip: dict[str, str] = {}                                                # cena -> última fala do bloco anterior
+    scene_rank = {s: k for k, s in enumerate(scene_ids)}
     for tr in tracks:
-        ids = _track_ids(tr, order, by_id)
+        tr["ids"] = _track_ids(tr, order, by_id)
+        sp = [i for i in tr["ids"] if by_id[i]["kind"] == "speech"]
+        tr["first_start"] = by_id[sp[0]]["start"] if sp else float("inf")
+    # blocos da mesma cena na ORDEM DO ROTEIRO (quem fala primeiro vem primeiro), não por nome de arquivo
+    tracks.sort(key=lambda t: (scene_rank[t["scenes"][0]], t["first_start"]))
+    for tr in tracks:
+        ids = tr["ids"]
         speech = [i for i in ids if by_id[i]["kind"] == "speech"]
         if not speech:
             report["warnings"].append(f"{tr['path'].name}: nenhuma fala do roteiro corresponde a este arquivo")

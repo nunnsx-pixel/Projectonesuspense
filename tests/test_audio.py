@@ -450,6 +450,17 @@ class SpeakerBlocks(WithProject):
         self.assertLessEqual(it["s2-05"]["end"], it["s2-06"]["start"] + 1e-6)
         self.assertNotIn("sem áudio", it["s2-05"].get("note", ""))
 
+    def test_blocks_of_one_scene_follow_the_script_order_not_the_file_name_order(self):
+        """Ep. 3 cena 3: o protagonista (s3.protagonista) fala ANTES do motorista (s3.motorista), que vem antes no alfabeto."""
+        truth, est, adir = self.clips("ep03", 2, ["s3"])
+        self.assertTrue((adir / "s3.motorista.wav").exists() and (adir / "s3.protagonista.wav").exists())
+        res = audio.analyse_episode("ep03", root=self.root, audio_dir=adir)
+        it, by_est = res["items"], {e["id"]: e for e in est}
+        self.assertAlmostEqual(it["s3-02"]["start"], by_est["s3-02"]["start"], delta=0.03)       # abre a cena no instante previsto
+        self.assertLess(it["s3-05"]["end"], it["s3-07"]["start"])                                  # e o motorista vem depois
+        gap = by_est["s3-07"]["start"] - by_est["s3-05"]["end"]
+        self.assertAlmostEqual(it["s3-07"]["start"] - it["s3-05"]["end"], gap, delta=0.06)
+
     def test_scenes_without_audio_keep_the_plan_shifted_with_the_scene_and_never_overlap(self):
         truth, est, adir = self.clips("ep03", 2, ["s2"])
         res = audio.analyse_episode("ep03", root=self.root, audio_dir=adir)
