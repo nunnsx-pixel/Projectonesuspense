@@ -68,7 +68,7 @@ blender -b -P blender/assemble_scene.py -- --episode ep03 --render-frames 23.5,4
 
 | Peça | Como é feita |
 |---|---|
-| `ONIBUS` (empty) | Pai do ônibus e da cabeça. **Anda** pela integral do `speed_kmh` do CSV (Ep. 1: parado até a partida em 41,9 s; Ep. 2 e 3: estrada de terra, ~600–800 m). O cenário externo é fixo: as luzes/árvores/placa passam pela janela. |
+| `ONIBUS` (empty) | Pai do ônibus e da cabeça. **Anda** pela integral do `speed_kmh` do CSV (Ep. 1: parado até a partida (beat `b3-partida`, 40,7 s); Ep. 2 e 3: estrada de terra, ~600–800 m). O cenário externo é fixo: as luzes/árvores/placa passam pela janela. |
 | `POV_Head` (empty) | **Caminho-base da cabeça**: posição, altura dos olhos e direção. O avanço dos trechos a pé nasce dos **passos do CSV** (mesmos do SFX): o pé "planta" nos frames certos. Os trajetos ficam em `pov_scene/routes.py` (Python puro, testado sem Blender). |
 | `Camera` | Filha do `POV_Head`; só recebe balanço e olhar do CSV (importador) e o FOV (vertical 80°). |
 | Luz do ônibus | Tubos e luzes do teto ligados ao canal `light` por driver: a queda de luz do CSV apaga tudo junto. Ep. 1: fixa em 1. |
@@ -91,6 +91,23 @@ O passageiro do fundo (duplo) fica parado do outro lado da divisória (`routes.D
 emborrachado escuro antiderrapante, motorista de camisa social azul amarrotada e boné com aba. No Ep. 3 a mandíbula do motorista
 **estica** (1× → 3,2×) a cada estalo do pescoço. O duplo usa **o mesmo moletom e a mesma mochila** do protagonista (sentado: mochila no
 colo; de pé: nas costas; podres no Ep. 3). Sem contornos pretos (Freestyle desligado; testado).
+
+**Figuras de corpo inteiro com esqueleto** (`pov_scene/rig.py`, Python puro e testado; `props.figure`): o **motorista** tem tronco,
+braços, pernas e pés (sentado na cabine, pés no piso, coxas na almofada, mãos no aro do volante); o **passageiro do fundo / Duplo**
+é **calvo** (crânio liso e brilhante, orelhas, nada acima do couro cabeludo; no Ep. 2 e 3 com órbitas vazias, bochechas fundas,
+nariz aberto, couro solto rente ao crânio, rachadura e dentes à mostra) e, no Ep. 3, anda com um ciclo de marcha (`props.walk_cycle`).
+Hierarquia de cada figura (todas as juntas são `empty`s sem rotação própria; girar uma junta gira o que está abaixo):
+
+```
+figura ── quadril ──┬─ pelve
+                    ├─ coluna ──┬─ tronco, ombros, bolso-canguru, capuz, mochila (de costas)
+                    │           ├─ pescoco ── cabeca ── crânio, orelhas, mandibula, sorriso/dentes, boné…
+                    │           └─ ombro-{esq,dir} ── cotovelo ── punho ── palma      (braco-sup / antebraco são peças)
+                    └─ quadril-{esq,dir} ── joelho ── tornozelo ── pe                  (coxa / canela são peças)
+```
+
+O aceno do motorista (Ep. 1) gira a junta `ombro-dir`; a mandíbula (Ep. 3) estica por `props.stretch_jaw`. O volante fica em
+`layout.WHEEL` (o quadril dele em `layout.DRIVER_HIP`); os testes conferem que as mãos chegam ao aro.
 
 **Altura dos olhos sentado:** a câmera fica **ligeiramente acima** dos encostos e apoios de cabeça (1,34 m contra
 1,29 m), com os bancos um pouco abaixo da linha de visão. Ao sentar, a cabeça **afunda 4 cm** com o baque e se

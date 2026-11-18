@@ -90,8 +90,13 @@ O ônibus anda ~600–800 m por episódio (`ONIBUS` é animado pela velocidade d
   (preta, com crachá). Sentado na última fileira (Ep. 2 e 3) a mochila fica no colo; de pé (Ep. 3) vai nas costas.
   Em decomposição (Ep. 3) o moletom vira `HOODIE_ROT` (mesma peça desbotada, com mofo e rasgo) e a mochila fica
   empoeirada. As mãos que agarram o ombro usam o mesmo `HOODIE_ROT`.
-- **Motorista:** `camisa-social`, boné com aba. No Ep. 3 a pele fica cinza-cadavérica, os olhos brancos sem pupila e
-  a **mandíbula estica** (1× → 3,2×) a cada estalo do pescoço (`props.stretch_jaw`), levando o sorriso junto.
+- **Motorista:** corpo inteiro (tronco, braços, pernas, pés e mãos no volante), `camisa-social`, boné com aba. No Ep. 3 a
+  pele fica cinza-cadavérica, os olhos brancos sem pupila e a **mandíbula estica** (1× → 3,2×) a cada estalo do pescoço
+  (`props.stretch_jaw`), levando o sorriso junto.
+- **Passageiro do fundo / Duplo:** **calvo**: crânio liso e brilhante (`cranio-calvo-<pele>`, rugosidade baixa), orelhas e nada
+  acima do couro cabeludo (sem cabelo, sobrancelha ou barba; o capuz fica caído atrás do pescoço). Decomposição: órbitas
+  escuras, bochechas fundas, nariz aberto, couro solto e fissura **rentes ao crânio** (não podem parecer cabelo), dentes e
+  mandíbula de osso à mostra. Anda com `props.walk_cycle`.
 - **Sem contornos pretos:** nenhum Freestyle, modificador de contorno ou sombreador *toon* (testado).
 
 ## Neblina volumétrica (Ep. 3)

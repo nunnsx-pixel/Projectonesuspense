@@ -5,7 +5,7 @@ import math
 
 from . import bus as busmod
 from . import kit, materials, props, routes, world
-from .layout import DOOR_HALF, DOOR_Y, DRIVER, FLOOR_Z, HALF_W, LAST_SEAT, MY_SEAT, ROW_Y
+from .layout import DOOR_HALF, DOOR_Y, DRIVER_HIP, FLOOR_Z, HALF_W, LAST_SEAT, MY_SEAT, ROW_Y
 from .path import smoothstep
 
 WORLD = ((0.16, 0.085, 0.075), 3.0)
@@ -54,9 +54,9 @@ def build(env):
     pi, e = math.pi, ctx.duration
 
     # ---- motorista: gira o pescoço 180° em 3 estalos; rosto cinza, olhos brancos, sorriso ----------------------------
-    dx, dy = DRIVER
-    drv = props.figure("motorista", env.bus, loc=(dx, dy - 0.05, FLOOR_Z + 0.5), cap=True, seated=True,
-                       skin=props.GREY_SKIN, eyes=True, shirt="encardida")
+    dx, dy, dz = DRIVER_HIP
+    drv = props.figure("motorista", env.bus, loc=(dx, dy, FLOOR_Z + dz), cap=True, seated=True, grip="wheel",
+                       skin=props.GREY_SKIN, eyes=True, shirt="encardida")     # corpo inteiro; as mãos continuam no volante
     cr = [ctx.cue(f"estalo-pescoco-{n}")[0] for n in (1, 2, 3)]
     with kit.interp("BEZIER"):
         prev = 0
@@ -84,18 +84,19 @@ def build(env):
     # ---- passageiro do fundo: sentado e imóvel; levanta; vem pelo corredor; a MESMA mochila e roupa; rosto em decomposição ----------
     lx, ly = LAST_SEAT
     sil = props.figure("silhueta", env.bus, loc=(lx, ly, FLOOR_Z + 0.5), seated=True, coat=props.HOODIE, hoodie=True, decay=True,
-                       bag="lap", skin=(0.05, 0.05, 0.05))
+                       bag="lap", bald=True, grip="lap", pants=props.PANTS_ROT, skin=(0.05, 0.05, 0.05))
     up0, up1 = ctx.beat("b3-levanta")
     walk0, walk1 = ctx.beat("b3-caminha")
     rev0, _ = ctx.beat("b3-revela")
     kit.visible_between(sil["root"], first, env.f(up0 + 0.2), first, last)
     dbl = props.figure("duplo", env.bus, loc=(lx, ly, FLOOR_Z), heading=0, coat=props.HOODIE_ROT, hoodie=True, decay=True,
-                       bag="back", skin=(0.40, 0.46, 0.36), eyes=False)            # o MESMO moletom e a MESMA mochila, podres
+                       bag="back", bald=True, pants=props.PANTS_ROT, skin=(0.40, 0.46, 0.36), eyes=False)   # CALVO; MESMO moletom e mochila, podres
     behind = routes.DOUBLE_BEHIND
     with kit.interp("BEZIER"):
         for t, loc in ((up0 + 0.2, (lx, ly, FLOOR_Z)), (walk0, (lx, ly + 0.2, FLOOR_Z)), (walk1, (-0.05, -4.2, FLOOR_Z)),
                        (walk1 + 1.0, (behind[0], behind[1], FLOOR_Z))):
             kit.key(dbl["root"], "location", env.f(t), loc)
+    props.walk_cycle(env, dbl, walk0, walk1 + 1.0)                                     # anda de verdade: quadris e braços em contrafase
     kit.visible_between(dbl["root"], env.f(up0 + 0.2), env.f(e + 1), first, last)
 
     # ---- a mão podre que agarra o ombro (entra no canto da tela) -----------------------------------------------------------------------

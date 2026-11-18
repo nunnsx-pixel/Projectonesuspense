@@ -18,6 +18,9 @@ MY_ROW = 4
 MY_SEAT = (SEAT_X["left_window"], ROW_Y[MY_ROW - 1])           # protagonista (janela esquerda)
 BAG_SEAT = (SEAT_X["left_aisle"], ROW_Y[MY_ROW - 1])           # mochila (banco ao lado, à direita dele)
 DRIVER = (-0.95, -1.45)                                         # banco do motorista
+DRIVER_HIP = (DRIVER[0], DRIVER[1] - 0.05, 0.50)                # quadril do motorista sentado (x, y, altura sobre o piso)
+WHEEL = (DRIVER[0], DRIVER[1] + 0.42, 0.95)                     # centro do volante (altura sobre o piso); as mãos dele chegam aqui
+WHEEL_REL = tuple(round(w - h, 3) for w, h in zip(WHEEL, DRIVER_HIP))   # o mesmo ponto no referencial do quadril
 DOOR_Y, DOOR_HALF = -1.0, 0.5                                   # porta na parede direita (x=+1,30)
 STAIRS = [(2.55, 0.32), (2.05, 0.64), (1.55, 0.96)]             # (x do contato do pé, altura do degrau)
 CATRACA_DOOR = (0.95, DOOR_Y)                                   # catraca FIXA nos 3 episódios: ao pé da porta, na frente

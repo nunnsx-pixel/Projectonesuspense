@@ -141,8 +141,8 @@ class Ep01(unittest.TestCase):
     def test_scene3_is_the_approved_script(self):
         s3 = [i for i in self.tl["narration"] if i["scene"] == "s3"]
         spoken = " ".join(i["text"] for i in s3 if i["kind"] == "speech")
-        self.assertEqual(spoken, "Pronto, mochila no banco do lado pra ninguém sentar junto, clássico. "
-                                 "Meu ponto é o 348, na marginal... Se eu passar dele, tô frito. "
+        self.assertEqual(spoken, "Pronto, mochila no banco do lado pra ninguém sentar junto. "
+                                 "Meu ponto é exato o 348, na marginal. Se eu passar do ponto 348, eu tô frito. "
                                  "Ai, fechar o olho só cinco minutinhos...")
         self.assertNotIn("s3-03", [i["id"] for i in s3])                    # "Meu olho tá pesando" cortado
         self.assertEqual([i["id"] for i in s3 if i["kind"] == "breath"], ["s3-02", "s3-06"])  # bocejo e respiração
@@ -171,7 +171,7 @@ class Ep01(unittest.TestCase):
         beats = {b["id"]: b for s in self.tl["scenes"] for b in s["beats"]}
         s3_01 = next(i for i in self.tl["narration"] if i["id"] == "s3-01")
         yawn = next(i for i in self.tl["narration"] if i["id"] == "s3-02")
-        self.assertAlmostEqual(beats["b3-partida"]["start"], s3_01["end"], places=2)    # parte ao fim de "clássico."
+        self.assertAlmostEqual(beats["b3-partida"]["start"], s3_01["end"], places=2)    # parte ao fim da 1ª frase ("...sentar junto.")
         self.assertLess(beats["b3-partida"]["start"], yawn["start"])
         self.assertGreater(beats["b3-janela"]["start"], yawn["start"])                  # vira p/ a janela já no bocejo
         speed = {round(r["t"], 3): r["speed_kmh"] for r in self.rows}

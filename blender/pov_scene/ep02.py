@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from . import bus as busmod
 from . import kit, props, routes, world
-from .layout import BAG_SEAT, DRIVER, FLOOR_Z, LAST_SEAT
+from .layout import BAG_SEAT, DRIVER_HIP, FLOOR_Z, LAST_SEAT
 
 WORLD = ((0.16, 0.085, 0.075), 3.0)
 TUBE, ENERGY = 4.0, 90.0
@@ -28,12 +28,12 @@ def build(env):
     # ---- dentro: mochila empoeirada no banco ao lado, motorista (nuca cinza), silhueta no último banco ---------------
     bx, by = BAG_SEAT
     props.backpack("mochila", env.bus, dusty=True, loc=(bx, by - 0.05, FLOOR_Z + 0.51))
-    dx, dy = DRIVER
-    props.figure("motorista", env.bus, loc=(dx, dy - 0.05, FLOOR_Z + 0.5), cap=True, seated=True,
-                 skin=props.GREY_SKIN, shirt="encardida")                      # camisa social azul amarrotada e suja
-    lx, ly = LAST_SEAT                                                         # o duplo: mesmo moletom e mesma mochila (no colo)
+    dx, dy, dz = DRIVER_HIP
+    props.figure("motorista", env.bus, loc=(dx, dy, FLOOR_Z + dz), cap=True, seated=True, grip="wheel",
+                 skin=props.GREY_SKIN, shirt="encardida")                      # corpo inteiro; camisa social azul amarrotada e suja
+    lx, ly = LAST_SEAT                                                         # o duplo: CALVO, mesmo moletom e mesma mochila (no colo)
     props.figure("silhueta", env.bus, loc=(lx, ly, FLOOR_Z + 0.5), seated=True, coat=props.HOODIE, hoodie=True, decay=True,
-                 bag="lap", skin=(0.05, 0.05, 0.05))
+                 bag="lap", bald=True, grip="lap", pants=props.PANTS_ROT, skin=(0.05, 0.05, 0.05))
 
     # ---- mão esquerda com o celular morto (SEM SERVIÇO / 00:00), tremendo ---------------------------------------------
     grp = kit.empty("mao-celular", parent=env.cam)

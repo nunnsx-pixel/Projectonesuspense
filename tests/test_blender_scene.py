@@ -22,9 +22,10 @@ except ImportError:
     bpy = None
 
 if bpy is not None:
+    import mathutils
     import assemble_scene as A
     from pov_scene import layout as L
-    from pov_scene import props, routes
+    from pov_scene import props, rig, routes
 
 
 def at(env, t):
@@ -35,6 +36,22 @@ def at(env, t):
 def under(root, prefix):
     """Descendentes de `root` cujo nome começa com `prefix` (Blender acrescenta .001 aos nomes repetidos)."""
     return [o for o in root.children_recursive if o.name.startswith(prefix)]
+
+
+def part(root, name):
+    """Descendente de `root` com esse nome exato (ignora o sufixo .001 que o Blender põe em nomes repetidos)."""
+    hits = [o for o in root.children_recursive if re.sub(r"\.\d+$", "", o.name) == name]
+    assert len(hits) == 1, f"{root.name}: esperava 1 {name!r}, achei {len(hits)}"
+    return hits[0]
+
+
+def world(ob):
+    return ob.matrix_world.translation
+
+
+def top_z(ob):
+    """Ponto mais alto (no mundo) da caixa da peça, já com rotação."""
+    return max((ob.matrix_world @ mathutils.Vector(c)).z for c in ob.bound_box)
 
 
 def color_of(ob):
@@ -185,6 +202,44 @@ class Base:
             self.assertIn("ShaderNodeTexChecker", {n.bl_idname for n in m.node_tree.nodes}, name)
             self.assertGreater(p["color"][2], p["color"][0] * 2, name)                    # base azul
 
+    def test_driver_is_modeled_full_body_with_a_proper_rig_hierarchy(self):
+        e = self.env
+        drv = self.obj["motorista"]
+        self.assertEqual(drv.parent, e.bus)
+        for name in ("pelve", "tronco", "ombros", "capuz"):                                  # tronco...
+            if name != "capuz":
+                part(drv, name)
+        for s in ("esq", "dir"):                                                              # ...braços, pernas e pés: nada de só busto
+            for n in ("braco-sup", "antebraco", "palma", "coxa", "canela", "pe"):
+                part(drv, f"{n}-{s}")
+        chain = [("quadril", drv), ("coluna", "quadril"), ("pescoco", "coluna"), ("cabeca", "pescoco")]
+        for s in ("esq", "dir"):                                                              # ombro -> cotovelo -> punho -> mão
+            chain += [(f"ombro-{s}", "coluna"), (f"cotovelo-{s}", f"ombro-{s}"), (f"punho-{s}", f"cotovelo-{s}"), (f"palma-{s}", f"punho-{s}"),
+                      (f"quadril-{s}", "quadril"), (f"joelho-{s}", f"quadril-{s}"), (f"tornozelo-{s}", f"joelho-{s}"),
+                      (f"pe-{s}", f"tornozelo-{s}"), (f"coxa-{s}", f"quadril-{s}"), (f"canela-{s}", f"joelho-{s}"),
+                      (f"braco-sup-{s}", f"ombro-{s}"), (f"antebraco-{s}", f"cotovelo-{s}")]
+        for child, parent in chain:
+            want = parent if not isinstance(parent, str) else part(drv, parent)
+            self.assertEqual(part(drv, child).parent, want, child)
+        # proporções humanas preservadas (comprimento das peças = ossos do esqueleto)
+        for s in ("esq", "dir"):
+            for n, ln in (("coxa", rig.THIGH), ("canela", rig.SHIN), ("braco-sup", rig.UPPER), ("antebraco", rig.FORE)):
+                self.assertAlmostEqual(part(drv, f"{n}-{s}").dimensions.z, ln, places=3, msg=f"{n}-{s}")
+
+    def test_driver_sits_on_the_seat_with_feet_on_the_floor_and_hands_on_the_wheel(self):
+        e = self.env
+        at(e, 5.0)
+        drv, wheel = self.obj["motorista"], self.obj["volante"]
+        floor_z = world(e.bus).z + L.FLOOR_Z
+        for s in ("esq", "dir"):
+            foot = part(drv, f"pe-{s}")
+            self.assertAlmostEqual(top_z(foot) - foot.dimensions.z, floor_z, delta=0.03, msg=f"pé {s} no piso")
+            thigh = part(drv, f"coxa-{s}")
+            self.assertTrue(floor_z + L.SEAT_CUSHION_TOP - 0.03 < world(thigh).z < floor_z + L.SEAT_CUSHION_TOP + 0.12, f"coxa {s} sobre a almofada")
+            hand = world(part(drv, f"palma-{s}"))
+            self.assertAlmostEqual((hand - world(wheel)).length, 0.19, delta=0.08, msg=f"mão {s} no aro do volante")
+        self.assertAlmostEqual(world(wheel).y - world(e.bus).y, L.WHEEL[1], places=3)
+
     def test_children_hide_with_their_parent(self):
         """Esconder um pai NÃO esconde os filhos no Blender: todo objeto animado tem que ser escondido junto."""
         e = self.env
@@ -242,7 +297,8 @@ class Ep01(Base, unittest.TestCase):
         self.assertTrue(p["color"][2] > p["color"][0] * 2 and p["color"][2] > p["color"][1])   # azul
         self.assertGreater(p["wrinkle_bump"], 0.3)                                              # amarrotada
         self.assertIn("ShaderNodeBump", {n.bl_idname for n in torso.node_tree.nodes})
-        self.assertEqual(self.obj["braco"].active_material["pov_id"], "camisa-social")          # o braço que acena também
+        for arm in ("braco-sup-dir", "antebraco-dir", "braco-sup-esq", "antebraco-esq"):          # mangas da mesma camisa
+            self.assertEqual(part(drv, arm).active_material["pov_id"], "camisa-social", arm)
         brim, cap = under(drv, "aba")[0], under(drv, "bone")[0]
         self.assertGreater(brim.location.y, cap.location.y)                                     # a aba sai para a frente...
         self.assertLess(brim.location.z, cap.location.z)                                        # ...e fica abaixo do boné (sombreia o rosto)
@@ -261,7 +317,7 @@ class Ep01(Base, unittest.TestCase):
         at(e, 20.0)
         opened = leaf.location.y                                                  # aberta no embarque (degraus + catraca)
         at(e, 41.0)
-        closed = leaf.location.y                                                  # fechada antes de o ônibus partir (41,9 s)
+        closed = leaf.location.y                                                  # fechada antes de o ônibus partir (beat b3-partida)
         self.assertAlmostEqual(closed, L.DOOR_Y - L.DOOR_HALF / 2, places=3)
         self.assertGreater(abs(opened - closed), 0.4)
 
@@ -300,13 +356,16 @@ class Ep01(Base, unittest.TestCase):
     def test_driver_waves_during_the_aceno_beat(self):
         e = self.env
         a0, a1 = self.ctx.beat("b2-aceno")
-        piv = self.obj["braco-acena"]
+        piv = part(self.obj["motorista"], "ombro-dir")                            # a junta do ombro direito do esqueleto
+        hand = part(piv, "palma-dir")
         at(e, a0 - 0.2)
-        self.assertAlmostEqual(piv.rotation_euler.y, 0.0, places=3)
+        self.assertAlmostEqual(piv.rotation_euler.x, 0.0, places=3)
+        z_rest = hand.matrix_world.translation.z
         at(e, a0 + 0.3)
-        self.assertLess(math.degrees(piv.rotation_euler.y), -60)                  # braço levantado
+        self.assertGreater(math.degrees(piv.rotation_euler.x), 60)                # braço levantado
+        self.assertGreater(hand.matrix_world.translation.z, z_rest + 0.25)        # e a mão subiu de verdade
         at(e, a1 + 0.3)
-        self.assertAlmostEqual(piv.rotation_euler.y, 0.0, places=3)
+        self.assertAlmostEqual(piv.rotation_euler.x, 0.0, places=3)
 
     def test_terminal_lights_recede_through_the_window_when_the_bus_leaves(self):
         e = self.env
@@ -370,6 +429,32 @@ class Ep02(Base, unittest.TestCase):
         self.assertTrue(under(bag[0], "cracha"))                                                       # ...com o crachá
         self.assertEqual(sil.parent, self.env.bus)                                                      # sentado na última fileira
         self.assertAlmostEqual(sil.location.x, L.LAST_SEAT[0], places=2)
+
+    def _assert_bald_and_rotting(self, root, decayed_face):
+        head = part(root, "cabeca")
+        skull = part(head, "crânio")
+        self.assertTrue(head["calvo"])                                                         # marcado como calvo no rig
+        self.assertTrue(skull.active_material.name.startswith("cranio-calvo"))                  # crânio liso e brilhante
+        rough = next(n for n in skull.active_material.node_tree.nodes if n.bl_idname == "ShaderNodeBsdfPrincipled")
+        self.assertLess(rough.inputs["Roughness"].default_value, 0.4)
+        banned = ("cabelo", "hair", "barba", "sobrancelha", "bone", "aba", "capuz")
+        sk_top = top_z(skull)
+        for o in head.children_recursive:
+            self.assertFalse(any(b in o.name.lower() for b in banned), f"{o.name}: nada que pareça cabelo ou boné")
+            if o != skull:                                                                     # nada acima do couro cabeludo
+                self.assertLessEqual(top_z(o), sk_top + 0.004, f"{o.name} sobe acima do crânio")
+        hood = part(root, "capuz")
+        self.assertLess(top_z(hood), world(head).z, "o capuz está caído atrás do pescoço, não cobre a cabeça")
+        self.assertEqual(len([o for o in head.children if o.name.startswith("orelha")]), 2)
+        if decayed_face:                                                                        # decomposição enfatizada
+            for n in ("nariz-aberto", "rachadura-cranio", "dentes", "mandibula"):
+                part(head, n)
+            self.assertEqual(len(under(head, "orbita")), 2)
+            self.assertEqual(len(under(head, "bochecha-funda")), 2)
+            self.assertGreaterEqual(len(under(head, "couro-solto")), 2)
+
+    def test_back_passenger_is_completely_bald_with_a_smooth_skull(self):
+        self._assert_bald_and_rotting(self.obj["silhueta"], decayed_face=True)
 
     def test_driver_shirt_is_the_same_blue_dress_shirt_but_grimy(self):
         torso = under(self.obj["motorista"], "tronco")[0].active_material
@@ -437,8 +522,8 @@ class Ep03(Base, unittest.TestCase):
 
     def test_driver_head_turns_in_three_jerks_on_the_neck_cracks(self):
         e = self.env
-        head = next(o for o in self.obj if o.name == "cabeca" and o.parent and o.parent.name == "pescoco"
-                    and o.parent.parent and o.parent.parent.parent == e.bus and o.parent.parent.location.x < 0)
+        drv = next(o for o in self.obj if o.name == "motorista" and o.parent == e.bus)
+        head = under(drv, "cabeca")[0]
         cr = [self.ctx.cue(f"estalo-pescoco-{n}")[0] for n in (1, 2, 3)]
         angles = []
         for t in (cr[0] - 0.1, cr[0] + 0.3, cr[1] - 0.1, cr[1] + 0.3, cr[2] - 0.1, cr[2] + 0.3):
@@ -470,6 +555,51 @@ class Ep03(Base, unittest.TestCase):
         self.assertAlmostEqual(top, props.JAW_LOC[2] + rest_z / 2, places=3)
         self.assertEqual(color_of(jaw), color_of(under(drv, "crânio")[0]))        # mesma pele cinza
 
+    def _assert_bald_and_rotting(self, root, decayed_face):
+        head = part(root, "cabeca")
+        skull = part(head, "crânio")
+        self.assertTrue(head["calvo"])                                                         # marcado como calvo no rig
+        self.assertTrue(skull.active_material.name.startswith("cranio-calvo"))                  # crânio liso e brilhante
+        rough = next(n for n in skull.active_material.node_tree.nodes if n.bl_idname == "ShaderNodeBsdfPrincipled")
+        self.assertLess(rough.inputs["Roughness"].default_value, 0.4)
+        banned = ("cabelo", "hair", "barba", "sobrancelha", "bone", "aba", "capuz")
+        sk_top = top_z(skull)
+        for o in head.children_recursive:
+            self.assertFalse(any(b in o.name.lower() for b in banned), f"{o.name}: nada que pareça cabelo ou boné")
+            if o != skull:                                                                     # nada acima do couro cabeludo
+                self.assertLessEqual(top_z(o), sk_top + 0.004, f"{o.name} sobe acima do crânio")
+        hood = part(root, "capuz")
+        self.assertLess(top_z(hood), world(head).z, "o capuz está caído atrás do pescoço, não cobre a cabeça")
+        self.assertEqual(len([o for o in head.children if o.name.startswith("orelha")]), 2)
+        if decayed_face:                                                                        # decomposição enfatizada
+            for n in ("nariz-aberto", "rachadura-cranio", "dentes", "mandibula"):
+                part(head, n)
+            self.assertEqual(len(under(head, "orbita")), 2)
+            self.assertEqual(len(under(head, "bochecha-funda")), 2)
+            self.assertGreaterEqual(len(under(head, "couro-solto")), 2)
+
+    def test_back_passenger_is_completely_bald_with_a_smooth_skull(self):
+        self._assert_bald_and_rotting(self.obj["silhueta"], decayed_face=True)
+
+    def test_the_standing_double_is_bald_too_and_walks_with_a_real_gait(self):
+        e = self.env
+        dbl = self.obj["duplo"]
+        self._assert_bald_and_rotting(dbl, decayed_face=True)
+        j = {n: part(dbl, n) for n in ("quadril-esq", "quadril-dir", "ombro-esq", "ombro-dir")}
+        walk0, walk1 = self.ctx.beat("b3-caminha")
+        at(e, walk0 - 0.5)
+        self.assertTrue(all(abs(o.rotation_euler.x) < 1e-3 for o in j.values()))               # parado antes de andar
+        swings = []
+        for k in range(8):
+            at(e, walk0 + 0.1 + 0.28 * k)
+            swings.append((j["quadril-esq"].rotation_euler.x, j["quadril-dir"].rotation_euler.x))
+        self.assertGreater(max(abs(a) for a, _ in swings), math.radians(15))                    # as pernas balançam
+        self.assertTrue(all(a * b <= 0 for a, b in swings))                                     # em contrafase
+        signs = [a > 0 for a, _ in swings]
+        self.assertGreaterEqual(sum(1 for x, y in zip(signs, signs[1:]) if x != y), 3)           # alternando passo a passo
+        at(e, walk1 + 2.0)
+        self.assertTrue(all(abs(o.rotation_euler.x) < 1e-3 for o in j.values()))               # parado atrás da divisória
+
     def test_driver_shirt_is_the_same_blue_dress_shirt_but_grimy(self):
         drv = next(o for o in self.obj if o.name == "motorista" and o.parent == self.env.bus)
         self.assertEqual(under(drv, "tronco")[0].active_material["pov_variant"], "encardida")
@@ -482,7 +612,7 @@ class Ep03(Base, unittest.TestCase):
         self.assertTrue(under(dbl, "capuz") and under(dbl, "bolso-canguru"))
         self.assertGreaterEqual(len(under(dbl, "mofo-moletom")), 3)                                      # mofo no moletom
         bag = under(dbl, "mochila-duplo")[0]
-        self.assertEqual(bag.parent, dbl)                                                                # nas costas
+        self.assertEqual(bag.parent, part(dbl, "coluna"))                                                # nas costas (presa à coluna)
         self.assertLess(bag.location.y, 0.0)
         self.assertTrue(under(bag, "cracha") and under(bag, "poeira"))                                   # crachá e poeira
         self.assertTrue(under(self.obj["silhueta"], "mochila-silhueta"))                                  # a mesma mochila, no colo dele

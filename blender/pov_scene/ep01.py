@@ -5,7 +5,7 @@ import math
 
 from . import bus as busmod
 from . import kit, materials, props, routes, world
-from .layout import BAG_SEAT, DOOR_HALF, DOOR_Y, DRIVER, FLOOR_Z, MY_SEAT, STAIRS
+from .layout import BAG_SEAT, DOOR_HALF, DOOR_Y, DRIVER_HIP, FLOOR_Z, MY_SEAT, STAIRS
 
 WORLD = ((0.010, 0.016, 0.034), 1.0)
 TUBE, ENERGY = 6.0, 105.0
@@ -79,15 +79,14 @@ def build(env):
     first, last = env.start_frame, env.start_frame + len(ctx.rows()) - 1
 
     # ---- motorista: boné, rosto na sombra; só acena --------------------------------------------------------------
-    dx, dy = DRIVER
-    drv = props.figure("motorista", env.bus, loc=(dx, dy - 0.05, FLOOR_Z + 0.5), cap=True, seated=True,
+    dx, dy, dz = DRIVER_HIP                                                      # corpo inteiro: tronco, braços, pernas e pés no pedal
+    drv = props.figure("motorista", env.bus, loc=(dx, dy, FLOOR_Z + dz), cap=True, seated=True, grip="wheel",
                        skin=(0.10, 0.08, 0.07), shirt="azul")                    # camisa social azul amarrotada
-    pivot = kit.empty("braco-acena", (0.31, 0, 0.68), parent=drv["root"])
-    kit.box("braco", (0.09, 0.09, 0.55), (0, 0, -0.25), materials.get("camisa-social", "azul"), parent=pivot)
+    shoulder = drv["joints"]["ombro_dir"]                                        # ele solta o volante e ergue o braço direito (o da porta)
     a0, a1 = ctx.beat("b2-aceno")
     with kit.interp("BEZIER"):
-        for t, ang in ((a0 - 0.05, 0), (a0 + 0.25, -85), (a0 + 0.5, -62), (a0 + 0.75, -88), (a1, 0)):
-            kit.key(pivot, "rotation_euler", env.f(t), (0, math.radians(ang), 0))
+        for t, ang in ((a0 - 0.05, 0), (a0 + 0.25, 85), (a0 + 0.5, 62), (a0 + 0.75, 88), (a1, 0)):
+            kit.key(shoulder, "rotation_euler", env.f(t), (math.radians(ang), 0, 0))
 
     # ---- portas abertas para o embarque; fecham antes de o ônibus partir (inferido) -----------------------------------
     t_close = ctx.beat("b3-partida")[0] - 3.0

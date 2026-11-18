@@ -24,7 +24,7 @@
       "text": "Olha para a frente, para o motorista, que não responde (\"Moço?!\").", "origin": "inferido" },
     { "id": "b1-ofegante", "at": { "ref": "s1-07", "edge": "start" }, "dur": 1.6,
       "text": "Respiração disparada: cabeça baixa, recobrando o ar (huh-huh-huh).", "origin": "inferido" },
-    { "id": "b1-teto", "at": { "ref": "s1-09", "word": "solavanco", "edge": "start" }, "dur": 2.4,
+    { "id": "b1-teto", "at": { "ref": "s1-09", "word": "tranco", "edge": "start" }, "dur": 2.4,
       "text": "Olha o teto: as luzes verdes piscando (gancho para a cena 2).", "origin": "inferido" }
   ]
 }

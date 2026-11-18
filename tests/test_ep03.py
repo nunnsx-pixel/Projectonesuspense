@@ -136,7 +136,7 @@ class Ep03(unittest.TestCase):
         self.assertEqual({r["frame"] for r in self.rows if r["step"]} & {s["start_frame"] for s in steps},
                          {s["start_frame"] for s in steps})
         self.assertGreaterEqual(len(steps), 10)
-        self.assertTrue(all(s["origin"] == "roteiro" for s in steps))                       # "passos pesados no piso metálico"
+        self.assertTrue(all(s["origin"] == "roteiro" for s in steps))                       # "passos pesados" (roteiro), agora no piso emborrachado
 
     def test_stumble_is_much_rougher_than_calm_walking_would_be(self):
         roll = max(abs(r["shake_roll"]) for r in self.rows[21:360])

@@ -7,7 +7,7 @@ em palavras da fala, em *beats* de cena ou uns nos outros. Mudou a fala? Todo o 
 ```
 python -m pipeline build ep01          # regenera ep01/build/
 python -m pipeline build ep01 --strict # sai com erro se houver avisos (ex.: fala que não cabe)
-python -m unittest discover -s tests   # 177 testes (77 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests   # 195 testes (86 exigem o módulo bpy; sem ele são pulados)
 ```
 
 ## Arquivos
@@ -36,7 +36,7 @@ Para levar a câmera ao Blender: `blender/import_camera_csv.py` (ver `blender/RE
 
 - **Passos = câmera = SFX.** Cada pisada é um evento único (`camera.make_steps`): a cabeça fica no ponto
   mais baixo exatamente no frame do passo e o SFX de passo cai nesse mesmo frame (`step=1` no CSV).
-  Cadência: corrida 2,85/s → caminhada → parada na plataforma; 3 degraus metálicos; passos lentos no corredor.
+  Cadência: corrida 2,85/s → caminhada → parada na plataforma; 3 degraus metálicos; passos lentos e abafados no **piso emborrachado** do corredor.
 - **Respiração da câmera = respiração da fala.** O peito sobe nos respiros do roteiro (*inspiração rápida*,
   *suspiro*, *funga*, *bocejo*, *respiração profunda*) e, além disso, num respiro antes de cada frase
   (marcados `explicit: false`; só movem a câmera, não são áudio pedido). Fora da fala segue `breath_rate`.
@@ -62,15 +62,17 @@ direita (o importador do Blender já converte). `intensity` em `camera.json` esc
 |---|---|---|---|---|
 | s1 | 0,15–14,75 s | 6,65 sil/s | 6,4 | ok (a mais apertada: bem rápido) |
 | s2 | 16,0–34,6 s | 5,1 sil/s | 5,0 | ok |
-| s3 | 37,2–58,4 s | 4,03 sil/s | 4,4 (arrastado) | ok |
+| s3 | 37,2–58,4 s | 4,38 sil/s | 4,4 (arrastado) | ok (encaixa quase exatamente) |
 
-A cena 3 originalmente pedia ~42 s para 21 s de janela. Por decisão de direção: `s3-03` ("Meu olho
-tá pesando…") foi cortado com `"skip": true` (o bocejo e a pálpebra já mostram o sono) e `s3-04`/`s3-05`
-foram enxugados, **mantendo a menção ao ponto 348** (gancho do Ep. 2). Roteiro ativo da cena 3 (idêntico ao
-`dialogue` em `scenes-config.json`):
+O texto longo do briefing ("Meu olho tá pesando demais… Faltam umas paradas até Jundiaí, mas o meu ponto é exato
+o 348, na marginal da rodovia. Se eu passar do ponto 348, eu tô frito…") pede ~32 s para 21 s de janela (**ESTOURA**,
+fala a 6,4 sil/s num trecho que é para ser arrastado). O corte aprovado mantém **as duas menções ao ponto 348** e a
+redação do briefing, e tira só o que não cabe: `s3-03` ("Meu olho tá pesando demais…", `"skip": true`: o bocejo e a
+pálpebra já mostram o sono), "Faltam umas paradas até Jundiaí, mas o", "da rodovia" e o "clássico" do fim da 1ª
+frase. Roteiro ativo da cena 3 (idêntico ao `dialogue` em `scenes-config.json`):
 
-> Pronto, mochila no banco do lado pra ninguém sentar junto, clássico. *(bocejo)* Meu ponto é o 348, na
-> marginal… Se eu passar dele, tô frito. *(respiração profunda e lenta)* Ai, fechar o olho só cinco minutinhos…
+> Pronto, mochila no banco do lado pra ninguém sentar junto. *(bocejo)* Meu ponto é exato o 348, na marginal.
+> Se eu passar do ponto 348, eu tô frito. *(respiração profunda e lenta)* Ai, fechar o olho só cinco minutinhos…
 
 `"skip": true` tira a fala do roteiro ativo sem apagar o texto; o `dialogue` de `scenes-config.json`
 precisa bater com as falas **não puladas** (o build recusa se divergir). `--strict` falha se alguma cena
@@ -96,5 +98,5 @@ se sobrepor aos vizinhos (o build avisa quais).
 - A caminhada pelo corredor começa em ~31,9 s (cena 2, em "mas beleza…") e termina ao sentar (36,9 s),
   para que ele já esteja sentado quando diz "Pronto, mochila…".
 - Os 3 cochilos (52,3 / 55,0 / 57,1 s), a pálpebra pesada no bocejo e a partida do ônibus (ao fim de
-  "clássico.", logo antes do bocejo; o ônibus chega a 62 km/h no último segundo) são coreografia minha
+  "…sentar junto.", aos 40,7 s, logo antes do bocejo; o ônibus chega a 62 km/h no último segundo) são coreografia minha
   em cima do roteiro; olhares e props marcados `inferido` também.

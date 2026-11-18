@@ -215,7 +215,9 @@ class Routes(unittest.TestCase):
 
     def test_bus_distance_is_the_integral_of_the_csv_speed(self):
         d1 = self.ctx["ep01"].bus_distance()
-        self.assertEqual(d1[int(41.0 * 60)], 0.0)                                            # parado até a partida
+        leave = self.ctx["ep01"].beat("b3-partida")[0]                                       # parte ao fim da 1ª frase da cena 3
+        self.assertEqual(d1[int(leave * 60)], 0.0)                                           # parado até a partida
+        self.assertGreater(d1[int((leave + 3.0) * 60)], 0.5)                                 # e logo em movimento
         self.assertGreater(d1[-1], 100)
         self.assertGreater(self.ctx["ep03"].bus_distance()[-1], 700)                          # 55 km/h por 60 s
 

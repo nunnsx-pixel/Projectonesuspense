@@ -76,6 +76,24 @@ class Manifest(unittest.TestCase):
         self.assertGreater(shirt["wrinkle_bump"], 0.3)                                       # amarrotada
         self.assertTrue({"azul", "encardida"} <= set(by["camisa-social"]["variants"]))
 
+    def test_footsteps_inside_the_bus_sound_like_the_rubber_floor(self):
+        """O som segue o material real: no ônibus o piso é borracha (abafado); metal só nos degraus."""
+        rubber_gain = {}
+        for ep in ("ep01", "ep02", "ep03"):
+            tl = json.loads((ROOT / ep / "build" / f"{ep}.timeline.json").read_text(encoding="utf-8"))
+            for s in tl["sfx"]["footsteps"]:
+                if s["segment"] in ("corrida-saguao", "degraus"):                          # saguão encerado / degraus metálicos
+                    continue
+                self.assertIn("emborrachado", s["surface"], f"{ep}/{s['segment']}")
+                self.assertIn("borracha", s["tag"], f"{ep}/{s['segment']}")
+                self.assertNotIn("metal", s["tag"], f"{ep}/{s['segment']}")
+                rubber_gain.setdefault(ep, []).append(s["gain_db"])
+        self.assertEqual(set(rubber_gain), {"ep01", "ep03"})                                 # o Ep. 2 não tem passos
+        steps = json.loads((ROOT / "ep01" / "build" / "ep01.timeline.json").read_text(encoding="utf-8"))["sfx"]["footsteps"]
+        stairs = [s for s in steps if s["segment"] == "degraus"]
+        self.assertTrue(stairs and all("metal" in s["tag"] for s in stairs))                  # degraus continuam metálicos
+        self.assertLess(max(rubber_gain["ep01"]), min(s["gain_db"] for s in stairs))          # borracha mais baixa que o degrau
+
     def test_guidelines_document_every_material_and_every_map(self):
         doc = (BLENDER / "TEXTURAS.md").read_text(encoding="utf-8")
         for mid in MAN["materials"]:

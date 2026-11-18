@@ -49,7 +49,7 @@
           "text": "O ponto 348 não existe mais desde que a gente caiu na ribanceira." },
         { "id": "s2-04", "kind": "silence", "label": "o protagonista processa o que ouviu", "dur": 0.35 },
         { "id": "s2-05", "kind": "breath", "type": "gasp", "label": "Gasp de terror", "dur": 0.35, "gap_after": 0.0 },
-        { "id": "s2-06", "kind": "speech", "text": "Do que você tá falando?!" },
+        { "id": "s2-06", "kind": "speech", "text": "Do que você tá falando...?!" },
         { "id": "s2-07", "kind": "speech", "text": "Eu saí de Campinas agorinha pouco!" },
         { "id": "s2-08", "kind": "speech", "text": "Eu tenho aula amanhã de manhã!" },
         { "id": "s2-09", "kind": "speech", "text": "Você tá louco!" },

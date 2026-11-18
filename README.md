@@ -20,10 +20,11 @@ Projeto de animação 3D em **Primeira Pessoa (POV)** dividido em 3 episódios d
 - **Objeto Âncora:** Mochila preta de estudante universitário com crachá/chaveiro pendurado (serve de referência visual para a passagem de tempo e deterioração entre os episódios).
 
 ## 🚌 Ambientação e Layout (padrão brasileiro)
-- **O ônibus:** intermunicipal paulista vicinal. Poltronas de **tecido estampado antigo em tons de azul/cinza**, com altura **levemente abaixo da linha de visão** do protagonista ao sentar (ergonomia real, com leve afundamento). Balaústres em **aço inox**; piso **emborrachado escuro antiderrapante**.
+- **O ônibus:** intermunicipal paulista vicinal. Poltronas de **tecido estampado antigo em tons de azul/cinza**, com altura **levemente abaixo da linha de visão** do protagonista ao sentar (ergonomia real, com leve afundamento). Balaústres em **aço inox** (enferrujados a partir do Ep. 2); piso **emborrachado escuro antiderrapante**.
 - **Catraca:** fixa na parte dianteira, logo após a porta de embarque, **nos três episódios**. No Ep. 3 ele bate as costas na **divisória/parapeito logo atrás dela**.
-- **Motorista:** camisa social azul amarrotada e boné com aba sombreada. No Ep. 3: pele cinza-cadavérica, olhos brancos sem pupilas e **mandíbula que estica** ao virar o pescoço 180°.
-- **Passageiro do fundo (o Duplo):** sentado na última fileira com **o mesmo moletom e a mesma mochila** do protagonista; no clímax do Ep. 3 vem pelo corredor com rosto e roupas em decomposição.
+- **Motorista:** modelado de **corpo inteiro** (tronco, braços, pernas e pés na cabine, mãos no volante), camisa social azul amarrotada e boné com aba sombreada. No Ep. 3: pele cinza-cadavérica, olhos brancos sem pupilas e **mandíbula que estica** ao virar o pescoço 180°.
+- **Passageiro do fundo (o Duplo):** **completamente calvo** (crânio liso, sem cabelo), sentado na última fileira com **o mesmo moletom e a mesma mochila** do protagonista; no clímax do Ep. 3 vem pelo corredor (anda de verdade) com rosto e roupas em decomposição.
+- **Som dos passos:** no ônibus o piso é emborrachado (passos abafados); o metal fica nos degraus, balaústres e chassi.
 
 ## 🎙️ Diretrizes de Áudio e Acting Vocal
 - **Protagonista:** Estudante universitário brasileiro (~21 anos). Monólogo contínuo em voz alta.

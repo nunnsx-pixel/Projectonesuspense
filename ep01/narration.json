@@ -46,11 +46,11 @@
       "pace_syl_s": 4.4,
       "drag": [0.9, 1.4],
       "items": [
-        { "id": "s3-01", "kind": "speech", "text": "Pronto, mochila no banco do lado pra ninguém sentar junto, clássico." },
+        { "id": "s3-01", "kind": "speech", "text": "Pronto, mochila no banco do lado pra ninguém sentar junto." },
         { "id": "s3-02", "kind": "breath", "type": "yawn", "label": "Bocejo longo e cansado", "dur": 2.20, "gap_after": 0.30 },
-        { "id": "s3-03", "kind": "speech", "skip": true, "text": "Meu olho tá pesando demais de tanto ler artigo acadêmico." },
-        { "id": "s3-04", "kind": "speech", "text": "Meu ponto é o 348, na marginal..." },
-        { "id": "s3-05", "kind": "speech", "text": "Se eu passar dele, tô frito." },
+        { "id": "s3-03", "kind": "speech", "skip": true, "text": "Meu olho tá pesando demais..." },
+        { "id": "s3-04", "kind": "speech", "text": "Meu ponto é exato o 348, na marginal." },
+        { "id": "s3-05", "kind": "speech", "text": "Se eu passar do ponto 348, eu tô frito." },
         { "id": "s3-06", "kind": "breath", "type": "deep_slow", "label": "Respiração profunda e lenta", "dur": 2.00, "gap_after": 0.35 },
         { "id": "s3-07", "kind": "speech", "text": "Ai, fechar o olho só cinco minutinhos..." }
       ]

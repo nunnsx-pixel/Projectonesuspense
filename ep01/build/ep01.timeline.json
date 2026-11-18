@@ -327,12 +327,12 @@
      58.4
     ],
     "pace_target_syl_s": 4.4,
-    "syllables": 57,
-    "articulation_syl_s": 4.03,
-    "overall_syl_s": 2.69,
-    "needed_s_at_target_pace": 22.55,
+    "syllables": 64,
+    "articulation_syl_s": 4.38,
+    "overall_syl_s": 3.02,
+    "needed_s_at_target_pace": 23.77,
     "available_s": 21.2,
-    "fit_ratio": 0.924,
+    "fit_ratio": 0.864,
     "status": "ok"
    },
    "beats": [
@@ -360,12 +360,12 @@
      "dur": 0.8,
      "text": "A mão direita joga a mochila preta (crachá pendurado) no banco ao lado.",
      "scene": "s3",
-     "start": 37.65,
-     "end": 38.45,
-     "start_frame": 2259,
-     "start_tc": "00:37.650",
-     "end_frame": 2307,
-     "end_tc": "00:38.450"
+     "start": 37.6167,
+     "end": 38.4167,
+     "start_frame": 2257,
+     "start_tc": "00:37.617",
+     "end_frame": 2305,
+     "end_tc": "00:38.417"
     },
     {
      "id": "b3-partida",
@@ -377,12 +377,12 @@
      "text": "O ônibus parte e ganha velocidade no asfalto.",
      "origin": "inferido",
      "scene": "s3",
-     "start": 41.9167,
-     "end": 45.9167,
-     "start_frame": 2515,
-     "start_tc": "00:41.917",
-     "end_frame": 2755,
-     "end_tc": "00:45.917"
+     "start": 40.7167,
+     "end": 44.7167,
+     "start_frame": 2443,
+     "start_tc": "00:40.717",
+     "end_frame": 2683,
+     "end_tc": "00:44.717"
     },
     {
      "id": "b3-janela",
@@ -393,12 +393,12 @@
      "dur": 3.0,
      "text": "A câmera vira para a janela: as luzes da rodoviária ficam para trás na escuridão.",
      "scene": "s3",
-     "start": 43.7167,
-     "end": 46.7167,
-     "start_frame": 2623,
-     "start_tc": "00:43.717",
-     "end_frame": 2803,
-     "end_tc": "00:46.717"
+     "start": 42.5167,
+     "end": 45.5167,
+     "start_frame": 2551,
+     "start_tc": "00:42.517",
+     "end_frame": 2731,
+     "end_tc": "00:45.517"
     },
     {
      "id": "b3-vinheta",
@@ -1547,7 +1547,7 @@
   {
    "id": "s3-01",
    "kind": "speech",
-   "text": "Pronto, mochila no banco do lado pra ninguém sentar junto, clássico.",
+   "text": "Pronto, mochila no banco do lado pra ninguém sentar junto.",
    "start": 37.2,
    "words": [
     {
@@ -1556,140 +1556,128 @@
      "punct": ",",
      "syl": 2,
      "start": 37.2,
-     "end": 37.6167,
+     "end": 37.6,
      "start_frame": 2232,
      "start_tc": "00:37.200",
-     "end_frame": 2257,
-     "end_tc": "00:37.617"
+     "end_frame": 2256,
+     "end_tc": "00:37.600"
     },
     {
      "w": "mochila",
      "spoken": "mochila",
      "punct": "",
      "syl": 3,
-     "start": 37.75,
-     "end": 38.3333,
-     "start_frame": 2265,
-     "start_tc": "00:37.750",
-     "end_frame": 2300,
-     "end_tc": "00:38.333"
+     "start": 37.7167,
+     "end": 38.25,
+     "start_frame": 2263,
+     "start_tc": "00:37.717",
+     "end_frame": 2295,
+     "end_tc": "00:38.250"
     },
     {
      "w": "no",
      "spoken": "no",
      "punct": "",
      "syl": 1,
-     "start": 38.3333,
-     "end": 38.4667,
-     "start_frame": 2300,
-     "start_tc": "00:38.333",
-     "end_frame": 2308,
-     "end_tc": "00:38.467"
+     "start": 38.25,
+     "end": 38.3833,
+     "start_frame": 2295,
+     "start_tc": "00:38.250",
+     "end_frame": 2303,
+     "end_tc": "00:38.383"
     },
     {
      "w": "banco",
      "spoken": "banco",
      "punct": "",
      "syl": 2,
-     "start": 38.4667,
-     "end": 38.8667,
-     "start_frame": 2308,
-     "start_tc": "00:38.467",
-     "end_frame": 2332,
-     "end_tc": "00:38.867"
+     "start": 38.3833,
+     "end": 38.7667,
+     "start_frame": 2303,
+     "start_tc": "00:38.383",
+     "end_frame": 2326,
+     "end_tc": "00:38.767"
     },
     {
      "w": "do",
      "spoken": "do",
      "punct": "",
      "syl": 1,
-     "start": 38.8667,
-     "end": 39.0167,
-     "start_frame": 2332,
-     "start_tc": "00:38.867",
-     "end_frame": 2341,
-     "end_tc": "00:39.017"
+     "start": 38.7667,
+     "end": 38.9,
+     "start_frame": 2326,
+     "start_tc": "00:38.767",
+     "end_frame": 2334,
+     "end_tc": "00:38.900"
     },
     {
      "w": "lado",
      "spoken": "lado",
      "punct": "",
      "syl": 2,
-     "start": 39.0167,
-     "end": 39.4333,
-     "start_frame": 2341,
-     "start_tc": "00:39.017",
-     "end_frame": 2366,
-     "end_tc": "00:39.433"
+     "start": 38.9,
+     "end": 39.2833,
+     "start_frame": 2334,
+     "start_tc": "00:38.900",
+     "end_frame": 2357,
+     "end_tc": "00:39.283"
     },
     {
      "w": "pra",
      "spoken": "pra",
      "punct": "",
      "syl": 1,
-     "start": 39.4333,
-     "end": 39.5833,
-     "start_frame": 2366,
-     "start_tc": "00:39.433",
-     "end_frame": 2375,
-     "end_tc": "00:39.583"
+     "start": 39.2833,
+     "end": 39.4167,
+     "start_frame": 2357,
+     "start_tc": "00:39.283",
+     "end_frame": 2365,
+     "end_tc": "00:39.417"
     },
     {
      "w": "ninguém",
      "spoken": "ninguém",
      "punct": "",
      "syl": 2,
-     "start": 39.5833,
-     "end": 40.0,
-     "start_frame": 2375,
-     "start_tc": "00:39.583",
-     "end_frame": 2400,
-     "end_tc": "00:40.000"
+     "start": 39.4167,
+     "end": 39.8,
+     "start_frame": 2365,
+     "start_tc": "00:39.417",
+     "end_frame": 2388,
+     "end_tc": "00:39.800"
     },
     {
      "w": "sentar",
      "spoken": "sentar",
      "punct": "",
      "syl": 2,
-     "start": 40.0,
-     "end": 40.4333,
-     "start_frame": 2400,
-     "start_tc": "00:40.000",
-     "end_frame": 2426,
-     "end_tc": "00:40.433"
+     "start": 39.8,
+     "end": 40.2,
+     "start_frame": 2388,
+     "start_tc": "00:39.800",
+     "end_frame": 2412,
+     "end_tc": "00:40.200"
     },
     {
      "w": "junto",
      "spoken": "junto",
-     "punct": ",",
-     "syl": 2,
-     "start": 40.4333,
-     "end": 40.9167,
-     "start_frame": 2426,
-     "start_tc": "00:40.433",
-     "end_frame": 2455,
-     "end_tc": "00:40.917"
-    },
-    {
-     "w": "clássico",
-     "spoken": "clássico",
      "punct": ".",
-     "syl": 3,
-     "start": 41.0667,
-     "end": 41.9167,
-     "start_frame": 2464,
-     "start_tc": "00:41.067",
-     "end_frame": 2515,
-     "end_tc": "00:41.917"
+     "syl": 2,
+     "start": 40.2,
+     "end": 40.7167,
+     "start_frame": 2412,
+     "start_tc": "00:40.200",
+     "end_frame": 2443,
+     "end_tc": "00:40.717"
     }
    ],
-   "end": 41.9167,
+   "end": 40.7167,
    "scene": "s3",
    "timing": "estimado",
    "start_frame": 2232,
    "start_tc": "00:37.200",
-   "end_frame": 2515,
-   "end_tc": "00:41.917"
+   "end_frame": 2443,
+   "end_tc": "00:40.717"
   },
   {
    "id": "s3-02",
@@ -1698,200 +1686,248 @@
    "label": "Bocejo longo e cansado",
    "dur": 2.2,
    "gap_after": 0.3,
-   "start": 42.2833,
-   "end": 44.4833,
+   "start": 41.05,
+   "end": 43.25,
    "scene": "s3",
    "timing": "estimado",
-   "start_frame": 2537,
-   "start_tc": "00:42.283",
-   "end_frame": 2669,
-   "end_tc": "00:44.483"
+   "start_frame": 2463,
+   "start_tc": "00:41.050",
+   "end_frame": 2595,
+   "end_tc": "00:43.250"
   },
   {
    "id": "s3-04",
    "kind": "speech",
-   "text": "Meu ponto é o 348, na marginal...",
-   "start": 44.7833,
+   "text": "Meu ponto é exato o 348, na marginal.",
+   "start": 43.55,
    "words": [
     {
      "w": "Meu",
      "spoken": "Meu",
      "punct": "",
      "syl": 1,
-     "start": 44.7833,
-     "end": 44.95,
-     "start_frame": 2687,
-     "start_tc": "00:44.783",
-     "end_frame": 2697,
-     "end_tc": "00:44.950"
+     "start": 43.55,
+     "end": 43.7,
+     "start_frame": 2613,
+     "start_tc": "00:43.550",
+     "end_frame": 2622,
+     "end_tc": "00:43.700"
     },
     {
      "w": "ponto",
      "spoken": "ponto",
      "punct": "",
      "syl": 2,
-     "start": 44.95,
-     "end": 45.4167,
-     "start_frame": 2697,
-     "start_tc": "00:44.950",
-     "end_frame": 2725,
-     "end_tc": "00:45.417"
+     "start": 43.7,
+     "end": 44.1167,
+     "start_frame": 2622,
+     "start_tc": "00:43.700",
+     "end_frame": 2647,
+     "end_tc": "00:44.117"
     },
     {
      "w": "é",
      "spoken": "é",
      "punct": "",
      "syl": 1,
-     "start": 45.4167,
-     "end": 45.5667,
-     "start_frame": 2725,
-     "start_tc": "00:45.417",
-     "end_frame": 2734,
-     "end_tc": "00:45.567"
+     "start": 44.1167,
+     "end": 44.2667,
+     "start_frame": 2647,
+     "start_tc": "00:44.117",
+     "end_frame": 2656,
+     "end_tc": "00:44.267"
+    },
+    {
+     "w": "exato",
+     "spoken": "exato",
+     "punct": "",
+     "syl": 3,
+     "start": 44.2667,
+     "end": 44.9,
+     "start_frame": 2656,
+     "start_tc": "00:44.267",
+     "end_frame": 2694,
+     "end_tc": "00:44.900"
     },
     {
      "w": "o",
      "spoken": "o",
      "punct": "",
      "syl": 1,
-     "start": 45.5667,
-     "end": 45.7333,
-     "start_frame": 2734,
-     "start_tc": "00:45.567",
-     "end_frame": 2744,
-     "end_tc": "00:45.733"
+     "start": 44.9,
+     "end": 45.05,
+     "start_frame": 2694,
+     "start_tc": "00:44.900",
+     "end_frame": 2703,
+     "end_tc": "00:45.050"
     },
     {
      "w": "348",
      "spoken": "três quatro oito",
      "punct": ",",
      "syl": 5,
-     "start": 45.7333,
-     "end": 47.0667,
-     "start_frame": 2744,
-     "start_tc": "00:45.733",
-     "end_frame": 2824,
-     "end_tc": "00:47.067"
+     "start": 45.05,
+     "end": 46.2667,
+     "start_frame": 2703,
+     "start_tc": "00:45.050",
+     "end_frame": 2776,
+     "end_tc": "00:46.267"
     },
     {
      "w": "na",
      "spoken": "na",
      "punct": "",
      "syl": 1,
-     "start": 47.2333,
-     "end": 47.4,
-     "start_frame": 2834,
-     "start_tc": "00:47.233",
-     "end_frame": 2844,
-     "end_tc": "00:47.400"
+     "start": 46.4,
+     "end": 46.5667,
+     "start_frame": 2784,
+     "start_tc": "00:46.400",
+     "end_frame": 2794,
+     "end_tc": "00:46.567"
     },
     {
      "w": "marginal",
      "spoken": "marginal",
-     "punct": "...",
+     "punct": ".",
      "syl": 3,
-     "start": 47.4,
-     "end": 48.3833,
-     "start_frame": 2844,
-     "start_tc": "00:47.400",
-     "end_frame": 2903,
-     "end_tc": "00:48.383"
+     "start": 46.5667,
+     "end": 47.4167,
+     "start_frame": 2794,
+     "start_tc": "00:46.567",
+     "end_frame": 2845,
+     "end_tc": "00:47.417"
     }
    ],
-   "end": 48.3833,
+   "end": 47.4167,
    "scene": "s3",
    "timing": "estimado",
-   "start_frame": 2687,
-   "start_tc": "00:44.783",
-   "end_frame": 2903,
-   "end_tc": "00:48.383"
+   "start_frame": 2613,
+   "start_tc": "00:43.550",
+   "end_frame": 2845,
+   "end_tc": "00:47.417"
   },
   {
    "id": "s3-05",
    "kind": "speech",
-   "text": "Se eu passar dele, tô frito.",
-   "start": 48.9833,
+   "text": "Se eu passar do ponto 348, eu tô frito.",
+   "start": 47.8,
    "words": [
     {
      "w": "Se",
      "spoken": "Se",
      "punct": "",
      "syl": 1,
-     "start": 48.9833,
-     "end": 49.1667,
-     "start_frame": 2939,
-     "start_tc": "00:48.983",
-     "end_frame": 2950,
-     "end_tc": "00:49.167"
+     "start": 47.8,
+     "end": 47.9667,
+     "start_frame": 2868,
+     "start_tc": "00:47.800",
+     "end_frame": 2878,
+     "end_tc": "00:47.967"
     },
     {
      "w": "eu",
      "spoken": "eu",
      "punct": "",
      "syl": 1,
-     "start": 49.1667,
-     "end": 49.3333,
-     "start_frame": 2950,
-     "start_tc": "00:49.167",
-     "end_frame": 2960,
-     "end_tc": "00:49.333"
+     "start": 47.9667,
+     "end": 48.1333,
+     "start_frame": 2878,
+     "start_tc": "00:47.967",
+     "end_frame": 2888,
+     "end_tc": "00:48.133"
     },
     {
      "w": "passar",
      "spoken": "passar",
      "punct": "",
      "syl": 2,
-     "start": 49.3333,
-     "end": 49.85,
-     "start_frame": 2960,
-     "start_tc": "00:49.333",
-     "end_frame": 2991,
-     "end_tc": "00:49.850"
+     "start": 48.1333,
+     "end": 48.6,
+     "start_frame": 2888,
+     "start_tc": "00:48.133",
+     "end_frame": 2916,
+     "end_tc": "00:48.600"
     },
     {
-     "w": "dele",
-     "spoken": "dele",
-     "punct": ",",
+     "w": "do",
+     "spoken": "do",
+     "punct": "",
+     "syl": 1,
+     "start": 48.6,
+     "end": 48.7667,
+     "start_frame": 2916,
+     "start_tc": "00:48.600",
+     "end_frame": 2926,
+     "end_tc": "00:48.767"
+    },
+    {
+     "w": "ponto",
+     "spoken": "ponto",
+     "punct": "",
      "syl": 2,
-     "start": 49.85,
-     "end": 50.4333,
-     "start_frame": 2991,
-     "start_tc": "00:49.850",
-     "end_frame": 3026,
-     "end_tc": "00:50.433"
+     "start": 48.7667,
+     "end": 49.25,
+     "start_frame": 2926,
+     "start_tc": "00:48.767",
+     "end_frame": 2955,
+     "end_tc": "00:49.250"
+    },
+    {
+     "w": "348",
+     "spoken": "três quatro oito",
+     "punct": ",",
+     "syl": 5,
+     "start": 49.25,
+     "end": 50.5833,
+     "start_frame": 2955,
+     "start_tc": "00:49.250",
+     "end_frame": 3035,
+     "end_tc": "00:50.583"
+    },
+    {
+     "w": "eu",
+     "spoken": "eu",
+     "punct": "",
+     "syl": 1,
+     "start": 50.75,
+     "end": 50.9333,
+     "start_frame": 3045,
+     "start_tc": "00:50.750",
+     "end_frame": 3056,
+     "end_tc": "00:50.933"
     },
     {
      "w": "tô",
      "spoken": "tô",
      "punct": "",
      "syl": 1,
-     "start": 50.6167,
-     "end": 50.8,
-     "start_frame": 3037,
-     "start_tc": "00:50.617",
-     "end_frame": 3048,
-     "end_tc": "00:50.800"
+     "start": 50.9333,
+     "end": 51.1,
+     "start_frame": 3056,
+     "start_tc": "00:50.933",
+     "end_frame": 3066,
+     "end_tc": "00:51.100"
     },
     {
      "w": "frito",
      "spoken": "frito",
      "punct": ".",
      "syl": 2,
-     "start": 50.8,
-     "end": 51.4667,
-     "start_frame": 3048,
-     "start_tc": "00:50.800",
-     "end_frame": 3088,
-     "end_tc": "00:51.467"
+     "start": 51.1,
+     "end": 51.7333,
+     "start_frame": 3066,
+     "start_tc": "00:51.100",
+     "end_frame": 3104,
+     "end_tc": "00:51.733"
     }
    ],
-   "end": 51.4667,
+   "end": 51.7333,
    "scene": "s3",
    "timing": "estimado",
-   "start_frame": 2939,
-   "start_tc": "00:48.983",
-   "end_frame": 3088,
-   "end_tc": "00:51.467"
+   "start_frame": 2868,
+   "start_tc": "00:47.800",
+   "end_frame": 3104,
+   "end_tc": "00:51.733"
   },
   {
    "id": "s3-06",
@@ -1900,102 +1936,102 @@
    "label": "Respiração profunda e lenta",
    "dur": 2.0,
    "gap_after": 0.35,
-   "start": 51.9167,
-   "end": 53.9167,
+   "start": 52.1667,
+   "end": 54.1667,
    "scene": "s3",
    "timing": "estimado",
-   "start_frame": 3115,
-   "start_tc": "00:51.917",
-   "end_frame": 3235,
-   "end_tc": "00:53.917"
+   "start_frame": 3130,
+   "start_tc": "00:52.167",
+   "end_frame": 3250,
+   "end_tc": "00:54.167"
   },
   {
    "id": "s3-07",
    "kind": "speech",
    "text": "Ai, fechar o olho só cinco minutinhos...",
-   "start": 54.2667,
+   "start": 54.5167,
    "words": [
     {
      "w": "Ai",
      "spoken": "Ai",
      "punct": ",",
      "syl": 1,
-     "start": 54.2667,
-     "end": 54.5667,
-     "start_frame": 3256,
-     "start_tc": "00:54.267",
-     "end_frame": 3274,
-     "end_tc": "00:54.567"
+     "start": 54.5167,
+     "end": 54.8,
+     "start_frame": 3271,
+     "start_tc": "00:54.517",
+     "end_frame": 3288,
+     "end_tc": "00:54.800"
     },
     {
      "w": "fechar",
      "spoken": "fechar",
      "punct": "",
      "syl": 2,
-     "start": 54.7333,
-     "end": 55.2833,
-     "start_frame": 3284,
-     "start_tc": "00:54.733",
-     "end_frame": 3317,
-     "end_tc": "00:55.283"
+     "start": 54.9667,
+     "end": 55.4833,
+     "start_frame": 3298,
+     "start_tc": "00:54.967",
+     "end_frame": 3329,
+     "end_tc": "00:55.483"
     },
     {
      "w": "o",
      "spoken": "o",
      "punct": "",
      "syl": 1,
-     "start": 55.2833,
-     "end": 55.4833,
-     "start_frame": 3317,
-     "start_tc": "00:55.283",
-     "end_frame": 3329,
-     "end_tc": "00:55.483"
+     "start": 55.4833,
+     "end": 55.6667,
+     "start_frame": 3329,
+     "start_tc": "00:55.483",
+     "end_frame": 3340,
+     "end_tc": "00:55.667"
     },
     {
      "w": "olho",
      "spoken": "olho",
      "punct": "",
      "syl": 2,
-     "start": 55.4833,
-     "end": 56.0333,
-     "start_frame": 3329,
-     "start_tc": "00:55.483",
-     "end_frame": 3362,
-     "end_tc": "00:56.033"
+     "start": 55.6667,
+     "end": 56.1833,
+     "start_frame": 3340,
+     "start_tc": "00:55.667",
+     "end_frame": 3371,
+     "end_tc": "00:56.183"
     },
     {
      "w": "só",
      "spoken": "só",
      "punct": "",
      "syl": 1,
-     "start": 56.0333,
-     "end": 56.3167,
-     "start_frame": 3362,
-     "start_tc": "00:56.033",
-     "end_frame": 3379,
-     "end_tc": "00:56.317"
+     "start": 56.1833,
+     "end": 56.45,
+     "start_frame": 3371,
+     "start_tc": "00:56.183",
+     "end_frame": 3387,
+     "end_tc": "00:56.450"
     },
     {
      "w": "cinco",
      "spoken": "cinco",
      "punct": "",
      "syl": 2,
-     "start": 56.3167,
-     "end": 56.8833,
-     "start_frame": 3379,
-     "start_tc": "00:56.317",
-     "end_frame": 3413,
-     "end_tc": "00:56.883"
+     "start": 56.45,
+     "end": 56.9833,
+     "start_frame": 3387,
+     "start_tc": "00:56.450",
+     "end_frame": 3419,
+     "end_tc": "00:56.983"
     },
     {
      "w": "minutinhos",
      "spoken": "minutinhos",
      "punct": "...",
      "syl": 4,
-     "start": 56.8833,
+     "start": 56.9833,
      "end": 58.4,
-     "start_frame": 3413,
-     "start_tc": "00:56.883",
+     "start_frame": 3419,
+     "start_tc": "00:56.983",
      "end_frame": 3504,
      "end_tc": "00:58.400"
     }
@@ -2003,8 +2039,8 @@
    "end": 58.4,
    "scene": "s3",
    "timing": "estimado",
-   "start_frame": 3256,
-   "start_tc": "00:54.267",
+   "start_frame": 3271,
+   "start_tc": "00:54.517",
    "end_frame": 3504,
    "end_tc": "00:58.400"
   }
@@ -2114,14 +2150,14 @@
    "t": 36.85,
    "inhale": 0.35,
    "hold": 0.0,
-   "exhale": 4.7167,
+   "exhale": 3.5167,
    "amp": 0.8,
    "type": "inhale_phrase",
    "ref": "s3-01",
    "explicit": false
   },
   {
-   "t": 42.2833,
+   "t": 41.05,
    "inhale": 1.21,
    "hold": 0.44,
    "exhale": 0.55,
@@ -2131,17 +2167,17 @@
    "explicit": true
   },
   {
-   "t": 48.6333,
-   "inhale": 0.35,
+   "t": 47.5317,
+   "inhale": 0.2683,
    "hold": 0.0,
-   "exhale": 2.4833,
+   "exhale": 3.9333,
    "amp": 0.8,
    "type": "inhale_phrase",
    "ref": "s3-05",
    "explicit": false
   },
   {
-   "t": 51.9167,
+   "t": 52.1667,
    "inhale": 0.9,
    "hold": 0.2,
    "exhale": 0.9,
@@ -2151,10 +2187,10 @@
    "explicit": true
   },
   {
-   "t": 54.0217,
+   "t": 54.2717,
    "inhale": 0.245,
    "hold": 0.0,
-   "exhale": 4.1333,
+   "exhale": 3.8833,
    "amp": 0.8,
    "type": "inhale_phrase",
    "ref": "s3-07",
@@ -2255,79 +2291,79 @@
        0.0
       ],
       [
-       41.0,
+       40.0,
        0.0
       ],
       [
+       41.0,
+       0.033
+      ],
+      [
        42.0,
-       0.003
+       0.564
       ],
       [
        43.0,
-       0.419
+       1.406
       ],
       [
        44.0,
-       1.234
+       2.126
       ],
       [
        45.0,
-       2.013
+       2.339
       ],
       [
        46.0,
-       2.324
+       2.631
       ],
       [
        47.0,
-       2.547
+       3.193
       ],
       [
        48.0,
-       3.065
+       3.903
       ],
       [
        49.0,
-       3.755
+       4.64
       ],
       [
        50.0,
-       4.496
+       5.281
       ],
       [
        51.0,
-       5.166
+       5.704
       ],
       [
        52.0,
-       5.643
+       5.827
       ],
       [
        53.0,
-       5.808
+       6.182
       ],
       [
        54.0,
-       6.081
+       6.842
       ],
       [
        55.0,
-       6.694
+       7.629
       ],
       [
        56.0,
-       7.47
+       8.365
       ],
       [
        57.0,
-       8.231
+       8.874
       ],
       [
        58.0,
-       8.799
-      ],
-      [
-       59.0,
        9.0
       ]
      ]
@@ -2385,13 +2421,13 @@
     "origin": "inferido",
     "desc": "Mochila (com chaveiro/crachá chacoalhando) batendo no banco ao lado.",
     "gain_db": -9,
-    "start": 37.9,
-    "end": 37.9,
+    "start": 37.8667,
+    "end": 37.8667,
     "scene": "s3",
-    "start_frame": 2274,
-    "start_tc": "00:37.900",
-    "end_frame": 2274,
-    "end_tc": "00:37.900"
+    "start_frame": 2272,
+    "start_tc": "00:37.867",
+    "end_frame": 2272,
+    "end_tc": "00:37.867"
    }
   ],
   "footsteps": [
@@ -3228,11 +3264,11 @@
     "layer": "foley",
     "kind": "footstep",
     "origin": "inferido",
-    "tag": "passos-onibus-piso",
-    "surface": "piso do ônibus",
+    "tag": "passos-onibus-borracha",
+    "surface": "piso emborrachado antiderrapante do ônibus (passos abafados)",
     "start": 24.4667,
     "end": 24.4667,
-    "gain_db": -12.18,
+    "gain_db": -13.18,
     "intensity": 0.5,
     "foot": "L",
     "segment": "passa-catraca",
@@ -3246,11 +3282,11 @@
     "layer": "foley",
     "kind": "footstep",
     "origin": "inferido",
-    "tag": "passos-onibus-piso",
-    "surface": "piso do ônibus",
+    "tag": "passos-onibus-borracha",
+    "surface": "piso emborrachado antiderrapante do ônibus (passos abafados)",
     "start": 25.3,
     "end": 25.3,
-    "gain_db": -12.33,
+    "gain_db": -13.33,
     "intensity": 0.5,
     "foot": "R",
     "segment": "passa-catraca",
@@ -3264,11 +3300,11 @@
     "layer": "foley",
     "kind": "footstep",
     "origin": "inferido",
-    "tag": "passos-onibus-piso",
-    "surface": "piso do corredor do ônibus",
+    "tag": "passos-onibus-borracha",
+    "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
     "start": 31.9167,
     "end": 31.9167,
-    "gain_db": -12.3,
+    "gain_db": -13.3,
     "intensity": 0.53,
     "foot": "L",
     "segment": "corredor",
@@ -3282,11 +3318,11 @@
     "layer": "foley",
     "kind": "footstep",
     "origin": "inferido",
-    "tag": "passos-onibus-piso",
-    "surface": "piso do corredor do ônibus",
+    "tag": "passos-onibus-borracha",
+    "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
     "start": 32.6333,
     "end": 32.6333,
-    "gain_db": -12.22,
+    "gain_db": -13.22,
     "intensity": 0.53,
     "foot": "R",
     "segment": "corredor",
@@ -3300,11 +3336,11 @@
     "layer": "foley",
     "kind": "footstep",
     "origin": "inferido",
-    "tag": "passos-onibus-piso",
-    "surface": "piso do corredor do ônibus",
+    "tag": "passos-onibus-borracha",
+    "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
     "start": 33.35,
     "end": 33.35,
-    "gain_db": -12.5,
+    "gain_db": -13.5,
     "intensity": 0.53,
     "foot": "L",
     "segment": "corredor",
@@ -3318,11 +3354,11 @@
     "layer": "foley",
     "kind": "footstep",
     "origin": "inferido",
-    "tag": "passos-onibus-piso",
-    "surface": "piso do corredor do ônibus",
+    "tag": "passos-onibus-borracha",
+    "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
     "start": 34.0667,
     "end": 34.0667,
-    "gain_db": -12.9,
+    "gain_db": -13.9,
     "intensity": 0.53,
     "foot": "R",
     "segment": "corredor",
@@ -3336,11 +3372,11 @@
     "layer": "foley",
     "kind": "footstep",
     "origin": "inferido",
-    "tag": "passos-onibus-piso",
-    "surface": "piso do corredor do ônibus",
+    "tag": "passos-onibus-borracha",
+    "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
     "start": 34.7667,
     "end": 34.7667,
-    "gain_db": -12.08,
+    "gain_db": -13.08,
     "intensity": 0.53,
     "foot": "L",
     "segment": "corredor",
@@ -3354,11 +3390,11 @@
     "layer": "foley",
     "kind": "footstep",
     "origin": "inferido",
-    "tag": "passos-onibus-piso",
-    "surface": "piso do corredor do ônibus",
+    "tag": "passos-onibus-borracha",
+    "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
     "start": 35.4833,
     "end": 35.4833,
-    "gain_db": -11.22,
+    "gain_db": -12.22,
     "intensity": 0.53,
     "foot": "R",
     "segment": "corredor",
@@ -3372,11 +3408,11 @@
     "layer": "foley",
     "kind": "footstep",
     "origin": "inferido",
-    "tag": "passos-onibus-piso",
-    "surface": "piso do corredor do ônibus",
+    "tag": "passos-onibus-borracha",
+    "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
     "start": 36.2,
     "end": 36.2,
-    "gain_db": -12.49,
+    "gain_db": -13.49,
     "intensity": 0.53,
     "foot": "L",
     "segment": "corredor",
@@ -3915,24 +3951,24 @@
     "yaw": 24,
     "pitch": -12,
     "note": "olha o banco ao lado (direita) onde joga a mochila",
-    "t": 37.85
+    "t": 37.8167
    },
    {
     "yaw": 0,
     "pitch": -4,
-    "t": 38.75
+    "t": 38.7167
    },
    {
     "yaw": -6,
     "pitch": 0,
-    "t": 42.5167
+    "t": 41.3167
    },
    {
     "yaw": -68,
     "pitch": 3,
     "roll": 2,
     "note": "vira para a janela (esquerda): luzes da rodoviária ficam para trás",
-    "t": 44.9167
+    "t": 43.7167
    },
    {
     "yaw": -72,
@@ -3992,7 +4028,7 @@
     "roll": 1.2,
     "y_cm": -0.5,
     "note": "torção do tronco ao jogar a mochila",
-    "t": 37.8
+    "t": 37.7667
    },
    {
     "id": "k-partida",
@@ -4001,7 +4037,7 @@
     "z_cm": -2.8,
     "pitch": 1.6,
     "note": "arrancada do ônibus",
-    "t": 41.9167
+    "t": 40.7167
    }
   ],
   "pulses": [
@@ -4031,7 +4067,7 @@
     "pitch": 3.5,
     "roll": -1.0,
     "note": "cabeça para trás no bocejo",
-    "t": 42.2833
+    "t": 41.05
    },
    {
     "id": "p-cabecada-1",
@@ -4277,14 +4313,14 @@
     "t": 36.85,
     "inhale": 0.35,
     "hold": 0.0,
-    "exhale": 4.7167,
+    "exhale": 3.5167,
     "amp": 0.8,
     "type": "inhale_phrase",
     "ref": "s3-01",
     "explicit": false
    },
    {
-    "t": 42.2833,
+    "t": 41.05,
     "inhale": 1.21,
     "hold": 0.44,
     "exhale": 0.55,
@@ -4294,17 +4330,17 @@
     "explicit": true
    },
    {
-    "t": 48.6333,
-    "inhale": 0.35,
+    "t": 47.5317,
+    "inhale": 0.2683,
     "hold": 0.0,
-    "exhale": 2.4833,
+    "exhale": 3.9333,
     "amp": 0.8,
     "type": "inhale_phrase",
     "ref": "s3-05",
     "explicit": false
    },
    {
-    "t": 51.9167,
+    "t": 52.1667,
     "inhale": 0.9,
     "hold": 0.2,
     "exhale": 0.9,
@@ -4314,10 +4350,10 @@
     "explicit": true
    },
    {
-    "t": 54.0217,
+    "t": 54.2717,
     "inhale": 0.245,
     "hold": 0.0,
-    "exhale": 4.1333,
+    "exhale": 3.8833,
     "amp": 0.8,
     "type": "inhale_phrase",
     "ref": "s3-07",

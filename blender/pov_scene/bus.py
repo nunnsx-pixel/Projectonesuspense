@@ -8,7 +8,7 @@ from __future__ import annotations
 from . import kit, materials
 from .layout import (AISLE_HALF, BAG_SEAT, CATRACA_DOOR, CEIL_Z, DIVIDER_H, DIVIDER_T, DIVIDER_X, DIVIDER_Y, DOOR_HALF,
                      DOOR_Y, DRIVER, FLOOR_Z, HALF_W, HEADREST_H, ROW_Y, SEAT_BACK_H, SEAT_BACK_TOP, SEAT_CUSHION_TOP,
-                     SEAT_X, STAIRS, Y_FRONT, Y_REAR)
+                     SEAT_X, STAIRS, WHEEL, Y_FRONT, Y_REAR)
 
 
 def build_bus(root, *, decayed: bool = False, light_color=(0.75, 0.95, 0.8), tube_strength=6.0, light_energy=40.0):
@@ -50,7 +50,7 @@ def build_bus(root, *, decayed: bool = False, light_color=(0.75, 0.95, 0.8), tub
     refs["driver_seat"] = kit.box("banco-motorista", (0.5, 0.5, 0.15), (dx, dy, FLOOR_Z + 0.45), dark, parent=P)
     kit.box("encosto-motorista", (0.5, 0.12, 0.75), (dx, dy - 0.28, FLOOR_Z + 0.82), dark, parent=P)
     kit.box("pedestal-motorista", (0.3, 0.3, 0.4), (dx, dy, FLOOR_Z + 0.2), dark, parent=P)
-    kit.cyl("volante", 0.19, 0.04, (dx, dy + 0.62, FLOOR_Z + 0.95), metal, rot=(65, 0, 0), parent=P)
+    kit.cyl("volante", 0.19, 0.04, (WHEEL[0], WHEEL[1], FLOOR_Z + WHEEL[2]), metal, rot=(65, 0, 0), parent=P)
 
     # ---- bancos 2+2 (com os rangidos de um ônibus velho) --------------------------------------------------------
     pole_x = AISLE_HALF + 0.03

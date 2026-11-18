@@ -26,7 +26,7 @@ Arquivos: `narration.json`, `scenes/s1…s3-*.json`, `sfx.json`, `camera.json` (
   (`radio-am`) cresce com o giro do pescoço, cola na voz dele e recua quando o protagonista fala.
 - **Trechos sem voz de duração fixa** (`silence`): o pescoço do motorista girando (2,0 s: só estalos e rádio)
   e o passageiro vindo do fundo (4,4 s). A fala se encaixa em volta deles.
-- **Cambaleio no corredor.** Passos pesados em piso metálico (12 passos, 0,35–6,0 s) com balanço lateral e roll
+- **Cambaleio no corredor.** Passos pesados e abafados no **piso emborrachado** do corredor (12 passos, 0,35–6,0 s; o metal fica nos balaústres, no chassi e na divisória) com balanço lateral e roll
   muito maiores que no Ep. 1 e 4 agarrões de balaústre (cada um é SFX **e** solavanco de câmera no mesmo
   frame). A estrada é irregular o tempo todo (132 batidas): o ônibus **não reduz a velocidade**.
 - **A revelação.** O passageiro do fundo se levanta (42,8 s), anda rápido, e a luz pisca **três vezes** a

@@ -58,7 +58,7 @@
     },
     {
       "id": "passos-passageiro", "layer": "foley", "origin": "inferido",
-      "desc": "Passos rápidos do passageiro decomposto se aproximando pelo corredor (cresce com a proximidade).",
+      "desc": "Passos rápidos do passageiro decomposto se aproximando pelo corredor emborrachado (pisadas abafadas e úmidas; cresce com a proximidade).",
       "at": { "beat": "b3-levanta", "offset": 0.4 }, "until": { "beat": "b3-revela", "offset": 0.3 }, "gain_db": -12,
       "automation": { "gain_db": [[{ "beat": "b3-levanta", "offset": 0.4 }, -34], [{ "beat": "b3-revela" }, -8]] }
     },
