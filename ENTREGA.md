@@ -23,7 +23,7 @@ Cada `ep0X/README.md` explica as premissas daquele episódio (o que veio do rote
 
 ```
 python -m pipeline build ep01 --strict      # idem ep02, ep03: regenera ep0X/build/
-python -m unittest discover -s tests         # 238 testes (86 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests         # 242 testes (86 exigem o módulo bpy; sem ele são pulados)
 blender -b -P blender/assemble_scene.py -- --episode ep01 --save ep01.blend
 blender -b -P blender/assemble_scene.py -- --episode ep03 --render-frames 23.8,46.8 --out previews --width 405 --samples 32
 ```
@@ -49,7 +49,7 @@ O build é determinístico: rodar de novo não muda nenhum arquivo gerado (confe
 
 ## O que falta para chegar aos vídeos finais
 
-1. **Voz.** A duração das falas ainda é **estimada** no repositório. Com a voz em `ep0X/audio/` (um arquivo por bloco/cena, por falante no Ep. 3), `python -m pipeline audio ep0X` mede fala, pausas e respirações, grava o `narration.measured.json` e roda o build, e câmera, passos e SFX se re-sincronizam sozinhos (detalhes em `ep01/README.md`). **Medição com áudio real (18/11/2026):** os 11 blocos foram (re)gerados pelo conector do ElevenLabs (modelo `eleven_v4`, voz Eduardo e a voz criada "Horror motorista"; os prompts exatos estão em `ep0X/audio/PROMPTS.md`). Com eles o Ep. 2 inteiro cabe nas janelas; só duas cenas ainda passam do fim, por 1,7 s cada: Ep. 1 cena 1 e Ep. 3 cena 2. Os três episódios fecham o build com a voz medida, mas o `measured.json` **ainda não foi gravado no repositório**: ele faria falhar 8 testes que protegem decisões de direção (a voz dentro da janela de cada cena e as respirações planejadas, como o bocejo, que não existem nos áudios). Decida entre regerar essas duas cenas um pouco mais rápidas, aceitar o estouro de 1,7 s ou ajustar as janelas; depois rode `python -m pipeline audio ep0X`.
+1. **Voz.** **Feita e medida (18/11/2026).** Os 11 blocos foram gerados pelo conector do ElevenLabs (modelo `eleven_v4`, voz Eduardo e a voz criada "Horror motorista"); os prompts da versão final de cada bloco e o ajuste de ffmpeg aplicado (tempo sem mudar o tom, corte de silêncios) estão em `ep0X/audio/PROMPTS.md`. Os áudios **não ficam no git** (ficam em `ep0X/audio/`, ignorados); o que vale no repositório é o `ep0X/narration.measured.json`, gerado por `python -m pipeline audio ep0X` (mede fala, pausas e respirações, grava o `measured.json` e roda o build; câmera, passos e SFX se re-sincronizam sozinhos; detalhes em `ep01/README.md`). Todas as cenas cabem na janela: Ep. 1 = 0,9–14,5 / 18,0–34,5 / 37,2–58,2 s; Ep. 2 = 1,7–13,3 / 18,3–38,9 / 40,6–58,2 s; Ep. 3 = 4,5–17,8 / 22,3–41,7 / 46,8–56,0 s (voz medida × janelas 0–15/15–35/35–60, 0–18/18–40/40–60 e 0–20/20–42/42–60 s). Se regerar uma voz, rode o comando de novo (o `measured.json` é regravado; um escrito à mão só com `--force`).
 2. **Áudio.** O cue sheet (`ep0X/build/ep0X.cue-sheet.md`) e `timeline.json > sfx` dizem quando cada som entra, com ganho, origem (roteiro/inferido) e superfície dos passos. O som em si ainda não foi produzido.
 3. **Assets finais.** Hoje é *greybox* (caixas) com materiais procedurais. Para chegar ao "realista e detalhado": modelos com UV, conjuntos PBR em `blender/textures/<id>/` (o passo a passo está em `blender/TEXTURAS.md`), rostos e roupas de verdade, animação de personagem além do aceno, da mandíbula e da marcha.
 4. **Render.** 1080x1920 a 60 fps em Cycles. A prévia leva ~1 min por quadro a 405x720 em CPU; o render final pede GPU ou fazenda de render. `edge_blur` e `motion_blur` do CSV ficam como propriedades da câmera (ligue na pós).
@@ -57,7 +57,7 @@ O build é determinístico: rodar de novo não muda nenhum arquivo gerado (confe
 
 ## Limitações conhecidas
 
-- Tempos de fala estimados, não medidos.
+- Tempos de fala **medidos** só onde há áudio em `ep0X/audio/` (ele não vai para o git); sem o áudio o build usa o `narration.measured.json` já gravado. A análise é por amplitude (sem reconhecimento de fala): confira o `--dry-run` quando a voz mudar (itens de confiança baixa vêm avisados).
 - Texturas procedurais, não fotográficas; mapa `normal` só vale em malhas com UV; sem *displacement*.
 - As neblinas volumétricas enevoam levemente o interior do ônibus e encarecem o render (~30%).
 - Testado com o módulo `bpy` (4.2 LTS e 5.3); o botão *Run Script* da interface e o `blender -b -P` em si usam o mesmo código, mas não foram exercitados.

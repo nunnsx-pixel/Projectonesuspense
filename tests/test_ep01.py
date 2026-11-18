@@ -19,7 +19,7 @@ from pipeline.timeline import FPS, Resolver                              # noqa:
 
 def copy_project(dst: Path) -> Path:
     shutil.copy(ROOT / "scenes-config.json", dst / "scenes-config.json")
-    shutil.copytree(ROOT / "ep01", dst / "ep01", ignore=shutil.ignore_patterns("build"))
+    shutil.copytree(ROOT / "ep01", dst / "ep01", ignore=shutil.ignore_patterns("build", "audio", "narration.measured.json*"))
     return dst
 
 

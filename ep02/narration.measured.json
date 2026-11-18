@@ -1,0 +1,252 @@
+{
+  "generated_by": "python -m pipeline audio",
+  "audio": {
+    "s1.mp3": {
+      "offset": -0.26,
+      "duration": 12.76,
+      "floor_db": -85.1,
+      "speech_db": -12.6,
+      "contrast_db": 72.4,
+      "voiced_runs": 13,
+      "breath_runs": 11,
+      "cut_candidates": 30,
+      "offset_default": true,
+      "scene": "s1",
+      "speaker": null
+    },
+    "s2.mp3": {
+      "offset": 18.26,
+      "duration": 20.72,
+      "floor_db": -56.1,
+      "speech_db": -15.7,
+      "contrast_db": 40.4,
+      "voiced_runs": 19,
+      "breath_runs": 5,
+      "cut_candidates": 61,
+      "offset_default": true,
+      "scene": "s2",
+      "speaker": null
+    },
+    "s3.mp3": {
+      "offset": 40.51,
+      "duration": 17.84,
+      "floor_db": -57.0,
+      "speech_db": -13.8,
+      "contrast_db": 43.2,
+      "voiced_runs": 13,
+      "breath_runs": 7,
+      "cut_candidates": 57,
+      "offset_default": true,
+      "scene": "s3",
+      "speaker": null
+    }
+  },
+  "tracks": [
+    "s1.mp3",
+    "s2.mp3",
+    "s3.mp3"
+  ],
+  "params": {
+    "contrast_min_db": 12.0,
+    "voice_frac": 0.4,
+    "edge_db": 6.0,
+    "breath_zcr": 0.2,
+    "breath_below_db": 12.0,
+    "breath_min_s": 0.12,
+    "min_gap_s": 0.05,
+    "min_pause_s": 0.1,
+    "min_speech_s": 0.06,
+    "w_dur": 2.0,
+    "w_pos": 0.0,
+    "w_gap": 0.8,
+    "pos_sigma_s": 1.2,
+    "w_block": 0.35,
+    "w_runs": 0.4,
+    "w_pause": 0.5,
+    "w_rate": 8.0,
+    "min_item_s": 0.12
+  },
+  "items": {
+    "s1-01": {
+      "start": 0.6,
+      "end": 1.61,
+      "conf": 0.75
+    },
+    "s1-02": {
+      "start": 1.74,
+      "end": 2.62,
+      "conf": 0.67
+    },
+    "s1-03": {
+      "start": 2.92,
+      "end": 3.99,
+      "conf": 0.62
+    },
+    "s1-04": {
+      "start": 4.23,
+      "end": 4.96,
+      "conf": 0.6
+    },
+    "s1-05": {
+      "start": 5.22,
+      "end": 6.09,
+      "conf": 0.66
+    },
+    "s1-06": {
+      "start": 6.39,
+      "end": 6.99,
+      "conf": 0.56
+    },
+    "s1-07": {
+      "start": 7.01,
+      "end": 8.41,
+      "conf": 0.75
+    },
+    "s1-08": {
+      "start": 8.7,
+      "end": 9.34,
+      "pauses": [
+        [
+          8.93,
+          9.17
+        ]
+      ],
+      "conf": 0.85
+    },
+    "s1-09": {
+      "start": 9.72,
+      "end": 13.31,
+      "pauses": [
+        [
+          10.54,
+          10.66
+        ]
+      ],
+      "conf": 0.93
+    },
+    "s2-01": {
+      "start": 18.3,
+      "end": 19.43,
+      "conf": 0.93
+    },
+    "s2-02": {
+      "start": 20.13,
+      "end": 21.7,
+      "conf": 0.91
+    },
+    "s2-03": {
+      "start": 22.05,
+      "end": 22.21,
+      "conf": 0.75
+    },
+    "s2-04": {
+      "start": 22.66,
+      "end": 23.95,
+      "conf": 0.77
+    },
+    "s2-05": {
+      "start": 24.2,
+      "end": 25.58,
+      "conf": 0.65
+    },
+    "s2-06": {
+      "start": 25.9,
+      "end": 27.82,
+      "conf": 0.72
+    },
+    "s2-07": {
+      "start": 28.15,
+      "end": 30.08,
+      "conf": 0.76
+    },
+    "s2-08": {
+      "start": 30.67,
+      "end": 34.23,
+      "pauses": [
+        [
+          31.76,
+          31.92
+        ],
+        [
+          32.28,
+          32.39
+        ]
+      ],
+      "conf": 0.9
+    },
+    "s2-09": {
+      "start": 34.82,
+      "end": 35.75,
+      "pauses": [
+        [
+          35.1,
+          35.24
+        ]
+      ],
+      "conf": 0.94
+    },
+    "s2-10": {
+      "start": 36.14,
+      "end": 38.89,
+      "conf": 0.87
+    },
+    "s3-01": {
+      "start": 40.6,
+      "end": 43.32,
+      "pauses": [
+        [
+          41.68,
+          41.95
+        ]
+      ],
+      "conf": 0.84
+    },
+    "s3-02": {
+      "start": 43.61,
+      "end": 45.44,
+      "conf": 0.79
+    },
+    "s3-03": {
+      "start": 45.89,
+      "end": 47.03,
+      "pauses": [
+        [
+          46.6,
+          46.74
+        ]
+      ],
+      "conf": 0.79
+    },
+    "s3-04": {
+      "start": 47.4,
+      "end": 49.04,
+      "conf": 0.8
+    },
+    "s3-05": {
+      "start": 49.33,
+      "end": 53.43,
+      "conf": 0.84
+    },
+    "s3-06": {
+      "start": 53.88,
+      "end": 54.94,
+      "conf": 0.91
+    },
+    "s3-07": {
+      "start": 55.52,
+      "end": 56.17,
+      "conf": 0.88
+    },
+    "s3-08": {
+      "start": 56.68,
+      "end": 58.23,
+      "pauses": [
+        [
+          56.93,
+          57.5
+        ]
+      ],
+      "conf": 0.97
+    }
+  }
+}

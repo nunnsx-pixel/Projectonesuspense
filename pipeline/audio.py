@@ -19,6 +19,7 @@ uma confiança por item. Gravação muito ruidosa, falas coladas sem pausa ou te
 """
 from __future__ import annotations
 
+import bisect
 import json
 import math
 import shutil
@@ -29,6 +30,7 @@ from array import array
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from .narration import BREATH_SHAPES
 from .timeline import FPS, ROOT
 
 AUDIO_EXTS = (".wav", ".mp3", ".m4a", ".aac", ".ogg", ".opus", ".flac", ".wma", ".webm", ".mp4")
@@ -59,6 +61,10 @@ class Params:
     w_pos: float = 0.0                   # posição absoluta prevista: desligada (a deriva entre estimado e gravado é ilimitada)
     w_gap: float = 0.8
     pos_sigma_s: float = 1.2
+    w_block: float = 0.35                # reservar um bloco de voz para uma respiração prevista (só quando melhora o resto)
+    w_runs: float = 0.4                  # por trecho de voz a mais/a menos que os ciclos da respiração prevista (ofegar = 3, hiper = 5)
+    w_pause: float = 0.5                 # silêncio interno (>= 0,15 s) além das pausas de pontuação que o roteiro prevê para a fala
+    w_rate: float = 8.0                  # só entre hipóteses (respiração inicial ou não): ritmo muito diferente do previsto custa
     min_item_s: float = 0.12
 
 
@@ -298,12 +304,21 @@ class Placed:
     pauses: list = field(default_factory=list)
 
 
-def align_speech(durs, est_pos, seg: Segments, p: Params | None = None):
-    """Escolhe, entre os cortes candidatos, as N-1 fronteiras que melhor separam as N falas.
+def align_speech(durs, est_pos, seg: Segments, p: Params | None = None, want_cost: bool = False, internal=None,
+                 breaths=None, with_blocks: bool = False, bursts=None):
+    """Escolhe, entre os cortes candidatos, as fronteiras que melhor separam as N falas do roteiro.
 
     durs    duração esperada de cada fala (incluindo as pausas internas), do roteiro estimado
     est_pos instante estimado do FIM de cada fala (mesmo referencial da estimativa)
-    Devolve [(início, fim, confiança)] por fala, no tempo do ARQUIVO de áudio.
+    internal quantas pausas de pontuação (>= 0,1 s) o roteiro prevê DENTRO de cada fala; silêncio de verdade a mais do que isso
+            dentro de uma fala custa (separa suspiro/gasp da fala e evita fundir duas falas).
+    breaths  duração prevista da(s) respiração(ões) entre a fala k e a k+1 (0 = nenhuma). Onde há uma, o alinhamento pode
+            reservar um BLOCO de trechos de voz entre as duas falas para ela (bocejo, ofegar, suspiro soados, que têm tom e o
+            detector toma por fala); sem ela, fala e respiração se fundiriam.
+    Devolve [(início, fim, confiança)] por fala, no tempo do ARQUIVO de áudio; com `want_cost`, (spans, custo); com
+    `with_blocks`, (spans, blocos, custo), onde blocos[k] = (início, fim) da respiração soada entre a fala k e a k+1 (ou None).
+    bursts   quantos trechos de voz a respiração entre a fala k e a k+1 deve ter (ofegar "huh-huh-huh" = 3, hiperventilar = 5;
+            padrão 1 e sem custo). Impede que um bloco de ofegos engula a primeira sílaba da fala seguinte.
     """
     p = p or Params()
     n = len(durs)
@@ -311,61 +326,213 @@ def align_speech(durs, est_pos, seg: Segments, p: Params | None = None):
         raise AudioError("nenhuma fala detectada no áudio")
     t_on, t_off = seg.voiced[0][0], seg.voiced[-1][1]
     if n == 1:
-        return [(t_on, t_off, 1.0)]
+        one = [(t_on, t_off, 1.0)]
+        return (one, [], 0.0) if with_blocks else ((one, 0.0) if want_cost else one)
     est_first = est_pos[0] - durs[0]
-    r = (t_off - t_on) / max(est_pos[-1] - est_first, 1e-6)             # ritmo real / estimado
+    est_span = max(est_pos[-1] - est_first, 1e-6)
     cuts = [c for c in seg.cuts if c[0] > t_on + p.min_item_s and c[1] < t_off - p.min_item_s]
     if len(cuts) < n - 1:
         raise AudioError(f"o roteiro tem {n} falas mas o áudio só mostra {len(cuts) + 1} trechos separáveis "
                          f"(pausas/vales de energia); há falas coladas sem pausa ou texto diferente do roteiro")
-    pred = [t_on + (e - est_first) * r for e in est_pos]               # fim previsto de cada fala
     G = len(cuts)
     INF = float("inf")
+    breaths = list(breaths) if breaths is not None else [0.0] * (n - 1)
+    big = sorted((a, b) for a, b in seg.gaps if b - a >= 0.15)
+    g_start, g_end = [a for a, _ in big], [b for _, b in big]
+    v_start, v_end = [a for a, _ in seg.voiced], [b for _, b in seg.voiced]
+    bursts = list(bursts) if bursts is not None else [1] * (n - 1)
 
-    def item_cost(k, start, end):                                       # k = índice da fala (0..n-1)
-        d = end - start
-        if d < p.min_item_s:
-            return INF
-        c = p.w_dur * math.log(d / max(durs[k] * r, 1e-3)) ** 2
-        if k < n - 1:
-            c += p.w_pos * ((end - pred[k]) / p.pos_sigma_s) ** 2
-        return c
+    def runs_in(a, b):                                                  # trechos de voz que cobrem (a, b) por mais de 50 ms
+        return bisect.bisect_left(v_start, b - 0.05) - bisect.bisect_right(v_end, a + 0.05)
 
-    # best[k][j]: custo mínimo das falas 0..k, com a fronteira k no corte j
-    best = [[INF] * G for _ in range(n - 1)]
-    back = [[-1] * G for _ in range(n - 1)]
-    for j in range(G):
-        best[0][j] = item_cost(0, t_on, cuts[j][0]) - p.w_gap * cuts[j][2]
-    for k in range(1, n - 1):
-        for j in range(G):
-            aj = cuts[j][0]
-            for i in range(j):
-                if best[k - 1][i] == INF or cuts[i][1] >= aj:
-                    continue
-                c = best[k - 1][i] + item_cost(k, cuts[i][1], aj) - p.w_gap * cuts[j][2]
-                if c < best[k][j]:
-                    best[k][j], back[k][j] = c, i
-    tail, jl = INF, -1
-    for j in range(G):
-        if best[n - 2][j] < INF:
-            c = best[n - 2][j] + item_cost(n - 1, cuts[j][1], t_off)
-            if c < tail:
-                tail, jl = c, j
-    if jl < 0:
+    def run_dp(r):
+        pred = [t_on + (e - est_first) * r for e in est_pos]
+
+        def item_cost(k, start, end):                                   # k = índice da fala (0..n-1)
+            d = end - start
+            if d < p.min_item_s:
+                return INF
+            c = p.w_dur * math.log(d / max(durs[k] * r, 1e-3)) ** 2
+            if internal is not None and big:
+                inside = bisect.bisect_right(g_end, end + 1e-6) - bisect.bisect_left(g_start, start - 1e-6)
+                c += p.w_pause * max(0, inside - internal[k])
+            if k < n - 1 and p.w_pos:
+                c += p.w_pos * ((end - pred[k]) / p.pos_sigma_s) ** 2
+            return c
+
+        # E[k][c]: custo mínimo das falas 0..k com a fala k terminando no corte c
+        # S[k][c2]: custo mínimo antes da fala k, que COMEÇA no corte c2 (depois de um bloco de respiração, se houver)
+        E = [[INF] * G for _ in range(n - 1)]
+        bE = [[-1] * G for _ in range(n - 1)]
+        S = [[INF] * G for _ in range(n)]
+        bS = [[-1] * G for _ in range(n)]
+        for c in range(G):
+            E[0][c] = item_cost(0, t_on, cuts[c][0]) - p.w_gap * cuts[c][2]
+        for k in range(1, n):
+            pl = breaths[k - 1]
+            for c2 in range(G):
+                S[k][c2], bS[k][c2] = E[k - 1][c2], c2                  # sem bloco: a fala k começa no mesmo corte
+                if pl > 0:
+                    for c in range(c2):
+                        if E[k - 1][c] == INF:
+                            continue
+                        dur = cuts[c2][0] - cuts[c][1]
+                        if dur < 0.12 or dur > max(2.5 * pl, pl + 3.0):
+                            continue
+                        cost = E[k - 1][c] + p.w_block + 0.3 * math.log(dur / pl) ** 2 - p.w_gap * cuts[c2][2]
+                        if bursts[k - 1] > 1:
+                            cost += p.w_runs * abs(runs_in(cuts[c][1], cuts[c2][0]) - bursts[k - 1])
+                        if cost < S[k][c2]:
+                            S[k][c2], bS[k][c2] = cost, c
+            if k == n - 1:
+                break
+            for c3 in range(G):
+                a3 = cuts[c3][0]
+                for c2 in range(c3):
+                    if S[k][c2] == INF or cuts[c2][1] >= a3:
+                        continue
+                    cst = S[k][c2] + item_cost(k, cuts[c2][1], a3) - p.w_gap * cuts[c3][2]
+                    if cst < E[k][c3]:
+                        E[k][c3], bE[k][c3] = cst, c2
+        tail, c2l = INF, -1
+        for c2 in range(G):
+            if S[n - 1][c2] < INF:
+                cst = S[n - 1][c2] + item_cost(n - 1, cuts[c2][1], t_off)
+                if cst < tail:
+                    tail, c2l = cst, c2
+        if c2l < 0:
+            raise AudioError("não foi possível casar as falas do roteiro com as pausas do áudio")
+        starts, ends = [None] * n, [None] * n                              # cortes: onde cada fala começa/termina
+        starts[n - 1] = c2l
+        for k in range(n - 1, 0, -1):
+            ends[k - 1] = bS[k][starts[k]]
+            if k - 1 >= 1:
+                starts[k - 1] = bE[k - 1][ends[k - 1]]
+        return tail, starts, ends
+
+    def blocks_of(starts, ends):
+        out = []
+        for k in range(1, n):
+            c, c2 = ends[k - 1], starts[k]
+            out.append(None if c2 == c else (cuts[c][1], cuts[c2][0]))
+        return out
+
+    def rate_of(blocks):                                                 # ritmo da FALA (sem os blocos de respiração) / estimado
+        used = [(b, breaths[k]) for k, b in enumerate(blocks) if b is not None]
+        speech_time = (t_off - t_on) - sum(b[1] - b[0] for b, _ in used)
+        return speech_time / max(est_span - sum(pl for _, pl in used), 1e-6)
+
+    def total_cost(starts, ends, r):                                     # custo de um alinhamento já escolhido, no ritmo r
+        pred = [t_on + (e - est_first) * r for e in est_pos]
+
+        def item_cost(k, start, end):
+            d = end - start
+            if d < p.min_item_s:
+                return INF
+            c = p.w_dur * math.log(d / max(durs[k] * r, 1e-3)) ** 2
+            if internal is not None and big:
+                inside = bisect.bisect_right(g_end, end + 1e-6) - bisect.bisect_left(g_start, start - 1e-6)
+                c += p.w_pause * max(0, inside - internal[k])
+            if k < n - 1 and p.w_pos:
+                c += p.w_pos * ((end - pred[k]) / p.pos_sigma_s) ** 2
+            return c
+
+        tot = item_cost(0, t_on, cuts[ends[0]][0]) - p.w_gap * cuts[ends[0]][2] if n > 1 else 0.0
+        for k in range(1, n):
+            c, c2 = ends[k - 1], starts[k]
+            if c2 != c:
+                dur = cuts[c2][0] - cuts[c][1]
+                tot += p.w_block + 0.3 * math.log(dur / breaths[k - 1]) ** 2 - p.w_gap * cuts[c2][2]
+                if bursts[k - 1] > 1:
+                    tot += p.w_runs * abs(runs_in(cuts[c][1], cuts[c2][0]) - bursts[k - 1])
+            if k < n - 1:
+                tot += item_cost(k, cuts[c2][1], cuts[ends[k]][0]) - p.w_gap * cuts[ends[k]][2]
+            else:
+                tot += item_cost(k, cuts[c2][1], t_off)
+        return tot
+
+    # O ritmo real depende de quais trechos são respiração, e quais são respiração depende do ritmo: parte-se de duas hipóteses
+    # (tudo é fala; as respirações ocupam o que o roteiro previu), refina cada uma e fica com o alinhamento de menor custo
+    # medido no PRÓPRIO ritmo (assim um ponto fixo ruim não vence um bom).
+    planned_total = sum(breaths)
+    seeds = [(t_off - t_on) / est_span]
+    if planned_total > 0:
+        seeds.append(((t_off - t_on) - planned_total) / max(est_span - planned_total, 1e-6))
+    best = None
+    seen = set()
+    for r in seeds:
+        for _ in range(3):
+            try:
+                _, starts, ends = run_dp(r)
+            except AudioError:
+                break
+            key = (tuple(starts[1:]), tuple(ends[:-1]))
+            r_a = rate_of(blocks_of(starts, ends))
+            if key not in seen:
+                seen.add(key)
+                tot = total_cost(starts, ends, r_a) + p.w_rate * math.log(max(r_a, 1e-3)) ** 2
+                if best is None or tot < best[0]:
+                    best = (tot, starts, ends, r_a)
+            if abs(r_a - r) <= 0.02 * r:
+                break
+            r = r_a
+    if best is None:
         raise AudioError("não foi possível casar as falas do roteiro com as pausas do áudio")
-    chosen = [jl]
-    for k in range(n - 2, 0, -1):
-        chosen.append(back[k][chosen[-1]])
-    chosen.reverse()
+    cost, starts, ends, r = best
+    blocks = blocks_of(starts, ends)
     out = []
     for k in range(n):
-        s = t_on if k == 0 else cuts[chosen[k - 1]][1]
-        e = t_off if k == n - 1 else cuts[chosen[k]][0]
-        ls = 1.0 if k == 0 else min(1.0, cuts[chosen[k - 1]][2])
-        rs = 1.0 if k == n - 1 else min(1.0, cuts[chosen[k]][2])
-        ratio = math.exp(-abs(math.log(max(e - s, 1e-3) / max(durs[k] * r, 1e-3))))
-        out.append((s, e, round(max(0.05, min(1.0, (0.5 * ls + 0.5 * rs) * (0.35 + 0.65 * ratio))), 2)))
-    return out
+        s_ = t_on if k == 0 else cuts[starts[k]][1]
+        e_ = t_off if k == n - 1 else cuts[ends[k]][0]
+        ls = 1.0 if k == 0 else min(1.0, cuts[starts[k]][2])
+        rs = 1.0 if k == n - 1 else min(1.0, cuts[ends[k]][2])
+        ratio = math.exp(-abs(math.log(max(e_ - s_, 1e-3) / max(durs[k] * r, 1e-3))))
+        out.append((s_, e_, round(max(0.05, min(1.0, (0.5 * ls + 0.5 * rs) * (0.35 + 0.65 * ratio))), 2)))
+    if with_blocks:
+        return out, blocks, cost
+    return (out, cost) if want_cost else out
+
+
+def _drop_leading_runs(seg: Segments, k: int) -> Segments:
+    """Segmentos sem as k primeiras trechos de voz, que passam a contar como RESPIRAÇÃO (suspiro, gasp, hiperventilação
+    soados que o detector tomou por voz porque têm tom)."""
+    first_on = seg.voiced[k][0]
+    return Segments(voiced=seg.voiced[k:], breaths=sorted(seg.breaths + seg.voiced[:k]),
+                    cuts=[c for c in seg.cuts if c[0] >= first_on], gaps=[g for g in seg.gaps if g[0] >= first_on],
+                    floor=seg.floor, ref=seg.ref, contrast_db=seg.contrast_db)
+
+
+def leading_breath_runs(seg: Segments, durs, est_pos, planned: float, p: Params, internal=None, breaths=None) -> int:
+    """Quantos dos primeiros trechos de voz são, na verdade, a respiração que o roteiro põe antes da 1ª fala.
+
+    O roteiro diz quantos trechos de voz esperar: cada fala dá 1 trecho + 1 por pausa de pontuação que ela prevê. Se o áudio
+    traz MAIS trechos do que isso, os que sobram são respiração soada (suspiro, gasp, hiperventilação têm tom e o detector os
+    toma por voz). Com uma respiração prevista antes da 1ª fala, os que sobram são os PRIMEIROS (desde que caibam no que o
+    roteiro previu para ela). Só vale se o alinhamento ficar plausível (custo não muito pior que sem a hipótese)."""
+    if planned <= 0 or len(durs) < 2 or internal is None:
+        return 0
+    expected = sum(x + 1 for x in internal)
+    surplus = len(seg.voiced) - expected
+    if surplus < 1:
+        return 0
+    limit = max(2.3 * planned, planned + 2.5)                      # a respiração gravada pode durar bem mais que a prevista
+    run_max = max(0.5, 1.3 * planned)                              # mas cada trecho dela é curto (fala solta tem mais que isso)
+    try:
+        _, cost0 = align_speech(durs, est_pos, seg, p, want_cost=True, internal=internal, breaths=breaths)
+    except AudioError:
+        cost0 = float("inf")
+    for k in range(min(surplus, 6), 0, -1):
+        if seg.voiced[k - 1][1] - seg.voiced[0][0] > limit or len(seg.voiced) - k < len(durs):
+            continue
+        if any(b - a > run_max for a, b in seg.voiced[:k]):        # um trecho longo é fala ("CARALHO!"), não respiração
+            continue
+        try:
+            _, cost = align_speech(durs, est_pos, _drop_leading_runs(seg, k), p, want_cost=True, internal=internal, breaths=breaths)
+        except AudioError:
+            continue
+        if cost <= cost0 + 0.6:
+            return k
+    return 0
 
 
 def _union_breath(runs, dur):
@@ -500,7 +667,21 @@ def analyse_episode(ep_id: str, root: Path = ROOT, audio_dir: Path | None = None
         fr = analyse(samples, rate)
         seg = segment(fr, p)
         durs = [by_id[i]["end"] - by_id[i]["start"] for i in speech]
-        spans = align_speech(durs, [by_id[i]["end"] for i in speech], seg, p)
+        ends_est = [by_id[i]["end"] for i in speech]
+        internal = [sum(1 for a, b in zip(by_id[i].get("words", []), by_id[i].get("words", [])[1:]) if b["start"] - a["end"] >= 0.1)
+                    for i in speech]                                              # pausas de pontuação previstas dentro de cada fala
+        pos_ = {i: n_ for n_, i in enumerate(ids)}                                # respirações previstas entre cada par de falas
+        slot_pl = [sum(by_id[i]["end"] - by_id[i]["start"] for i in ids[pos_[a_] + 1:pos_[b_]] if by_id[i]["kind"] == "breath")
+                   for a_, b_ in zip(speech, speech[1:])]
+        slot_bursts = [max([BREATH_SHAPES[by_id[i]["type"]].get("cycles", 1) for i in ids[pos_[a_] + 1:pos_[b_]]
+                            if by_id[i]["kind"] == "breath"] or [1]) for a_, b_ in zip(speech, speech[1:])]
+        lead = [i for i in ids[:ids.index(speech[0])] if by_id[i]["kind"] == "breath"]
+        k_lead = leading_breath_runs(seg, durs, ends_est, sum(by_id[i]["end"] - by_id[i]["start"] for i in lead), p, internal, slot_pl)
+        if k_lead:
+            seg = _drop_leading_runs(seg, k_lead)                                  # o suspiro/gasp soado é respiração, não fala
+        spans, blocks, _cost = align_speech(durs, ends_est, seg, p, internal=internal, breaths=slot_pl, with_blocks=True,
+                                            bursts=slot_bursts)
+        breath_runs = sorted(seg.breaths + [b_ for b_ in blocks if b_])           # blocos de voz reservados para respirações soadas
         clip_on = spans[0][0]
         pushed = 0.0
         if tr["offset"] is not None:                                              # offset explícito (ou trilha do episódio)
@@ -530,7 +711,19 @@ def analyse_episode(ep_id: str, root: Path = ROOT, audio_dir: Path | None = None
             pauses = [[round(a + offset, 3), round(b + offset, 3)] for a, b in seg.gaps
                       if a >= s - 1e-6 and b <= e + 1e-6 and b - a >= p.min_pause_s]
             placed[sid] = Placed(round(s + offset, 3), round(e + offset, 3), conf, pauses=pauses)
-        _place_breaths(ids, by_id, placed, seg.breaths, offset, fr.duration, p)
+        _place_breaths(ids, by_id, placed, breath_runs, offset, fr.duration, p)
+        if tr["offset"] is None:                                                  # nada pode começar antes da janela da cena
+            w0 = next(s for s in tl["scenes"] if s["id"] == tr["scenes"][0])["narration_fit"]["window"][0]
+            early = min(placed[i].start for i in ids if i in placed)
+            if early < w0 - 1 / FPS:
+                d = round(w0 - early, 3)
+                for i in ids:
+                    if i in placed:
+                        pl = placed[i]
+                        pl.start, pl.end = round(pl.start + d, 3), round(pl.end + d, 3)
+                        pl.pauses = [[round(a + d, 3), round(b + d, 3)] for a, b in pl.pauses]
+                report["warnings"].append(f"{tr['path'].name}: a respiração/fala inicial começaria {d:.2f} s antes da janela da "
+                                          f"cena; o bloco foi empurrado {d:.2f} s")
         last_clip[tr["scenes"][0]] = speech[-1]
 
     # ---- itens sem áudio: posição estimada, deslocada junto com a cena (nunca por cima do que foi medido) ----
@@ -549,7 +742,8 @@ def analyse_episode(ep_id: str, root: Path = ROOT, audio_dir: Path | None = None
     if missing:
         report["warnings"].append(f"sem áudio (posição estimada): {', '.join(missing)}")
     # ---- trechos mudos: ocupam a folga entre os vizinhos; depois, ordem e sobreposição ----
-    _fill_silences_and_fix_order(order, by_id, placed, report)
+    _fill_silences_and_fix_order(order, by_id, placed, report,
+                                 {s["id"]: tuple(s["narration_fit"]["window"]) for s in tl["scenes"] if s.get("narration_fit")})
     for iid, pl in placed.items():
         sc = next(s for s in tl["scenes"] if s["id"] == by_id[iid]["scene"])
         if pl.conf > 0 and (pl.start < sc["start"] - 1.0 or pl.end > sc["end"] + 1.0):
@@ -632,7 +826,12 @@ def _place_breaths(ids, by_id, placed, breath_runs, offset, track_dur, p):
         runs = [(a, b) for a, b in breath_runs if a >= t0 - 0.05 and b <= t1 + 0.05]
         groups: list = []
         if runs and len(slot) == 1:
-            span, _ = _union_breath(runs, by_id[slot[0]]["end"] - by_id[slot[0]]["start"])
+            want = by_id[slot[0]]["end"] - by_id[slot[0]]["start"]
+            full = (min(a for a, _ in runs), max(b for _, b in runs))
+            if full[1] - full[0] <= max(2.2 * want, want + 2.5):               # a respiração inteira, como foi gravada
+                span = full
+            else:
+                span, _ = _union_breath(runs, want)
             groups = [span]
         elif runs:
             runs = sorted(runs)
@@ -662,8 +861,10 @@ def _place_breaths(ids, by_id, placed, breath_runs, offset, track_dur, p):
                 cursor = s + dur
 
 
-def _fill_silences_and_fix_order(order, by_id, placed, report):
-    # trechos mudos (`silence`): ocupam a folga entre o vizinho anterior e o seguinte já medidos
+def _fill_silences_and_fix_order(order, by_id, placed, report, windows=None):
+    # trechos mudos (`silence`): duração PREVISTA, encostados no item seguinte (um passageiro que vem pelo corredor dura o que
+    # o roteiro diz, não o que sobrou); se a folga for menor, ocupam só ela. Nunca antes da janela da cena.
+    windows = windows or {}
     for k, iid in enumerate(order):
         if by_id[iid]["kind"] != "silence" or iid in placed:
             continue
@@ -674,10 +875,22 @@ def _fill_silences_and_fix_order(order, by_id, placed, report):
             run.append(j)
         prev = next((placed[j].end for j in reversed(order[:k]) if j in placed), by_id[iid]["start"])
         nxt = next((placed[j].start for j in order[k + len(run):] if j in placed), by_id[run[-1]]["end"])
-        share = max(nxt - prev, 0.0) / len(run)
-        for q, j in enumerate(run):
-            placed[j] = Placed(round(prev + q * share, 3), round(prev + (q + 1) * share, 3), 0.5,
-                               note="trecho sem voz: ocupa a folga entre as falas vizinhas")
+        gap = max(nxt - prev, 0.0)
+        planned = sum(by_id[j]["end"] - by_id[j]["start"] for j in run)
+        if gap <= planned:                                                      # folga menor que o previsto: ocupa só a folga
+            t0, scale = prev, (gap / planned if planned > 0 else 0.0)
+        else:                                                                   # folga maior: duração prevista, junto do item seguinte
+            t0, scale = nxt - planned, 1.0
+            w0 = windows.get(by_id[iid]["scene"], (None, None))[0]
+            if w0 is not None and t0 < w0:
+                t0 = min(w0, nxt - planned) if nxt - planned < w0 else w0
+        cur = t0
+        for j in run:
+            d = (by_id[j]["end"] - by_id[j]["start"]) * scale
+            placed[j] = Placed(round(cur, 3), round(cur + d, 3), 0.5,
+                               note="trecho sem voz: duração prevista, junto do item seguinte" if scale == 1.0
+                               else "trecho sem voz: ocupa a folga entre as falas vizinhas")
+            cur += d
     # ordem crescente e sem sobreposição (o build recusa itens sobrepostos)
     cursor = 0.0
     for iid in order:

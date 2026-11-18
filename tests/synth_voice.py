@@ -49,7 +49,8 @@ def perturb(items, seed: int = 1, duration: float = 59.0, rate_range=(0.92, 1.12
     return out
 
 
-def render(truth, duration: float, rate: int = RATE, floor: float = 0.0005, breath_amp: float = 0.012, seed: int = 7):
+def render(truth, duration: float, rate: int = RATE, floor: float = 0.0005, breath_amp: float = 0.012, seed: int = 7,
+           voiced_breath: bool = False):
     """Amostras (array 'h') da gravação sintética. floor=0 -> silêncio digital entre as falas (como alguns TTS)."""
     rnd = random.Random(seed)
     n = int(duration * rate)
@@ -85,7 +86,10 @@ def render(truth, duration: float, rate: int = RATE, floor: float = 0.0005, brea
             span = (it["end"] - it["start"]) / cycles
             for c in range(cycles):
                 a = it["start"] + c * span
-                noise(a, a + (span * 0.65 if cycles > 1 else span), breath_amp)
+                if voiced_breath:                                         # suspiro/gasp "soado": tem tom, o detector toma por voz
+                    tone(a, a + (span * 0.65 if cycles > 1 else span * 0.85), 150.0, 0.10)
+                else:
+                    noise(a, a + (span * 0.65 if cycles > 1 else span), breath_amp)
     peak = max(1e-9, max(abs(v) for v in buf))
     scale = 0.9 / max(peak, 0.9)
     return array("h", (int(max(-1.0, min(1.0, v * scale)) * 32767) for v in buf))

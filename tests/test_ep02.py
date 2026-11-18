@@ -57,8 +57,9 @@ class Ep02(unittest.TestCase):
         self.assertLess(self.rows[29]["motion_blur"], 0.01)
         self.assertGreater(self.rows[32]["motion_blur"], 0.9)                           # blur explode no impacto
         # a câmera de fato sacode forte logo após o BUM e acalma
+        # (calma = nível típico, RMS de 2 s adiante: uma batida da estrada que caia justo na janela não conta como "agitada")
         peak = max(abs(self.rows[f]["shake_pitch"]) for f in range(30, 60))
-        calm = max(abs(self.rows[f]["shake_pitch"]) for f in range(300, 330))
+        calm = (sum(self.rows[f]["shake_pitch"] ** 2 for f in range(300, 420)) / 120) ** 0.5
         self.assertGreater(peak, 5 * calm)
 
     def test_eyelids_snap_open_right_after_the_hit_and_before_the_gasp_ends(self):

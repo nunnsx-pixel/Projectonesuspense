@@ -7,7 +7,7 @@ em palavras da fala, em *beats* de cena ou uns nos outros. Mudou a fala? Todo o 
 ```
 python -m pipeline build ep01          # regenera ep01/build/
 python -m pipeline build ep01 --strict # sai com erro se houver avisos (ex.: fala que não cabe)
-python -m unittest discover -s tests   # 238 testes (86 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests   # 242 testes (86 exigem o módulo bpy; sem ele são pulados)
 ```
 
 ## Arquivos
@@ -112,8 +112,16 @@ python -m pipeline audio ep01               # grava narration.measured.json e ro
   estimada, com `conf` baixa. Um `narration.measured.json` escrito à mão só é sobrescrito com `--force` (fica um `.bak`).
 - **Limites (valem para a análise por amplitude, sem reconhecimento de fala):** falas coladas com menos de ~0,1 s de pausa
   são ambíguas; texto gravado diferente do roteiro desalinha; ruído de fundo alto pede revisão. Se a análise não
-  consegue separar as falas, ela diz isso em vez de chutar. Foi validada em voz **sintética** (nenhuma gravação real
-  existia): ver `tests/test_audio.py`.
+  consegue separar as falas, ela diz isso em vez de chutar. Foi validada em voz **sintética** (`tests/test_audio.py`) e
+  com a voz **real** gerada no ElevenLabs (`ep0X/audio/PROMPTS.md`).
+- **Respirações soadas (suspiro, gasp, bocejo, ofegar):** têm tom, e o detector as toma por fala. O roteiro diz onde há uma
+  respiração e quantos trechos ela deve ter (ofegar = 3, hiperventilar = 5); a análise reserva, entre as falas, um **bloco**
+  de trechos de voz para ela (e, antes da 1ª fala, os trechos que sobram viram a respiração inicial). Se a respiração
+  gravada for bem mais longa/curta que a prevista (ou emendada na fala seguinte sem pausa), o resultado pode escorregar:
+  confira o `--dry-run` e, se for o caso, regere a respiração mais curta ou deixe uma pausa clara (≥ 0,25 s) antes da fala.
+- **Início do bloco:** se a respiração/fala inicial do arquivo começaria antes da janela da cena, o bloco inteiro é
+  empurrado até o começo da janela (aviso "empurrado"). Trechos mudos (`silence`) mantêm a duração prevista e não invadem
+  a cena anterior.
 
 **À mão:** crie `narration.measured.json` com o início/fim reais de cada item e rode o build:
 

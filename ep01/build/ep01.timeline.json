@@ -79,12 +79,12 @@
      "dur": 2.4,
      "text": "Mão esquerda entra em quadro com o celular rachado (23:47 / 14%) enquanto ele diz \"quase meia-noite\".",
      "scene": "s1",
-     "start": 4.3833,
-     "end": 6.7833,
-     "start_frame": 263,
-     "start_tc": "00:04.383",
-     "end_frame": 407,
-     "end_tc": "00:06.783"
+     "start": 5.6,
+     "end": 8.0,
+     "start_frame": 336,
+     "start_tc": "00:05.600",
+     "end_frame": 480,
+     "end_tc": "00:08.000"
     },
     {
      "id": "b1-teto",
@@ -97,12 +97,12 @@
      "text": "Olha o estado da rodoviária: fluorescentes estouradas no teto, piso encerado refletindo.",
      "origin": "inferido",
      "scene": "s1",
-     "start": 7.9167,
-     "end": 10.1167,
-     "start_frame": 475,
-     "start_tc": "00:07.917",
-     "end_frame": 607,
-     "end_tc": "00:10.117"
+     "start": 8.2833,
+     "end": 10.4833,
+     "start_frame": 497,
+     "start_tc": "00:08.283",
+     "end_frame": 629,
+     "end_tc": "00:10.483"
     },
     {
      "id": "b1-procura",
@@ -114,12 +114,12 @@
      "text": "Varre o saguão à procura da plataforma.",
      "origin": "inferido",
      "scene": "s1",
-     "start": 12.9,
-     "end": 14.9,
-     "start_frame": 774,
-     "start_tc": "00:12.900",
-     "end_frame": 894,
-     "end_tc": "00:14.900"
+     "start": 12.6667,
+     "end": 14.6667,
+     "start_frame": 760,
+     "start_tc": "00:12.667",
+     "end_frame": 880,
+     "end_tc": "00:14.667"
     }
    ]
   },
@@ -183,12 +183,12 @@
      "text": "Para diante do ônibus, suspiro de alívio.",
      "origin": "inferido",
      "scene": "s2",
-     "start": 16.0,
-     "end": 17.7,
-     "start_frame": 960,
-     "start_tc": "00:16.000",
-     "end_frame": 1062,
-     "end_tc": "00:17.700"
+     "start": 16.9167,
+     "end": 18.6167,
+     "start_frame": 1015,
+     "start_tc": "00:16.917",
+     "end_frame": 1117,
+     "end_tc": "00:18.617"
     },
     {
      "id": "b2-degraus",
@@ -201,12 +201,12 @@
      "dur": 2.0,
      "text": "Sobe os três degraus metálicos.",
      "scene": "s2",
-     "start": 19.0833,
-     "end": 21.0833,
-     "start_frame": 1145,
-     "start_tc": "00:19.083",
-     "end_frame": 1265,
-     "end_tc": "00:21.083"
+     "start": 19.8,
+     "end": 21.8,
+     "start_frame": 1188,
+     "start_tc": "00:19.800",
+     "end_frame": 1308,
+     "end_tc": "00:21.800"
     },
     {
      "id": "b2-aceno",
@@ -218,12 +218,12 @@
      "dur": 1.0,
      "text": "O motorista (boné, rosto na sombra) apenas acena.",
      "scene": "s2",
-     "start": 21.4167,
-     "end": 22.4167,
-     "start_frame": 1285,
-     "start_tc": "00:21.417",
-     "end_frame": 1345,
-     "end_tc": "00:22.417"
+     "start": 22.5833,
+     "end": 23.5833,
+     "start_frame": 1355,
+     "start_tc": "00:22.583",
+     "end_frame": 1415,
+     "end_tc": "00:23.583"
     },
     {
      "id": "b2-bilhete",
@@ -236,12 +236,12 @@
      },
      "text": "Estende o bilhete até o leitor da catraca.",
      "scene": "s2",
-     "start": 21.6667,
-     "end": 23.6667,
-     "start_frame": 1300,
-     "start_tc": "00:21.667",
-     "end_frame": 1420,
-     "end_tc": "00:23.667"
+     "start": 22.9833,
+     "end": 24.7333,
+     "start_frame": 1379,
+     "start_tc": "00:22.983",
+     "end_frame": 1484,
+     "end_tc": "00:24.733"
     },
     {
      "id": "b2-catraca",
@@ -253,12 +253,12 @@
      "text": "A catraca gira e ele passa.",
      "origin": "inferido",
      "scene": "s2",
-     "start": 24.0167,
-     "end": 24.9167,
-     "start_frame": 1441,
-     "start_tc": "00:24.017",
-     "end_frame": 1495,
-     "end_tc": "00:24.917"
+     "start": 25.0833,
+     "end": 25.9833,
+     "start_frame": 1505,
+     "start_tc": "00:25.083",
+     "end_frame": 1559,
+     "end_tc": "00:25.983"
     },
     {
      "id": "b2-cheiro",
@@ -272,12 +272,12 @@
      "text": "Reage ao cheiro de graxa e naftalina.",
      "origin": "inferido",
      "scene": "s2",
-     "start": 26.4667,
-     "end": 28.4667,
-     "start_frame": 1588,
-     "start_tc": "00:26.467",
-     "end_frame": 1708,
-     "end_tc": "00:28.467"
+     "start": 27.2833,
+     "end": 29.2833,
+     "start_frame": 1637,
+     "start_tc": "00:27.283",
+     "end_frame": 1757,
+     "end_tc": "00:29.283"
     },
     {
      "id": "b2-corredor",
@@ -290,10 +290,10 @@
      "until": 36.6,
      "text": "Começa a andar pelo corredor, procurando a quarta fileira (continua na cena 3).",
      "scene": "s2",
-     "start": 31.9167,
+     "start": 31.9833,
      "end": 36.6,
-     "start_frame": 1915,
-     "start_tc": "00:31.917",
+     "start_frame": 1919,
+     "start_tc": "00:31.983",
      "end_frame": 2196,
      "end_tc": "00:36.600"
     }
@@ -360,12 +360,12 @@
      "dur": 0.8,
      "text": "A mão direita joga a mochila preta (crachá pendurado) no banco ao lado.",
      "scene": "s3",
-     "start": 37.6167,
-     "end": 38.4167,
-     "start_frame": 2257,
-     "start_tc": "00:37.617",
-     "end_frame": 2305,
-     "end_tc": "00:38.417"
+     "start": 37.8167,
+     "end": 38.6167,
+     "start_frame": 2269,
+     "start_tc": "00:37.817",
+     "end_frame": 2317,
+     "end_tc": "00:38.617"
     },
     {
      "id": "b3-partida",
@@ -377,12 +377,12 @@
      "text": "O ônibus parte e ganha velocidade no asfalto.",
      "origin": "inferido",
      "scene": "s3",
-     "start": 40.7167,
-     "end": 44.7167,
-     "start_frame": 2443,
-     "start_tc": "00:40.717",
-     "end_frame": 2683,
-     "end_tc": "00:44.717"
+     "start": 42.15,
+     "end": 46.15,
+     "start_frame": 2529,
+     "start_tc": "00:42.150",
+     "end_frame": 2769,
+     "end_tc": "00:46.150"
     },
     {
      "id": "b3-janela",
@@ -393,12 +393,12 @@
      "dur": 3.0,
      "text": "A câmera vira para a janela: as luzes da rodoviária ficam para trás na escuridão.",
      "scene": "s3",
-     "start": 42.5167,
-     "end": 45.5167,
-     "start_frame": 2551,
-     "start_tc": "00:42.517",
-     "end_frame": 2731,
-     "end_tc": "00:45.517"
+     "start": 43.95,
+     "end": 46.95,
+     "start_frame": 2637,
+     "start_tc": "00:43.950",
+     "end_frame": 2817,
+     "end_tc": "00:46.950"
     },
     {
      "id": "b3-vinheta",
@@ -451,146 +451,95 @@
    "dur": 0.3,
    "gap_after": 0.0,
    "start": 0.15,
-   "end": 0.45,
+   "end": 0.7333,
    "scene": "s1",
-   "timing": "estimado",
+   "timing": "medido",
    "start_frame": 9,
    "start_tc": "00:00.150",
-   "end_frame": 27,
-   "end_tc": "00:00.450"
+   "end_frame": 44,
+   "end_tc": "00:00.733"
   },
   {
    "id": "s1-02",
    "kind": "speech",
    "text": "Mano, sério, eu odeio fazer trabalho em grupo!",
-   "start": 0.45,
+   "start": 0.9333,
    "words": [
     {
      "w": "Mano",
      "spoken": "Mano",
      "punct": ",",
      "syl": 2,
-     "start": 0.45,
-     "end": 0.7833,
-     "start_frame": 27,
-     "start_tc": "00:00.450",
-     "end_frame": 47,
-     "end_tc": "00:00.783"
+     "start": 0.9333,
+     "end": 1.4333,
+     "start_frame": 56,
+     "start_tc": "00:00.933",
+     "end_frame": 86,
+     "end_tc": "00:01.433"
     },
     {
      "w": "sério",
      "spoken": "sério",
      "punct": ",",
      "syl": 2,
-     "start": 0.9167,
-     "end": 1.25,
-     "start_frame": 55,
-     "start_tc": "00:00.917",
-     "end_frame": 75,
-     "end_tc": "00:01.250"
+     "start": 1.8833,
+     "end": 2.2167,
+     "start_frame": 113,
+     "start_tc": "00:01.883",
+     "end_frame": 133,
+     "end_tc": "00:02.217"
     },
     {
      "w": "eu",
      "spoken": "eu",
      "punct": "",
      "syl": 1,
-     "start": 1.3833,
-     "end": 1.4833,
-     "start_frame": 83,
-     "start_tc": "00:01.383",
-     "end_frame": 89,
-     "end_tc": "00:01.483"
+     "start": 2.3667,
+     "end": 2.4833,
+     "start_frame": 142,
+     "start_tc": "00:02.367",
+     "end_frame": 149,
+     "end_tc": "00:02.483"
     },
     {
      "w": "odeio",
      "spoken": "odeio",
      "punct": "",
      "syl": 3,
-     "start": 1.4833,
-     "end": 1.9333,
-     "start_frame": 89,
-     "start_tc": "00:01.483",
-     "end_frame": 116,
-     "end_tc": "00:01.933"
+     "start": 2.4833,
+     "end": 2.95,
+     "start_frame": 149,
+     "start_tc": "00:02.483",
+     "end_frame": 177,
+     "end_tc": "00:02.950"
     },
     {
      "w": "fazer",
      "spoken": "fazer",
      "punct": "",
      "syl": 2,
-     "start": 1.9333,
-     "end": 2.2333,
-     "start_frame": 116,
-     "start_tc": "00:01.933",
-     "end_frame": 134,
-     "end_tc": "00:02.233"
+     "start": 2.95,
+     "end": 3.2667,
+     "start_frame": 177,
+     "start_tc": "00:02.950",
+     "end_frame": 196,
+     "end_tc": "00:03.267"
     },
     {
      "w": "trabalho",
      "spoken": "trabalho",
      "punct": "",
      "syl": 3,
-     "start": 2.2333,
-     "end": 2.6833,
-     "start_frame": 134,
-     "start_tc": "00:02.233",
-     "end_frame": 161,
-     "end_tc": "00:02.683"
-    },
-    {
-     "w": "em",
-     "spoken": "em",
-     "punct": "",
-     "syl": 1,
-     "start": 2.6833,
-     "end": 2.7833,
-     "start_frame": 161,
-     "start_tc": "00:02.683",
-     "end_frame": 167,
-     "end_tc": "00:02.783"
-    },
-    {
-     "w": "grupo",
-     "spoken": "grupo",
-     "punct": "!",
-     "syl": 2,
-     "start": 2.7833,
-     "end": 3.1333,
-     "start_frame": 167,
-     "start_tc": "00:02.783",
-     "end_frame": 188,
-     "end_tc": "00:03.133"
-    }
-   ],
-   "end": 3.1333,
-   "scene": "s1",
-   "timing": "estimado",
-   "start_frame": 27,
-   "start_tc": "00:00.450",
-   "end_frame": 188,
-   "end_tc": "00:03.133"
-  },
-  {
-   "id": "s1-03",
-   "kind": "speech",
-   "text": "Juro por Deus.",
-   "start": 3.4333,
-   "words": [
-    {
-     "w": "Juro",
-     "spoken": "Juro",
-     "punct": "",
-     "syl": 2,
-     "start": 3.4333,
+     "start": 3.2667,
      "end": 3.7333,
-     "start_frame": 206,
-     "start_tc": "00:03.433",
+     "start_frame": 196,
+     "start_tc": "00:03.267",
      "end_frame": 224,
      "end_tc": "00:03.733"
     },
     {
-     "w": "por",
-     "spoken": "por",
+     "w": "em",
+     "spoken": "em",
      "punct": "",
      "syl": 1,
      "start": 3.7333,
@@ -601,382 +550,433 @@
      "end_tc": "00:03.833"
     },
     {
+     "w": "grupo",
+     "spoken": "grupo",
+     "punct": "!",
+     "syl": 2,
+     "start": 3.8333,
+     "end": 4.2167,
+     "start_frame": 230,
+     "start_tc": "00:03.833",
+     "end_frame": 253,
+     "end_tc": "00:04.217"
+    }
+   ],
+   "end": 4.2167,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 56,
+   "start_tc": "00:00.933",
+   "end_frame": 253,
+   "end_tc": "00:04.217"
+  },
+  {
+   "id": "s1-03",
+   "kind": "speech",
+   "text": "Juro por Deus.",
+   "start": 4.3167,
+   "words": [
+    {
+     "w": "Juro",
+     "spoken": "Juro",
+     "punct": "",
+     "syl": 2,
+     "start": 4.3167,
+     "end": 4.6833,
+     "start_frame": 259,
+     "start_tc": "00:04.317",
+     "end_frame": 281,
+     "end_tc": "00:04.683"
+    },
+    {
+     "w": "por",
+     "spoken": "por",
+     "punct": "",
+     "syl": 1,
+     "start": 4.6833,
+     "end": 4.8167,
+     "start_frame": 281,
+     "start_tc": "00:04.683",
+     "end_frame": 289,
+     "end_tc": "00:04.817"
+    },
+    {
      "w": "Deus",
      "spoken": "Deus",
      "punct": ".",
      "syl": 1,
-     "start": 3.8333,
-     "end": 4.0167,
-     "start_frame": 230,
-     "start_tc": "00:03.833",
-     "end_frame": 241,
-     "end_tc": "00:04.017"
+     "start": 4.8167,
+     "end": 5.0333,
+     "start_frame": 289,
+     "start_tc": "00:04.817",
+     "end_frame": 302,
+     "end_tc": "00:05.033"
     }
    ],
-   "end": 4.0167,
+   "end": 5.0333,
    "scene": "s1",
-   "timing": "estimado",
-   "start_frame": 206,
-   "start_tc": "00:03.433",
-   "end_frame": 241,
-   "end_tc": "00:04.017"
+   "timing": "medido",
+   "start_frame": 259,
+   "start_tc": "00:04.317",
+   "end_frame": 302,
+   "end_tc": "00:05.033"
   },
   {
    "id": "s1-04",
    "kind": "speech",
    "text": "Sábado quase meia-noite saindo de Campinas pra Jundiaí...",
-   "start": 4.3833,
+   "start": 5.6667,
    "words": [
     {
      "w": "Sábado",
      "spoken": "Sábado",
      "punct": "",
      "syl": 3,
-     "start": 4.3833,
-     "end": 4.8333,
-     "start_frame": 263,
-     "start_tc": "00:04.383",
-     "end_frame": 290,
-     "end_tc": "00:04.833"
+     "start": 5.6667,
+     "end": 6.05,
+     "start_frame": 340,
+     "start_tc": "00:05.667",
+     "end_frame": 363,
+     "end_tc": "00:06.050"
     },
     {
      "w": "quase",
      "spoken": "quase",
      "punct": "",
      "syl": 2,
-     "start": 4.8333,
-     "end": 5.1333,
-     "start_frame": 290,
-     "start_tc": "00:04.833",
-     "end_frame": 308,
-     "end_tc": "00:05.133"
+     "start": 6.05,
+     "end": 6.3,
+     "start_frame": 363,
+     "start_tc": "00:06.050",
+     "end_frame": 378,
+     "end_tc": "00:06.300"
     },
     {
      "w": "meia-noite",
      "spoken": "meia-noite",
      "punct": "",
      "syl": 4,
-     "start": 5.1333,
-     "end": 5.7167,
-     "start_frame": 308,
-     "start_tc": "00:05.133",
-     "end_frame": 343,
-     "end_tc": "00:05.717"
+     "start": 6.3,
+     "end": 6.8167,
+     "start_frame": 378,
+     "start_tc": "00:06.300",
+     "end_frame": 409,
+     "end_tc": "00:06.817"
     },
     {
      "w": "saindo",
      "spoken": "saindo",
      "punct": "",
      "syl": 3,
-     "start": 5.7167,
-     "end": 6.1667,
-     "start_frame": 343,
-     "start_tc": "00:05.717",
-     "end_frame": 370,
-     "end_tc": "00:06.167"
+     "start": 6.8167,
+     "end": 7.2,
+     "start_frame": 409,
+     "start_tc": "00:06.817",
+     "end_frame": 432,
+     "end_tc": "00:07.200"
     },
     {
      "w": "de",
      "spoken": "de",
      "punct": "",
      "syl": 1,
-     "start": 6.1667,
-     "end": 6.2667,
-     "start_frame": 370,
-     "start_tc": "00:06.167",
-     "end_frame": 376,
-     "end_tc": "00:06.267"
+     "start": 7.2,
+     "end": 7.2833,
+     "start_frame": 432,
+     "start_tc": "00:07.200",
+     "end_frame": 437,
+     "end_tc": "00:07.283"
     },
     {
      "w": "Campinas",
      "spoken": "Campinas",
      "punct": "",
      "syl": 3,
-     "start": 6.2667,
-     "end": 6.7167,
-     "start_frame": 376,
-     "start_tc": "00:06.267",
-     "end_frame": 403,
-     "end_tc": "00:06.717"
+     "start": 7.2833,
+     "end": 7.6667,
+     "start_frame": 437,
+     "start_tc": "00:07.283",
+     "end_frame": 460,
+     "end_tc": "00:07.667"
     },
     {
      "w": "pra",
      "spoken": "pra",
      "punct": "",
      "syl": 1,
-     "start": 6.7167,
-     "end": 6.8167,
-     "start_frame": 403,
-     "start_tc": "00:06.717",
-     "end_frame": 409,
-     "end_tc": "00:06.817"
+     "start": 7.6667,
+     "end": 7.7667,
+     "start_frame": 460,
+     "start_tc": "00:07.667",
+     "end_frame": 466,
+     "end_tc": "00:07.767"
     },
     {
      "w": "Jundiaí",
      "spoken": "Jundiaí",
      "punct": "...",
      "syl": 3,
-     "start": 6.8167,
-     "end": 7.4,
-     "start_frame": 409,
-     "start_tc": "00:06.817",
-     "end_frame": 444,
-     "end_tc": "00:07.400"
+     "start": 7.7667,
+     "end": 8.2667,
+     "start_frame": 466,
+     "start_tc": "00:07.767",
+     "end_frame": 496,
+     "end_tc": "00:08.267"
     }
    ],
-   "end": 7.4,
+   "end": 8.2667,
    "scene": "s1",
-   "timing": "estimado",
-   "start_frame": 263,
-   "start_tc": "00:04.383",
-   "end_frame": 444,
-   "end_tc": "00:07.400"
+   "timing": "medido",
+   "start_frame": 340,
+   "start_tc": "00:05.667",
+   "end_frame": 496,
+   "end_tc": "00:08.267"
   },
   {
    "id": "s1-05",
    "kind": "speech",
    "text": "olha o estado dessa rodoviária, parece cenário de filme de terror mudo, velho.",
-   "start": 7.9167,
+   "start": 8.2833,
    "words": [
     {
      "w": "olha",
      "spoken": "olha",
      "punct": "",
      "syl": 2,
-     "start": 7.9167,
-     "end": 8.2167,
-     "start_frame": 475,
-     "start_tc": "00:07.917",
-     "end_frame": 493,
-     "end_tc": "00:08.217"
+     "start": 8.2833,
+     "end": 8.3667,
+     "start_frame": 497,
+     "start_tc": "00:08.283",
+     "end_frame": 502,
+     "end_tc": "00:08.367"
     },
     {
      "w": "o",
      "spoken": "o",
      "punct": "",
      "syl": 1,
-     "start": 8.2167,
-     "end": 8.3167,
-     "start_frame": 493,
-     "start_tc": "00:08.217",
-     "end_frame": 499,
-     "end_tc": "00:08.317"
+     "start": 8.3667,
+     "end": 8.4,
+     "start_frame": 502,
+     "start_tc": "00:08.367",
+     "end_frame": 504,
+     "end_tc": "00:08.400"
     },
     {
      "w": "estado",
      "spoken": "estado",
      "punct": "",
      "syl": 3,
-     "start": 8.3167,
-     "end": 8.7667,
-     "start_frame": 499,
-     "start_tc": "00:08.317",
-     "end_frame": 526,
-     "end_tc": "00:08.767"
+     "start": 8.4,
+     "end": 8.55,
+     "start_frame": 504,
+     "start_tc": "00:08.400",
+     "end_frame": 513,
+     "end_tc": "00:08.550"
     },
     {
      "w": "dessa",
      "spoken": "dessa",
      "punct": "",
      "syl": 2,
-     "start": 8.7667,
-     "end": 9.05,
-     "start_frame": 526,
-     "start_tc": "00:08.767",
-     "end_frame": 543,
-     "end_tc": "00:09.050"
+     "start": 8.55,
+     "end": 8.6333,
+     "start_frame": 513,
+     "start_tc": "00:08.550",
+     "end_frame": 518,
+     "end_tc": "00:08.633"
     },
     {
      "w": "rodoviária",
      "spoken": "rodoviária",
      "punct": ",",
      "syl": 5,
-     "start": 9.05,
-     "end": 9.8667,
-     "start_frame": 543,
-     "start_tc": "00:09.050",
-     "end_frame": 592,
-     "end_tc": "00:09.867"
+     "start": 8.6333,
+     "end": 8.8833,
+     "start_frame": 518,
+     "start_tc": "00:08.633",
+     "end_frame": 533,
+     "end_tc": "00:08.883"
     },
     {
      "w": "parece",
      "spoken": "parece",
      "punct": "",
      "syl": 3,
-     "start": 10.0167,
-     "end": 10.4667,
-     "start_frame": 601,
-     "start_tc": "00:10.017",
-     "end_frame": 628,
-     "end_tc": "00:10.467"
+     "start": 9.0833,
+     "end": 9.6833,
+     "start_frame": 545,
+     "start_tc": "00:09.083",
+     "end_frame": 581,
+     "end_tc": "00:09.683"
     },
     {
      "w": "cenário",
      "spoken": "cenário",
      "punct": "",
      "syl": 3,
-     "start": 10.4667,
-     "end": 10.9,
-     "start_frame": 628,
-     "start_tc": "00:10.467",
-     "end_frame": 654,
-     "end_tc": "00:10.900"
+     "start": 9.6833,
+     "end": 10.2667,
+     "start_frame": 581,
+     "start_tc": "00:09.683",
+     "end_frame": 616,
+     "end_tc": "00:10.267"
     },
     {
      "w": "de",
      "spoken": "de",
      "punct": "",
      "syl": 1,
-     "start": 10.9,
-     "end": 11.0167,
-     "start_frame": 654,
-     "start_tc": "00:10.900",
-     "end_frame": 661,
-     "end_tc": "00:11.017"
+     "start": 10.2667,
+     "end": 10.4167,
+     "start_frame": 616,
+     "start_tc": "00:10.267",
+     "end_frame": 625,
+     "end_tc": "00:10.417"
     },
     {
      "w": "filme",
      "spoken": "filme",
      "punct": "",
      "syl": 2,
-     "start": 11.0167,
-     "end": 11.3,
-     "start_frame": 661,
-     "start_tc": "00:11.017",
-     "end_frame": 678,
-     "end_tc": "00:11.300"
+     "start": 10.4167,
+     "end": 10.8,
+     "start_frame": 625,
+     "start_tc": "00:10.417",
+     "end_frame": 648,
+     "end_tc": "00:10.800"
     },
     {
      "w": "de",
      "spoken": "de",
      "punct": "",
      "syl": 1,
-     "start": 11.3,
-     "end": 11.4167,
-     "start_frame": 678,
-     "start_tc": "00:11.300",
-     "end_frame": 685,
-     "end_tc": "00:11.417"
+     "start": 10.8,
+     "end": 10.9333,
+     "start_frame": 648,
+     "start_tc": "00:10.800",
+     "end_frame": 656,
+     "end_tc": "00:10.933"
     },
     {
      "w": "terror",
      "spoken": "terror",
      "punct": "",
      "syl": 2,
-     "start": 11.4167,
-     "end": 11.7,
-     "start_frame": 685,
-     "start_tc": "00:11.417",
-     "end_frame": 702,
-     "end_tc": "00:11.700"
+     "start": 10.9333,
+     "end": 11.3333,
+     "start_frame": 656,
+     "start_tc": "00:10.933",
+     "end_frame": 680,
+     "end_tc": "00:11.333"
     },
     {
      "w": "mudo",
      "spoken": "mudo",
      "punct": ",",
      "syl": 2,
-     "start": 11.7,
-     "end": 12.0333,
-     "start_frame": 702,
-     "start_tc": "00:11.700",
-     "end_frame": 722,
-     "end_tc": "00:12.033"
+     "start": 11.3333,
+     "end": 11.7667,
+     "start_frame": 680,
+     "start_tc": "00:11.333",
+     "end_frame": 706,
+     "end_tc": "00:11.767"
     },
     {
      "w": "velho",
      "spoken": "velho",
      "punct": ".",
      "syl": 2,
-     "start": 12.1667,
-     "end": 12.55,
-     "start_frame": 730,
-     "start_tc": "00:12.167",
-     "end_frame": 753,
-     "end_tc": "00:12.550"
+     "start": 11.95,
+     "end": 12.45,
+     "start_frame": 717,
+     "start_tc": "00:11.950",
+     "end_frame": 747,
+     "end_tc": "00:12.450"
     }
    ],
-   "end": 12.55,
+   "end": 12.45,
    "scene": "s1",
-   "timing": "estimado",
-   "start_frame": 475,
-   "start_tc": "00:07.917",
-   "end_frame": 753,
-   "end_tc": "00:12.550"
+   "timing": "medido",
+   "start_frame": 497,
+   "start_tc": "00:08.283",
+   "end_frame": 747,
+   "end_tc": "00:12.450"
   },
   {
    "id": "s1-06",
    "kind": "speech",
    "text": "Cadê a plataforma dessa desgraça?!",
-   "start": 12.9,
+   "start": 12.6667,
    "words": [
     {
      "w": "Cadê",
      "spoken": "Cadê",
      "punct": "",
      "syl": 2,
-     "start": 12.9,
-     "end": 13.2,
-     "start_frame": 774,
-     "start_tc": "00:12.900",
-     "end_frame": 792,
-     "end_tc": "00:13.200"
+     "start": 12.6667,
+     "end": 12.9667,
+     "start_frame": 760,
+     "start_tc": "00:12.667",
+     "end_frame": 778,
+     "end_tc": "00:12.967"
     },
     {
      "w": "a",
      "spoken": "a",
      "punct": "",
      "syl": 1,
-     "start": 13.2,
-     "end": 13.3,
-     "start_frame": 792,
-     "start_tc": "00:13.200",
-     "end_frame": 798,
-     "end_tc": "00:13.300"
+     "start": 12.9667,
+     "end": 13.0667,
+     "start_frame": 778,
+     "start_tc": "00:12.967",
+     "end_frame": 784,
+     "end_tc": "00:13.067"
     },
     {
      "w": "plataforma",
      "spoken": "plataforma",
      "punct": "",
      "syl": 4,
-     "start": 13.3,
-     "end": 13.9,
-     "start_frame": 798,
-     "start_tc": "00:13.300",
-     "end_frame": 834,
-     "end_tc": "00:13.900"
+     "start": 13.0667,
+     "end": 13.65,
+     "start_frame": 784,
+     "start_tc": "00:13.067",
+     "end_frame": 819,
+     "end_tc": "00:13.650"
     },
     {
      "w": "dessa",
      "spoken": "dessa",
      "punct": "",
      "syl": 2,
-     "start": 13.9,
-     "end": 14.2,
-     "start_frame": 834,
-     "start_tc": "00:13.900",
-     "end_frame": 852,
-     "end_tc": "00:14.200"
+     "start": 13.65,
+     "end": 13.9333,
+     "start_frame": 819,
+     "start_tc": "00:13.650",
+     "end_frame": 836,
+     "end_tc": "00:13.933"
     },
     {
      "w": "desgraça",
      "spoken": "desgraça",
      "punct": "?!",
      "syl": 3,
-     "start": 14.2,
-     "end": 14.75,
-     "start_frame": 852,
-     "start_tc": "00:14.200",
-     "end_frame": 885,
-     "end_tc": "00:14.750"
+     "start": 13.9333,
+     "end": 14.4833,
+     "start_frame": 836,
+     "start_tc": "00:13.933",
+     "end_frame": 869,
+     "end_tc": "00:14.483"
     }
    ],
-   "end": 14.75,
+   "end": 14.4833,
    "scene": "s1",
-   "timing": "estimado",
-   "start_frame": 774,
-   "start_tc": "00:12.900",
-   "end_frame": 885,
-   "end_tc": "00:14.750"
+   "timing": "medido",
+   "start_frame": 760,
+   "start_tc": "00:12.667",
+   "end_frame": 869,
+   "end_tc": "00:14.483"
   },
   {
    "id": "s2-01",
@@ -985,14 +985,14 @@
    "label": "Suspiro longo de alívio",
    "dur": 1.7,
    "gap_after": 0.25,
-   "start": 16.0,
-   "end": 17.7,
+   "start": 16.9167,
+   "end": 17.6833,
    "scene": "s2",
-   "timing": "estimado",
-   "start_frame": 960,
-   "start_tc": "00:16.000",
-   "end_frame": 1062,
-   "end_tc": "00:17.700"
+   "timing": "medido",
+   "start_frame": 1015,
+   "start_tc": "00:16.917",
+   "end_frame": 1061,
+   "end_tc": "00:17.683"
   },
   {
    "id": "s2-02",
@@ -1006,245 +1006,245 @@
      "punct": "",
      "syl": 3,
      "start": 17.95,
-     "end": 18.5167,
+     "end": 18.9167,
      "start_frame": 1077,
      "start_tc": "00:17.950",
-     "end_frame": 1111,
-     "end_tc": "00:18.517"
+     "end_frame": 1135,
+     "end_tc": "00:18.917"
     },
     {
      "w": "bem",
      "spoken": "bem",
      "punct": "",
      "syl": 1,
-     "start": 18.5167,
-     "end": 18.7167,
-     "start_frame": 1111,
-     "start_tc": "00:18.517",
-     "end_frame": 1123,
-     "end_tc": "00:18.717"
+     "start": 18.9167,
+     "end": 19.2333,
+     "start_frame": 1135,
+     "start_tc": "00:18.917",
+     "end_frame": 1154,
+     "end_tc": "00:19.233"
     },
     {
      "w": "que",
      "spoken": "que",
      "punct": "",
      "syl": 1,
-     "start": 18.7167,
-     "end": 18.85,
-     "start_frame": 1123,
-     "start_tc": "00:18.717",
-     "end_frame": 1131,
-     "end_tc": "00:18.850"
+     "start": 19.2333,
+     "end": 19.45,
+     "start_frame": 1154,
+     "start_tc": "00:19.233",
+     "end_frame": 1167,
+     "end_tc": "00:19.450"
     },
     {
      "w": "deu",
      "spoken": "deu",
      "punct": "",
      "syl": 1,
-     "start": 18.85,
-     "end": 19.0333,
-     "start_frame": 1131,
-     "start_tc": "00:18.850",
-     "end_frame": 1142,
-     "end_tc": "00:19.033"
+     "start": 19.45,
+     "end": 19.7833,
+     "start_frame": 1167,
+     "start_tc": "00:19.450",
+     "end_frame": 1187,
+     "end_tc": "00:19.783"
     },
     {
      "w": "tempo",
      "spoken": "tempo",
      "punct": ".",
      "syl": 2,
-     "start": 19.0333,
-     "end": 19.5167,
-     "start_frame": 1142,
-     "start_tc": "00:19.033",
-     "end_frame": 1171,
-     "end_tc": "00:19.517"
+     "start": 19.7833,
+     "end": 20.5833,
+     "start_frame": 1187,
+     "start_tc": "00:19.783",
+     "end_frame": 1235,
+     "end_tc": "00:20.583"
     }
    ],
-   "end": 19.5167,
+   "end": 20.5833,
    "scene": "s2",
-   "timing": "estimado",
+   "timing": "medido",
    "start_frame": 1077,
    "start_tc": "00:17.950",
-   "end_frame": 1171,
-   "end_tc": "00:19.517"
+   "end_frame": 1235,
+   "end_tc": "00:20.583"
   },
   {
    "id": "s2-03",
    "kind": "speech",
    "text": "Boa noite, moço.",
-   "start": 19.8833,
+   "start": 20.6,
    "words": [
     {
      "w": "Boa",
      "spoken": "Boa",
      "punct": "",
      "syl": 2,
-     "start": 19.8833,
-     "end": 20.2667,
-     "start_frame": 1193,
-     "start_tc": "00:19.883",
-     "end_frame": 1216,
-     "end_tc": "00:20.267"
+     "start": 20.6,
+     "end": 21.0167,
+     "start_frame": 1236,
+     "start_tc": "00:20.600",
+     "end_frame": 1261,
+     "end_tc": "00:21.017"
     },
     {
      "w": "noite",
      "spoken": "noite",
      "punct": ",",
      "syl": 2,
-     "start": 20.2667,
-     "end": 20.6833,
-     "start_frame": 1216,
-     "start_tc": "00:20.267",
-     "end_frame": 1241,
-     "end_tc": "00:20.683"
+     "start": 21.0167,
+     "end": 21.4667,
+     "start_frame": 1261,
+     "start_tc": "00:21.017",
+     "end_frame": 1288,
+     "end_tc": "00:21.467"
     },
     {
      "w": "moço",
      "spoken": "moço",
      "punct": ".",
      "syl": 2,
-     "start": 20.8333,
-     "end": 21.3167,
-     "start_frame": 1250,
-     "start_tc": "00:20.833",
-     "end_frame": 1279,
-     "end_tc": "00:21.317"
+     "start": 21.7,
+     "end": 22.4833,
+     "start_frame": 1302,
+     "start_tc": "00:21.700",
+     "end_frame": 1349,
+     "end_tc": "00:22.483"
     }
    ],
-   "end": 21.3167,
+   "end": 22.4833,
    "scene": "s2",
-   "timing": "estimado",
-   "start_frame": 1193,
-   "start_tc": "00:19.883",
-   "end_frame": 1279,
-   "end_tc": "00:21.317"
+   "timing": "medido",
+   "start_frame": 1236,
+   "start_tc": "00:20.600",
+   "end_frame": 1349,
+   "end_tc": "00:22.483"
   },
   {
    "id": "s2-04",
    "kind": "speech",
    "text": "Vai pro lado de Jundiaí, né?",
-   "start": 21.6667,
+   "start": 22.9833,
    "words": [
     {
      "w": "Vai",
      "spoken": "Vai",
      "punct": "",
      "syl": 1,
-     "start": 21.6667,
-     "end": 21.8667,
-     "start_frame": 1300,
-     "start_tc": "00:21.667",
-     "end_frame": 1312,
-     "end_tc": "00:21.867"
+     "start": 22.9833,
+     "end": 23.15,
+     "start_frame": 1379,
+     "start_tc": "00:22.983",
+     "end_frame": 1389,
+     "end_tc": "00:23.150"
     },
     {
      "w": "pro",
      "spoken": "pro",
      "punct": "",
      "syl": 1,
-     "start": 21.8667,
-     "end": 22.0,
-     "start_frame": 1312,
-     "start_tc": "00:21.867",
-     "end_frame": 1320,
-     "end_tc": "00:22.000"
+     "start": 23.15,
+     "end": 23.2667,
+     "start_frame": 1389,
+     "start_tc": "00:23.150",
+     "end_frame": 1396,
+     "end_tc": "00:23.267"
     },
     {
      "w": "lado",
      "spoken": "lado",
      "punct": "",
      "syl": 2,
-     "start": 22.0,
-     "end": 22.3833,
-     "start_frame": 1320,
-     "start_tc": "00:22.000",
-     "end_frame": 1343,
-     "end_tc": "00:22.383"
+     "start": 23.2667,
+     "end": 23.6,
+     "start_frame": 1396,
+     "start_tc": "00:23.267",
+     "end_frame": 1416,
+     "end_tc": "00:23.600"
     },
     {
      "w": "de",
      "spoken": "de",
      "punct": "",
      "syl": 1,
-     "start": 22.3833,
-     "end": 22.5167,
-     "start_frame": 1343,
-     "start_tc": "00:22.383",
-     "end_frame": 1351,
-     "end_tc": "00:22.517"
+     "start": 23.6,
+     "end": 23.7167,
+     "start_frame": 1416,
+     "start_tc": "00:23.600",
+     "end_frame": 1423,
+     "end_tc": "00:23.717"
     },
     {
      "w": "Jundiaí",
      "spoken": "Jundiaí",
      "punct": ",",
      "syl": 3,
-     "start": 22.5167,
-     "end": 23.15,
-     "start_frame": 1351,
-     "start_tc": "00:22.517",
-     "end_frame": 1389,
-     "end_tc": "00:23.150"
+     "start": 23.7167,
+     "end": 24.2667,
+     "start_frame": 1423,
+     "start_tc": "00:23.717",
+     "end_frame": 1456,
+     "end_tc": "00:24.267"
     },
     {
      "w": "né",
      "spoken": "né",
      "punct": "?",
      "syl": 1,
-     "start": 23.2833,
-     "end": 23.4667,
-     "start_frame": 1397,
-     "start_tc": "00:23.283",
-     "end_frame": 1408,
-     "end_tc": "00:23.467"
+     "start": 24.4,
+     "end": 24.5333,
+     "start_frame": 1464,
+     "start_tc": "00:24.400",
+     "end_frame": 1472,
+     "end_tc": "00:24.533"
     }
    ],
-   "end": 23.4667,
+   "end": 24.5333,
    "scene": "s2",
-   "timing": "estimado",
-   "start_frame": 1300,
-   "start_tc": "00:21.667",
-   "end_frame": 1408,
-   "end_tc": "00:23.467"
+   "timing": "medido",
+   "start_frame": 1379,
+   "start_tc": "00:22.983",
+   "end_frame": 1472,
+   "end_tc": "00:24.533"
   },
   {
    "id": "s2-05",
    "kind": "speech",
    "text": "Linha vicinal...",
-   "start": 23.7667,
+   "start": 24.7833,
    "words": [
     {
      "w": "Linha",
      "spoken": "Linha",
      "punct": "",
      "syl": 2,
-     "start": 23.7667,
-     "end": 24.15,
-     "start_frame": 1426,
-     "start_tc": "00:23.767",
-     "end_frame": 1449,
-     "end_tc": "00:24.150"
+     "start": 24.7833,
+     "end": 25.2,
+     "start_frame": 1487,
+     "start_tc": "00:24.783",
+     "end_frame": 1512,
+     "end_tc": "00:25.200"
     },
     {
      "w": "vicinal",
      "spoken": "vicinal",
      "punct": "...",
      "syl": 3,
-     "start": 24.15,
-     "end": 24.9,
-     "start_frame": 1449,
-     "start_tc": "00:24.150",
-     "end_frame": 1494,
-     "end_tc": "00:24.900"
+     "start": 25.2,
+     "end": 25.9833,
+     "start_frame": 1512,
+     "start_tc": "00:25.200",
+     "end_frame": 1559,
+     "end_tc": "00:25.983"
     }
    ],
-   "end": 24.9,
+   "end": 25.9833,
    "scene": "s2",
-   "timing": "estimado",
-   "start_frame": 1426,
-   "start_tc": "00:23.767",
-   "end_frame": 1494,
-   "end_tc": "00:24.900"
+   "timing": "medido",
+   "start_frame": 1487,
+   "start_tc": "00:24.783",
+   "end_frame": 1559,
+   "end_tc": "00:25.983"
   },
   {
    "id": "s2-06",
@@ -1253,273 +1253,273 @@
    "label": "funga o nariz",
    "dur": 0.35,
    "gap_after": 0.1,
-   "start": 25.4167,
-   "end": 25.7667,
+   "start": 26.1333,
+   "end": 26.4333,
    "scene": "s2",
-   "timing": "estimado",
-   "start_frame": 1525,
-   "start_tc": "00:25.417",
-   "end_frame": 1546,
-   "end_tc": "00:25.767"
+   "timing": "medido",
+   "start_frame": 1568,
+   "start_tc": "00:26.133",
+   "end_frame": 1586,
+   "end_tc": "00:26.433"
   },
   {
    "id": "s2-07",
    "kind": "speech",
    "text": "Nossa, o cheiro aqui dentro tá um catinga de graxa velha misturada com naftalina...",
-   "start": 25.8667,
+   "start": 26.7667,
    "words": [
     {
      "w": "Nossa",
      "spoken": "Nossa",
      "punct": ",",
      "syl": 2,
-     "start": 25.8667,
-     "end": 26.3,
-     "start_frame": 1552,
-     "start_tc": "00:25.867",
-     "end_frame": 1578,
-     "end_tc": "00:26.300"
+     "start": 26.7667,
+     "end": 27.1333,
+     "start_frame": 1606,
+     "start_tc": "00:26.767",
+     "end_frame": 1628,
+     "end_tc": "00:27.133"
     },
     {
      "w": "o",
      "spoken": "o",
      "punct": "",
      "syl": 1,
-     "start": 26.4333,
-     "end": 26.5667,
-     "start_frame": 1586,
-     "start_tc": "00:26.433",
-     "end_frame": 1594,
-     "end_tc": "00:26.567"
+     "start": 27.2667,
+     "end": 27.3833,
+     "start_frame": 1636,
+     "start_tc": "00:27.267",
+     "end_frame": 1643,
+     "end_tc": "00:27.383"
     },
     {
      "w": "cheiro",
      "spoken": "cheiro",
      "punct": "",
      "syl": 2,
-     "start": 26.5667,
-     "end": 26.95,
-     "start_frame": 1594,
-     "start_tc": "00:26.567",
-     "end_frame": 1617,
-     "end_tc": "00:26.950"
+     "start": 27.3833,
+     "end": 27.7167,
+     "start_frame": 1643,
+     "start_tc": "00:27.383",
+     "end_frame": 1663,
+     "end_tc": "00:27.717"
     },
     {
      "w": "aqui",
      "spoken": "aqui",
      "punct": "",
      "syl": 2,
-     "start": 26.95,
-     "end": 27.3333,
-     "start_frame": 1617,
-     "start_tc": "00:26.950",
-     "end_frame": 1640,
-     "end_tc": "00:27.333"
+     "start": 27.7167,
+     "end": 28.05,
+     "start_frame": 1663,
+     "start_tc": "00:27.717",
+     "end_frame": 1683,
+     "end_tc": "00:28.050"
     },
     {
      "w": "dentro",
      "spoken": "dentro",
      "punct": "",
      "syl": 2,
-     "start": 27.3333,
-     "end": 27.7167,
-     "start_frame": 1640,
-     "start_tc": "00:27.333",
-     "end_frame": 1663,
-     "end_tc": "00:27.717"
+     "start": 28.05,
+     "end": 28.4,
+     "start_frame": 1683,
+     "start_tc": "00:28.050",
+     "end_frame": 1704,
+     "end_tc": "00:28.400"
     },
     {
      "w": "tá",
      "spoken": "tá",
      "punct": "",
      "syl": 1,
-     "start": 27.7167,
-     "end": 27.85,
-     "start_frame": 1663,
-     "start_tc": "00:27.717",
-     "end_frame": 1671,
-     "end_tc": "00:27.850"
+     "start": 28.4,
+     "end": 28.5167,
+     "start_frame": 1704,
+     "start_tc": "00:28.400",
+     "end_frame": 1711,
+     "end_tc": "00:28.517"
     },
     {
      "w": "um",
      "spoken": "um",
      "punct": "",
      "syl": 1,
-     "start": 27.85,
-     "end": 27.9833,
-     "start_frame": 1671,
-     "start_tc": "00:27.850",
-     "end_frame": 1679,
-     "end_tc": "00:27.983"
+     "start": 28.5167,
+     "end": 28.6333,
+     "start_frame": 1711,
+     "start_tc": "00:28.517",
+     "end_frame": 1718,
+     "end_tc": "00:28.633"
     },
     {
      "w": "catinga",
      "spoken": "catinga",
      "punct": "",
      "syl": 3,
-     "start": 27.9833,
-     "end": 28.5667,
-     "start_frame": 1679,
-     "start_tc": "00:27.983",
-     "end_frame": 1714,
-     "end_tc": "00:28.567"
+     "start": 28.6333,
+     "end": 29.1333,
+     "start_frame": 1718,
+     "start_tc": "00:28.633",
+     "end_frame": 1748,
+     "end_tc": "00:29.133"
     },
     {
      "w": "de",
      "spoken": "de",
      "punct": "",
      "syl": 1,
-     "start": 28.5667,
-     "end": 28.7,
-     "start_frame": 1714,
-     "start_tc": "00:28.567",
-     "end_frame": 1722,
-     "end_tc": "00:28.700"
+     "start": 29.1333,
+     "end": 29.25,
+     "start_frame": 1748,
+     "start_tc": "00:29.133",
+     "end_frame": 1755,
+     "end_tc": "00:29.250"
     },
     {
      "w": "graxa",
      "spoken": "graxa",
      "punct": "",
      "syl": 2,
-     "start": 28.7,
-     "end": 29.0833,
-     "start_frame": 1722,
-     "start_tc": "00:28.700",
-     "end_frame": 1745,
-     "end_tc": "00:29.083"
+     "start": 29.25,
+     "end": 29.5833,
+     "start_frame": 1755,
+     "start_tc": "00:29.250",
+     "end_frame": 1775,
+     "end_tc": "00:29.583"
     },
     {
      "w": "velha",
      "spoken": "velha",
      "punct": "",
      "syl": 2,
-     "start": 29.0833,
-     "end": 29.4667,
-     "start_frame": 1745,
-     "start_tc": "00:29.083",
-     "end_frame": 1768,
-     "end_tc": "00:29.467"
+     "start": 29.5833,
+     "end": 29.9167,
+     "start_frame": 1775,
+     "start_tc": "00:29.583",
+     "end_frame": 1795,
+     "end_tc": "00:29.917"
     },
     {
      "w": "misturada",
      "spoken": "misturada",
      "punct": "",
      "syl": 4,
-     "start": 29.4667,
-     "end": 30.2333,
-     "start_frame": 1768,
-     "start_tc": "00:29.467",
-     "end_frame": 1814,
-     "end_tc": "00:30.233"
+     "start": 29.9167,
+     "end": 30.6,
+     "start_frame": 1795,
+     "start_tc": "00:29.917",
+     "end_frame": 1836,
+     "end_tc": "00:30.600"
     },
     {
      "w": "com",
      "spoken": "com",
      "punct": "",
      "syl": 1,
-     "start": 30.2333,
-     "end": 30.3667,
-     "start_frame": 1814,
-     "start_tc": "00:30.233",
-     "end_frame": 1822,
-     "end_tc": "00:30.367"
+     "start": 30.6,
+     "end": 30.7167,
+     "start_frame": 1836,
+     "start_tc": "00:30.600",
+     "end_frame": 1843,
+     "end_tc": "00:30.717"
     },
     {
      "w": "naftalina",
      "spoken": "naftalina",
      "punct": "...",
      "syl": 4,
-     "start": 30.3667,
-     "end": 31.35,
-     "start_frame": 1822,
-     "start_tc": "00:30.367",
-     "end_frame": 1881,
-     "end_tc": "00:31.350"
+     "start": 30.7167,
+     "end": 31.5833,
+     "start_frame": 1843,
+     "start_tc": "00:30.717",
+     "end_frame": 1895,
+     "end_tc": "00:31.583"
     }
    ],
-   "end": 31.35,
+   "end": 31.5833,
    "scene": "s2",
-   "timing": "estimado",
-   "start_frame": 1552,
-   "start_tc": "00:25.867",
-   "end_frame": 1881,
-   "end_tc": "00:31.350"
+   "timing": "medido",
+   "start_frame": 1606,
+   "start_tc": "00:26.767",
+   "end_frame": 1895,
+   "end_tc": "00:31.583"
   },
   {
    "id": "s2-08",
    "kind": "speech",
    "text": "mas beleza, só quero sentar e capotar.",
-   "start": 31.8833,
+   "start": 31.9667,
    "words": [
     {
      "w": "mas",
      "spoken": "mas",
      "punct": "",
      "syl": 1,
-     "start": 31.8833,
-     "end": 32.0167,
-     "start_frame": 1913,
-     "start_tc": "00:31.883",
-     "end_frame": 1921,
-     "end_tc": "00:32.017"
+     "start": 31.9667,
+     "end": 32.0833,
+     "start_frame": 1918,
+     "start_tc": "00:31.967",
+     "end_frame": 1925,
+     "end_tc": "00:32.083"
     },
     {
      "w": "beleza",
      "spoken": "beleza",
      "punct": ",",
      "syl": 3,
-     "start": 32.0167,
-     "end": 32.65,
-     "start_frame": 1921,
-     "start_tc": "00:32.017",
-     "end_frame": 1959,
-     "end_tc": "00:32.650"
+     "start": 32.0833,
+     "end": 32.6333,
+     "start_frame": 1925,
+     "start_tc": "00:32.083",
+     "end_frame": 1958,
+     "end_tc": "00:32.633"
     },
     {
      "w": "só",
      "spoken": "só",
      "punct": "",
      "syl": 1,
-     "start": 32.7833,
-     "end": 32.9833,
-     "start_frame": 1967,
-     "start_tc": "00:32.783",
-     "end_frame": 1979,
-     "end_tc": "00:32.983"
+     "start": 32.9167,
+     "end": 33.0833,
+     "start_frame": 1975,
+     "start_tc": "00:32.917",
+     "end_frame": 1985,
+     "end_tc": "00:33.083"
     },
     {
      "w": "quero",
      "spoken": "quero",
      "punct": "",
      "syl": 2,
-     "start": 32.9833,
-     "end": 33.3667,
-     "start_frame": 1979,
-     "start_tc": "00:32.983",
-     "end_frame": 2002,
-     "end_tc": "00:33.367"
+     "start": 33.0833,
+     "end": 33.4167,
+     "start_frame": 1985,
+     "start_tc": "00:33.083",
+     "end_frame": 2005,
+     "end_tc": "00:33.417"
     },
     {
      "w": "sentar",
      "spoken": "sentar",
      "punct": "",
      "syl": 2,
-     "start": 33.3667,
-     "end": 33.75,
-     "start_frame": 2002,
-     "start_tc": "00:33.367",
-     "end_frame": 2025,
-     "end_tc": "00:33.750"
+     "start": 33.4167,
+     "end": 33.7667,
+     "start_frame": 2005,
+     "start_tc": "00:33.417",
+     "end_frame": 2026,
+     "end_tc": "00:33.767"
     },
     {
      "w": "e",
      "spoken": "e",
      "punct": "",
      "syl": 1,
-     "start": 33.75,
+     "start": 33.7667,
      "end": 33.8833,
-     "start_frame": 2025,
-     "start_tc": "00:33.750",
+     "start_frame": 2026,
+     "start_tc": "00:33.767",
      "end_frame": 2033,
      "end_tc": "00:33.883"
     },
@@ -1529,20 +1529,20 @@
      "punct": ".",
      "syl": 3,
      "start": 33.8833,
-     "end": 34.6,
+     "end": 34.5167,
      "start_frame": 2033,
      "start_tc": "00:33.883",
-     "end_frame": 2076,
-     "end_tc": "00:34.600"
+     "end_frame": 2071,
+     "end_tc": "00:34.517"
     }
    ],
-   "end": 34.6,
+   "end": 34.5167,
    "scene": "s2",
-   "timing": "estimado",
-   "start_frame": 1913,
-   "start_tc": "00:31.883",
-   "end_frame": 2076,
-   "end_tc": "00:34.600"
+   "timing": "medido",
+   "start_frame": 1918,
+   "start_tc": "00:31.967",
+   "end_frame": 2071,
+   "end_tc": "00:34.517"
   },
   {
    "id": "s3-01",
@@ -1556,128 +1556,128 @@
      "punct": ",",
      "syl": 2,
      "start": 37.2,
-     "end": 37.6,
+     "end": 37.75,
      "start_frame": 2232,
      "start_tc": "00:37.200",
-     "end_frame": 2256,
-     "end_tc": "00:37.600"
+     "end_frame": 2265,
+     "end_tc": "00:37.750"
     },
     {
      "w": "mochila",
      "spoken": "mochila",
      "punct": "",
      "syl": 3,
-     "start": 37.7167,
-     "end": 38.25,
-     "start_frame": 2263,
-     "start_tc": "00:37.717",
-     "end_frame": 2295,
-     "end_tc": "00:38.250"
+     "start": 37.9167,
+     "end": 38.6833,
+     "start_frame": 2275,
+     "start_tc": "00:37.917",
+     "end_frame": 2321,
+     "end_tc": "00:38.683"
     },
     {
      "w": "no",
      "spoken": "no",
      "punct": "",
      "syl": 1,
-     "start": 38.25,
-     "end": 38.3833,
-     "start_frame": 2295,
-     "start_tc": "00:38.250",
-     "end_frame": 2303,
-     "end_tc": "00:38.383"
+     "start": 38.6833,
+     "end": 38.8667,
+     "start_frame": 2321,
+     "start_tc": "00:38.683",
+     "end_frame": 2332,
+     "end_tc": "00:38.867"
     },
     {
      "w": "banco",
      "spoken": "banco",
      "punct": "",
      "syl": 2,
-     "start": 38.3833,
-     "end": 38.7667,
-     "start_frame": 2303,
-     "start_tc": "00:38.383",
-     "end_frame": 2326,
-     "end_tc": "00:38.767"
+     "start": 38.8667,
+     "end": 39.4,
+     "start_frame": 2332,
+     "start_tc": "00:38.867",
+     "end_frame": 2364,
+     "end_tc": "00:39.400"
     },
     {
      "w": "do",
      "spoken": "do",
      "punct": "",
      "syl": 1,
-     "start": 38.7667,
-     "end": 38.9,
-     "start_frame": 2326,
-     "start_tc": "00:38.767",
-     "end_frame": 2334,
-     "end_tc": "00:38.900"
+     "start": 39.4,
+     "end": 39.5833,
+     "start_frame": 2364,
+     "start_tc": "00:39.400",
+     "end_frame": 2375,
+     "end_tc": "00:39.583"
     },
     {
      "w": "lado",
      "spoken": "lado",
      "punct": "",
      "syl": 2,
-     "start": 38.9,
-     "end": 39.2833,
-     "start_frame": 2334,
-     "start_tc": "00:38.900",
-     "end_frame": 2357,
-     "end_tc": "00:39.283"
+     "start": 39.5833,
+     "end": 40.1333,
+     "start_frame": 2375,
+     "start_tc": "00:39.583",
+     "end_frame": 2408,
+     "end_tc": "00:40.133"
     },
     {
      "w": "pra",
      "spoken": "pra",
      "punct": "",
      "syl": 1,
-     "start": 39.2833,
-     "end": 39.4167,
-     "start_frame": 2357,
-     "start_tc": "00:39.283",
-     "end_frame": 2365,
-     "end_tc": "00:39.417"
+     "start": 40.1333,
+     "end": 40.3167,
+     "start_frame": 2408,
+     "start_tc": "00:40.133",
+     "end_frame": 2419,
+     "end_tc": "00:40.317"
     },
     {
      "w": "ninguém",
      "spoken": "ninguém",
      "punct": "",
      "syl": 2,
-     "start": 39.4167,
-     "end": 39.8,
-     "start_frame": 2365,
-     "start_tc": "00:39.417",
-     "end_frame": 2388,
-     "end_tc": "00:39.800"
+     "start": 40.3167,
+     "end": 40.8667,
+     "start_frame": 2419,
+     "start_tc": "00:40.317",
+     "end_frame": 2452,
+     "end_tc": "00:40.867"
     },
     {
      "w": "sentar",
      "spoken": "sentar",
      "punct": "",
      "syl": 2,
-     "start": 39.8,
-     "end": 40.2,
-     "start_frame": 2388,
-     "start_tc": "00:39.800",
-     "end_frame": 2412,
-     "end_tc": "00:40.200"
+     "start": 40.8667,
+     "end": 41.4333,
+     "start_frame": 2452,
+     "start_tc": "00:40.867",
+     "end_frame": 2486,
+     "end_tc": "00:41.433"
     },
     {
      "w": "junto",
      "spoken": "junto",
      "punct": ".",
      "syl": 2,
-     "start": 40.2,
-     "end": 40.7167,
-     "start_frame": 2412,
-     "start_tc": "00:40.200",
-     "end_frame": 2443,
-     "end_tc": "00:40.717"
+     "start": 41.4333,
+     "end": 42.15,
+     "start_frame": 2486,
+     "start_tc": "00:41.433",
+     "end_frame": 2529,
+     "end_tc": "00:42.150"
     }
    ],
-   "end": 40.7167,
+   "end": 42.15,
    "scene": "s3",
-   "timing": "estimado",
+   "timing": "medido",
    "start_frame": 2232,
    "start_tc": "00:37.200",
-   "end_frame": 2443,
-   "end_tc": "00:40.717"
+   "end_frame": 2529,
+   "end_tc": "00:42.150"
   },
   {
    "id": "s3-02",
@@ -1686,248 +1686,248 @@
    "label": "Bocejo longo e cansado",
    "dur": 2.2,
    "gap_after": 0.3,
-   "start": 41.05,
-   "end": 43.25,
+   "start": 42.4333,
+   "end": 44.4667,
    "scene": "s3",
-   "timing": "estimado",
-   "start_frame": 2463,
-   "start_tc": "00:41.050",
-   "end_frame": 2595,
-   "end_tc": "00:43.250"
+   "timing": "medido",
+   "start_frame": 2546,
+   "start_tc": "00:42.433",
+   "end_frame": 2668,
+   "end_tc": "00:44.467"
   },
   {
    "id": "s3-04",
    "kind": "speech",
    "text": "Meu ponto é exato o 348, na marginal.",
-   "start": 43.55,
+   "start": 44.75,
    "words": [
     {
      "w": "Meu",
      "spoken": "Meu",
      "punct": "",
      "syl": 1,
-     "start": 43.55,
-     "end": 43.7,
-     "start_frame": 2613,
-     "start_tc": "00:43.550",
-     "end_frame": 2622,
-     "end_tc": "00:43.700"
+     "start": 44.75,
+     "end": 44.8833,
+     "start_frame": 2685,
+     "start_tc": "00:44.750",
+     "end_frame": 2693,
+     "end_tc": "00:44.883"
     },
     {
      "w": "ponto",
      "spoken": "ponto",
      "punct": "",
      "syl": 2,
-     "start": 43.7,
-     "end": 44.1167,
-     "start_frame": 2622,
-     "start_tc": "00:43.700",
-     "end_frame": 2647,
-     "end_tc": "00:44.117"
+     "start": 44.8833,
+     "end": 45.2833,
+     "start_frame": 2693,
+     "start_tc": "00:44.883",
+     "end_frame": 2717,
+     "end_tc": "00:45.283"
     },
     {
      "w": "é",
      "spoken": "é",
      "punct": "",
      "syl": 1,
-     "start": 44.1167,
-     "end": 44.2667,
-     "start_frame": 2647,
-     "start_tc": "00:44.117",
-     "end_frame": 2656,
-     "end_tc": "00:44.267"
+     "start": 45.2833,
+     "end": 45.4167,
+     "start_frame": 2717,
+     "start_tc": "00:45.283",
+     "end_frame": 2725,
+     "end_tc": "00:45.417"
     },
     {
      "w": "exato",
      "spoken": "exato",
      "punct": "",
      "syl": 3,
-     "start": 44.2667,
-     "end": 44.9,
-     "start_frame": 2656,
-     "start_tc": "00:44.267",
-     "end_frame": 2694,
-     "end_tc": "00:44.900"
+     "start": 45.4167,
+     "end": 46.0333,
+     "start_frame": 2725,
+     "start_tc": "00:45.417",
+     "end_frame": 2762,
+     "end_tc": "00:46.033"
     },
     {
      "w": "o",
      "spoken": "o",
      "punct": "",
      "syl": 1,
-     "start": 44.9,
-     "end": 45.05,
-     "start_frame": 2694,
-     "start_tc": "00:44.900",
-     "end_frame": 2703,
-     "end_tc": "00:45.050"
+     "start": 46.0333,
+     "end": 46.1667,
+     "start_frame": 2762,
+     "start_tc": "00:46.033",
+     "end_frame": 2770,
+     "end_tc": "00:46.167"
     },
     {
      "w": "348",
      "spoken": "três quatro oito",
      "punct": ",",
      "syl": 5,
-     "start": 45.05,
-     "end": 46.2667,
-     "start_frame": 2703,
-     "start_tc": "00:45.050",
-     "end_frame": 2776,
-     "end_tc": "00:46.267"
+     "start": 46.1667,
+     "end": 47.3333,
+     "start_frame": 2770,
+     "start_tc": "00:46.167",
+     "end_frame": 2840,
+     "end_tc": "00:47.333"
     },
     {
      "w": "na",
      "spoken": "na",
      "punct": "",
      "syl": 1,
-     "start": 46.4,
-     "end": 46.5667,
-     "start_frame": 2784,
-     "start_tc": "00:46.400",
-     "end_frame": 2794,
-     "end_tc": "00:46.567"
+     "start": 47.4667,
+     "end": 47.6167,
+     "start_frame": 2848,
+     "start_tc": "00:47.467",
+     "end_frame": 2857,
+     "end_tc": "00:47.617"
     },
     {
      "w": "marginal",
      "spoken": "marginal",
      "punct": ".",
      "syl": 3,
-     "start": 46.5667,
-     "end": 47.4167,
-     "start_frame": 2794,
-     "start_tc": "00:46.567",
-     "end_frame": 2845,
-     "end_tc": "00:47.417"
+     "start": 47.6167,
+     "end": 48.4333,
+     "start_frame": 2857,
+     "start_tc": "00:47.617",
+     "end_frame": 2906,
+     "end_tc": "00:48.433"
     }
    ],
-   "end": 47.4167,
+   "end": 48.4333,
    "scene": "s3",
-   "timing": "estimado",
-   "start_frame": 2613,
-   "start_tc": "00:43.550",
-   "end_frame": 2845,
-   "end_tc": "00:47.417"
+   "timing": "medido",
+   "start_frame": 2685,
+   "start_tc": "00:44.750",
+   "end_frame": 2906,
+   "end_tc": "00:48.433"
   },
   {
    "id": "s3-05",
    "kind": "speech",
    "text": "Se eu passar do ponto 348, eu tô frito.",
-   "start": 47.8,
+   "start": 49.0667,
    "words": [
     {
      "w": "Se",
      "spoken": "Se",
      "punct": "",
      "syl": 1,
-     "start": 47.8,
-     "end": 47.9667,
-     "start_frame": 2868,
-     "start_tc": "00:47.800",
-     "end_frame": 2878,
-     "end_tc": "00:47.967"
+     "start": 49.0667,
+     "end": 49.1667,
+     "start_frame": 2944,
+     "start_tc": "00:49.067",
+     "end_frame": 2950,
+     "end_tc": "00:49.167"
     },
     {
      "w": "eu",
      "spoken": "eu",
      "punct": "",
      "syl": 1,
-     "start": 47.9667,
-     "end": 48.1333,
-     "start_frame": 2878,
-     "start_tc": "00:47.967",
-     "end_frame": 2888,
-     "end_tc": "00:48.133"
+     "start": 49.1667,
+     "end": 49.2833,
+     "start_frame": 2950,
+     "start_tc": "00:49.167",
+     "end_frame": 2957,
+     "end_tc": "00:49.283"
     },
     {
      "w": "passar",
      "spoken": "passar",
      "punct": "",
      "syl": 2,
-     "start": 48.1333,
-     "end": 48.6,
-     "start_frame": 2888,
-     "start_tc": "00:48.133",
-     "end_frame": 2916,
-     "end_tc": "00:48.600"
+     "start": 49.2833,
+     "end": 49.6167,
+     "start_frame": 2957,
+     "start_tc": "00:49.283",
+     "end_frame": 2977,
+     "end_tc": "00:49.617"
     },
     {
      "w": "do",
      "spoken": "do",
      "punct": "",
      "syl": 1,
-     "start": 48.6,
-     "end": 48.7667,
-     "start_frame": 2916,
-     "start_tc": "00:48.600",
-     "end_frame": 2926,
-     "end_tc": "00:48.767"
+     "start": 49.6167,
+     "end": 49.7333,
+     "start_frame": 2977,
+     "start_tc": "00:49.617",
+     "end_frame": 2984,
+     "end_tc": "00:49.733"
     },
     {
      "w": "ponto",
      "spoken": "ponto",
      "punct": "",
      "syl": 2,
-     "start": 48.7667,
-     "end": 49.25,
-     "start_frame": 2926,
-     "start_tc": "00:48.767",
-     "end_frame": 2955,
-     "end_tc": "00:49.250"
+     "start": 49.7333,
+     "end": 50.0667,
+     "start_frame": 2984,
+     "start_tc": "00:49.733",
+     "end_frame": 3004,
+     "end_tc": "00:50.067"
     },
     {
      "w": "348",
      "spoken": "três quatro oito",
      "punct": ",",
      "syl": 5,
-     "start": 49.25,
-     "end": 50.5833,
-     "start_frame": 2955,
-     "start_tc": "00:49.250",
-     "end_frame": 3035,
-     "end_tc": "00:50.583"
+     "start": 50.0667,
+     "end": 51.0167,
+     "start_frame": 3004,
+     "start_tc": "00:50.067",
+     "end_frame": 3061,
+     "end_tc": "00:51.017"
     },
     {
      "w": "eu",
      "spoken": "eu",
      "punct": "",
      "syl": 1,
-     "start": 50.75,
-     "end": 50.9333,
-     "start_frame": 3045,
-     "start_tc": "00:50.750",
-     "end_frame": 3056,
-     "end_tc": "00:50.933"
+     "start": 51.3333,
+     "end": 51.3833,
+     "start_frame": 3080,
+     "start_tc": "00:51.333",
+     "end_frame": 3083,
+     "end_tc": "00:51.383"
     },
     {
      "w": "tô",
      "spoken": "tô",
      "punct": "",
      "syl": 1,
-     "start": 50.9333,
-     "end": 51.1,
-     "start_frame": 3056,
-     "start_tc": "00:50.933",
-     "end_frame": 3066,
-     "end_tc": "00:51.100"
+     "start": 51.3833,
+     "end": 51.4333,
+     "start_frame": 3083,
+     "start_tc": "00:51.383",
+     "end_frame": 3086,
+     "end_tc": "00:51.433"
     },
     {
      "w": "frito",
      "spoken": "frito",
      "punct": ".",
      "syl": 2,
-     "start": 51.1,
-     "end": 51.7333,
-     "start_frame": 3066,
-     "start_tc": "00:51.100",
-     "end_frame": 3104,
-     "end_tc": "00:51.733"
+     "start": 51.4333,
+     "end": 51.6167,
+     "start_frame": 3086,
+     "start_tc": "00:51.433",
+     "end_frame": 3097,
+     "end_tc": "00:51.617"
     }
    ],
-   "end": 51.7333,
+   "end": 51.6167,
    "scene": "s3",
-   "timing": "estimado",
-   "start_frame": 2868,
-   "start_tc": "00:47.800",
-   "end_frame": 3104,
-   "end_tc": "00:51.733"
+   "timing": "medido",
+   "start_frame": 2944,
+   "start_tc": "00:49.067",
+   "end_frame": 3097,
+   "end_tc": "00:51.617"
   },
   {
    "id": "s3-06",
@@ -1936,211 +1936,181 @@
    "label": "Respiração profunda e lenta",
    "dur": 2.0,
    "gap_after": 0.35,
-   "start": 52.1667,
-   "end": 54.1667,
+   "start": 51.6167,
+   "end": 54.8167,
    "scene": "s3",
-   "timing": "estimado",
-   "start_frame": 3130,
-   "start_tc": "00:52.167",
-   "end_frame": 3250,
-   "end_tc": "00:54.167"
+   "timing": "medido",
+   "start_frame": 3097,
+   "start_tc": "00:51.617",
+   "end_frame": 3289,
+   "end_tc": "00:54.817"
   },
   {
    "id": "s3-07",
    "kind": "speech",
    "text": "Ai, fechar o olho só cinco minutinhos...",
-   "start": 54.5167,
+   "start": 55.4833,
    "words": [
     {
      "w": "Ai",
      "spoken": "Ai",
      "punct": ",",
      "syl": 1,
-     "start": 54.5167,
-     "end": 54.8,
-     "start_frame": 3271,
-     "start_tc": "00:54.517",
-     "end_frame": 3288,
-     "end_tc": "00:54.800"
+     "start": 55.4833,
+     "end": 55.5833,
+     "start_frame": 3329,
+     "start_tc": "00:55.483",
+     "end_frame": 3335,
+     "end_tc": "00:55.583"
     },
     {
      "w": "fechar",
      "spoken": "fechar",
      "punct": "",
      "syl": 2,
-     "start": 54.9667,
-     "end": 55.4833,
-     "start_frame": 3298,
-     "start_tc": "00:54.967",
-     "end_frame": 3329,
-     "end_tc": "00:55.483"
+     "start": 56.0833,
+     "end": 56.4,
+     "start_frame": 3365,
+     "start_tc": "00:56.083",
+     "end_frame": 3384,
+     "end_tc": "00:56.400"
     },
     {
      "w": "o",
      "spoken": "o",
      "punct": "",
      "syl": 1,
-     "start": 55.4833,
-     "end": 55.6667,
-     "start_frame": 3329,
-     "start_tc": "00:55.483",
-     "end_frame": 3340,
-     "end_tc": "00:55.667"
+     "start": 56.4,
+     "end": 56.5167,
+     "start_frame": 3384,
+     "start_tc": "00:56.400",
+     "end_frame": 3391,
+     "end_tc": "00:56.517"
     },
     {
      "w": "olho",
      "spoken": "olho",
      "punct": "",
      "syl": 2,
-     "start": 55.6667,
-     "end": 56.1833,
-     "start_frame": 3340,
-     "start_tc": "00:55.667",
-     "end_frame": 3371,
-     "end_tc": "00:56.183"
+     "start": 56.5167,
+     "end": 56.8333,
+     "start_frame": 3391,
+     "start_tc": "00:56.517",
+     "end_frame": 3410,
+     "end_tc": "00:56.833"
     },
     {
      "w": "só",
      "spoken": "só",
      "punct": "",
      "syl": 1,
-     "start": 56.1833,
-     "end": 56.45,
-     "start_frame": 3371,
-     "start_tc": "00:56.183",
-     "end_frame": 3387,
-     "end_tc": "00:56.450"
+     "start": 56.8333,
+     "end": 56.9833,
+     "start_frame": 3410,
+     "start_tc": "00:56.833",
+     "end_frame": 3419,
+     "end_tc": "00:56.983"
     },
     {
      "w": "cinco",
      "spoken": "cinco",
      "punct": "",
      "syl": 2,
-     "start": 56.45,
-     "end": 56.9833,
-     "start_frame": 3387,
-     "start_tc": "00:56.450",
-     "end_frame": 3419,
-     "end_tc": "00:56.983"
+     "start": 56.9833,
+     "end": 57.3167,
+     "start_frame": 3419,
+     "start_tc": "00:56.983",
+     "end_frame": 3439,
+     "end_tc": "00:57.317"
     },
     {
      "w": "minutinhos",
      "spoken": "minutinhos",
      "punct": "...",
      "syl": 4,
-     "start": 56.9833,
-     "end": 58.4,
-     "start_frame": 3419,
-     "start_tc": "00:56.983",
-     "end_frame": 3504,
-     "end_tc": "00:58.400"
+     "start": 57.3167,
+     "end": 58.1667,
+     "start_frame": 3439,
+     "start_tc": "00:57.317",
+     "end_frame": 3490,
+     "end_tc": "00:58.167"
     }
    ],
-   "end": 58.4,
+   "end": 58.1667,
    "scene": "s3",
-   "timing": "estimado",
-   "start_frame": 3271,
-   "start_tc": "00:54.517",
-   "end_frame": 3504,
-   "end_tc": "00:58.400"
+   "timing": "medido",
+   "start_frame": 3329,
+   "start_tc": "00:55.483",
+   "end_frame": 3490,
+   "end_tc": "00:58.167"
   }
  ],
  "breaths": [
   {
    "t": 0.15,
-   "inhale": 0.3,
+   "inhale": 0.5833,
    "hold": 0.0,
-   "exhale": 2.6833,
+   "exhale": 3.4833,
    "amp": 1.0,
    "type": "inhale_quick",
    "ref": "s1-01",
    "explicit": true
   },
   {
-   "t": 4.1267,
-   "inhale": 0.2567,
+   "t": 5.3167,
+   "inhale": 0.35,
    "hold": 0.0,
-   "exhale": 3.0167,
+   "exhale": 2.6,
    "amp": 0.8,
    "type": "inhale_phrase",
    "ref": "s1-04",
    "explicit": false
   },
   {
-   "t": 7.5667,
-   "inhale": 0.35,
-   "hold": 0.0,
-   "exhale": 4.6333,
-   "amp": 0.8,
-   "type": "inhale_phrase",
-   "ref": "s1-05",
-   "explicit": false
-  },
-  {
-   "t": 12.655,
-   "inhale": 0.245,
-   "hold": 0.0,
-   "exhale": 1.85,
-   "amp": 0.8,
-   "type": "inhale_phrase",
-   "ref": "s1-06",
-   "explicit": false
-  },
-  {
-   "t": 16.0,
-   "inhale": 0.68,
-   "hold": 0.17,
-   "exhale": 0.85,
+   "t": 16.9167,
+   "inhale": 0.3067,
+   "hold": 0.0767,
+   "exhale": 0.3833,
    "amp": 1.5,
    "type": "sigh_long",
    "ref": "s2-01",
    "explicit": true
   },
   {
-   "t": 19.6267,
-   "inhale": 0.2567,
+   "t": 22.6333,
+   "inhale": 0.35,
    "hold": 0.0,
-   "exhale": 1.4333,
-   "amp": 0.8,
-   "type": "inhale_phrase",
-   "ref": "s2-03",
-   "explicit": false
-  },
-  {
-   "t": 21.4217,
-   "inhale": 0.245,
-   "hold": 0.0,
-   "exhale": 1.8,
+   "exhale": 1.55,
    "amp": 0.8,
    "type": "inhale_phrase",
    "ref": "s2-04",
    "explicit": false
   },
   {
-   "t": 23.5567,
-   "inhale": 0.21,
+   "t": 26.1333,
+   "inhale": 0.165,
    "hold": 0.0,
-   "exhale": 1.1333,
-   "amp": 0.8,
-   "type": "inhale_phrase",
-   "ref": "s2-05",
-   "explicit": false
-  },
-  {
-   "t": 25.4167,
-   "inhale": 0.1925,
-   "hold": 0.0,
-   "exhale": 0.1575,
+   "exhale": 0.135,
    "amp": 0.45,
    "type": "sniff",
    "ref": "s2-06",
    "explicit": true
   },
   {
-   "t": 31.5333,
-   "inhale": 0.35,
+   "t": 26.5333,
+   "inhale": 0.2333,
    "hold": 0.0,
-   "exhale": 2.7167,
+   "exhale": 4.8167,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-07",
+   "explicit": false
+  },
+  {
+   "t": 31.6983,
+   "inhale": 0.2683,
+   "hold": 0.0,
+   "exhale": 2.55,
    "amp": 0.8,
    "type": "inhale_phrase",
    "ref": "s2-08",
@@ -2150,47 +2120,47 @@
    "t": 36.85,
    "inhale": 0.35,
    "hold": 0.0,
-   "exhale": 3.5167,
+   "exhale": 4.95,
    "amp": 0.8,
    "type": "inhale_phrase",
    "ref": "s3-01",
    "explicit": false
   },
   {
-   "t": 41.05,
-   "inhale": 1.21,
-   "hold": 0.44,
-   "exhale": 0.55,
+   "t": 42.4333,
+   "inhale": 1.1183,
+   "hold": 0.4067,
+   "exhale": 0.5083,
    "amp": 1.8,
    "type": "yawn",
    "ref": "s3-02",
    "explicit": true
   },
   {
-   "t": 47.5317,
-   "inhale": 0.2683,
+   "t": 48.7167,
+   "inhale": 0.35,
    "hold": 0.0,
-   "exhale": 3.9333,
+   "exhale": 2.55,
    "amp": 0.8,
    "type": "inhale_phrase",
    "ref": "s3-05",
    "explicit": false
   },
   {
-   "t": 52.1667,
-   "inhale": 0.9,
-   "hold": 0.2,
-   "exhale": 0.9,
+   "t": 51.6167,
+   "inhale": 1.44,
+   "hold": 0.32,
+   "exhale": 1.44,
    "amp": 1.3,
    "type": "deep_slow",
    "ref": "s3-06",
    "explicit": true
   },
   {
-   "t": 54.2717,
-   "inhale": 0.245,
+   "t": 55.1333,
+   "inhale": 0.35,
    "hold": 0.0,
-   "exhale": 3.8833,
+   "exhale": 2.6833,
    "amp": 0.8,
    "type": "inhale_phrase",
    "ref": "s3-07",
@@ -2291,79 +2261,79 @@
        0.0
       ],
       [
-       40.0,
+       42.0,
        0.0
       ],
       [
-       41.0,
-       0.033
-      ],
-      [
-       42.0,
-       0.564
-      ],
-      [
        43.0,
-       1.406
+       0.27
       ],
       [
        44.0,
-       2.126
+       1.031
       ],
       [
        45.0,
-       2.339
+       1.857
       ],
       [
        46.0,
-       2.631
+       2.313
       ],
       [
        47.0,
-       3.193
+       2.464
       ],
       [
        48.0,
-       3.903
+       2.924
       ],
       [
        49.0,
-       4.64
+       3.585
       ],
       [
        50.0,
-       5.281
+       4.325
       ],
       [
        51.0,
-       5.704
+       5.022
       ],
       [
        52.0,
-       5.827
+       5.555
       ],
       [
        53.0,
-       6.182
+       5.802
       ],
       [
        54.0,
-       6.842
+       5.981
       ],
       [
        55.0,
-       7.629
+       6.53
       ],
       [
        56.0,
-       8.365
+       7.284
       ],
       [
        57.0,
-       8.874
+       8.064
       ],
       [
        58.0,
+       8.693
+      ],
+      [
+       59.0,
+       8.994
+      ],
+      [
+       60.0,
        9.0
       ]
      ]
@@ -2379,13 +2349,13 @@
     "origin": "roteiro",
     "desc": "Bip agudo da catraca eletrônica ao ler o bilhete.",
     "gain_db": -8,
-    "start": 23.6667,
-    "end": 23.6667,
+    "start": 24.7333,
+    "end": 24.7333,
     "scene": "s2",
-    "start_frame": 1420,
-    "start_tc": "00:23.667",
-    "end_frame": 1420,
-    "end_tc": "00:23.667"
+    "start_frame": 1484,
+    "start_tc": "00:24.733",
+    "end_frame": 1484,
+    "end_tc": "00:24.733"
    },
    {
     "id": "catraca-giro",
@@ -2393,13 +2363,13 @@
     "origin": "inferido",
     "desc": "Giro mecânico da catraca logo após o bip.",
     "gain_db": -10,
-    "start": 24.0167,
-    "end": 24.0167,
+    "start": 25.0833,
+    "end": 25.0833,
     "scene": "s2",
-    "start_frame": 1441,
-    "start_tc": "00:24.017",
-    "end_frame": 1441,
-    "end_tc": "00:24.017"
+    "start_frame": 1505,
+    "start_tc": "00:25.083",
+    "end_frame": 1505,
+    "end_tc": "00:25.083"
    },
    {
     "id": "sentar-banco",
@@ -2421,13 +2391,13 @@
     "origin": "inferido",
     "desc": "Mochila (com chaveiro/crachá chacoalhando) batendo no banco ao lado.",
     "gain_db": -9,
-    "start": 37.8667,
-    "end": 37.8667,
+    "start": 38.0667,
+    "end": 38.0667,
     "scene": "s3",
-    "start_frame": 2272,
-    "start_tc": "00:37.867",
-    "end_frame": 2272,
-    "end_tc": "00:37.867"
+    "start_frame": 2284,
+    "start_tc": "00:38.067",
+    "end_frame": 2284,
+    "end_tc": "00:38.067"
    }
   ],
   "footsteps": [
@@ -3212,16 +3182,16 @@
     "origin": "inferido",
     "tag": "passos-degrau-metal",
     "surface": "degraus metálicos do ônibus",
-    "start": 19.0833,
-    "end": 19.0833,
+    "start": 19.8,
+    "end": 19.8,
     "gain_db": -6.32,
     "intensity": 0.68,
     "foot": "L",
     "segment": "degraus",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 1145,
-    "start_tc": "00:19.083"
+    "start_frame": 1188,
+    "start_tc": "00:19.800"
    },
    {
     "id": "passo-045",
@@ -3230,16 +3200,16 @@
     "origin": "inferido",
     "tag": "passos-degrau-metal",
     "surface": "degraus metálicos do ônibus",
-    "start": 19.7333,
-    "end": 19.7333,
+    "start": 20.45,
+    "end": 20.45,
     "gain_db": -6.14,
     "intensity": 0.68,
     "foot": "R",
     "segment": "degraus",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 1184,
-    "start_tc": "00:19.733"
+    "start_frame": 1227,
+    "start_tc": "00:20.450"
    },
    {
     "id": "passo-046",
@@ -3248,16 +3218,16 @@
     "origin": "inferido",
     "tag": "passos-degrau-metal",
     "surface": "degraus metálicos do ônibus",
-    "start": 20.3667,
-    "end": 20.3667,
+    "start": 21.0833,
+    "end": 21.0833,
     "gain_db": -5.2,
     "intensity": 0.68,
     "foot": "L",
     "segment": "degraus",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 1222,
-    "start_tc": "00:20.367"
+    "start_frame": 1265,
+    "start_tc": "00:21.083"
    },
    {
     "id": "passo-047",
@@ -3266,16 +3236,16 @@
     "origin": "inferido",
     "tag": "passos-onibus-borracha",
     "surface": "piso emborrachado antiderrapante do ônibus (passos abafados)",
-    "start": 24.4667,
-    "end": 24.4667,
+    "start": 25.5333,
+    "end": 25.5333,
     "gain_db": -13.18,
     "intensity": 0.5,
     "foot": "L",
     "segment": "passa-catraca",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 1468,
-    "start_tc": "00:24.467"
+    "start_frame": 1532,
+    "start_tc": "00:25.533"
    },
    {
     "id": "passo-048",
@@ -3284,16 +3254,16 @@
     "origin": "inferido",
     "tag": "passos-onibus-borracha",
     "surface": "piso emborrachado antiderrapante do ônibus (passos abafados)",
-    "start": 25.3,
-    "end": 25.3,
+    "start": 26.3667,
+    "end": 26.3667,
     "gain_db": -13.33,
     "intensity": 0.5,
     "foot": "R",
     "segment": "passa-catraca",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 1518,
-    "start_tc": "00:25.300"
+    "start_frame": 1582,
+    "start_tc": "00:26.367"
    },
    {
     "id": "passo-049",
@@ -3302,16 +3272,16 @@
     "origin": "inferido",
     "tag": "passos-onibus-borracha",
     "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
-    "start": 31.9167,
-    "end": 31.9167,
+    "start": 31.9833,
+    "end": 31.9833,
     "gain_db": -13.3,
     "intensity": 0.53,
     "foot": "L",
     "segment": "corredor",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 1915,
-    "start_tc": "00:31.917"
+    "start_frame": 1919,
+    "start_tc": "00:31.983"
    },
    {
     "id": "passo-050",
@@ -3320,16 +3290,16 @@
     "origin": "inferido",
     "tag": "passos-onibus-borracha",
     "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
-    "start": 32.6333,
-    "end": 32.6333,
+    "start": 32.7,
+    "end": 32.7,
     "gain_db": -13.22,
     "intensity": 0.53,
     "foot": "R",
     "segment": "corredor",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 1958,
-    "start_tc": "00:32.633"
+    "start_frame": 1962,
+    "start_tc": "00:32.700"
    },
    {
     "id": "passo-051",
@@ -3338,16 +3308,16 @@
     "origin": "inferido",
     "tag": "passos-onibus-borracha",
     "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
-    "start": 33.35,
-    "end": 33.35,
+    "start": 33.4167,
+    "end": 33.4167,
     "gain_db": -13.5,
     "intensity": 0.53,
     "foot": "L",
     "segment": "corredor",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 2001,
-    "start_tc": "00:33.350"
+    "start_frame": 2005,
+    "start_tc": "00:33.417"
    },
    {
     "id": "passo-052",
@@ -3356,16 +3326,16 @@
     "origin": "inferido",
     "tag": "passos-onibus-borracha",
     "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
-    "start": 34.0667,
-    "end": 34.0667,
+    "start": 34.1333,
+    "end": 34.1333,
     "gain_db": -13.9,
     "intensity": 0.53,
     "foot": "R",
     "segment": "corredor",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 2044,
-    "start_tc": "00:34.067"
+    "start_frame": 2048,
+    "start_tc": "00:34.133"
    },
    {
     "id": "passo-053",
@@ -3374,16 +3344,16 @@
     "origin": "inferido",
     "tag": "passos-onibus-borracha",
     "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
-    "start": 34.7667,
-    "end": 34.7667,
+    "start": 34.8333,
+    "end": 34.8333,
     "gain_db": -13.08,
     "intensity": 0.53,
     "foot": "L",
     "segment": "corredor",
     "scene": "s2",
     "generated": "camera.step",
-    "start_frame": 2086,
-    "start_tc": "00:34.767"
+    "start_frame": 2090,
+    "start_tc": "00:34.833"
    },
    {
     "id": "passo-054",
@@ -3392,16 +3362,16 @@
     "origin": "inferido",
     "tag": "passos-onibus-borracha",
     "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
-    "start": 35.4833,
-    "end": 35.4833,
+    "start": 35.55,
+    "end": 35.55,
     "gain_db": -12.22,
     "intensity": 0.53,
     "foot": "R",
     "segment": "corredor",
     "scene": "s3",
     "generated": "camera.step",
-    "start_frame": 2129,
-    "start_tc": "00:35.483"
+    "start_frame": 2133,
+    "start_tc": "00:35.550"
    },
    {
     "id": "passo-055",
@@ -3410,16 +3380,16 @@
     "origin": "inferido",
     "tag": "passos-onibus-borracha",
     "surface": "piso emborrachado antiderrapante do corredor (passos abafados)",
-    "start": 36.2,
-    "end": 36.2,
+    "start": 36.2667,
+    "end": 36.2667,
     "gain_db": -13.49,
     "intensity": 0.53,
     "foot": "L",
     "segment": "corredor",
     "scene": "s3",
     "generated": "camera.step",
-    "start_frame": 2172,
-    "start_tc": "00:36.200"
+    "start_frame": 2176,
+    "start_tc": "00:36.267"
    }
   ],
   "mix": {
@@ -3720,74 +3690,74 @@
     "cadence": 1.6423
    },
    {
-    "t": 19.0833,
-    "frame": 1145,
+    "t": 19.8,
+    "frame": 1188,
     "segment": "degraus",
     "cadence": 1.55
    },
    {
-    "t": 19.7333,
-    "frame": 1184,
+    "t": 20.45,
+    "frame": 1227,
     "segment": "degraus",
     "cadence": 1.55
    },
    {
-    "t": 20.3667,
-    "frame": 1222,
+    "t": 21.0833,
+    "frame": 1265,
     "segment": "degraus",
     "cadence": 1.55
    },
    {
-    "t": 24.4667,
-    "frame": 1468,
+    "t": 25.5333,
+    "frame": 1532,
     "segment": "passa-catraca",
     "cadence": 1.2
    },
    {
-    "t": 25.3,
-    "frame": 1518,
+    "t": 26.3667,
+    "frame": 1582,
     "segment": "passa-catraca",
     "cadence": 1.2
    },
    {
-    "t": 31.9167,
-    "frame": 1915,
+    "t": 31.9833,
+    "frame": 1919,
     "segment": "corredor",
     "cadence": 1.4
    },
    {
-    "t": 32.6333,
-    "frame": 1958,
+    "t": 32.7,
+    "frame": 1962,
     "segment": "corredor",
     "cadence": 1.4
    },
    {
-    "t": 33.35,
-    "frame": 2001,
+    "t": 33.4167,
+    "frame": 2005,
     "segment": "corredor",
     "cadence": 1.4
    },
    {
-    "t": 34.0667,
-    "frame": 2044,
+    "t": 34.1333,
+    "frame": 2048,
     "segment": "corredor",
     "cadence": 1.4
    },
    {
-    "t": 34.7667,
-    "frame": 2086,
+    "t": 34.8333,
+    "frame": 2090,
     "segment": "corredor",
     "cadence": 1.4
    },
    {
-    "t": 35.4833,
-    "frame": 2129,
+    "t": 35.55,
+    "frame": 2133,
     "segment": "corredor",
     "cadence": 1.4
    },
    {
-    "t": 36.2,
-    "frame": 2172,
+    "t": 36.2667,
+    "frame": 2176,
     "segment": "corredor",
     "cadence": 1.4
    }
@@ -3803,49 +3773,49 @@
     "yaw": -26,
     "pitch": -3,
     "note": "varre o saguão à esquerda",
-    "t": 0.9167
+    "t": 1.8833
    },
    {
     "yaw": 30,
     "pitch": -3,
     "note": "varre à direita",
-    "t": 3.4333
+    "t": 4.3167
    },
    {
     "yaw": -4,
     "pitch": -26,
     "note": "olha o celular (23:47, 14%)",
-    "t": 4.7333
+    "t": 5.95
    },
    {
     "yaw": 0,
     "pitch": -3,
     "note": "volta a olhar adiante",
-    "t": 7.0833
+    "t": 8.3
    },
    {
     "yaw": 0,
     "pitch": 17,
     "note": "olha o teto: fluorescentes estouradas",
-    "t": 8.2667
+    "t": 8.6333
    },
    {
     "yaw": 10,
     "pitch": 1,
     "note": "desce o olhar pelo saguão",
-    "t": 10.0167
+    "t": 9.0833
    },
    {
     "yaw": -34,
     "pitch": -2,
     "note": "procura a plataforma à esquerda",
-    "t": 13.2
+    "t": 12.9667
    },
    {
     "yaw": 32,
     "pitch": -1,
     "note": "e à direita",
-    "t": 13.9
+    "t": 13.65
    },
    {
     "yaw": 0,
@@ -3869,59 +3839,59 @@
     "yaw": 0,
     "pitch": 11,
     "note": "olha para cima: degraus e cabine",
-    "t": 19.0833
+    "t": 19.8
    },
    {
     "yaw": -4,
     "pitch": 6,
     "note": "no topo da escada",
-    "t": 21.0833
+    "t": 21.8
    },
    {
     "yaw": -17,
     "pitch": 5,
     "note": "olha o motorista (à esquerda) que acena",
-    "t": 21.5667
+    "t": 22.7333
    },
    {
     "yaw": 6,
     "pitch": -20,
     "note": "olha o leitor da catraca",
-    "t": 21.9167
+    "t": 23.2333
    },
    {
     "yaw": 0,
     "pitch": -2,
-    "t": 22.4167
+    "t": 23.5833
    },
    {
     "yaw": 0,
     "pitch": 0,
     "note": "levanta o olhar após o bip",
-    "t": 23.9167
+    "t": 24.9833
    },
    {
     "yaw": 0,
     "pitch": 0,
-    "t": 26.3667
+    "t": 27.1833
    },
    {
     "yaw": 9,
     "pitch": 3,
     "note": "varre os bancos à direita",
-    "t": 26.95
+    "t": 27.7167
    },
    {
     "yaw": -10,
     "pitch": -3,
     "note": "e à esquerda",
-    "t": 28.7
+    "t": 29.25
    },
    {
     "yaw": 0,
     "pitch": -2,
     "note": "olha o corredor adiante",
-    "t": 31.9167
+    "t": 31.9833
    },
    {
     "yaw": -12,
@@ -3951,24 +3921,24 @@
     "yaw": 24,
     "pitch": -12,
     "note": "olha o banco ao lado (direita) onde joga a mochila",
-    "t": 37.8167
+    "t": 38.0167
    },
    {
     "yaw": 0,
     "pitch": -4,
-    "t": 38.7167
+    "t": 38.9167
    },
    {
     "yaw": -6,
     "pitch": 0,
-    "t": 41.3167
+    "t": 42.75
    },
    {
     "yaw": -68,
     "pitch": 3,
     "roll": 2,
     "note": "vira para a janela (esquerda): luzes da rodoviária ficam para trás",
-    "t": 43.7167
+    "t": 45.15
    },
    {
     "yaw": -72,
@@ -3999,7 +3969,7 @@
     "y_cm": -1.4,
     "pitch": -1.6,
     "note": "freia na plataforma",
-    "t": 16.0
+    "t": 16.9167
    },
    {
     "id": "k-catraca",
@@ -4008,7 +3978,7 @@
     "z_cm": 1.8,
     "pitch": -1.0,
     "note": "corpo empurra a catraca",
-    "t": 24.2667
+    "t": 25.3333
    },
    {
     "id": "k-sentar",
@@ -4028,7 +3998,7 @@
     "roll": 1.2,
     "y_cm": -0.5,
     "note": "torção do tronco ao jogar a mochila",
-    "t": 37.7667
+    "t": 37.9667
    },
    {
     "id": "k-partida",
@@ -4037,7 +4007,7 @@
     "z_cm": -2.8,
     "pitch": 1.6,
     "note": "arrancada do ônibus",
-    "t": 40.7167
+    "t": 42.15
    }
   ],
   "pulses": [
@@ -4048,7 +4018,7 @@
     "pitch": -1.6,
     "y_cm": -0.35,
     "note": "funga o nariz",
-    "t": 25.4167
+    "t": 26.1333
    },
    {
     "id": "p-cheiro",
@@ -4058,7 +4028,7 @@
     "z_cm": -1.2,
     "roll": 0.8,
     "note": "recua a cabeça com o cheiro",
-    "t": 26.5667
+    "t": 27.3833
    },
    {
     "id": "p-bocejo",
@@ -4067,7 +4037,7 @@
     "pitch": 3.5,
     "roll": -1.0,
     "note": "cabeça para trás no bocejo",
-    "t": 41.05
+    "t": 42.4333
    },
    {
     "id": "p-cabecada-1",
@@ -4201,109 +4171,79 @@
   "breath_cycles": [
    {
     "t": 0.15,
-    "inhale": 0.3,
+    "inhale": 0.5833,
     "hold": 0.0,
-    "exhale": 2.6833,
+    "exhale": 3.4833,
     "amp": 1.0,
     "type": "inhale_quick",
     "ref": "s1-01",
     "explicit": true
    },
    {
-    "t": 4.1267,
-    "inhale": 0.2567,
+    "t": 5.3167,
+    "inhale": 0.35,
     "hold": 0.0,
-    "exhale": 3.0167,
+    "exhale": 2.6,
     "amp": 0.8,
     "type": "inhale_phrase",
     "ref": "s1-04",
     "explicit": false
    },
    {
-    "t": 7.5667,
-    "inhale": 0.35,
+    "t": 14.4833,
+    "inhale": 0.5691,
     "hold": 0.0,
-    "exhale": 4.6333,
-    "amp": 0.8,
-    "type": "inhale_phrase",
-    "ref": "s1-05",
-    "explicit": false
-   },
-   {
-    "t": 12.655,
-    "inhale": 0.245,
-    "hold": 0.0,
-    "exhale": 1.85,
-    "amp": 0.8,
-    "type": "inhale_phrase",
-    "ref": "s1-06",
-    "explicit": false
-   },
-   {
-    "t": 14.75,
-    "inhale": 0.5846,
-    "hold": 0.0,
-    "exhale": 0.9538,
+    "exhale": 0.9285,
     "amp": 1.0,
     "type": "basal",
     "ref": null,
     "explicit": false
    },
    {
-    "t": 16.0,
-    "inhale": 0.68,
-    "hold": 0.17,
-    "exhale": 0.85,
+    "t": 16.9167,
+    "inhale": 0.3067,
+    "hold": 0.0767,
+    "exhale": 0.3833,
     "amp": 1.5,
     "type": "sigh_long",
     "ref": "s2-01",
     "explicit": true
    },
    {
-    "t": 19.6267,
-    "inhale": 0.2567,
+    "t": 22.6333,
+    "inhale": 0.35,
     "hold": 0.0,
-    "exhale": 1.4333,
-    "amp": 0.8,
-    "type": "inhale_phrase",
-    "ref": "s2-03",
-    "explicit": false
-   },
-   {
-    "t": 21.4217,
-    "inhale": 0.245,
-    "hold": 0.0,
-    "exhale": 1.8,
+    "exhale": 1.55,
     "amp": 0.8,
     "type": "inhale_phrase",
     "ref": "s2-04",
     "explicit": false
    },
    {
-    "t": 23.5567,
-    "inhale": 0.21,
+    "t": 26.1333,
+    "inhale": 0.165,
     "hold": 0.0,
-    "exhale": 1.1333,
-    "amp": 0.8,
-    "type": "inhale_phrase",
-    "ref": "s2-05",
-    "explicit": false
-   },
-   {
-    "t": 25.4167,
-    "inhale": 0.1925,
-    "hold": 0.0,
-    "exhale": 0.1575,
+    "exhale": 0.135,
     "amp": 0.45,
     "type": "sniff",
     "ref": "s2-06",
     "explicit": true
    },
    {
-    "t": 31.5333,
-    "inhale": 0.35,
+    "t": 26.5333,
+    "inhale": 0.2333,
     "hold": 0.0,
-    "exhale": 2.7167,
+    "exhale": 4.8167,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-07",
+    "explicit": false
+   },
+   {
+    "t": 31.6983,
+    "inhale": 0.2683,
+    "hold": 0.0,
+    "exhale": 2.55,
     "amp": 0.8,
     "type": "inhale_phrase",
     "ref": "s2-08",
@@ -4313,47 +4253,47 @@
     "t": 36.85,
     "inhale": 0.35,
     "hold": 0.0,
-    "exhale": 3.5167,
+    "exhale": 4.95,
     "amp": 0.8,
     "type": "inhale_phrase",
     "ref": "s3-01",
     "explicit": false
    },
    {
-    "t": 41.05,
-    "inhale": 1.21,
-    "hold": 0.44,
-    "exhale": 0.55,
+    "t": 42.4333,
+    "inhale": 1.1183,
+    "hold": 0.4067,
+    "exhale": 0.5083,
     "amp": 1.8,
     "type": "yawn",
     "ref": "s3-02",
     "explicit": true
    },
    {
-    "t": 47.5317,
-    "inhale": 0.2683,
+    "t": 48.7167,
+    "inhale": 0.35,
     "hold": 0.0,
-    "exhale": 3.9333,
+    "exhale": 2.55,
     "amp": 0.8,
     "type": "inhale_phrase",
     "ref": "s3-05",
     "explicit": false
    },
    {
-    "t": 52.1667,
-    "inhale": 0.9,
-    "hold": 0.2,
-    "exhale": 0.9,
+    "t": 51.6167,
+    "inhale": 1.44,
+    "hold": 0.32,
+    "exhale": 1.44,
     "amp": 1.3,
     "type": "deep_slow",
     "ref": "s3-06",
     "explicit": true
    },
    {
-    "t": 54.2717,
-    "inhale": 0.245,
+    "t": 55.1333,
+    "inhale": 0.35,
     "hold": 0.0,
-    "exhale": 3.8833,
+    "exhale": 2.6833,
     "amp": 0.8,
     "type": "inhale_phrase",
     "ref": "s3-07",

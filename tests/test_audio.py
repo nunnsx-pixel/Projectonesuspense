@@ -380,10 +380,12 @@ class PerScene(WithProject):
         for sid in scenes:
             mine = [(t, e) for t, e in zip(truth, est) if e["scene"] == sid and e["kind"] == "speech"]
             shift = mine[0][1]["start"] - mine[0][0]["start"]                          # 1ª fala no instante previsto
+            push = res["items"][mine[0][0]["id"]]["start"] - mine[0][1]["start"]       # (ou depois, se a respiração inicial
+            self.assertTrue(-0.05 <= push <= 0.7, f"{sid}: empurrão {push:.2f}")       # sairia antes da janela da cena)
             for t, e in mine:
                 m = res["items"][t["id"]]
-                self.assertAlmostEqual(m["start"], t["start"] + shift, delta=0.05, msg=t["id"])
-                self.assertAlmostEqual(m["end"], t["end"] + shift, delta=0.05, msg=t["id"])
+                self.assertAlmostEqual(m["start"], t["start"] + shift + push, delta=0.05, msg=t["id"])
+                self.assertAlmostEqual(m["end"], t["end"] + shift + push, delta=0.05, msg=t["id"])
 
     def test_track_discovery_errors(self):
         d = self.tmp / "vazia"
@@ -513,6 +515,64 @@ class SpeakerBlocks(WithProject):
         (d / "cena2.mp3").write_bytes(b"x")
         with self.assertRaisesRegex(audio.AudioError, "cena2.mp3"):                     # nome que não reconheço
             audio.find_tracks(d, ["s1", "s2", "s3"], {"protagonista", "motorista"})
+
+
+class VoicedBreaths(WithProject):
+    """Suspiro, gasp e hiperventilação que a voz sintética soa COM TOM (o detector os toma por fala).
+
+    Vale para blocos por cena/falante, onde a respiração abre o arquivo. (Na trilha única do episódio, uma respiração soada
+    no MEIO da fala não é separada da fala: limite documentado.)"""
+
+    def block(self, ep, seed, scene, **perturb):
+        est = estimated(self.root, ep)
+        truth = sv.perturb(est, seed=seed, duration=perturb.pop("duration", 59.0), **perturb)
+        samples = sv.render(truth, 100.0, seed=seed, voiced_breath=True)
+        scenes = list(dict.fromkeys(i["scene"] for i in est))
+        k = scenes.index(scene)
+        first = next(t for t, e in zip(truth, est) if e["scene"] == scene)["start"]
+        nxt = next((t for t, e in zip(truth, est) if e["scene"] == scenes[k + 1]), None) if k + 1 < len(scenes) else None
+        a, b = int(max(0.0, first - 0.1) * sv.RATE), int(((nxt["start"] - 0.1) if nxt else 100.0) * sv.RATE)
+        adir = self.tmp / f"{ep}_voiced_{scene}_{seed}"
+        sv.write_wav(adir / f"{scene}.wav", array("h", samples[a:b]))
+        return truth, est, adir
+
+    def test_a_voiced_sigh_before_the_first_line_is_a_breath_not_part_of_the_line(self):
+        truth, est, adir = self.block("ep01", 2, "s2")
+        res = audio.analyse_episode("ep01", root=self.root, audio_dir=adir)
+        by, it = {t["id"]: t for t in truth}, res["items"]
+        shift = it["s2-02"]["start"] - by["s2-02"]["start"]                          # o bloco inteiro anda junto
+        sigh = by["s2-01"]                                                           # suspiro de alívio (1,7 s)
+        self.assertGreater(iou(it["s2-01"]["start"], it["s2-01"]["end"], sigh["start"] + shift, sigh["end"] + shift), 0.6)
+        self.assertNotIn("não detectada", it["s2-01"].get("note", ""))
+        for iid in ("s2-02", "s2-03", "s2-04"):                                      # e a fala NÃO engole o suspiro
+            self.assertAlmostEqual(it[iid]["end"] - it[iid]["start"], by[iid]["end"] - by[iid]["start"], delta=0.08, msg=iid)
+        self.assertLessEqual(it["s2-01"]["end"], it["s2-02"]["start"] + 1e-6)
+
+    def test_multi_burst_hyperventilation_is_taken_whole(self):
+        truth, est, adir = self.block("ep03", 1, "s1")
+        res = audio.analyse_episode("ep03", root=self.root, audio_dir=adir)
+        by, it = {t["id"]: t for t in truth}, res["items"]
+        shift = it["s1-02"]["start"] - by["s1-02"]["start"]
+        for iid in ("s1-02", "s1-03"):
+            self.assertAlmostEqual(it[iid]["end"] - it[iid]["start"], by[iid]["end"] - by[iid]["start"], delta=0.08, msg=iid)
+        hv, t = it["s1-01"], by["s1-01"]                                             # as 5 rajadas, de uma vez
+        self.assertGreater(iou(hv["start"], hv["end"], t["start"] + shift, t["end"] + shift), 0.6)
+        self.assertGreaterEqual(hv["start"], est[0]["start"] - 1 / FPS - 1e-6)       # nada antes da janela da cena (0,6 s)
+
+    def test_a_breath_longer_than_planned_pushes_the_block_so_nothing_starts_before_the_window(self):
+        truth, est, adir = self.block("ep03", 3, "s1", rate_range=(2.0, 2.2), duration=200.0)   # hiperventilação ~2x a prevista
+        res = audio.analyse_episode("ep03", root=self.root, audio_dir=adir)
+        self.assertGreaterEqual(res["items"]["s1-01"]["start"], est[0]["start"] - 1 / FPS - 1e-6)
+        self.assertTrue(any("empurrado" in w for w in res["report"]["warnings"]))
+        by, it = {t["id"]: t for t in truth}, res["items"]
+        self.assertAlmostEqual(it["s1-02"]["end"] - it["s1-02"]["start"], by["s1-02"]["end"] - by["s1-02"]["start"], delta=0.1)
+
+    def test_without_a_leading_breath_nothing_changes(self):
+        truth, est, adir = self.block("ep01", 1, "s1")                               # cena 1 do Ep. 1: só uma inspiração curta
+        res = audio.analyse_episode("ep01", root=self.root, audio_dir=adir)
+        by, it = {t["id"]: t for t in truth}, res["items"]
+        for iid in ("s1-02", "s1-03", "s1-04", "s1-05", "s1-06"):
+            self.assertAlmostEqual(it[iid]["end"] - it[iid]["start"], by[iid]["end"] - by[iid]["start"], delta=0.08, msg=iid)
 
 
 class BuildFailure(WithProject):
