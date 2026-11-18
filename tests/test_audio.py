@@ -362,38 +362,28 @@ class PerScene(WithProject):
                 self.assertAlmostEqual(m["end"], t["end"], delta=0.04, msg=t["id"])
         self.assertTrue(all(not i["offset_default"] for i in res["report"]["audio"].values()))
 
-    def test_default_offset_is_the_estimated_start_of_the_scenes_first_item(self):
+    def test_blocks_are_placed_by_the_script_first_speech_lands_on_its_planned_start(self):
+        """Sem offsets.json o bloco é posicionado pelo roteiro: a 1ª fala cai no instante previsto e o resto vem com a
+        estrutura medida (durações e pausas da gravação)."""
         est = estimated(self.root, "ep02")
         scenes = list(dict.fromkeys(i["scene"] for i in est))
-        est_first = {sid: next(i for i in est if i["scene"] == sid)["start"] for sid in scenes}
-        for seed in range(1, 60):                                                        # gravação em que cada cena começa DEPOIS do previsto
-            truth = sv.perturb(est, seed=seed)
-            for sid in scenes:                                                           # leva cada cena a começar 0,25 s depois do previsto
-                mine = [t for t, e in zip(truth, est) if e["scene"] == sid]
-                d = est_first[sid] + 0.25 - mine[0]["start"]
-                for t in mine:
-                    t["start"] += d
-                    t["end"] += d
-                    t["words"] = [(a + d, b + d) for a, b in t["words"]]
-                    t["pauses"] = [(a + d, b + d) for a, b in t["pauses"]]
-            first_truth = {sid: next(t for t, e in zip(truth, est) if e["scene"] == sid)["start"] for sid in scenes}
-            ends = {sid: max(t["end"] for t, e in zip(truth, est) if e["scene"] == sid) for sid in scenes}
-            if all(ends[a] < first_truth[b] - 0.3 for a, b in zip(scenes, scenes[1:])) and ends[scenes[-1]] < 59.5:
-                break
-        else:
-            self.fail("não consegui montar o cenário do teste (cenas se sobrepondo em todas as sementes)")
-        # sem offsets.json: cada arquivo começa no instante previsto do 1º item da cena (o padrão documentado)
-        samples = sv.render(truth, 60.0, seed=seed)
-        adir = self.tmp / "ep02_default"
+        truth = sv.perturb(est, seed=2)
+        samples = sv.render(truth, 60.0, seed=2)
+        adir = self.tmp / "ep02_blocks"
         for k, sid in enumerate(scenes):
-            end = first_truth[scenes[k + 1]] - 0.1 if k + 1 < len(scenes) else 60.0
-            sv.write_wav(adir / f"{sid}.wav", array("h", samples[int(est_first[sid] * sv.RATE):int(end * sv.RATE)]))
+            first = next(t for t, e in zip(truth, est) if e["scene"] == sid)["start"]
+            end = next((t for t, e in zip(truth, est) if e["scene"] == scenes[k + 1]), None) if k + 1 < len(scenes) else None
+            stop = (end["start"] - 0.1) if end else 60.0
+            sv.write_wav(adir / f"{sid}.wav", array("h", samples[int(max(0.0, first - 0.3) * sv.RATE):int(stop * sv.RATE)]))
         res = audio.analyse_episode("ep02", root=self.root, audio_dir=adir)
         self.assertTrue(all(i["offset_default"] for i in res["report"]["audio"].values()))
-        for t in truth:
-            if t["kind"] == "speech":
+        for sid in scenes:
+            mine = [(t, e) for t, e in zip(truth, est) if e["scene"] == sid and e["kind"] == "speech"]
+            shift = mine[0][1]["start"] - mine[0][0]["start"]                          # 1ª fala no instante previsto
+            for t, e in mine:
                 m = res["items"][t["id"]]
-                self.assertAlmostEqual(m["start"], t["start"], delta=0.04, msg=t["id"])
+                self.assertAlmostEqual(m["start"], t["start"] + shift, delta=0.05, msg=t["id"])
+                self.assertAlmostEqual(m["end"], t["end"] + shift, delta=0.05, msg=t["id"])
 
     def test_track_discovery_errors(self):
         d = self.tmp / "vazia"
@@ -410,6 +400,143 @@ class PerScene(WithProject):
         (d / "narration.mp3").write_bytes(b"x")
         with self.assertRaisesRegex(audio.AudioError, "dois arquivos"):
             audio.find_tracks(d, ["s1", "s2", "s3"])
+
+
+# ---- blocos por falante (Ep. 3), cenas sem áudio, estouro ------------------------------------------------------------------
+class SpeakerBlocks(WithProject):
+    def clips(self, ep, seed, scenes, **perturb):
+        """Escreve um arquivo por (cena, falante) para as cenas pedidas. Devolve (gabarito, estimado, pasta)."""
+        est = estimated(self.root, ep)
+        truth = sv.perturb(est, seed=seed, **perturb)
+        adir = self.tmp / f"{ep}_spk_{seed}_{'_'.join(scenes)}"
+        for sid in scenes:
+            for who in ("protagonista", "motorista"):
+                mine = [t for t, e in zip(truth, est) if e["scene"] == sid and e["kind"] in ("speech", "breath")
+                        and ((e.get("speaker") or "protagonista") == who if e["kind"] == "speech" else True)]
+                # respiração: vai com o falante da fala seguinte da cena (a de cena 2 do Ep. 3 é do protagonista)
+                sp_ids = [t["id"] for t in mine if t["kind"] == "speech"]
+                if not sp_ids:
+                    continue
+                mine = [t for t in mine if t["kind"] == "speech" or self.owner(t, est, truth, sid) == who]
+                a = max(0.0, min(t["start"] for t in mine) - 0.3)
+                b = max(t["end"] for t in mine) + 0.3
+                samples = sv.render(mine, 60.0, seed=seed)
+                stem = f"{sid}.{who}" if who == "motorista" or any((e.get("speaker") for e in est if e["scene"] == sid)) else sid
+                sv.write_wav(adir / f"{stem}.wav", array("h", samples[int(a * sv.RATE):int(b * sv.RATE)]))
+        return truth, est, adir
+
+    @staticmethod
+    def owner(t, est, truth, sid):
+        later = [(x, e) for x, e in zip(truth, est) if e["scene"] == sid and e["kind"] == "speech" and x["start"] >= t["end"] - 1e-6]
+        return ((later[0][1].get("speaker") or "protagonista") if later else "protagonista")
+
+    def test_two_voices_in_one_scene_are_chained_with_the_planned_gap(self):
+        truth, est, adir = self.clips("ep03", 2, ["s2"])
+        self.assertTrue((adir / "s2.motorista.wav").exists() and (adir / "s2.protagonista.wav").exists())
+        res = audio.analyse_episode("ep03", root=self.root, audio_dir=adir)
+        it = res["items"]
+        by_est = {e["id"]: e for e in est}
+        by_truth = {t["id"]: t for t in truth}
+        # 1º bloco (motorista): a 1ª fala dele cai no instante previsto; as durações medidas são as da gravação
+        self.assertAlmostEqual(it["s2-02"]["start"], by_est["s2-02"]["start"], delta=0.03)
+        for iid in ("s2-02", "s2-03", "s2-06", "s2-07", "s2-08", "s2-09", "s2-10"):
+            t = by_truth[iid]
+            self.assertAlmostEqual(it[iid]["end"] - it[iid]["start"], t["end"] - t["start"], delta=0.06, msg=iid)
+        # 2º bloco (protagonista): começa depois do motorista, com a folga prevista entre as duas falas
+        gap_est = by_est["s2-06"]["start"] - by_est["s2-03"]["end"]
+        self.assertAlmostEqual(it["s2-06"]["start"] - it["s2-03"]["end"], gap_est, delta=0.06)
+        self.assertTrue(res["report"]["audio"]["s2.motorista.wav"]["speaker"] == "motorista")
+        # o gasp de terror (s2-05) é do protagonista: está no arquivo dele, antes da 1ª fala
+        self.assertLessEqual(it["s2-05"]["end"], it["s2-06"]["start"] + 1e-6)
+        self.assertNotIn("sem áudio", it["s2-05"].get("note", ""))
+
+    def test_scenes_without_audio_keep_the_plan_shifted_with_the_scene_and_never_overlap(self):
+        truth, est, adir = self.clips("ep03", 2, ["s2"])
+        res = audio.analyse_episode("ep03", root=self.root, audio_dir=adir)
+        it, by_est = res["items"], {e["id"]: e for e in est}
+        for iid in ("s1-02", "s1-05", "s3-02", "s3-07"):                               # cenas 1 e 3: sem áudio
+            self.assertEqual(it[iid]["conf"], 0.0, iid)
+            self.assertIn("sem áudio", it[iid]["note"])
+        self.assertAlmostEqual(it["s1-02"]["start"], by_est["s1-02"]["start"], places=2)          # cena 1 não se mexe
+        self.assertTrue(any(w.startswith("sem áudio") for w in res["report"]["warnings"]))
+        prev = 0.0
+        for iid, m in it.items():                                                       # ordem e sem sobreposição (o build exige)
+            self.assertGreaterEqual(m["start"], prev - 1e-6, iid)
+            prev = m["end"]
+        self.assertEqual([f["scene"] for f in res["report"]["scenes"]], ["s2"])        # o quadro por cena só tem a cena medida
+        self.assertTrue(res["report"]["scenes"][0]["complete"])
+
+    def test_voice_that_runs_over_the_scene_is_reported_and_pushes_the_next_one(self):
+        est = estimated(self.root, "ep01")
+        truth = sv.perturb(est, seed=3, rate_range=(1.40, 1.45), duration=200.0)        # voz bem mais lenta que o previsto
+        samples = sv.render(truth, 100.0, seed=3)
+        adir = self.tmp / "ep01_slow"
+        scenes = list(dict.fromkeys(i["scene"] for i in est))
+        for k, sid in enumerate(scenes):
+            a = max(0.0, next(t for t, e in zip(truth, est) if e["scene"] == sid)["start"] - 0.3)
+            nxt = next((t for t, e in zip(truth, est) if e["scene"] == scenes[k + 1]), None) if k + 1 < len(scenes) else None
+            sv.write_wav(adir / f"{sid}.wav", array("h", samples[int(a * sv.RATE):int(((nxt["start"] - 0.1) if nxt else 100.0) * sv.RATE)]))
+        res = audio.analyse_episode("ep01", root=self.root, audio_dir=adir)
+        fit = {f["scene"]: f for f in res["report"]["scenes"]}
+        self.assertGreater(fit["s1"]["over_window_s"], 0.3)                             # a cena 1 passa do fim (15 s)
+        self.assertGreater(fit["s1"]["diff_s"], 3.0)                                    # e ocupa bem mais que o previsto
+        self.assertTrue(any("depois do fim da cena" in w for w in res["report"]["warnings"]))
+        self.assertTrue(any("empurra" in w for w in res["report"]["warnings"]))         # a cena 2 foi empurrada, não sobreposta
+        prev = 0.0
+        for iid, m in res["items"].items():
+            self.assertGreaterEqual(m["start"], prev - 1e-6, iid)
+            prev = m["end"]
+
+    def test_file_names_with_speakers_and_typos_are_checked(self):
+        d = self.tmp / "nomes"
+        d.mkdir()
+        (d / "s2.motorista.wav").write_bytes(b"x")
+        tracks = audio.find_tracks(d, ["s1", "s2", "s3"], {"protagonista", "motorista"})
+        self.assertEqual([(t["stem"], t["speaker"]) for t in tracks], [("s2.motorista", "motorista")])
+        with self.assertRaisesRegex(audio.AudioError, "não reconheço"):                 # falante que o episódio não tem
+            audio.find_tracks(d, ["s1", "s2", "s3"], {"protagonista"})
+        (d / "s2.wav").write_bytes(b"x")
+        with self.assertRaisesRegex(audio.AudioError, "UMA forma"):                     # bloco da cena E por falante
+            audio.find_tracks(d, ["s1", "s2", "s3"], {"protagonista", "motorista"})
+        (d / "s2.wav").unlink()
+        (d / "cena2.mp3").write_bytes(b"x")
+        with self.assertRaisesRegex(audio.AudioError, "cena2.mp3"):                     # nome que não reconheço
+            audio.find_tracks(d, ["s1", "s2", "s3"], {"protagonista", "motorista"})
+
+
+class BuildFailure(WithProject):
+    def args(self, ep, adir, **kw):
+        d = dict(episode=ep, audio_dir=str(adir), dry_run=False, no_build=False, force=False, min_pause_ms=None, strict=False,
+                 keep_on_error=False)
+        d.update(kw)
+        return argparse.Namespace(**d)
+
+    def test_a_voice_that_does_not_fit_the_episode_is_not_kept_unless_asked(self):
+        est = estimated(self.root, "ep02")
+        truth = sv.perturb(est, seed=4, rate_range=(1.45, 1.5), duration=70.0)           # tão lenta que passa dos 60 s
+        samples = sv.render(truth, 75.0, seed=4)
+        adir = self.tmp / "ep02_long"
+        scenes = list(dict.fromkeys(i["scene"] for i in est))
+        for k, sid in enumerate(scenes):
+            a = max(0.0, next(t for t, e in zip(truth, est) if e["scene"] == sid)["start"] - 0.3)
+            nxt = next((t for t, e in zip(truth, est) if e["scene"] == scenes[k + 1]), None) if k + 1 < len(scenes) else None
+            stop = (nxt["start"] - 0.1) if nxt else max(t["end"] for t in truth) + 0.3
+            sv.write_wav(adir / f"{sid}.wav", array("h", samples[int(a * sv.RATE):int(stop * sv.RATE)]))
+        path = self.root / "ep02" / "narration.measured.json"
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = audio.run(self.args("ep02", adir), root=self.root)
+        self.assertEqual(code, 1)
+        self.assertIn("ERRO no build", err.getvalue())
+        self.assertIn("NÃO foi mantido", err.getvalue())
+        self.assertFalse(path.exists())                                                  # nada quebrado fica no projeto
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = audio.run(self.args("ep02", adir, keep_on_error=True), root=self.root)
+        self.assertEqual(code, 1)
+        self.assertTrue(path.exists())                                                   # a pedido, fica (para depurar)
+        path.unlink()
+        path.with_suffix(".json.bak").unlink(missing_ok=True)
 
 
 # ---- pausas internas no build ---------------------------------------------------------------------------------------

@@ -34,7 +34,7 @@ def perturb(items, seed: int = 1, duration: float = 59.0, rate_range=(0.92, 1.12
         s, e = cursor, cursor + dur_est * scale
         words = [(s + (w["start"] - it["start"]) * scale, s + (w["end"] - it["start"]) * scale) for w in it.get("words", [])]
         out.append({"id": it["id"], "kind": it["kind"], "start": s, "end": e, "words": words, "type": it.get("type"),
-                    "pitch": 85.0 if it.get("speaker") == "motorista" else 120.0})
+                    "speaker": it.get("speaker"), "pitch": 85.0 if it.get("speaker") == "motorista" else 120.0})
         cursor, prev_end_est = e, it["end"]
     if out[-1]["end"] > duration:                                       # comprime para caber no episódio
         f = (duration - out[0]["start"]) / (out[-1]["end"] - out[0]["start"])

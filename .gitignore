@@ -1,3 +1,7 @@
 __pycache__/
 *.pyc
 ep*/narration.measured.json.bak
+# áudio da voz (binário, fica fora do git; o measured.json gerado é que se versiona)
+ep*/audio/*
+!ep*/audio/LEIA-ME.md
+!ep*/audio/offsets.json

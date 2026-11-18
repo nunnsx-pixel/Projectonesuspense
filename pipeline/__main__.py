@@ -20,6 +20,7 @@ def main(argv=None) -> int:
     a.add_argument("--no-build", action="store_true", help="grava o measured.json mas não roda o build")
     a.add_argument("--force", action="store_true", help="sobrescreve um narration.measured.json escrito à mão (guarda .bak)")
     a.add_argument("--min-pause-ms", type=float, help="menor silêncio interno que vira âncora de palavra (padrão 100)")
+    a.add_argument("--keep-on-error", action="store_true", help="mantém o measured.json mesmo se o build falhar com ele")
     a.add_argument("--strict", action="store_true", help="falha (exit 1) se houver avisos (da análise ou do build)")
     args = ap.parse_args(argv)
 

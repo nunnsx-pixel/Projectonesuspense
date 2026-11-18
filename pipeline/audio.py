@@ -384,16 +384,21 @@ def _union_breath(runs, dur):
 # ======================================================================================================================
 #  Trilhas e itens
 # ======================================================================================================================
-def find_tracks(audio_dir: Path, scene_ids) -> list[dict]:
-    """Descobre as trilhas em `ep0X/audio/`.
+def find_tracks(audio_dir: Path, scene_ids, speakers=("protagonista",)) -> list[dict]:
+    """Descobre as trilhas em `ep0X/audio/` (nome do arquivo = tipo da trilha; qualquer extensão de áudio).
 
-    narration.<ext>    UMA trilha do episódio inteiro, com t=0 no início do vídeo (offset 0).
-    s1.<ext>, s2.<ext> uma trilha por cena; por padrão o t=0 do arquivo cai no início previsto do 1º item da cena.
-    audio/offsets.json {"s2": 18.3, "narration": 0.0}: onde cada arquivo começa NA LINHA DO TEMPO (segundos).
+    narration.<ext>            UMA trilha do episódio inteiro, com t=0 no início do vídeo (offset 0).
+    s1.<ext>, s2.<ext> ...     um bloco por cena, com todas as vozes da cena.
+    s2.motorista.<ext> ...     um bloco por cena E por falante (cada voz gerada à parte; ver `speakers` no narration.json).
+    audio/offsets.json         {"s2": 18.3, "narration": 0.0}: onde o t=0 de um arquivo cai NA LINHA DO TEMPO (segundos).
+
+    Sem offset explícito, o bloco é POSICIONADO pelo roteiro: a 1ª fala do bloco cai no instante previsto dela e, havendo
+    vários blocos na mesma cena (falantes diferentes), cada um começa depois do anterior, com a folga prevista entre eles.
     """
     if not audio_dir.is_dir():
         raise AudioError(f"pasta de áudio não encontrada: {audio_dir}. Coloque lá narration.wav (episódio inteiro) "
-                         f"ou um arquivo por cena ({', '.join(f'{s}.wav' for s in scene_ids)}).")
+                         f"ou um arquivo por bloco ({', '.join(f'{s}.wav' for s in scene_ids)}; "
+                         f"com vozes separadas: s2.motorista.wav, s2.protagonista.wav).")
     files = {}
     for f in sorted(audio_dir.iterdir()):
         if f.is_file() and f.suffix.lower() in AUDIO_EXTS:
@@ -402,19 +407,39 @@ def find_tracks(audio_dir: Path, scene_ids) -> list[dict]:
             files[f.stem] = f
     offs_file = audio_dir / "offsets.json"
     offsets = json.loads(offs_file.read_text(encoding="utf-8")) if offs_file.exists() else {}
-    if "narration" in files:
-        extra = [s for s in scene_ids if s in files]
-        if extra:
-            raise AudioError(f"há narration e também {', '.join(extra)}: escolha UMA forma (episódio inteiro OU por cena)")
-        return [{"stem": "narration", "path": files["narration"], "scenes": list(scene_ids), "offset": offsets.get("narration", 0.0),
-                 "default_offset": False}]
-    found = [s for s in scene_ids if s in files]
-    if not found:
-        raise AudioError(f"nenhum áudio de narração em {audio_dir}: esperava narration.<ext> ou {', '.join(scene_ids)} (.wav/.mp3/...)")
-    unknown = sorted(set(offsets) - set(scene_ids) - {"narration"})
+    speakers = set(speakers)
+    tracks, bad = [], []
+    for stem, path in files.items():
+        scene, _, who = stem.partition(".")
+        if stem == "narration":
+            tracks.append({"stem": stem, "path": path, "scenes": list(scene_ids), "speaker": None})
+        elif scene in scene_ids and (not who or who in speakers):
+            tracks.append({"stem": stem, "path": path, "scenes": [scene], "speaker": who or None})
+        else:
+            bad.append(path.name)
+    if bad:
+        raise AudioError(f"arquivo(s) de áudio que não reconheço: {', '.join(bad)}. Os nomes aceitos são narration, "
+                         f"{', '.join(scene_ids)} ou <cena>.<falante> (falantes: {', '.join(sorted(speakers))}).")
+    if not tracks:
+        raise AudioError(f"nenhum áudio de narração em {audio_dir}: esperava narration.<ext>, {', '.join(scene_ids)} "
+                         f"ou <cena>.<falante> (.wav/.mp3/...)")
+    if any(t["stem"] == "narration" for t in tracks) and len(tracks) > 1:
+        extra = [t["stem"] for t in tracks if t["stem"] != "narration"]
+        raise AudioError(f"há narration e também {', '.join(extra)}: escolha UMA forma (episódio inteiro OU por bloco)")
+    for sc in scene_ids:
+        mine = [t for t in tracks if t["scenes"] == [sc]]
+        if any(t["speaker"] is None for t in mine) and len(mine) > 1:
+            raise AudioError(f"a cena {sc} tem {sc} (todas as vozes) e também {', '.join(t['stem'] for t in mine if t['speaker'])}: "
+                             f"escolha UMA forma")
+    unknown = sorted(set(offsets) - {t["stem"] for t in tracks} - set(scene_ids) - {"narration"})
     if unknown:
-        raise AudioError(f"offsets.json cita cenas inexistentes: {unknown}")
-    return [{"stem": s, "path": files[s], "scenes": [s], "offset": offsets.get(s), "default_offset": s not in offsets} for s in found]
+        raise AudioError(f"offsets.json cita blocos inexistentes: {unknown}")
+    for t in tracks:
+        t["offset"] = offsets.get(t["stem"], 0.0 if t["stem"] == "narration" else None)
+        t["default_offset"] = t["offset"] is None
+    order = {s: k for k, s in enumerate(scene_ids)}
+    tracks.sort(key=lambda t: (order[t["scenes"][0]], t["speaker"] or ""))
+    return tracks
 
 
 def estimated_items(ep_id: str, root: Path = ROOT):
@@ -424,6 +449,26 @@ def estimated_items(ep_id: str, root: Path = ROOT):
     return tl["narration"], tl
 
 
+def _track_ids(tr, order, by_id):
+    """Itens (fala e respiração) cuja voz está neste arquivo. A respiração vai com o falante da fala SEGUINTE da cena
+    (ou da anterior, no fim): quem respira antes de falar é quem fala."""
+    scene_items = [i for i in order if by_id[i]["scene"] in tr["scenes"] and by_id[i]["kind"] in ("speech", "breath")]
+    if tr["speaker"] is None:
+        return scene_items
+    who = lambda i: by_id[i].get("speaker") or "protagonista"                       # noqa: E731
+    out = []
+    for k, i in enumerate(scene_items):
+        if by_id[i]["kind"] == "speech":
+            owner = who(i)
+        else:
+            nxt = next((j for j in scene_items[k + 1:] if by_id[j]["kind"] == "speech"), None)
+            prv = next((j for j in reversed(scene_items[:k]) if by_id[j]["kind"] == "speech"), None)
+            owner = who(nxt) if nxt else (who(prv) if prv else None)
+        if owner == tr["speaker"]:
+            out.append(i)
+    return out
+
+
 def analyse_episode(ep_id: str, root: Path = ROOT, audio_dir: Path | None = None, params: Params | None = None) -> dict:
     """Mede todas as trilhas e devolve {"items": {id: {...}}, "report": {...}} (nada é gravado)."""
     p = params or Params()
@@ -431,53 +476,92 @@ def analyse_episode(ep_id: str, root: Path = ROOT, audio_dir: Path | None = None
     ep_dir = root / ep_id
     audio_dir = audio_dir or ep_dir / "audio"
     scene_ids = [s["id"] for s in tl["scenes"]]
-    tracks = find_tracks(audio_dir, scene_ids)
     by_id = {i["id"]: i for i in est}
     order = [i["id"] for i in est]
+    speakers = {i.get("speaker") or "protagonista" for i in est if i["kind"] == "speech"}
+    tracks = find_tracks(audio_dir, scene_ids, speakers)
     placed: dict[str, Placed] = {}
     report = {"episode": ep_id, "audio": {}, "warnings": []}
-
+    last_clip: dict[str, str] = {}                                                # cena -> última fala do bloco anterior
     for tr in tracks:
-        ids = [i for i in order if by_id[i]["scene"] in tr["scenes"]]
+        ids = _track_ids(tr, order, by_id)
         speech = [i for i in ids if by_id[i]["kind"] == "speech"]
         if not speech:
+            report["warnings"].append(f"{tr['path'].name}: nenhuma fala do roteiro corresponde a este arquivo")
             continue
-        offset = tr["offset"]
-        if offset is None:                                                       # por cena: t=0 do arquivo = 1º item previsto
-            offset = by_id[ids[0]]["start"]
         samples, rate = read_audio(tr["path"])
         fr = analyse(samples, rate)
         seg = segment(fr, p)
+        durs = [by_id[i]["end"] - by_id[i]["start"] for i in speech]
+        spans = align_speech(durs, [by_id[i]["end"] for i in speech], seg, p)
+        clip_on = spans[0][0]
+        pushed = 0.0
+        if tr["offset"] is not None:                                              # offset explícito (ou trilha do episódio)
+            offset = tr["offset"]
+        else:                                                                     # posicionado pelo roteiro
+            sc = tr["scenes"][0]
+            prev = last_clip.get(sc)
+            if prev is None:
+                anchor = by_id[speech[0]]["start"]                                # 1ª fala no instante previsto
+                tail = max((pl.end for pl in placed.values()), default=0.0)       # sem invadir o que já foi medido
+                if anchor < tail + 0.2:
+                    pushed, anchor = tail + 0.2 - anchor, tail + 0.2
+            else:                                                                 # depois do bloco anterior, com a folga prevista
+                anchor = placed[prev].end + max(by_id[speech[0]]["start"] - by_id[prev]["end"], 0.15)
+            offset = anchor - clip_on
         info = {"offset": round(offset, 3), "duration": round(fr.duration, 3), "floor_db": round(fr.floor, 1),
                 "speech_db": round(fr.ref, 1), "contrast_db": round(fr.ref - fr.floor, 1), "voiced_runs": len(seg.voiced),
-                "breath_runs": len(seg.breaths), "cut_candidates": len(seg.cuts), "offset_default": bool(tr["default_offset"])}
+                "breath_runs": len(seg.breaths), "cut_candidates": len(seg.cuts), "offset_default": bool(tr["default_offset"]),
+                "scene": tr["scenes"][0] if len(tr["scenes"]) == 1 else None, "speaker": tr["speaker"]}
         report["audio"][tr["path"].name] = info
+        if pushed > 0.05:
+            report["warnings"].append(f"{tr['path'].name}: a voz anterior termina depois do previsto e empurra esta {pushed:.2f} s")
         if fr.ref - fr.floor < 20:
             report["warnings"].append(f"{tr['path'].name}: contraste baixo entre fala e ruído de fundo "
                                       f"({fr.ref - fr.floor:.0f} dB); confira o resultado")
-        # offset do arquivo -> linha do tempo; o roteiro estimado vive na linha do tempo, então traz-se ele ao arquivo
-        durs = [by_id[i]["end"] - by_id[i]["start"] for i in speech]
-        ends_est = [by_id[i]["end"] - offset for i in speech]
-        spans = align_speech(durs, ends_est, seg, p)
         for sid, (s, e, conf) in zip(speech, spans):
             pauses = [[round(a + offset, 3), round(b + offset, 3)] for a, b in seg.gaps
                       if a >= s - 1e-6 and b <= e + 1e-6 and b - a >= p.min_pause_s]
             placed[sid] = Placed(round(s + offset, 3), round(e + offset, 3), conf, pauses=pauses)
-        # ---- respirações: ficam nas folgas entre as falas (script order) ----
         _place_breaths(ids, by_id, placed, seg.breaths, offset, fr.duration, p)
+        last_clip[tr["scenes"][0]] = speech[-1]
 
-    # ---- trechos mudos e o que sobrou: preenchem as folgas entre vizinhos; depois, ordem e sobreposição ----
-    _fill_silences_and_fix_order(order, by_id, placed, report)
+    # ---- itens sem áudio: posição estimada, deslocada junto com a cena (nunca por cima do que foi medido) ----
+    delta, prev_end, missing = {}, 0.0, []
     for iid in order:
-        if iid not in placed:
-            report["warnings"].append(f"{iid}: sem áudio correspondente; mantido na posição estimada (pode sobrepor vizinhos)")
+        it = by_id[iid]
+        if iid in placed:
+            delta[it["scene"]] = placed[iid].end - it["end"]
+            prev_end = max(prev_end, placed[iid].end)
+        elif it["kind"] != "silence":
+            s0 = max(it["start"] + delta.get(it["scene"], 0.0), prev_end)
+            placed[iid] = Placed(round(s0, 3), round(s0 + it["end"] - it["start"], 3), 0.0,
+                                 note="sem áudio: posição estimada (deslocada junto com a cena)")
+            prev_end = placed[iid].end
+            missing.append(iid)
+    if missing:
+        report["warnings"].append(f"sem áudio (posição estimada): {', '.join(missing)}")
+    # ---- trechos mudos: ocupam a folga entre os vizinhos; depois, ordem e sobreposição ----
+    _fill_silences_and_fix_order(order, by_id, placed, report)
     for iid, pl in placed.items():
         sc = next(s for s in tl["scenes"] if s["id"] == by_id[iid]["scene"])
-        if pl.start < sc["start"] - 1.0 or pl.end > sc["end"] + 1.0:
+        if pl.conf > 0 and (pl.start < sc["start"] - 1.0 or pl.end > sc["end"] + 1.0):
             report["warnings"].append(f"{iid}: {pl.start:.2f}-{pl.end:.2f}s cai fora da cena {sc['id']} "
                                       f"({sc['start']:.0f}-{sc['end']:.0f}s) por mais de 1 s")
         if pl.end > tl["duration_s"]:
             report["warnings"].append(f"{iid}: termina em {pl.end:.2f}s, depois do fim do episódio ({tl['duration_s']:.0f}s)")
+    report["scenes"] = scene_fit(tl, by_id, order, placed)
+    shrunk = [(i, by_id[i]["end"] - by_id[i]["start"], placed[i].end - placed[i].start) for i in order
+              if i in placed and by_id[i]["kind"] == "breath" and 0 < placed[i].conf < 0.5
+              and (by_id[i]["end"] - by_id[i]["start"]) - (placed[i].end - placed[i].start) > 0.3]
+    if shrunk:
+        report["warnings"].append("respiração planejada que não está no áudio e ficou mais curta: " + "; ".join(
+            f"{i} ({want:.1f} s -> {got:.1f} s)" for i, want, got in shrunk)
+            + " (a fala seguinte entra mais cedo; gere a respiração no ElevenLabs ou insira o trecho na edição)")
+    for f in report["scenes"]:
+        if f["over_window_s"] > 0.3:
+            report["warnings"].append(f"cena {f['scene']}: a voz termina {f['over_window_s']:.1f} s depois do fim da cena "
+                                      f"({f['window'][1]:.0f} s)")
     items = {}
     for iid in order:
         if iid in placed:
@@ -489,12 +573,43 @@ def analyse_episode(ep_id: str, root: Path = ROOT, audio_dir: Path | None = None
             if pl.note:
                 d["note"] = pl.note
             items[iid] = d
-    low = [i for i, d in items.items() if d["conf"] < 0.5]
+    low = [i for i, d in items.items() if 0 < d["conf"] < 0.5]
     if low:
         report["warnings"].append(f"confiança baixa (<0,5) em: {', '.join(low)} — revise com --dry-run e confira no áudio")
     report["estimated"] = {i["id"]: [round(i["start"], 3), round(i["end"], 3)] for i in est}
     report["kinds"] = {i["id"]: i["kind"] for i in est}
     return {"items": items, "report": report, "params": asdict(p), "tracks": [t["path"].name for t in tracks]}
+
+
+def scene_fit(tl, by_id, order, placed) -> list[dict]:
+    """Por cena: quanto o roteiro previu para a voz (1ª fala -> última, com as folgas e trechos mudos planejados) e quanto
+    a gravação ocupa de fato; e quanto a voz passa do fim da cena."""
+    out = []
+    for s in tl["scenes"]:
+        sp = [i for i in order if by_id[i]["scene"] == s["id"] and by_id[i]["kind"] == "speech"]
+        if not sp or not any(placed[i].conf > 0 for i in sp):
+            continue
+        budget = by_id[sp[-1]]["end"] - by_id[sp[0]]["start"]
+        a, b = placed[sp[0]].start, placed[sp[-1]].end
+        syl = sum(w["syl"] for i in sp for w in by_id[i].get("words", []))
+        out.append({"scene": s["id"], "window": [s["start"], s["end"]], "voice": [round(a, 2), round(b, 2)],
+                    "planned_s": round(budget, 2), "measured_s": round(b - a, 2), "diff_s": round(b - a - budget, 2),
+                    "over_window_s": round(max(0.0, b - s["end"]), 2), "syllables": syl,
+                    "complete": all(placed[i].conf > 0 for i in sp)})
+    return out
+
+
+def format_fit(result: dict) -> str:
+    rows = result["report"].get("scenes", [])
+    if not rows:
+        return ""
+    lines = ["cena  janela      voz medida        previsto  medido   dif.   passa da cena"]
+    for f in rows:
+        lines.append(f"{f['scene']:<6}{f['window'][0]:>3.0f}–{f['window'][1]:<4.0f}s {f['voice'][0]:>7.2f}–{f['voice'][1]:<7.2f}"
+                     f"{f['planned_s']:>9.1f}s{f['measured_s']:>7.1f}s{f['diff_s']:>+7.1f}s"
+                     f"{('  +%.1f s' % f['over_window_s']) if f['over_window_s'] > 0.05 else '       -':>14}"
+                     + ("" if f["complete"] else "   (incompleta: falta áudio)"))
+    return "\n".join(lines)
 
 
 def _place_breaths(ids, by_id, placed, breath_runs, offset, track_dur, p):
@@ -647,11 +762,16 @@ def run(args, root: Path = ROOT) -> int:
               f"· {info['voiced_runs']} trechos de voz, {info['breath_runs']} respirações · início em {info['offset']} s"
               + (" (padrão: 1º item previsto da cena)" if info["offset_default"] else ""))
     print(format_table(result))
+    fit = format_fit(result)
+    if fit:
+        print("\nencaixe por cena (o que o roteiro previu × o que a gravação ocupa):\n" + fit + "\n")
     for w in result["report"]["warnings"]:
         print(f"  AVISO: {w}")
     if args.dry_run:
         print("(--dry-run: nada foi gravado)")
         return 0
+    mpath = root / ep / "narration.measured.json"
+    previous = mpath.read_text(encoding="utf-8") if mpath.exists() else None
     try:
         path = write_measured(ep, result, root=root, force=args.force)
     except AudioError as exc:
@@ -665,6 +785,16 @@ def run(args, root: Path = ROOT) -> int:
         tl = build_episode(ep, root=root)
     except ValueError as exc:
         print(f"ERRO no build: {exc}", file=sys.stderr)
+        if getattr(args, "keep_on_error", False):
+            print("(o narration.measured.json foi mantido: --keep-on-error)", file=sys.stderr)
+        else:
+            if previous is None:
+                mpath.unlink(missing_ok=True)
+            else:
+                mpath.write_text(previous, encoding="utf-8")
+            mpath.with_suffix(".json.bak").unlink(missing_ok=True) if previous is None else None
+            print("o narration.measured.json NÃO foi mantido (o build falharia com ele): a voz não cabe no episódio "
+                  "como está. Veja o resumo por cena acima e use --keep-on-error para guardá-lo assim mesmo.", file=sys.stderr)
         return 1
     rs = resync_summary(before, tl)
     print(f"\n{tl['episode']}: {tl['frames']} frames @{tl['fps']}fps -> {ep}/build/ (voz MEDIDA)")

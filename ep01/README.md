@@ -7,7 +7,7 @@ em palavras da fala, em *beats* de cena ou uns nos outros. Mudou a fala? Todo o 
 ```
 python -m pipeline build ep01          # regenera ep01/build/
 python -m pipeline build ep01 --strict # sai com erro se houver avisos (ex.: fala que não cabe)
-python -m unittest discover -s tests   # 232 testes (86 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests   # 237 testes (86 exigem o módulo bpy; sem ele são pulados)
 ```
 
 ## Arquivos
@@ -89,10 +89,19 @@ python -m pipeline audio ep01 --dry-run     # só mostra a análise (tabela esti
 python -m pipeline audio ep01               # grava narration.measured.json e roda o build
 ```
 
-- **Onde:** `ep01/audio/narration.wav` (a voz do episódio inteiro, com t=0 no início do vídeo) **ou** um arquivo por cena
-  (`s1.wav`, `s2.wav`, `s3.wav`). WAV é lido sem dependências; mp3/m4a/ogg/flac precisam do `ffmpeg` no PATH.
-  Por cena, o t=0 do arquivo cai no início *previsto* do 1º item da cena; para dizer onde cada arquivo realmente começa
-  na linha do tempo, crie `ep01/audio/offsets.json`, ex.: `{"s2": 18.3}` (segundos).
+- **Onde (`ep01/audio/`):** `narration.wav` (a voz do episódio inteiro, com t=0 no início do vídeo) **ou** um arquivo por
+  **bloco**: `s1`, `s2`, `s3` (todas as vozes da cena) ou, quando cada voz é gerada à parte, `s2.motorista`,
+  `s2.protagonista`, `s3.protagonista`... (o falante vem do `speakers` do `narration.json`). WAV é lido sem dependências;
+  mp3/m4a/ogg/flac precisam do `ffmpeg` no PATH. Nome que não bate com isso é recusado (para não ignorar um arquivo por typo).
+- **Posição na linha do tempo:** o bloco é **posicionado pelo roteiro**: a 1ª fala dele cai no instante previsto e o resto
+  vem com as durações e pausas da gravação; havendo mais de um bloco na mesma cena (vozes diferentes), cada um começa
+  depois do anterior, com a folga prevista entre os dois. Para fixar onde um arquivo realmente começa, crie
+  `ep01/audio/offsets.json`, ex.: `{"s2.motorista": 22.1}` (segundos).
+- **Cena sem áudio:** os itens ficam na posição estimada (deslocados junto com a cena) e o aviso lista quais.
+- **Se não couber:** o comando mostra, por cena, o que o roteiro previu × o que a gravação ocupa e quanto passa do fim da
+  cena. Se a voz estourar os 60 s (ou qualquer âncora sair do episódio), o build falha e o `measured.json` **não é
+  mantido** (`--keep-on-error` guarda assim mesmo, para depurar); gere a voz de novo mais rápida/com menos pausas ou
+  corte texto.
 - **Como mede:** energia por quadro de 10 ms + cruzamento de zero separam fala, respiração (ruído fraco) e silêncio, com
   limiares relativos ao nível da própria gravação. Programação dinâmica escolhe, entre as pausas do áudio, as fronteiras que
   melhor separam as falas do roteiro (pausas longas a favor; duração muito diferente da esperada contra). Respirações

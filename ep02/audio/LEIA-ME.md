@@ -1,16 +1,16 @@
 # Áudio da voz — ep02
 
-Coloque aqui a voz do episódio (WAV, ou mp3/m4a/ogg/flac se o `ffmpeg` estiver instalado):
+Coloque aqui a voz do episódio (WAV, ou mp3/m4a/ogg/flac se o `ffmpeg` estiver instalado). Os arquivos **não vão para
+o git** (só este guia e o `offsets.json`); o que fica versionado é o `narration.measured.json` gerado a partir deles.
 
-- `narration.wav` — a voz do episódio inteiro, com t=0 no início do vídeo; **ou**
-- um arquivo por cena: `s1.wav`, `s2.wav`, `s3.wav` (o t=0 de cada um cai no início previsto do 1º item da cena;
-  para dizer onde ele realmente começa, crie `offsets.json`, ex.: `{"s2": 18.3}`, em segundos).
+Um arquivo por cena (a voz do protagonista): `s1.mp3`, `s2.mp3`, `s3.mp3`.
 
-Depois:
+Cada arquivo é posicionado pelo roteiro (a 1ª fala dele cai no instante previsto; com duas vozes na mesma cena, a 2ª vem
+depois da 1ª, com a folga prevista). Para fixar um arquivo em outro instante, crie `offsets.json`, ex.: `{"s2.motorista": 22.1}`.
 
 ```
-python -m pipeline audio ep02 --dry-run   # confere a análise (estimado × medido, confiança)
+python -m pipeline audio ep02 --dry-run   # análise: estimado × medido, confiança e o encaixe por cena
 python -m pipeline audio ep02             # grava narration.measured.json e roda o build
 ```
 
-Detalhes, limites e formato do `narration.measured.json`: `ep01/README.md` (seção "Quando existir a voz gravada").
+Detalhes, limites e formato: `ep01/README.md` (seção "Quando existir a voz gravada").
