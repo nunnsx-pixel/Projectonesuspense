@@ -40,8 +40,10 @@ Resolução sugerida (a câmera chega perto: celular, estofado, mochila; vídeo 
 | Material | `tile_m` | Resolução por tile | Observação |
 |---|---|---|---|
 | `piso-encerado` | 1,2 m | 2048² | granilite com juntas; roughness baixo (0,04–0,22) |
-| `estofado` | 0,35 m | 1024² | trama fina; mofo é máscara no albedo/roughness |
-| `metal-enferrujado` | 0,6 m | 1024² | `metallic` 1 no aço limpo e 0 na ferrugem |
+| `estofado` | 0,35 m | 1024² | trama fina **com estampa** azul/cinza (losangos desbotados); mofo é máscara no albedo/roughness |
+| `piso-emborrachado` | 0,5 m | 2048² | borracha escura com pastilhas em relevo (`height`); desgaste liso nas passagens |
+| `camisa-social` | 0,4 m | 1024² | tecido fino; os **vincos** vêm do `height` (relevo suave e largo) |
+| `metal-enferrujado` | 0,6 m | 1024² | `metallic` 1 no inox/aço limpo e 0 na ferrugem |
 | `terra-vermelha` | 2,0 m | 2048² | com pedriscos no `height`; varia pouco em escala grande |
 | `neblina-rasteira` | — | (volume, sem imagem) | ver "Neblina volumétrica" |
 
@@ -49,7 +51,8 @@ Resolução sugerida (a câmera chega perto: celular, estofado, mochila; vídeo 
 
 O ônibus anda ~600–800 m por episódio (`ONIBUS` é animado pela velocidade do CSV). Por isso:
 
-- **`bus`** — a textura fica presa ao `ONIBUS` (coordenada de objeto do próprio ônibus): `estofado`, `metal-enferrujado`.
+- **`bus`** — a textura fica presa ao `ONIBUS` (coordenada de objeto do próprio ônibus): `estofado`, `metal-enferrujado`,
+  `piso-emborrachado`, `camisa-social` (o motorista vai dentro do ônibus).
   Com coordenadas de mundo a textura "nadaria" sobre o ônibus enquanto ele anda.
 - **`world`** — cenário fixo: `piso-encerado`, `terra-vermelha`, `neblina-rasteira`.
 
@@ -64,13 +67,32 @@ O ônibus anda ~600–800 m por episódio (`ONIBUS` é animado pela velocidade d
 
 - **`piso-encerado`** (Ep. 1, Rodoviária de Campinas): ladrilho de granilite claro e lustroso, com juntas escuras
   finas, marcas de uso, **reflexo nítido das fluorescentes estouradas** (verniz/*coat* ~0,6). Variante `encerado`.
-- **`estofado`** (todos): tecido azul de ônibus intermunicipal. `limpo` (Ep. 1); `mofado` (bancos do Ep. 2 e 3);
-  `podre` (o banco ao lado dele: espuma amarela exposta, manchas de mofo preto-esverdeado, rasgado).
-- **`metal-enferrujado`** (todos): balaústres, degraus, catraca, divisória, volante. `gasto` (Ep. 1, pouca ferrugem),
-  `enferrujado` (Ep. 2 e 3), `podre` (reserva). Ferrugem laranja-marrom, áspera, **sem brilho metálico**.
+- **`estofado`** (todos): tecido **estampado antigo** de ônibus intermunicipal, em tons de azul e cinza (losangos
+  desbotados sobre trama fina; `print_*` no manifesto). `limpo` (Ep. 1); `mofado` (bancos do Ep. 2 e 3);
+  `podre` (o banco ao lado dele: espuma amarela exposta, manchas de mofo preto-esverdeado, rasgado). A estampa desbota
+  conforme o desgaste (`print_amount` cai).
+- **`metal-enferrujado`** (todos): balaústres, degraus, catraca, divisória, volante. **`inox`** (Ep. 1: aço inox
+  escovado, quase sem ferrugem); `enferrujado` (Ep. 2 e 3: o inox oxida em manchas); `gasto` e `podre` (reserva).
+  Ferrugem laranja-marrom, áspera, **sem brilho metálico**.
+- **`piso-emborrachado`** (piso **do ônibus**, todos): borracha **escura antiderrapante** com pastilhas em relevo em grade
+  e trechos lustrados onde se pisa. `limpo` (Ep. 1); `sujo` (Ep. 2 e 3: terra seca e poeira nos cantos). Não confundir
+  com `piso-encerado`, que é o saguão da rodoviária.
+- **`camisa-social`** (motorista): camisa social **azul amarrotada**; `azul` (Ep. 1) e `encardida` (Ep. 2 e 3: suor e
+  sujeira amarelados, mais escura). O boné tem aba que sombreia o rosto.
 - **`terra-vermelha`** (Ep. 2 e 3): barro seco avermelhado com variação, pedriscos, poças mais escuras e lisas.
   Variantes `terra` (chão) e `estrada` (faixa compactada, mais clara).
 - **`neblina-rasteira`** (Ep. 3): volume, abaixo.
+
+## Personagens e continuidade de figurino (briefing)
+
+- **Protagonista (POV):** mãos com manga de moletom escuro. A cor é `props.HOODIE`; a mochila é preta com crachá.
+- **O Duplo / passageiro do fundo:** **o mesmo moletom** (`HOODIE`, com capuz e bolso canguru) e **a mesma mochila**
+  (preta, com crachá). Sentado na última fileira (Ep. 2 e 3) a mochila fica no colo; de pé (Ep. 3) vai nas costas.
+  Em decomposição (Ep. 3) o moletom vira `HOODIE_ROT` (mesma peça desbotada, com mofo e rasgo) e a mochila fica
+  empoeirada. As mãos que agarram o ombro usam o mesmo `HOODIE_ROT`.
+- **Motorista:** `camisa-social`, boné com aba. No Ep. 3 a pele fica cinza-cadavérica, os olhos brancos sem pupila e
+  a **mandíbula estica** (1× → 3,2×) a cada estalo do pescoço (`props.stretch_jaw`), levando o sorriso junto.
+- **Sem contornos pretos:** nenhum Freestyle, modificador de contorno ou sombreador *toon* (testado).
 
 ## Neblina volumétrica (Ep. 3)
 

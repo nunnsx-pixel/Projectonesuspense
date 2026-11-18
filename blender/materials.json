@@ -20,23 +20,52 @@
       "variants": { "encerado": {} }
     },
 
+    "piso-emborrachado": {
+      "desc": "Piso do ônibus: borracha escura antiderrapante, com relevo de pastilhas (bolinhas) em grade e desgaste mais liso nas passagens. Limpo no Ep. 1; sujo de terra seca e poeira nos Ep. 2 e 3.",
+      "episodes": ["ep01", "ep02", "ep03"], "space": "bus", "tile_m": 0.5,
+      "maps": ["albedo", "roughness", "ao", "height", "normal"],
+      "procedural": {
+        "color": [0.022, 0.022, 0.025], "stud_scale": 36.0, "stud_bump": 0.9, "roughness": 0.82,
+        "wear": 0.35, "dirt": 0.0, "dirt_color": [0.16, 0.07, 0.04]
+      },
+      "variants": {
+        "limpo": {},
+        "sujo": { "dirt": 0.55, "wear": 0.55, "roughness": 0.92 }
+      }
+    },
+
+    "camisa-social": {
+      "desc": "Camisa social AZUL AMARROTADA do motorista: tecido fino com vincos e dobras no relevo. 'encardida' (Ep. 2 e 3): suor e sujeira amarelados, mais escura.",
+      "episodes": ["ep01", "ep02", "ep03"], "space": "bus", "tile_m": 0.4,
+      "maps": ["albedo", "roughness", "ao", "height", "normal"],
+      "procedural": {
+        "color": [0.14, 0.25, 0.48], "wrinkle_scale": 7.0, "wrinkle_bump": 0.9, "roughness": 0.78,
+        "stain": 0.0, "stain_color": [0.20, 0.16, 0.08]
+      },
+      "variants": {
+        "azul": {},
+        "encardida": { "color": [0.09, 0.15, 0.27], "stain": 0.6, "roughness": 0.9 }
+      }
+    },
+
     "estofado": {
-      "desc": "Estofado dos bancos (tecido azul de ônibus intermunicipal). Limpo no Ep. 1; mofado, rasgado e podre nos Ep. 2 e 3 (manchas de mofo preto-esverdeado).",
+      "desc": "Estofado dos bancos: tecido ESTAMPADO antigo de ônibus intermunicipal, em tons de azul e cinza (losangos desbotados sobre trama fina). Limpo no Ep. 1; mofado, rasgado e podre nos Ep. 2 e 3 (manchas de mofo preto-esverdeado).",
       "episodes": ["ep01", "ep02", "ep03"], "space": "bus", "tile_m": 0.35,
       "maps": ["albedo", "roughness", "ao", "height", "normal"],
       "procedural": {
-        "color": [0.10, 0.27, 0.55], "weave": 90.0, "weave_bump": 0.35, "roughness": 0.85,
+        "color": [0.10, 0.27, 0.55], "print_color": [0.42, 0.46, 0.52], "print_scale": 9.0, "print_amount": 0.55,
+        "weave": 90.0, "weave_bump": 0.35, "roughness": 0.85,
         "mold": 0.0, "mold_color": [0.03, 0.05, 0.03], "mold_green": [0.10, 0.15, 0.05], "mold_scale": 2.6
       },
       "variants": {
         "limpo": {},
-        "mofado": { "color": [0.12, 0.26, 0.45], "mold": 0.75, "roughness": 0.95 },
-        "podre": { "color": [0.08, 0.14, 0.22], "mold": 1.0, "roughness": 1.0, "weave_bump": 0.6 }
+        "mofado": { "color": [0.12, 0.26, 0.45], "print_amount": 0.4, "mold": 0.75, "roughness": 0.95 },
+        "podre": { "color": [0.08, 0.14, 0.22], "print_amount": 0.25, "mold": 1.0, "roughness": 1.0, "weave_bump": 0.6 }
       }
     },
 
     "metal-enferrujado": {
-      "desc": "Metal dos balaústres, degraus, catraca, divisória e portas: aço cinza que enferruja em manchas (laranja-marrom, áspero, sem brilho metálico).",
+      "desc": "Metal dos balaústres, degraus, catraca, divisória e portas: aço INOX escovado no Ep. 1; nos Ep. 2 e 3 o inox oxida em manchas (laranja-marrom, áspero, sem brilho metálico).",
       "episodes": ["ep01", "ep02", "ep03"], "space": "bus", "tile_m": 0.6,
       "maps": ["albedo", "roughness", "metallic", "ao", "height", "normal"],
       "procedural": {
@@ -44,6 +73,7 @@
         "rust": 0.25, "metal_roughness": 0.35, "rust_roughness": 0.92, "rust_scale": 4.0, "bump": 0.4
       },
       "variants": {
+        "inox": { "rust": 0.03, "metal_color": [0.55, 0.56, 0.58], "metal_roughness": 0.28 },
         "gasto": { "rust": 0.20 },
         "enferrujado": { "rust": 0.72 },
         "podre": { "rust": 0.95 }

@@ -49,10 +49,32 @@ class Manifest(unittest.TestCase):
         self.assertEqual(by["neblina-rasteira"]["episodes"], ["ep03"])
 
     def test_space_choice_prevents_texture_swimming(self):
-        for mid in ("estofado", "metal-enferrujado"):
+        for mid in ("estofado", "metal-enferrujado", "piso-emborrachado", "camisa-social"):
             self.assertEqual(MAN["materials"][mid]["space"], "bus", mid)                    # anda com o ônibus
         for mid in ("piso-encerado", "terra-vermelha", "neblina-rasteira"):
             self.assertEqual(MAN["materials"][mid]["space"], "world", mid)                  # cenário fixo
+
+    def test_briefing_bus_interior_materials(self):
+        """Briefing consolidado: poltronas de tecido ESTAMPADO azul/cinza, balaústres de INOX, piso EMBORRACHADO escuro,
+        motorista de camisa social AZUL AMARROTADA."""
+        by = MAN["materials"]
+        fabric = by["estofado"]["procedural"]
+        self.assertGreater(fabric["print_amount"], 0.2)
+        r, g, b = fabric["print_color"]
+        self.assertTrue(abs(r - g) < 0.08 and b >= r)                                       # cinza azulado
+        self.assertGreater(fabric["color"][2], fabric["color"][0] * 2)                       # base azul
+        inox = by["metal-enferrujado"]["variants"]["inox"]
+        self.assertLess(inox["rust"], 0.06)                                                  # inox quase sem ferrugem
+        self.assertLess(by["metal-enferrujado"]["variants"]["inox"]["rust"], by["metal-enferrujado"]["variants"]["enferrujado"]["rust"])
+        rubber = by["piso-emborrachado"]
+        self.assertEqual(rubber["episodes"], ["ep01", "ep02", "ep03"])
+        self.assertTrue(all(c < 0.06 for c in rubber["procedural"]["color"]))               # escuro
+        self.assertGreater(rubber["procedural"]["stud_bump"], 0.3)                          # antiderrapante: pastilhas em relevo
+        self.assertTrue({"limpo", "sujo"} <= set(rubber["variants"]))
+        shirt = by["camisa-social"]["procedural"]
+        self.assertTrue(shirt["color"][2] > 2 * shirt["color"][0] and shirt["color"][2] > shirt["color"][1])   # azul
+        self.assertGreater(shirt["wrinkle_bump"], 0.3)                                       # amarrotada
+        self.assertTrue({"azul", "encardida"} <= set(by["camisa-social"]["variants"]))
 
     def test_guidelines_document_every_material_and_every_map(self):
         doc = (BLENDER / "TEXTURAS.md").read_text(encoding="utf-8")

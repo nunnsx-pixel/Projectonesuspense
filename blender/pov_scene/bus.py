@@ -17,8 +17,8 @@ def build_bus(root, *, decayed: bool = False, light_color=(0.75, 0.95, 0.8), tub
     white = M("branco", (0.62, 0.62, 0.58) if not decayed else (0.55, 0.57, 0.52))
     seat_m = materials.get("estofado", "mofado" if decayed else "limpo")          # PBR (blender/materials.json)
     dark = M("escuro", (0.025, 0.025, 0.03))
-    metal = rust = materials.get("metal-enferrujado", "enferrujado" if decayed else "gasto")
-    floor_m = M("piso", (0.08, 0.08, 0.085), rough=0.4)
+    metal = rust = materials.get("metal-enferrujado", "enferrujado" if decayed else "inox")   # inox no Ep. 1; oxida nos Ep. 2 e 3
+    floor_m = materials.get("piso-emborrachado", "sujo" if decayed else "limpo")               # borracha escura antiderrapante
     refs: dict = {"root": root}
     P = root
 

@@ -8,7 +8,7 @@
 ## Cenas e Prompts
 
 ### [00:00 - 00:20] O Confronto no Corredor
-- **Visual (POV):** Protagonista levanta num salto e cambaleia pelo corredor estreito do ônibus em movimento violento, segurando nos balaústres enferrujados (mãos visíveis tremendo em quadro). Chega até a catraca, logo atrás da cabine do motorista.
+- **Visual (POV):** Protagonista levanta num salto e cambaleia pelo corredor estreito do ônibus em movimento violento, segurando nos balaústres de inox oxidados (mãos visíveis tremendo em quadro). Chega até a catraca dianteira e bate as costas na divisória/parapeito logo atrás dela.
 - **SFX:** Batimentos cardíacos acelerados crescendo no fundo, passos pesados no piso metálico, chassi balançando.
 - **Fala (Desespero total, voz embargada, quase chorando):**
   > *(Hiperventilando)* "Moço, para o ônibus! Pelo amor de Deus, abre a porta e me deixa descer! Eu preciso descer no ponto 348, já passou muito! O senhor tá me levando pra onde?! Olha pra mim, caramba! PARA ESSE ÔNIBUS!"
@@ -19,7 +19,7 @@
 - **Falas:**
   - **Motorista (Voz grave, distorcida como rádio antigo ecoando):**
     > *"Você pegou esse ônibus em Campinas em 2019, estudante... O ponto 348 não existe mais desde que a gente caiu na ribanceira."*
-  - **Protagonista (Grito sufocado, recuando dois passos e batendo as costas na catraca):**
+  - **Protagonista (Grito sufocado, recuando dois passos e batendo as costas na divisória atrás da catraca):**
     > *(Gasp de terror)* "Do que você tá falando?! Eu saí de Campinas agorinha pouco! Eu tenho aula amanhã de manhã! Você tá louco! Abre essa porta agora, seu maluco!"
 
 ### [00:42 - 01:00] O Clímax Final

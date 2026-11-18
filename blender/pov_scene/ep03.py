@@ -56,7 +56,7 @@ def build(env):
     # ---- motorista: gira o pescoço 180° em 3 estalos; rosto cinza, olhos brancos, sorriso ----------------------------
     dx, dy = DRIVER
     drv = props.figure("motorista", env.bus, loc=(dx, dy - 0.05, FLOOR_Z + 0.5), cap=True, seated=True,
-                       coat=(0.05, 0.06, 0.07), skin=props.GREY_SKIN, eyes=True)
+                       skin=props.GREY_SKIN, eyes=True, shirt="encardida")
     cr = [ctx.cue(f"estalo-pescoco-{n}")[0] for n in (1, 2, 3)]
     with kit.interp("BEZIER"):
         prev = 0
@@ -64,6 +64,8 @@ def build(env):
             kit.key(drv["head"], "rotation_euler", env.f(t - 0.03), (0, 0, math.radians(prev)))
             kit.key(drv["head"], "rotation_euler", env.f(t + 0.12), (0, 0, math.radians(ang)))
             prev = ang
+    # a mandíbula se desencaixa e ESTICA a cada estalo (1x -> 3,2x), acompanhando o giro; o sorriso desce junto
+    props.stretch_jaw(env, drv, [(cr[0] - 0.03, 1.0), (cr[0] + 0.12, 1.5), (cr[1] + 0.12, 2.2), (cr[2] + 0.12, 3.2)])
     # (o motorista fica de costas até o pescoço virar; os olhos/sorriso só aparecem de frente)
 
     # ---- as 4 mãos que agarram os balaústres (cada uma = SFX + solavanco de câmera no mesmo frame) -----------------------------
@@ -81,13 +83,14 @@ def build(env):
 
     # ---- passageiro do fundo: sentado e imóvel; levanta; vem pelo corredor; a MESMA mochila e roupa; rosto em decomposição ----------
     lx, ly = LAST_SEAT
-    sil = props.figure("silhueta", env.bus, loc=(lx, ly, FLOOR_Z + 0.5), seated=True, coat=(0.02, 0.02, 0.025), skin=(0.05, 0.05, 0.05))
+    sil = props.figure("silhueta", env.bus, loc=(lx, ly, FLOOR_Z + 0.5), seated=True, coat=props.HOODIE, hoodie=True, decay=True,
+                       bag="lap", skin=(0.05, 0.05, 0.05))
     up0, up1 = ctx.beat("b3-levanta")
     walk0, walk1 = ctx.beat("b3-caminha")
     rev0, _ = ctx.beat("b3-revela")
     kit.visible_between(sil["root"], first, env.f(up0 + 0.2), first, last)
-    dbl = props.figure("duplo", env.bus, loc=(lx, ly, FLOOR_Z), heading=0, coat=(0.20, 0.22, 0.28), skin=(0.40, 0.46, 0.36), eyes=False)
-    props.backpack("mochila-duplo", dbl["root"], dusty=True, loc=(0, -0.22, 0.95))
+    dbl = props.figure("duplo", env.bus, loc=(lx, ly, FLOOR_Z), heading=0, coat=props.HOODIE_ROT, hoodie=True, decay=True,
+                       bag="back", skin=(0.40, 0.46, 0.36), eyes=False)            # o MESMO moletom e a MESMA mochila, podres
     behind = routes.DOUBLE_BEHIND
     with kit.interp("BEZIER"):
         for t, loc in ((up0 + 0.2, (lx, ly, FLOOR_Z)), (walk0, (lx, ly + 0.2, FLOOR_Z)), (walk1, (-0.05, -4.2, FLOOR_Z)),
@@ -97,7 +100,7 @@ def build(env):
 
     # ---- a mão podre que agarra o ombro (entra no canto da tela) -----------------------------------------------------------------------
     o0, o1 = ctx.beat("b3-ombro")
-    gO, _, _ = props.cam_hand(env.cam, "mao-podre", left=False, skin=props.GREY_SKIN, sleeve=(0.20, 0.22, 0.28), tremor=0.005)
+    gO, _, _ = props.cam_hand(env.cam, "mao-podre", left=False, skin=props.GREY_SKIN, sleeve=props.HOODIE_ROT, tremor=0.005)
     props.reach_keys(env, gO, ((o0 - 0.3, (0.32, -0.30, -0.05)), (o0, (0.13, -0.13, -0.20)), (e, (0.12, -0.12, -0.20))))
     kit.visible_between(gO, env.f(o0 - 0.3), env.f(e + 1), first, last)
 

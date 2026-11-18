@@ -81,9 +81,9 @@ def build(env):
     # ---- motorista: boné, rosto na sombra; só acena --------------------------------------------------------------
     dx, dy = DRIVER
     drv = props.figure("motorista", env.bus, loc=(dx, dy - 0.05, FLOOR_Z + 0.5), cap=True, seated=True,
-                       coat=(0.06, 0.07, 0.09), skin=(0.10, 0.08, 0.07))
+                       skin=(0.10, 0.08, 0.07), shirt="azul")                    # camisa social azul amarrotada
     pivot = kit.empty("braco-acena", (0.31, 0, 0.68), parent=drv["root"])
-    kit.box("braco", (0.09, 0.09, 0.55), (0, 0, -0.25), kit.mat("roupa-(0.06, 0.07, 0.09)"), parent=pivot)
+    kit.box("braco", (0.09, 0.09, 0.55), (0, 0, -0.25), materials.get("camisa-social", "azul"), parent=pivot)
     a0, a1 = ctx.beat("b2-aceno")
     with kit.interp("BEZIER"):
         for t, ang in ((a0 - 0.05, 0), (a0 + 0.25, -85), (a0 + 0.5, -62), (a0 + 0.75, -88), (a1, 0)):

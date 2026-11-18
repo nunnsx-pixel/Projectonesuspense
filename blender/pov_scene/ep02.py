@@ -30,10 +30,10 @@ def build(env):
     props.backpack("mochila", env.bus, dusty=True, loc=(bx, by - 0.05, FLOOR_Z + 0.51))
     dx, dy = DRIVER
     props.figure("motorista", env.bus, loc=(dx, dy - 0.05, FLOOR_Z + 0.5), cap=True, seated=True,
-                 coat=(0.05, 0.06, 0.07), skin=props.GREY_SKIN)
-    lx, ly = LAST_SEAT
-    props.figure("silhueta", env.bus, loc=(lx, ly, FLOOR_Z + 0.5), seated=True, coat=(0.02, 0.02, 0.025),
-                 skin=(0.05, 0.05, 0.05))
+                 skin=props.GREY_SKIN, shirt="encardida")                      # camisa social azul amarrotada e suja
+    lx, ly = LAST_SEAT                                                         # o duplo: mesmo moletom e mesma mochila (no colo)
+    props.figure("silhueta", env.bus, loc=(lx, ly, FLOOR_Z + 0.5), seated=True, coat=props.HOODIE, hoodie=True, decay=True,
+                 bag="lap", skin=(0.05, 0.05, 0.05))
 
     # ---- mão esquerda com o celular morto (SEM SERVIÇO / 00:00), tremendo ---------------------------------------------
     grp = kit.empty("mao-celular", parent=env.cam)

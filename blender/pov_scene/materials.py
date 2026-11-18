@@ -190,11 +190,30 @@ def _waxed_floor(b: _B, vec, p):
     return b.principled(color=color, rough=rough, metal=0.0, coat=p["coat"])
 
 
+def _diamonds(b: _B, vec, scale):
+    """Estampa de losangos (xadrez girado 45°): padrão geométrico de tecido de ônibus. Devolve 0/1."""
+    mp = b.n("ShaderNodeMapping")
+    mp.inputs["Rotation"].default_value = (0.0, 0.0, 0.7853982)
+    mp.inputs["Scale"].default_value = (1.0, 1.0, 1.0)
+    b.link(vec, mp.inputs["Vector"])
+    ck = b.n("ShaderNodeTexChecker")
+    ck.inputs["Scale"].default_value = scale
+    b.link(mp.outputs["Vector"], ck.inputs["Vector"])
+    return ck.outputs["Fac"]
+
+
 def _fabric(b: _B, vec, p):
     fine = b.noise(vec, p["weave"], detail=1.0, rough=0.7)             # trama
     shade = b.rng(fine, 0.2, 0.8, 0.0, 1.0)
     c = tuple(p["color"])
     color = b.mix(shade, tuple(v * 0.78 for v in c), tuple(min(1.0, v * 1.12) for v in c))
+    if p["print_amount"] > 0:                                           # estampa antiga e desbotada em azul/cinza
+        fade = b.rng(b.noise(vec, 3.0, detail=4.0), 0.3, 0.7, 0.55, 1.0)  # o desbotado varia pelo banco
+        pat = b.rng(_diamonds(b, vec, p["print_scale"]), 0.0, 1.0, 0.0, p["print_amount"])
+        mask = b.n("ShaderNodeMath", operation="MULTIPLY")
+        b.link(pat, mask.inputs[0])
+        b.link(fade, mask.inputs[1])
+        color = b.mix(mask.outputs[0], color, tuple(p["print_color"]))
     rough = p["roughness"]
     if p["mold"] > 0:
         t = 0.74 - 0.30 * p["mold"]                                    # mais mofo => limiar menor => mais área
@@ -204,6 +223,38 @@ def _fabric(b: _B, vec, p):
         rough = b.rng(mask, 0.0, 1.0, p["roughness"], min(1.0, p["roughness"] + 0.06))
     normal = b.bump(fine, p["weave_bump"], 0.004)
     return b.principled(color=color, rough=rough, metal=0.0, normal=normal)
+
+
+def _rubber_floor(b: _B, vec, p):
+    """Borracha antiderrapante: pastilhas em grade (relevo), desgaste liso e, se `dirt`, terra seca nos cantos."""
+    studs = b.voronoi(vec, p["stud_scale"])                             # distância ao centro da célula => bolinhas
+    dome = b.rng(studs, 0.0, 0.42, 1.0, 0.0)                            # 1 no centro, 0 na borda
+    color = b.mix(b.noise(vec, 2.2, detail=5.0), tuple(p["color"]), tuple(v * 1.9 for v in p["color"]))
+    worn = b.rng(b.noise(vec, 1.1, detail=6.0), 0.5, 0.78, 0.0, p["wear"])
+    rough = b.rng(worn, 0.0, 1.0, p["roughness"], max(0.25, p["roughness"] - 0.45))   # onde pisam, a borracha lustra
+    if p["dirt"] > 0:
+        t = 0.72 - 0.30 * p["dirt"]
+        d = b.rng(b.noise(vec, 3.4, detail=7.0, rough=0.6), t, t + 0.12)
+        color = b.mix(d, color, tuple(p["dirt_color"]))
+    normal = b.bump(dome, p["stud_bump"], 0.004)
+    return b.principled(color=color, rough=rough, metal=0.0, normal=normal)
+
+
+def _shirt(b: _B, vec, p):
+    """Camisa social amarrotada: tecido fino com vincos (ruído esticado) e, se `stain`, manchas amareladas."""
+    wr = b.noise(vec, p["wrinkle_scale"], detail=7.0, rough=0.65)
+    fine = b.noise(vec, 120.0, detail=1.0, rough=0.6)                  # trama bem fina
+    c = tuple(p["color"])
+    color = b.mix(b.rng(wr, 0.3, 0.7), tuple(v * 0.8 for v in c), tuple(min(1.0, v * 1.1) for v in c))
+    if p["stain"] > 0:
+        t = 0.72 - 0.35 * p["stain"]
+        st = b.rng(b.noise(vec, 2.4, detail=6.0), t, t + 0.12)
+        color = b.mix(st, color, tuple(p["stain_color"]))
+    folds = b.n("ShaderNodeMath", operation="ADD")
+    b.link(wr, folds.inputs[0])
+    b.link(b.rng(fine, 0.3, 0.7, 0.0, 0.08), folds.inputs[1])
+    normal = b.bump(folds.outputs[0], p["wrinkle_bump"], 0.008)
+    return b.principled(color=color, rough=p["roughness"], metal=0.0, normal=normal)
 
 
 def _rust_metal(b: _B, vec, p):
@@ -232,7 +283,8 @@ def _red_dirt(b: _B, vec, p):
     return b.principled(color=color, rough=rough, metal=0.0, normal=normal)
 
 
-_PROCEDURAL = {"piso-encerado": _waxed_floor, "estofado": _fabric, "metal-enferrujado": _rust_metal, "terra-vermelha": _red_dirt}
+_PROCEDURAL = {"piso-encerado": _waxed_floor, "piso-emborrachado": _rubber_floor, "estofado": _fabric, "camisa-social": _shirt,
+               "metal-enferrujado": _rust_metal, "terra-vermelha": _red_dirt}
 
 
 def _from_images(b: _B, vec, p, files: dict, mat_id: str):

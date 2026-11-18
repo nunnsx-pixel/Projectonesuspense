@@ -87,6 +87,11 @@ geométrica (motorista, porta, banco, último banco) com o `look_yaw` do CSV.
 **divisória/parapeito logo atrás da catraca** (`layout.DIVIDER_*`, cue `costas-divisoria`, trecho `recua-divisoria`).
 O passageiro do fundo (duplo) fica parado do outro lado da divisória (`routes.DOUBLE_BEHIND`).
 
+**Interior e figurino (briefing):** poltronas de tecido estampado azul/cinza, balaústres de inox (oxidam nos Ep. 2 e 3), piso
+emborrachado escuro antiderrapante, motorista de camisa social azul amarrotada e boné com aba. No Ep. 3 a mandíbula do motorista
+**estica** (1× → 3,2×) a cada estalo do pescoço. O duplo usa **o mesmo moletom e a mesma mochila** do protagonista (sentado: mochila no
+colo; de pé: nas costas; podres no Ep. 3). Sem contornos pretos (Freestyle desligado; testado).
+
 **Altura dos olhos sentado:** a câmera fica **ligeiramente acima** dos encostos e apoios de cabeça (1,34 m contra
 1,29 m), com os bancos um pouco abaixo da linha de visão. Ao sentar, a cabeça **afunda 4 cm** com o baque e se
 acomoda de volta em 0,7 s. Constantes em `layout.py`; tabela em [`TEXTURAS.md`](TEXTURAS.md).

@@ -207,6 +207,7 @@ def new_scene(world_color=(0.01, 0.012, 0.02), world_strength=1.0) -> bpy.types.
     bpy.ops.wm.read_factory_settings(use_empty=True)
     reset()
     sc = bpy.context.scene
+    sc.render.use_freestyle = False             # SEM contornos pretos (briefing): nada de Freestyle nem modificador de contorno
     w = bpy.data.worlds.new("Mundo")
     w.use_nodes = True
     bg = w.node_tree.nodes["Background"]

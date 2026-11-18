@@ -24,12 +24,21 @@ except ImportError:
 if bpy is not None:
     import assemble_scene as A
     from pov_scene import layout as L
-    from pov_scene import routes
+    from pov_scene import props, routes
 
 
 def at(env, t):
     env.sc.frame_set(env.f(t))
     bpy.context.view_layer.update()
+
+
+def under(root, prefix):
+    """Descendentes de `root` cujo nome começa com `prefix` (Blender acrescenta .001 aos nomes repetidos)."""
+    return [o for o in root.children_recursive if o.name.startswith(prefix)]
+
+
+def color_of(ob):
+    return tuple(round(c, 3) for c in ob.active_material.diffuse_color[:3])
 
 
 def vis(ob, env, t):
@@ -145,6 +154,37 @@ class Base:
         self.assertTrue(0.03 <= margin <= 0.10, f"olhos {margin * 100:.0f} cm acima dos apoios")   # "ligeiramente acima"
         self.assertTrue(0.75 <= eye - max(tops["assento"]) <= 0.90)                       # ergonomia sentado
 
+    def test_no_black_outlines_anywhere(self):
+        """Briefing: 'Sem contornos pretos' (nem Freestyle, nem casca invertida/solidify, nem linhas de contorno)."""
+        self.assertFalse(self.env.sc.render.use_freestyle)
+        for o in self.obj:
+            self.assertFalse([m for m in getattr(o, "modifiers", []) if m.type in ("SOLIDIFY", "SKIN")], o.name)
+            self.assertNotEqual(o.type, "GPENCIL", o.name)
+        self.assertFalse(any(n.bl_idname == "ShaderNodeBsdfToon" for m in bpy.data.materials if m.node_tree
+                             for n in m.node_tree.nodes))
+
+    def test_bus_floor_is_dark_non_slip_rubber(self):
+        floor = self.obj["piso"].active_material
+        self.assertEqual((floor["pov_id"], floor["pov_source"]), ("piso-emborrachado", "procedural"))
+        self.assertEqual(floor["pov_variant"], "sujo" if self.EP != "ep01" else "limpo")
+        kinds = {n.bl_idname for n in floor.node_tree.nodes}
+        self.assertIn("ShaderNodeTexVoronoi", kinds)                                      # pastilhas antiderrapantes
+        self.assertIn("ShaderNodeBump", kinds)                                            # em relevo
+        bsdf = next(n for n in floor.node_tree.nodes if n.bl_idname == "ShaderNodeBsdfPrincipled")
+        self.assertEqual(bsdf.inputs["Metallic"].default_value, 0.0)                      # borracha não é metal
+        self.assertTrue(all(c < 0.06 for c in json_params(floor)["color"]))               # escura
+
+    def test_upholstery_is_an_old_printed_fabric_in_blues_and_greys(self):
+        for name in ("assento-0-left_window", "encosto-3-right_aisle", "apoio-1-left_window"):
+            m = self.obj[name].active_material
+            p = json_params(m)
+            self.assertEqual(m["pov_id"], "estofado")
+            self.assertGreater(p["print_amount"], 0.2, name)                              # tem estampa
+            r, g, b = p["print_color"]
+            self.assertTrue(abs(r - g) < 0.08 and b >= r, name)                           # cinza-azulado
+            self.assertIn("ShaderNodeTexChecker", {n.bl_idname for n in m.node_tree.nodes}, name)
+            self.assertGreater(p["color"][2], p["color"][0] * 2, name)                    # base azul
+
     def test_children_hide_with_their_parent(self):
         """Esconder um pai NÃO esconde os filhos no Blender: todo objeto animado tem que ser escondido junto."""
         e = self.env
@@ -191,7 +231,21 @@ class Ep01(Base, unittest.TestCase):
         bsdf = next(n for n in floor.node_tree.nodes if n.bl_idname == "ShaderNodeBsdfPrincipled")
         self.assertGreater(bsdf.inputs["Coat Weight"].default_value, 0.3)                 # cera = verniz
         self.assertEqual(self.obj["assento-0-left_window"].active_material["pov_variant"], "limpo")
-        self.assertEqual(self.obj["balaustre-0--1"].active_material["pov_variant"], "gasto")
+        self.assertEqual(self.obj["balaustre-0--1"].active_material["pov_variant"], "inox")     # aço inox escovado
+        self.assertLess(json_params(self.obj["balaustre-0--1"].active_material)["rust"], 0.06)
+
+    def test_driver_wears_a_wrinkled_blue_dress_shirt_and_a_cap_with_a_brim(self):
+        drv = self.obj["motorista"]
+        torso = under(drv, "tronco")[0].active_material
+        self.assertEqual((torso["pov_id"], torso["pov_variant"]), ("camisa-social", "azul"))
+        p = json_params(torso)
+        self.assertTrue(p["color"][2] > p["color"][0] * 2 and p["color"][2] > p["color"][1])   # azul
+        self.assertGreater(p["wrinkle_bump"], 0.3)                                              # amarrotada
+        self.assertIn("ShaderNodeBump", {n.bl_idname for n in torso.node_tree.nodes})
+        self.assertEqual(self.obj["braco"].active_material["pov_id"], "camisa-social")          # o braço que acena também
+        brim, cap = under(drv, "aba")[0], under(drv, "bone")[0]
+        self.assertGreater(brim.location.y, cap.location.y)                                     # a aba sai para a frente...
+        self.assertLess(brim.location.z, cap.location.z)                                        # ...e fica abaixo do boné (sombreia o rosto)
 
     def test_sit_sinks_into_the_cushion_then_settles(self):
         e = self.env
@@ -307,6 +361,20 @@ class Ep02(Base, unittest.TestCase):
         sil = self.obj["silhueta"]
         self.assertAlmostEqual(sil.location.y, L.LAST_SEAT[1], places=2)
 
+    def test_back_passenger_wears_the_protagonists_hoodie_and_backpack(self):
+        sil = self.obj["silhueta"]
+        self.assertEqual(color_of(under(sil, "tronco")[0]), tuple(round(c, 3) for c in props.HOODIE))   # o MESMO moletom
+        self.assertTrue(under(sil, "capuz") and under(sil, "bolso-canguru"))                            # capuz e bolso canguru
+        bag = under(sil, "mochila-silhueta")
+        self.assertEqual(len(bag), 1)                                                                   # a mochila preta...
+        self.assertTrue(under(bag[0], "cracha"))                                                       # ...com o crachá
+        self.assertEqual(sil.parent, self.env.bus)                                                      # sentado na última fileira
+        self.assertAlmostEqual(sil.location.x, L.LAST_SEAT[0], places=2)
+
+    def test_driver_shirt_is_the_same_blue_dress_shirt_but_grimy(self):
+        torso = under(self.obj["motorista"], "tronco")[0].active_material
+        self.assertEqual((torso["pov_id"], torso["pov_variant"]), ("camisa-social", "encardida"))
+
     def test_phone_says_sem_servico_and_00_00_in_the_left_hand(self):
         e = self.env
         texts = {o.data.body for o in self.obj if o.type == "FONT"}
@@ -381,6 +449,43 @@ class Ep03(Base, unittest.TestCase):
         self.assertAlmostEqual(angles[2], angles[1], delta=3)                     # e retém até o 2º
         self.assertAlmostEqual(angles[3], -120, delta=3)
         self.assertAlmostEqual(angles[5], -180, delta=3)                          # rosto para a câmera
+
+    def test_jaw_stretches_as_the_neck_turns_and_the_smile_goes_down_with_it(self):
+        e = self.env
+        drv = next(o for o in self.obj if o.name == "motorista" and o.parent == e.bus)
+        jaw, smile = under(drv, "mandibula")[0], under(drv, "sorriso")[0]
+        cr = [self.ctx.cue(f"estalo-pescoco-{n}")[0] for n in (1, 2, 3)]
+        rest_z = props.JAW_SIZE[2]
+        zs, drops = [], []
+        for t in (cr[0] - 0.1, cr[0] + 0.3, cr[1] + 0.3, cr[2] + 0.3, cr[2] + 2.0):
+            at(e, t)
+            zs.append(jaw.scale.z / rest_z)
+            drops.append(smile.location.z)
+        self.assertAlmostEqual(zs[0], 1.0, places=2)                              # antes de virar: normal
+        self.assertTrue(all(b > a + 0.2 for a, b in zip(zs[:4], zs[1:4])))        # estica a cada estalo
+        self.assertAlmostEqual(zs[3], 3.2, delta=0.1)                             # esticada no rosto revelado
+        self.assertAlmostEqual(zs[4], zs[3], delta=0.02)                          # e fica assim
+        self.assertLess(drops[3], drops[0] - 0.08)                                 # o sorriso desceu junto
+        top = jaw.location.z + jaw.scale.z / 2                                    # o topo continua preso ao crânio
+        self.assertAlmostEqual(top, props.JAW_LOC[2] + rest_z / 2, places=3)
+        self.assertEqual(color_of(jaw), color_of(under(drv, "crânio")[0]))        # mesma pele cinza
+
+    def test_driver_shirt_is_the_same_blue_dress_shirt_but_grimy(self):
+        drv = next(o for o in self.obj if o.name == "motorista" and o.parent == self.env.bus)
+        self.assertEqual(under(drv, "tronco")[0].active_material["pov_variant"], "encardida")
+
+    def test_the_double_wears_the_same_hoodie_and_backpack_now_rotten(self):
+        sil, dbl = self.obj["silhueta"], self.obj["duplo"]
+        self.assertEqual(color_of(under(sil, "tronco")[0]), tuple(round(c, 3) for c in props.HOODIE))   # sentado: o moletom dele
+        self.assertEqual(color_of(under(dbl, "tronco")[0]), tuple(round(c, 3) for c in props.HOODIE_ROT))
+        self.assertLess(max(abs(a - b) for a, b in zip(props.HOODIE, props.HOODIE_ROT)), 0.07)           # mesmo moletom, desbotado
+        self.assertTrue(under(dbl, "capuz") and under(dbl, "bolso-canguru"))
+        self.assertGreaterEqual(len(under(dbl, "mofo-moletom")), 3)                                      # mofo no moletom
+        bag = under(dbl, "mochila-duplo")[0]
+        self.assertEqual(bag.parent, dbl)                                                                # nas costas
+        self.assertLess(bag.location.y, 0.0)
+        self.assertTrue(under(bag, "cracha") and under(bag, "poeira"))                                   # crachá e poeira
+        self.assertTrue(under(self.obj["silhueta"], "mochila-silhueta"))                                  # a mesma mochila, no colo dele
 
     def test_the_double_stands_up_and_walks_only_after_the_beat(self):
         e = self.env

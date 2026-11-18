@@ -16,8 +16,14 @@ Projeto de animação 3D em **Primeira Pessoa (POV)** dividido em 3 episódios d
 
 ## 🎨 Especificações Técnicas (Claude Code / Pipeline 3D)
 - **Perspectiva:** 100% Primeira Pessoa (POV) com *handheld camera shake* dinâmico sincronizado à respiração e batimentos cardíacos do protagonista.
-- **Estilo Visual:** Estética 3D estilizada de alto contraste (referência *Unreal Engine 5* / *Low-Poly* moderno expressivo), iluminação volumétrica, sombras profundas (*chiaroscuro*) e texturas de desgaste realistas.
+- **Estilo Visual:** Estética 3D cinematográfica **realista e detalhada** (referência *Unreal Engine 5*), alto contraste (*chiaroscuro*), texturas ricas de desgaste e iluminação volumétrica. **Sem contornos pretos.** (A montagem atual no Blender é um *greybox* low-poly com materiais PBR procedurais, ponto de partida para os assets finais: veja `blender/TEXTURAS.md`.)
 - **Objeto Âncora:** Mochila preta de estudante universitário com crachá/chaveiro pendurado (serve de referência visual para a passagem de tempo e deterioração entre os episódios).
+
+## 🚌 Ambientação e Layout (padrão brasileiro)
+- **O ônibus:** intermunicipal paulista vicinal. Poltronas de **tecido estampado antigo em tons de azul/cinza**, com altura **levemente abaixo da linha de visão** do protagonista ao sentar (ergonomia real, com leve afundamento). Balaústres em **aço inox**; piso **emborrachado escuro antiderrapante**.
+- **Catraca:** fixa na parte dianteira, logo após a porta de embarque, **nos três episódios**. No Ep. 3 ele bate as costas na **divisória/parapeito logo atrás dela**.
+- **Motorista:** camisa social azul amarrotada e boné com aba sombreada. No Ep. 3: pele cinza-cadavérica, olhos brancos sem pupilas e **mandíbula que estica** ao virar o pescoço 180°.
+- **Passageiro do fundo (o Duplo):** sentado na última fileira com **o mesmo moletom e a mesma mochila** do protagonista; no clímax do Ep. 3 vem pelo corredor com rosto e roupas em decomposição.
 
 ## 🎙️ Diretrizes de Áudio e Acting Vocal
 - **Protagonista:** Estudante universitário brasileiro (~21 anos). Monólogo contínuo em voz alta.

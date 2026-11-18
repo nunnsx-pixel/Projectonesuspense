@@ -14,7 +14,7 @@
   > *(Gasp alto de susto)* "CARALHO! Que barulho foi esse?! Que que pegou? A gente bateu?! Moço?! *(Respiração rápida: huh-huh-huh)* Mano... o ônibus deu um solavanco que parece que arrancou o eixo."
 
 ### [00:18 - 00:40] A Deterioração do Ambiente
-- **Visual (POV):** Câmera olha para baixo e para o banco ao lado. O estofado azul está rasgado, com espuma amarela podre exposta e manchas de mofo preto. A **mochila preta** no banco ao lado está coberta por poeira cinza grossa e teias de aranha secas. Olhar rápido para trás pelo corredor: ônibus vazio, exceto por **uma silhueta imóvel sentada no último banco ao fundo**, olhando fixamente para frente.
+- **Visual (POV):** Câmera olha para baixo e para o banco ao lado. O estofado azul está rasgado, com espuma amarela podre exposta e manchas de mofo preto. A **mochila preta** no banco ao lado está coberta por poeira cinza grossa e teias de aranha secas. O tronco gira (~58°) e ele olha pelo corredor: ônibus vazio, exceto por **uma silhueta imóvel sentada no último banco ao fundo**, olhando fixamente para frente.
 - **SFX:** Chassi velho rangendo sobre terreno irregular, vento uivando pelas frestas da janela.
 - **Fala (Voz trêmula, entrando em choque):**
   > "Espera aí... por que a luz tá verde assim? *(Engole seco)* Mano, o banco tá... por que tá tudo podre?! A minha mochila tá imunda, velho! E cadê o pessoal que tava embarcando? Só tem um maluco lá no fundo sentado duro que nem estátua... *(Sussurra apavorado)* Onde a gente tá? Campinas já ficou umas três horas pra trás..."
