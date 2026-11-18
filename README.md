@@ -4,6 +4,7 @@ Projeto de animação 3D em **Primeira Pessoa (POV)** dividido em 3 episódios d
 
 ## 📁 Estrutura do Repositório
 - `README.md` — Diretrizes visuais, câmera e atuação vocal.
+- `ENTREGA.md` — Estado do projeto: o que está pronto, decisões fixadas e em aberto, e o que falta para os vídeos finais (voz, áudio, assets, render).
 - `ep01-embarque-campinas.md` — Parte 1 (00:00 - 01:00): Terminal Rodoviário de Campinas.
 - `ep02-despertar-escuro.md` — Parte 2 (00:00 - 01:00): A transição e o despertar na estrada de terra.
 - `ep03-fim-da-linha.md` — Parte 3 (00:00 - 01:00): Confronto com o motorista e clímax.

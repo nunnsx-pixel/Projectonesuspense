@@ -1,6 +1,6 @@
 """Monta a cena do Blender de um episódio a partir da timeline sincronizada.
 
-  blender -b -P blender/assemble_scene.py -- --episode ep02 --save ep02.blend [--render-frames 30,600,2400 --out previews]
+  blender -b -P blender/assemble_scene.py -- --episode ep02 --save ep02.blend [--render-frames 30,600,2400 --out previews --width 405 --samples 32]
 
 O que entra na cena (greybox low-poly estilizado, para você trocar pelos assets finais):
   * ônibus, cenário e personagens do episódio (blender/pov_scene/epXX.py);
@@ -138,11 +138,14 @@ def main(argv=None):
     ap.add_argument("--render-frames", help="tempos (s) separados por vírgula para renderizar prévias")
     ap.add_argument("--out", default="previews", help="pasta das prévias")
     ap.add_argument("--samples", type=int, default=24)
+    ap.add_argument("--width", type=int, default=270, help="largura das prévias (9:16: altura = 16/9 da largura)")
+    ap.add_argument("--height", type=int, help="altura das prévias (padrão: 16/9 da largura)")
     ap.add_argument("--textures-dir", help="pasta com conjuntos PBR (padrão: blender/textures); sem imagens, vale o procedural")
     a = ap.parse_args(argv)
     env = assemble(a.episode, save=None, textures_dir=a.textures_dir)
     if a.render_frames:
-        render_frames(env, [float(x) for x in a.render_frames.split(",")], a.out, samples=a.samples)
+        render_frames(env, [float(x) for x in a.render_frames.split(",")], a.out,
+                      width=a.width, height=a.height or round(a.width * 16 / 9), samples=a.samples)
     if a.save:
         bpy.ops.wm.save_as_mainfile(filepath=str(Path(a.save).resolve()))
         print(f"[POV] cena salva em {a.save}")
