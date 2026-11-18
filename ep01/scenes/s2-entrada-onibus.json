@@ -1,0 +1,36 @@
+{
+  "id": "s2",
+  "config_index": 1,
+  "name": "A Entrada no Ônibus",
+  "source": "ep01-embarque-campinas.md · [00:15 - 00:35]",
+
+  "set": {
+    "location": "Plataforma de embarque (escura) e porta/catraca do ônibus",
+    "time_of_day": "noite",
+    "lighting": "Plataforma escura, neblina leve, faróis acesos do ônibus.",
+    "character_state": "Aliviado por ter chegado a tempo; reclama do cheiro.",
+    "vehicle": "Ônibus intermunicipal padrão do interior de SP, pintura azul e branca desgastada, motor roncando baixo, três degraus metálicos na entrada, catraca eletrônica.",
+    "characters": [
+      { "name": "motorista", "state": "boné, rosto na sombra; só acena (não fala)" }
+    ]
+  },
+
+  "beats": [
+    { "id": "b2-chegada", "at": 15.0, "dur": 1.0,
+      "text": "Chega à plataforma escura: ônibus azul e branco, motor baixo, faróis na neblina leve." },
+    { "id": "b2-para", "at": { "ref": "s2-01", "edge": "start" }, "dur": 1.7,
+      "text": "Para diante do ônibus, suspiro de alívio.", "origin": "inferido" },
+    { "id": "b2-degraus", "at": { "ref": "s2-03", "word": "Boa", "edge": "start", "offset": -0.8 }, "dur": 2.0,
+      "text": "Sobe os três degraus metálicos." },
+    { "id": "b2-aceno", "at": { "ref": "s2-03", "edge": "end", "offset": 0.1 }, "dur": 1.0,
+      "text": "O motorista (boné, rosto na sombra) apenas acena." },
+    { "id": "b2-bilhete", "at": { "ref": "s2-04", "edge": "start" }, "until": { "cue": "bip-catraca" },
+      "text": "Estende o bilhete até o leitor da catraca." },
+    { "id": "b2-catraca", "at": { "cue": "bip-catraca", "offset": 0.35 }, "dur": 0.9,
+      "text": "A catraca gira e ele passa.", "origin": "inferido" },
+    { "id": "b2-cheiro", "at": { "ref": "s2-07", "word": "cheiro", "edge": "start", "offset": -0.1 }, "dur": 2.0,
+      "text": "Reage ao cheiro de graxa e naftalina.", "origin": "inferido" },
+    { "id": "b2-corredor", "at": { "ref": "s2-08", "word": "beleza", "edge": "start", "offset": -0.1 }, "until": 36.6,
+      "text": "Começa a andar pelo corredor, procurando a quarta fileira (continua na cena 3)." }
+  ]
+}

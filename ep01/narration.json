@@ -1,0 +1,59 @@
+{
+  "episode": "ep01",
+  "source": "ep01-embarque-campinas.md",
+  "lang": "pt-BR",
+  "_comment": "Fonte da narração. Tempos NÃO ficam aqui: o pipeline os calcula (build/ep01.timeline.json). Aqui ficam texto, respirações, pausas fixas e a janela de cada cena. Marque \"skip\": true num item para cortá-lo sem apagar.",
+
+  "lexicon": {
+    "348": "trezentos e quarenta e oito"
+  },
+
+  "scenes": [
+    {
+      "scene": "s1",
+      "delivery": "Ofegante, ritmo acelerado",
+      "window": [0.15, 14.75],
+      "pace_syl_s": 6.4,
+      "items": [
+        { "id": "s1-01", "kind": "breath", "type": "inhale_quick", "label": "Inspiração rápida", "dur": 0.30, "gap_after": 0.0 },
+        { "id": "s1-02", "kind": "speech", "text": "Mano, sério, eu odeio fazer trabalho em grupo!" },
+        { "id": "s1-03", "kind": "speech", "text": "Juro por Deus." },
+        { "id": "s1-04", "kind": "speech", "text": "Sábado quase meia-noite saindo de Campinas pra Jundiaí..." },
+        { "id": "s1-05", "kind": "speech", "text": "olha o estado dessa rodoviária, parece cenário de filme de terror mudo, velho." },
+        { "id": "s1-06", "kind": "speech", "text": "Cadê a plataforma dessa desgraça?!" }
+      ]
+    },
+    {
+      "scene": "s2",
+      "delivery": "Tom aliviado, reclamando do cheiro",
+      "window": [16.0, 34.6],
+      "pace_syl_s": 5.0,
+      "items": [
+        { "id": "s2-01", "kind": "breath", "type": "sigh_long", "label": "Suspiro longo de alívio", "dur": 1.70, "gap_after": 0.25 },
+        { "id": "s2-02", "kind": "speech", "text": "Ainda bem que deu tempo." },
+        { "id": "s2-03", "kind": "speech", "text": "Boa noite, moço." },
+        { "id": "s2-04", "kind": "speech", "text": "Vai pro lado de Jundiaí, né?" },
+        { "id": "s2-05", "kind": "speech", "text": "Linha vicinal..." },
+        { "id": "s2-06", "kind": "breath", "type": "sniff", "label": "funga o nariz", "dur": 0.35, "gap_after": 0.1 },
+        { "id": "s2-07", "kind": "speech", "text": "Nossa, o cheiro aqui dentro tá um catinga de graxa velha misturada com naftalina..." },
+        { "id": "s2-08", "kind": "speech", "text": "mas beleza, só quero sentar e capotar." }
+      ]
+    },
+    {
+      "scene": "s3",
+      "delivery": "Voz arrastada, bocejando, volume diminuindo",
+      "window": [37.2, 58.4],
+      "pace_syl_s": 4.4,
+      "drag": [0.9, 1.4],
+      "items": [
+        { "id": "s3-01", "kind": "speech", "text": "Pronto, mochila no banco do lado pra ninguém sentar junto, clássico." },
+        { "id": "s3-02", "kind": "breath", "type": "yawn", "label": "Bocejo longo e cansado", "dur": 2.20, "gap_after": 0.30 },
+        { "id": "s3-03", "kind": "speech", "text": "Meu olho tá pesando demais de tanto ler artigo acadêmico." },
+        { "id": "s3-04", "kind": "speech", "text": "Faltam umas paradas até Jundiaí, mas o meu ponto é exato o 348, na marginal da rodovia." },
+        { "id": "s3-05", "kind": "speech", "text": "Se eu passar do ponto 348, eu tô frito porque o próximo é no meio do nada..." },
+        { "id": "s3-06", "kind": "breath", "type": "deep_slow", "label": "Respiração profunda e lenta", "dur": 2.00, "gap_after": 0.35 },
+        { "id": "s3-07", "kind": "speech", "text": "Ai, fechar o olho só cinco minutinhos..." }
+      ]
+    }
+  ]
+}

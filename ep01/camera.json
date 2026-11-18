@@ -1,0 +1,154 @@
+{
+  "episode": "ep01",
+  "_comment": "Rig da câmera POV. O resultado (build/ep01.camera.csv) é uma camada ADITIVA de balanço + a intenção de olhar (look_*). Final = look + shake. Posição em cm, rotação em graus. +X direita, +Y cima, +Z frente; yaw+ = direita, pitch+ = cima, roll+ = inclina p/ direita. Todo `at` aceita segundos ou âncora (palavra da narração, beat ou cue).",
+
+  "seed": 348,
+  "intensity": 1.0,
+
+  "_comment_gait": "Amplitude da passada por cadência (passos/s). A cadência de cada passo escolhe a linha (interpola entre elas). Corrida ~2.9, caminhada ~1.8, andar cansado ~1.2.",
+  "gait_connect_gap_s": 1.1,
+  "impact_f_hz": 7.5,
+  "impact_tau_s": 0.09,
+  "gait_table": [
+    { "cadence": 1.2, "bob_y_cm": 0.8, "sway_x_cm": 1.2, "pitch_deg": 0.30, "roll_deg": 0.40, "yaw_deg": 0.50, "impact_pitch_deg": 0.04, "impact_y_cm": 0.02 },
+    { "cadence": 1.8, "bob_y_cm": 1.3, "sway_x_cm": 1.7, "pitch_deg": 0.50, "roll_deg": 0.60, "yaw_deg": 0.80, "impact_pitch_deg": 0.10, "impact_y_cm": 0.06 },
+    { "cadence": 2.3, "bob_y_cm": 2.2, "sway_x_cm": 2.0, "pitch_deg": 0.90, "roll_deg": 0.90, "yaw_deg": 1.20, "impact_pitch_deg": 0.35, "impact_y_cm": 0.25 },
+    { "cadence": 2.9, "bob_y_cm": 3.4, "sway_x_cm": 2.3, "pitch_deg": 1.50, "roll_deg": 1.20, "yaw_deg": 1.60, "impact_pitch_deg": 0.80, "impact_y_cm": 0.60 }
+  ],
+
+  "_comment_loco": "Cada segmento gera as pisadas (tempos). `from` = 1º contato do pé; `to` ou `steps` encerra. Tempos negativos pré-rolam a corrida para o vídeo já abrir em movimento.",
+  "locomotion": [
+    {
+      "id": "corrida-saguao", "from": -0.45, "to": 16.0,
+      "cadence": { "keys": [[-0.45, 2.85], [12.4, 2.85], [14.8, 2.0], [16.0, 1.4]] },
+      "surface": "piso encerado do saguão (reverb grande)",
+      "sfx": { "tag": "passos-corrida-saguao", "gain_db": -7, "origin": "roteiro" }
+    },
+    {
+      "id": "degraus", "from": { "ref": "s2-03", "word": "Boa", "edge": "start", "offset": -0.8 },
+      "steps": 3, "cadence": 1.55,
+      "scale": { "bob_y_cm": 1.6, "pitch_deg": 1.4, "sway_x_cm": 1.2 },
+      "surface": "degraus metálicos do ônibus",
+      "sfx": { "tag": "passos-degrau-metal", "gain_db": -6, "origin": "inferido" }
+    },
+    {
+      "id": "passa-catraca", "from": { "cue": "catraca-giro", "offset": 0.45 },
+      "steps": 2, "cadence": 1.2,
+      "surface": "piso do ônibus",
+      "sfx": { "tag": "passos-onibus-piso", "gain_db": -12, "origin": "inferido" }
+    },
+    {
+      "id": "corredor", "from": { "beat": "b2-corredor" }, "to": 36.6, "cadence": 1.4,
+      "surface": "piso do corredor do ônibus",
+      "sfx": { "tag": "passos-onibus-piso", "gain_db": -12, "origin": "inferido" }
+    }
+  ],
+
+  "amplitudes": {
+    "_comment": "Pico típico de cada camada em escala 1.0 (multiplicada pelas curvas abaixo).",
+    "noise": { "band_hz": [0.35, 3.2], "x_cm": 0.5, "y_cm": 0.35, "z_cm": 0.5, "yaw": 1.8, "pitch": 1.2, "roll": 0.8, "fov_pct": 0.4 },
+    "breath": { "pitch_deg": 0.9, "y_cm": 0.7, "z_cm": 0.25 },
+    "heart": { "pitch_deg": 0.10, "y_cm": 0.05, "fov_pct": 0.20 },
+    "bus_vibration": { "freq_hz": [9.5, 14.2], "x_cm": 0.05, "y_cm": 0.10, "pitch": 0.05, "roll": 0.04 },
+    "bus_sway": { "x_cm": 0.8, "roll": 0.35, "yaw": 0.25 },
+    "bus_lean": { "pitch_deg_per_ms2": 0.9, "z_cm_per_ms2": -1.6 }
+  },
+
+  "curves": {
+    "_comment": "Envelopes no tempo. Lista = suavizada; {\"mode\":\"linear\",\"keys\":[...]} = linear.",
+    "noise": [
+      [0.0, 1.5], [12.4, 1.4], [16.5, 0.7], [22.0, 0.6], [33.0, 0.55], [37.5, 0.45],
+      [{ "beat": "b3-partida" }, 0.40], [48.0, 0.30], [58.0, 0.20]
+    ],
+    "breath": [
+      [0.0, 1.4], [14.5, 1.5], [18.0, 1.1], [25.0, 0.8], [37.0, 0.7], [45.0, 0.55], [58.0, 0.40]
+    ],
+    "heart": [[0.0, 1.0], [16.0, 0.9], [30.0, 0.5], [44.0, 0.35], [60.0, 0.25]],
+    "hr_bpm": {
+      "mode": "linear",
+      "keys": [[0.0, 148], [12.4, 158], [16.0, 125], [20.0, 112], [28.0, 100], [37.0, 90], [44.0, 76], [52.0, 68], [60.0, 60]]
+    },
+    "breath_rate": {
+      "mode": "linear",
+      "keys": [[0.0, 40], [14.0, 42], [16.0, 34], [20.0, 26], [30.0, 20], [36.0, 18], [44.0, 14], [52.0, 11], [60.0, 9]]
+    },
+    "bus_vib": [
+      [19.0, 0.0], [20.6, 0.55], [{ "beat": "b3-partida" }, 0.55], [{ "beat": "b3-partida", "offset": 2.5 }, 1.0]
+    ],
+    "bus_sway": [
+      [{ "beat": "b3-partida" }, 0.0], [{ "beat": "b3-partida", "offset": 2.5 }, 0.7], [60.0, 1.0]
+    ],
+    "speed_kmh": [
+      [{ "beat": "b3-partida" }, 0.0], [{ "beat": "b3-partida", "offset": 4.0 }, 16.0],
+      [{ "beat": "b3-partida", "offset": 11.0 }, 40.0], [{ "beat": "b3-partida", "offset": 17.0 }, 62.0]
+    ],
+    "droop_deg": [[45.0, 0.0], [52.0, 0.8], [58.0, 2.0]],
+    "vignette": [[0.0, 0.10], [44.0, 0.14], [50.0, 0.32], [55.0, 0.58], [58.0, 0.80], [59.3, 0.95]],
+    "edge_blur": [[0.0, 0.0], [44.0, 0.0], [50.0, 0.20], [55.0, 0.50], [58.5, 0.85]],
+    "eyelid": [
+      [{ "ref": "s3-02", "offset": 0.2 }, 0.0], [{ "ref": "s3-02", "offset": 1.0 }, 0.6], [{ "ref": "s3-02", "offset": 1.7 }, 0.05],
+      [52.2, 0.0], [52.45, 0.5], [52.9, 0.0],
+      [54.9, 0.0], [55.15, 0.65], [55.7, 0.0],
+      [57.0, 0.0], [57.25, 0.6], [57.6, 0.1],
+      [58.0, 0.1], [58.6, 0.45], [59.3, 1.0]
+    ]
+  },
+
+  "fx": { "cut_to_black_at": 59.5 },
+
+  "_comment_look": "Intenção de olhar (onde a cabeça aponta). Cada chave = pose de CHEGADA; entre chaves a transição é suave (ease in/out).",
+  "look": [
+    { "at": 0.0, "yaw": 0, "pitch": -6, "note": "corre olhando adiante e levemente para o chão" },
+    { "at": { "ref": "s1-02", "word": "sério", "edge": "start" }, "yaw": -26, "pitch": -3, "note": "varre o saguão à esquerda" },
+    { "at": { "ref": "s1-03", "edge": "start" }, "yaw": 30, "pitch": -3, "note": "varre à direita" },
+    { "at": { "beat": "b1-celular", "offset": 0.35 }, "yaw": -4, "pitch": -26, "note": "olha o celular (23:47, 14%)" },
+    { "at": { "beat": "b1-celular", "edge": "end", "offset": 0.3 }, "yaw": 0, "pitch": -3, "note": "volta a olhar adiante" },
+    { "at": { "ref": "s1-05", "word": "olha", "edge": "start", "offset": 0.35 }, "yaw": 0, "pitch": 17, "note": "olha o teto: fluorescentes estouradas" },
+    { "at": { "ref": "s1-05", "word": "parece", "edge": "start" }, "yaw": 10, "pitch": 1, "note": "desce o olhar pelo saguão" },
+    { "at": { "ref": "s1-06", "edge": "start", "offset": 0.3 }, "yaw": -34, "pitch": -2, "note": "procura a plataforma à esquerda" },
+    { "at": { "ref": "s1-06", "word": "plataforma", "edge": "end" }, "yaw": 32, "pitch": -1, "note": "e à direita" },
+    { "at": 14.7, "yaw": 0, "pitch": 2, "note": "avista a plataforma" },
+    { "at": 15.5, "yaw": 0, "pitch": 0, "note": "chegada" },
+    { "at": 16.4, "yaw": 0, "pitch": 7, "note": "olha o ônibus e os faróis na neblina" },
+    { "at": { "beat": "b2-degraus" }, "yaw": 0, "pitch": 11, "note": "olha para cima: degraus e cabine" },
+    { "at": { "beat": "b2-degraus", "edge": "end" }, "yaw": -4, "pitch": 6, "note": "no topo da escada" },
+    { "at": { "beat": "b2-aceno", "offset": 0.15 }, "yaw": -17, "pitch": 5, "note": "olha o motorista (à esquerda) que acena" },
+    { "at": { "beat": "b2-aceno", "edge": "end" }, "yaw": 0, "pitch": -2 },
+    { "at": { "beat": "b2-bilhete", "offset": 0.25 }, "yaw": 6, "pitch": -20, "note": "olha o leitor da catraca" },
+    { "at": { "cue": "bip-catraca", "offset": 0.25 }, "yaw": 0, "pitch": 0, "note": "levanta o olhar após o bip" },
+    { "at": { "ref": "s2-07", "word": "cheiro", "edge": "start", "offset": -0.2 }, "yaw": 0, "pitch": 0 },
+    { "at": { "ref": "s2-07", "word": "cheiro", "edge": "end" }, "yaw": 9, "pitch": 3, "note": "varre os bancos à direita" },
+    { "at": { "ref": "s2-07", "word": "graxa", "edge": "start" }, "yaw": -10, "pitch": -3, "note": "e à esquerda" },
+    { "at": { "ref": "s2-08", "word": "beleza", "edge": "start", "offset": -0.1 }, "yaw": 0, "pitch": -2, "note": "olha o corredor adiante" },
+    { "at": 34.2, "yaw": -12, "pitch": -4, "note": "confere as fileiras à esquerda" },
+    { "at": 35.2, "yaw": 12, "pitch": -4, "note": "e à direita" },
+    { "at": 36.1, "yaw": -8, "pitch": -6, "note": "escolhe o banco da janela" },
+    { "at": { "beat": "b3-senta", "offset": 0.2 }, "yaw": 0, "pitch": -10, "note": "cabeça cai um pouco ao sentar" },
+    { "at": { "beat": "b3-mochila", "offset": 0.2 }, "yaw": 24, "pitch": -12, "note": "olha o banco ao lado (direita) onde joga a mochila" },
+    { "at": { "beat": "b3-mochila", "edge": "end", "offset": 0.3 }, "yaw": 0, "pitch": -4 },
+    { "at": { "beat": "b3-partida", "offset": 0.6 }, "yaw": -6, "pitch": 0 },
+    { "at": { "beat": "b3-janela", "offset": 1.2 }, "yaw": -68, "pitch": 3, "roll": 2, "note": "vira para a janela (esquerda): luzes da rodoviária ficam para trás" },
+    { "at": 50.0, "yaw": -72, "pitch": -2, "roll": 3, "note": "cabeça escorrega devagar para o vidro" },
+    { "at": 56.0, "yaw": -75, "pitch": -6, "roll": 5 },
+    { "at": 58.0, "yaw": -76, "pitch": -9, "roll": 6, "note": "olhos pesados: pálpebras vão fechar" }
+  ],
+
+  "_comment_kicks": "Impactos de mola amortecida (valor = pico do 1º balanço). f_hz = frequência, tau_s = quanto demora a morrer.",
+  "kicks": [
+    { "id": "k-parada", "at": { "beat": "b2-para" }, "f_hz": 3.5, "tau_s": 0.35, "y_cm": -1.4, "pitch": -1.6, "note": "freia na plataforma" },
+    { "id": "k-catraca", "at": { "cue": "catraca-giro", "offset": 0.25 }, "f_hz": 4.0, "tau_s": 0.18, "z_cm": 1.8, "pitch": -1.0, "note": "corpo empurra a catraca" },
+    { "id": "k-sentar", "at": { "beat": "b3-senta" }, "f_hz": 4.5, "tau_s": 0.28, "y_cm": -2.6, "pitch": -2.2, "z_cm": -0.8, "note": "cai no banco" },
+    { "id": "k-mochila", "at": { "beat": "b3-mochila", "offset": 0.15 }, "f_hz": 3.2, "tau_s": 0.30, "yaw": 2.5, "roll": 1.2, "y_cm": -0.5, "note": "torção do tronco ao jogar a mochila" },
+    { "id": "k-partida", "at": { "beat": "b3-partida" }, "f_hz": 2.8, "tau_s": 0.45, "z_cm": -2.8, "pitch": 1.6, "note": "arrancada do ônibus" }
+  ],
+
+  "_comment_pulses": "Sobe e desce suave (attack/decay em s).",
+  "pulses": [
+    { "id": "p-fungada", "at": { "ref": "s2-06", "edge": "start" }, "attack": 0.08, "decay": 0.35, "pitch": -1.6, "y_cm": -0.35, "note": "funga o nariz" },
+    { "id": "p-cheiro", "at": { "ref": "s2-07", "word": "cheiro", "edge": "start" }, "attack": 0.25, "decay": 0.9, "pitch": 1.8, "z_cm": -1.2, "roll": 0.8, "note": "recua a cabeça com o cheiro" },
+    { "id": "p-bocejo", "at": { "ref": "s3-02", "edge": "start" }, "attack": 1.1, "decay": 1.0, "pitch": 3.5, "roll": -1.0, "note": "cabeça para trás no bocejo" },
+    { "id": "p-cabecada-1", "at": 52.3, "attack": 0.28, "decay": 1.3, "pitch": -3.5, "note": "cochilo: cabeça despenca e volta" },
+    { "id": "p-cabecada-2", "at": 55.0, "attack": 0.28, "decay": 1.3, "pitch": -5.0 },
+    { "id": "p-cabecada-3", "at": 57.1, "attack": 0.28, "decay": 1.3, "pitch": -6.5 }
+  ]
+}

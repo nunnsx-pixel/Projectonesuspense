@@ -1,0 +1,34 @@
+{
+  "id": "s3",
+  "config_index": 2,
+  "name": "O Assento e o Sono",
+  "source": "ep01-embarque-campinas.md · [00:35 - 01:00] + Transição Final [00:58 - 01:00]",
+
+  "set": {
+    "location": "Corredor e assento do ônibus (quarta fileira, do meio para a frente, ao lado da janela)",
+    "time_of_day": "noite, o ônibus parte da rodoviária e entra na rodovia",
+    "lighting": "Luz interna do ônibus; luzes da rodoviária ficando para trás na escuridão da rodovia.",
+    "character_state": "Cansado, bocejando, voz arrastada e cada vez mais baixa.",
+    "props": [
+      { "name": "mochila preta de estudante", "state": "com crachá universitário pendurado; jogada pela mão DIREITA no banco ao lado (objeto âncora da série)" }
+    ],
+    "assumption": "Janela à ESQUERDA do protagonista; banco do corredor à direita (compatível com a mão direita jogando a mochila)."
+  },
+
+  "beats": [
+    { "id": "b3-senta", "at": 36.9, "dur": 0.8,
+      "text": "Chega à quarta fileira e senta ao lado da janela." },
+    { "id": "b3-mochila", "at": { "ref": "s3-01", "word": "mochila", "edge": "start", "offset": -0.1 }, "dur": 0.8,
+      "text": "A mão direita joga a mochila preta (crachá pendurado) no banco ao lado." },
+    { "id": "b3-partida", "at": { "ref": "s3-02", "edge": "end", "offset": 0.2 }, "dur": 4.0,
+      "text": "O ônibus parte e ganha velocidade no asfalto.", "origin": "inferido" },
+    { "id": "b3-janela", "at": { "beat": "b3-partida", "offset": 1.0 }, "dur": 3.0,
+      "text": "A câmera vira para a janela: as luzes da rodoviária ficam para trás na escuridão." },
+    { "id": "b3-vinheta", "at": 44.0, "until": 58.4,
+      "text": "Vinheta escura fecha lentamente nas bordas (blur gradual)." },
+    { "id": "b3-palpebras", "at": 58.0, "until": 59.3,
+      "text": "[Transição Final 00:58-01:00] Pálpebras 3D fecham completamente a visão." },
+    { "id": "b3-preto", "at": 59.5, "dur": 0.5,
+      "text": "Corte seco para preto absoluto." }
+  ]
+}
