@@ -51,9 +51,53 @@ Importar leva alguns segundos (3600 frames x ~14 canais).
 Rotação final = `look_*` + `shake_*`, composta como yaw→pitch→roll e combinada com a correção de
 câmera do Blender (a câmera olha para −Z). Os ângulos são keyados em Euler XYZ, contínuos (sem viradas).
 
+## Montar a cena do episódio (greybox)
+
+Além de importar só a câmera, `assemble_scene.py` **monta a cena inteira** de um episódio — ônibus, cenário,
+personagens, luz e efeitos de tela — a partir da timeline sincronizada. É um *greybox* low-poly estilizado, feito
+para você **trocar pelos assets finais** (mantenha os nomes `ONIBUS`, `POV_Head` e `Camera`).
+
+```
+python -m pipeline build ep02            # gera build/ (timeline.json + camera.csv), se ainda não existir
+blender -b -P blender/assemble_scene.py -- --episode ep02 --save ep02.blend
+# prévias (Cycles/CPU, ~15 s por quadro a 270x480):
+blender -b -P blender/assemble_scene.py -- --episode ep03 --render-frames 23.5,46.0,53.2 --out previews
+```
+
+**O que entra na cena**
+
+| Peça | Como é feita |
+|---|---|
+| `ONIBUS` (empty) | Pai do ônibus e da cabeça. **Anda** pela integral do `speed_kmh` do CSV (Ep. 1: parado até a partida em 41,9 s; Ep. 2 e 3: estrada de terra, ~600–800 m). O cenário externo é fixo: as luzes/árvores/placa passam pela janela. |
+| `POV_Head` (empty) | **Caminho-base da cabeça**: posição, altura dos olhos e direção. O avanço dos trechos a pé nasce dos **passos do CSV** (mesmos do SFX): o pé "planta" nos frames certos. Os trajetos ficam em `pov_scene/routes.py` (Python puro, testado sem Blender). |
+| `Camera` | Filha do `POV_Head`; só recebe balanço e olhar do CSV (importador) e o FOV (vertical 80°). |
+| Luz do ônibus | Tubos e luzes do teto ligados ao canal `light` por driver: a queda de luz do CSV apaga tudo junto. Ep. 1: fixa em 1. |
+| Vinheta, pálpebras, preto | Planos na frente da câmera, ligados a `vignette`, `eyelid` e `black` por driver (sem compositor, que mudou de API entre o 4.x e o 5.x). |
+| Adereços e personagens | Mãos POV (com tremor), celular (texto real: `23:47 / 14%`, `SEM SERVIÇO / 00:00`), bilhete, mochila preta com crachá (no Ep. 2, empoeirada, com teias), motorista (acena no Ep. 1; gira o pescoço em 3 trancos nos 3 estalos no Ep. 3), passageiro do fundo e seu duplo em decomposição (Ep. 3), catraca que gira no `catraca-giro`, portas pneumáticas, abismo vermelho com 34 mãos pálidas, placa **348 riscada**. Tudo entra e sai nos instantes dos beats. |
+| Marcadores | `CENA:`, `BEAT:` e `VOZ:` (com o falante) na timeline; o importador ainda cria `POV:*`. |
+
+**Decisões de montagem que mexem no olhar** (o CSV não foi alterado): o olhar do CSV é *relativo à cabeça*, então a
+cena tem que ser coerente com ele. Onde não era, o corpo se move no caminho-base: no Ep. 2 o tronco **gira ~58°**
+para o "banco ao lado" e ele **se inclina sobre o corredor** para ver a silhueta no último banco e a nuca do
+motorista (dos bancos da janela os encostos bloqueiam a vista). Os testes de `routes.py` comparam a direção
+geométrica (motorista, porta, banco, último banco) com o `look_yaw` do CSV.
+
+**Continuidade do roteiro (para você decidir):** a catraca está **ao pé da porta** no Ep. 1 (ele passa o bilhete
+logo ao subir) e **logo atrás da cabine** no Ep. 3 ("recuando… batendo as costas na catraca"). Como cada episódio é
+uma cena separada, montei cada um com a catraca onde o roteiro a coloca; se quiser a mesma posição nos três,
+é preciso ajustar o roteiro ou o layout (`pov_scene/layout.py`, `routes.py`).
+
+**O que NÃO está coberto:** texturas e assets finais (é greybox); `edge_blur` e `motion_blur` do CSV ficam só como
+propriedades da câmera (ligue no compositor/pós); áudio (os cues estão nos marcadores/`timeline.json`);
+animação de personagem além dos movimentos acima (andar do passageiro, rosto do duplo). A neblina de mundo
+também enevoa levemente o interior do ônibus (volume de mundo preenche tudo).
+
 ## Testado
 
-`tests/test_blender_import.py`: a matemática de eixos/sinais roda em qualquer Python; os testes de cena
+`tests/test_scene_routes.py` (Python puro): o caminho da cabeça (continuidade, passadas humanas, o pé nos frames dos
+passos, degraus, sentar junto do baque, geometria × olhar do CSV). `tests/test_blender_scene.py` (precisa de `bpy`):
+monta os 3 episódios e confere hierarquia, cabeça × trajeto, drivers de luz/vinheta/pálpebra/preto, marcadores,
+visibilidade dos filhos, e os bugs que já tivemos. `tests/test_blender_import.py`: a matemática de eixos/sinais roda em qualquer Python; os testes de cena
 rodam o importador no Blender **4.2 LTS e 5.3** (módulo `bpy`, sem interface), com os CSVs dos três
 episódios: direção do olhar (inclusive +148° e +172° para trás, e o mergulho final do Ep. 3 com pitch −70° e
 roll 45°), roll, posição, FOV, flags em degrau, canais extras, marcadores, reimportação, rig existente,

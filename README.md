@@ -11,7 +11,7 @@ Projeto de animação 3D em **Primeira Pessoa (POV)** dividido em 3 episódios d
 - `ep01/` — Fontes sincronizadas do Ep. 01 (narração, cenas, SFX, câmera POV) + `build/` gerado. Veja `ep01/README.md`.
 - `ep02/` — Idem para o Ep. 02 (BUM, luz com falha elétrica, estrada irregular). Veja `ep02/README.md`.
 - `ep03/` — Idem para o Ep. 03 (dois falantes, batimentos cardíacos como SFX, revelação, porta e neblina vermelha). Veja `ep03/README.md`.
-- `blender/` — Importador do `camera.csv` para a câmera principal do Blender (60fps). Veja `blender/README.md`.
+- `blender/` — Importador do `camera.csv` (60fps) **e montador da cena de cada episódio** em greybox: ônibus, cenário, personagens, luz e efeitos de tela, com o caminho-base da cabeça guiado pelos passos. Veja `blender/README.md`.
 - `pipeline/` e `tests/` — Gerador (`python -m pipeline build ep01`) e testes (`python -m unittest discover -s tests`). Só biblioteca padrão do Python.
 
 ## 🎨 Especificações Técnicas (Claude Code / Pipeline 3D)

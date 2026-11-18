@@ -186,7 +186,7 @@ def _set_marker(scene, name, frame):
 
 
 def import_csv(csv_path, camera_name=None, start_frame=1, fov_deg=None, keep_render_settings=False,
-               step_markers=False, scene=None):
+               step_markers=False, scene=None, extra_constants=None):
     if bpy is None:
         raise RuntimeError("Este script precisa rodar dentro do Blender (ou do módulo bpy).")
     scene = scene or bpy.context.scene
@@ -238,6 +238,10 @@ def import_csv(csv_path, camera_name=None, start_frame=1, fov_deg=None, keep_ren
             for p in constant_props:
                 cam[p] = r[p]
                 cam.keyframe_insert(f'["{p}"]', frame=f, group="POV sync")
+        for p, v in (extra_constants or {}).items():      # canal que este CSV não tem, mas drivers esperam (ex.: light=1)
+            if p not in rows[0]:                          # animado (1 key): só assim entra na cópia avaliada do depsgraph
+                cam[p] = v
+                cam.keyframe_insert(f'["{p}"]', frame=start_frame, group="POV sync")
     finally:
         prefs.keyframe_new_interpolation_type = old_interp
 
