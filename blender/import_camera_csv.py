@@ -9,8 +9,9 @@ O que o script faz
     balanço e o olhar. Se já tem pai (o seu rig), nada é criado: o pai precisa seguir a convenção do
     Blender (+Y frente, +Z cima).
   * Expõe os canais de sincronia como propriedades custom da câmera, também keyadas por frame:
-    vignette, edge_blur, eyelid, black, breath, heart, speed_kmh, step (use em drivers/compositor).
-  * Cria marcadores na timeline: cenas (POV:s1...), corte para preto (POV:preto) e,
+    vignette, edge_blur, eyelid, black, breath, heart, speed_kmh, step (use em drivers/compositor)
+    e, se o CSV tiver (ex.: Ep. 2): light (luz do ônibus, 1 = normal), motion_blur, bump (batida da estrada).
+  * Cria marcadores na timeline: cenas (POV:s1...), cada início de tela preta (POV:preto) e,
     com --step-markers, cada pisada (POV:passo = frame de contato do pé, para plantar os pés).
 
 Convenção do CSV -> Blender (head-space)
@@ -48,6 +49,8 @@ HEAD_NAME = "POV_Head"
 MARK = "POV:"
 SMOOTH_PROPS = ("vignette", "edge_blur", "eyelid", "breath", "heart", "speed_kmh")
 CONSTANT_PROPS = ("black", "step")                   # flags: degrau, sem interpolar
+OPTIONAL_SMOOTH = ("motion_blur",)                   # só existem em alguns episódios (colunas extras do CSV)
+OPTIONAL_CONSTANT = ("light", "bump")                # luz com falha = degrau; bump = pulso de 1 frame
 REQUIRED = ["frame", "scene", "shake_x_cm", "shake_y_cm", "shake_z_cm",
             "shake_yaw", "shake_pitch", "shake_roll", "look_yaw", "look_pitch", "look_roll",
             "fov_pct", *SMOOTH_PROPS, *CONSTANT_PROPS]
@@ -201,12 +204,14 @@ def import_csv(csv_path, camera_name=None, start_frame=1, fov_deg=None, keep_ren
     for m in [m for m in scene.timeline_markers if m.name.startswith(MARK)]:
         scene.timeline_markers.remove(m)
 
+    smooth_props = SMOOTH_PROPS + tuple(p for p in OPTIONAL_SMOOTH if p in rows[0])
+    constant_props = CONSTANT_PROPS + tuple(p for p in OPTIONAL_CONSTANT if p in rows[0])
     cam.rotation_mode = "XYZ"
     if fov_deg is not None:
         cam.data.angle = math.radians(fov_deg)
     base_angle = cam.data.angle
     cm_to_bu = 0.01 / scene.unit_settings.scale_length
-    for p in SMOOTH_PROPS + CONSTANT_PROPS:
+    for p in smooth_props + constant_props:
         cam[p] = 0.0
 
     prefs = bpy.context.preferences.edit
@@ -223,13 +228,13 @@ def import_csv(csv_path, camera_name=None, start_frame=1, fov_deg=None, keep_ren
             cam.keyframe_insert("location", frame=f, group="POV rig")     # converte em `lens` (respeita sensor_fit)
             cam.keyframe_insert("rotation_euler", frame=f, group="POV rig")
             cam.data.keyframe_insert("lens", frame=f, group="POV rig")
-            for p in SMOOTH_PROPS:
+            for p in smooth_props:
                 cam[p] = r[p]
                 cam.keyframe_insert(f'["{p}"]', frame=f, group="POV sync")
         prefs.keyframe_new_interpolation_type = "CONSTANT"    # flags viram degraus
         for r in rows:
             f = start_frame + int(r["frame"])
-            for p in CONSTANT_PROPS:
+            for p in constant_props:
                 cam[p] = r[p]
                 cam.keyframe_insert(f'["{p}"]', frame=f, group="POV sync")
     finally:
@@ -245,9 +250,12 @@ def import_csv(csv_path, camera_name=None, start_frame=1, fov_deg=None, keep_ren
         if r["scene"] != last_scene:
             _set_marker(scene, r["scene"], f)
             last_scene = r["scene"]
-    first_black = next((r for r in rows if r["black"] >= 0.5), None)
-    if first_black is not None:
-        _set_marker(scene, "preto", start_frame + int(first_black["frame"]))
+    was_black = False
+    for r in rows:                                   # um marcador por início de tela preta
+        is_black = r["black"] >= 0.5
+        if is_black and not was_black:
+            _set_marker(scene, "preto", start_frame + int(r["frame"]))
+        was_black = is_black
     if step_markers:
         for r in rows:
             if r["step"] >= 0.5:

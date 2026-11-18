@@ -1,0 +1,30 @@
+{
+  "id": "s1",
+  "config_index": 0,
+  "name": "O Gancho do Susto",
+  "source": "ep02-despertar-escuro.md · [00:00 - 00:18]",
+
+  "set": {
+    "location": "Interior do ônibus, quarta fileira, banco da janela (continuidade do Ep. 1)",
+    "lighting": "A iluminação interna mudou completamente: luz fluorescente verde-escura, fraca, piscando com falha elétrica (flicker).",
+    "character_state": "Acorda em pânico: gasp, respiração disparada e ofegante.",
+    "assumption": "Janela à ESQUERDA do protagonista e banco do corredor (mochila) à direita, como no Ep. 1."
+  },
+
+  "beats": [
+    { "id": "b1-preto", "at": 0.0, "dur": 0.5, "text": "Tela preta por 0,5 s." },
+    { "id": "b1-bum", "at": 0.5, "dur": 1.0,
+      "text": "BUM! Impacto violento sacode a câmera para cima e para os lados (motion blur intenso)." },
+    { "id": "b1-olhos", "at": 0.55, "dur": 0.25, "text": "As pálpebras abrem de supetão." },
+    { "id": "b1-luz", "at": 0.5, "until": 18.0,
+      "text": "Luz verde-escura fraca piscando com falha elétrica (as lâmpadas morrem no impacto e voltam falhando)." },
+    { "id": "b1-janela", "at": { "ref": "s1-03", "word": "barulho", "edge": "start" }, "dur": 1.4,
+      "text": "Olha para a janela, à esquerda: só escuridão.", "origin": "inferido" },
+    { "id": "b1-frente", "at": { "ref": "s1-05", "edge": "start" }, "dur": 2.6,
+      "text": "Olha para a frente, para o motorista, que não responde (\"Moço?!\").", "origin": "inferido" },
+    { "id": "b1-ofegante", "at": { "ref": "s1-07", "edge": "start" }, "dur": 1.6,
+      "text": "Respiração disparada: cabeça baixa, recobrando o ar (huh-huh-huh).", "origin": "inferido" },
+    { "id": "b1-teto", "at": { "ref": "s1-09", "word": "solavanco", "edge": "start" }, "dur": 2.4,
+      "text": "Olha o teto: as luzes verdes piscando (gancho para a cena 2).", "origin": "inferido" }
+  ]
+}

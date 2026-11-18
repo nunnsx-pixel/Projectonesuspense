@@ -4324,6 +4324,11 @@
     "explicit": false
    }
   ],
-  "cut_to_black_at": 59.5
+  "black_ranges": [
+   [
+    59.5,
+    60.0
+   ]
+  ]
  }
 }

@@ -1,0 +1,58 @@
+{
+  "episode": "ep02",
+  "_comment": "Cues de SFX do Ep. 2. origin: \"roteiro\" = está no .md; \"inferido\" = som implícito (pode apagar). gain_db é sugestão inicial. NÃO ficam aqui, porque são gerados da câmera/luz para cair no frame exato: as batidas da estrada (camera.json > road) e as falhas elétricas da lâmpada (camera.json > flicker).",
+
+  "cues": [
+    {
+      "id": "motor-onibus", "layer": "veiculo", "origin": "inferido",
+      "desc": "Ronco do ônibus em movimento (continuidade do Ep. 1). Abafado como no fim do Ep. 1 durante a tela preta; abre de uma vez no impacto.",
+      "at": 0.0, "until": 60.0, "gain_db": -16, "loop": true,
+      "pitch_from_speed": { "max_semitones": 9, "max_kmh": 62 },
+      "automation": {
+        "gain_db": [[0.0, -24], [0.5, -24], [0.7, -14]],
+        "lowpass_hz": [[0.0, 650], [0.5, 650], [0.65, 18000]]
+      }
+    },
+    {
+      "id": "bum-buraco", "layer": "impacto", "origin": "roteiro",
+      "desc": "Baque seco e ensurdecedor da suspensão batendo em um buraco. Sincronizado com o chacoalhão da câmera, o motion blur e a queda da luz.",
+      "at": { "beat": "b1-bum" }, "gain_db": 0
+    },
+    {
+      "id": "metal-rangendo-bum", "layer": "veiculo", "origin": "roteiro",
+      "desc": "Metal rangendo / chassi torcendo logo depois do impacto.",
+      "at": { "beat": "b1-bum", "offset": 0.05 }, "dur": 2.9, "fade_out": 1.2, "gain_db": -8
+    },
+    {
+      "id": "zumbido-eletrico", "layer": "eletrico", "origin": "roteiro",
+      "desc": "Zumbido elétrico das lâmpadas fluorescentes defeituosas. As falhas pontuais (queda da luz) são geradas de camera.json > flicker.",
+      "at": { "beat": "b1-bum" }, "until": 60.0, "fade_in": 0.1, "gain_db": -22, "loop": true,
+      "automation": { "gain_db": [[0.5, -14], [3.0, -22], [30.0, -24], [52.0, -22], [60.0, -18]] }
+    },
+    {
+      "id": "chassi-rangendo", "layer": "veiculo", "origin": "roteiro",
+      "desc": "Chassi velho rangendo sobre terreno irregular (cama contínua; os solavancos individuais são gerados de camera.json > road).",
+      "at": 2.5, "until": 60.0, "fade_in": 1.5, "gain_db": -14, "loop": true,
+      "automation": { "gain_db": [[2.5, -16], [18.0, -9], [38.0, -9], [44.0, -15], [60.0, -15]] }
+    },
+    {
+      "id": "vento-frestas", "layer": "ambiencia", "origin": "roteiro",
+      "desc": "Vento uivando pelas frestas da janela.",
+      "at": 16.0, "until": 60.0, "fade_in": 3.0, "gain_db": -16, "loop": true,
+      "automation": { "gain_db": [[16.0, -22], [20.0, -12], [38.0, -12], [44.0, -20], [60.0, -20]] }
+    },
+    {
+      "id": "chiado-celular", "layer": "interface", "origin": "roteiro",
+      "desc": "Chiado estático leve vindo do celular sem sinal.",
+      "at": { "beat": "b3-celular" }, "until": { "beat": "b3-celular", "edge": "end" }, "fade_in": 0.1, "fade_out": 0.3,
+      "gain_db": -18, "loop": true
+    },
+    {
+      "id": "cascalho-pneus", "layer": "veiculo", "origin": "roteiro",
+      "desc": "Cascalho sob os pneus na estrada de terra.",
+      "at": 37.0, "until": 60.0, "fade_in": 3.0, "gain_db": -13, "loop": true
+    }
+  ],
+
+  "mix": {}
+}

@@ -1,6 +1,7 @@
 """Painel SVG com todas as trilhas no mesmo eixo de tempo (para conferir a sincronia a olho)."""
 from __future__ import annotations
 
+import math
 from html import escape
 
 PX = 30            # pixels por segundo
@@ -58,7 +59,7 @@ def render(tl: dict, rows: list[dict]) -> str:
 
     beds = [c for c in tl["sfx"]["cues"] if c["end"] - c["start"] > 0.5]
     ones = [c for c in tl["sfx"]["cues"] if c["end"] - c["start"] <= 0.5]
-    top = lane("sfx", 14 + 14 * len(beds) + 30)
+    top = lane("sfx", 14 + 14 * len(beds) + 30 + (12 if tl["sfx"].get("flicker") else 0))
     for i, c in enumerate(beds):
         yy = top + 3 + i * 14
         out.append(f'<rect x="{x(c["start"])}" y="{yy}" width="{(c["end"] - c["start"]) * PX}" height="11" fill="{COL["sfx"]}" opacity=".55"/>')
@@ -70,13 +71,19 @@ def render(tl: dict, rows: list[dict]) -> str:
         out.append(f'<text x="{x(c["start"]) + 3}" y="{base + 9 + (i % 2) * 11}" font-size="9">{escape(c["id"])}</text>')
     for f in tl["sfx"]["footsteps"]:
         out.append(f'<line x1="{x(f["start"])}" x2="{x(f["start"])}" y1="{base + 26}" y2="{base + 38}" stroke="{COL["passo"]}"/>')
+    for f in tl["sfx"].get("bumps", []):
+        out.append(f'<line x1="{x(f["start"])}" x2="{x(f["start"])}" y1="{base + 26}" y2="{base + 38}" stroke="#2563eb"/>')
+    for f in tl["sfx"].get("flicker", []):
+        out.append(f'<line x1="{x(f["start"])}" x2="{x(f["start"])}" y1="{base + 40}" y2="{base + 50}" stroke="#a16207"/>')
 
     h = 60
     top = lane("cabeça: subir/descer (y cm)", h)
     for st in tl["camera"]["steps"]:
         out.append(f'<line x1="{x(st["t"])}" x2="{x(st["t"])}" y1="{top}" y2="{top + h}" stroke="{COL["passo"]}" opacity=".35"/>')
+    for bp in tl["camera"].get("bumps", []):
+        out.append(f'<line x1="{x(bp["t"])}" x2="{x(bp["t"])}" y1="{top}" y2="{top + h}" stroke="#2563eb" opacity="{0.25 + 0.6 * min(1, bp["size"])}"/>')
     series(top, h, "shake_y_cm", -5, 5, COL["linha"], 0.8)
-    label(top, "linhas vermelhas = pisadas (== SFX de passos)")
+    label(top, "vermelho = pisadas · azul = batidas da estrada (== SFX do mesmo frame)")
 
     top = lane("peito (respiração)", 44)
     for b in tl["breaths"]:
@@ -88,13 +95,21 @@ def render(tl: dict, rows: list[dict]) -> str:
     top = lane("coração", 30)
     series(top, 30, "heart", 0, 1.6, "#dc2626", 0.7, every=1)
 
-    top = lane("olhar yaw / pitch (°)", 70)
-    series(top, 70, "look_yaw", -90, 90, "#2563eb", 1.3)
-    series(top, 70, "look_pitch", -90, 90, "#16a34a", 1.3)
+    span = max(90, 30 * math.ceil(max(max(abs(r["look_yaw"]) for r in rows), max(abs(r["look_pitch"]) for r in rows)) / 30))
+    top = lane(f"olhar yaw / pitch (±{span}°)", 70)
+    out.append(f'<line x1="{LEFT}" x2="{LEFT + dur * PX}" y1="{top + 35}" y2="{top + 35}" stroke="{COL["grade"]}"/>')
+    series(top, 70, "look_yaw", -span, span, "#2563eb", 1.3)
+    series(top, 70, "look_pitch", -span, span, "#16a34a", 1.3)
     label(top, "azul = yaw (esq−/dir+) · verde = pitch (baixo−/cima+)")
 
     top = lane("ônibus (km/h)", 28)
     series(top, 28, "speed_kmh", 0, 70, "#7c3aed", 1.4)
+
+    if "light" in rows[0]:
+        top = lane("luz (1 = normal) / motion blur", 40)
+        series(top, 40, "light", 0, 1, "#15803d", 1.0, every=1)
+        series(top, 40, "motion_blur", 0, 1, "#9333ea", 1.2)
+        label(top, "verde = luz (quedas = falhas elétricas) · roxo = motion blur")
 
     top = lane("tela: vinheta / blur / pálpebra", 50)
     series(top, 50, "vignette", 0, 1, "#111827", 1.3)
@@ -104,8 +119,8 @@ def render(tl: dict, rows: list[dict]) -> str:
 
     for s in range(0, int(dur) + 1, 5):
         out.append(f'<line x1="{x(s)}" x2="{x(s)}" y1="{grid_top}" y2="{y - 8}" stroke="{COL["grade"]}" stroke-dasharray="2 3"/>')
-    cut = tl["camera"]["cut_to_black_at"]
-    out.append(f'<rect x="{x(cut)}" y="{grid_top}" width="{(dur - cut) * PX}" height="{y - 8 - grid_top}" fill="#000" opacity=".25"/>')
+    for a, b in tl["camera"]["black_ranges"]:
+        out.append(f'<rect x="{x(a)}" y="{grid_top}" width="{(b - a) * PX}" height="{y - 8 - grid_top}" fill="#000" opacity=".25"/>')
 
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{y + 6}" '
             f'font-family="system-ui, sans-serif"><rect width="100%" height="100%" fill="#fff"/>'

@@ -17,6 +17,10 @@ Camadas do balanço (todas determinísticas, semente em camera.json):
             (derivada de `speed_kmh`).
   impactos  `kicks` (mola amortecida: sentar, catraca, jogar mochila...) e
             `pulses` (sobe e desce suave: fungada, cabeçada de sono...).
+  estrada   `road`: buracos/terreno irregular em momentos aleatórios (semente fixa); cada
+            batida é um impacto de câmera E um evento que o SFX do chassi usa (mesmo frame).
+  luz       `flicker`: falhas elétricas da lâmpada (marcadas + rajadas aleatórias); o canal
+            `light` (0..1) e os SFX de falha elétrica usam a mesma lista de eventos.
 
 Convenções: +X direita, +Y cima, +Z frente; yaw + = olhar p/ direita,
 pitch + = olhar p/ cima, roll + = inclinar p/ a direita; ordem YXZ.
@@ -71,7 +75,7 @@ def _table_lookup(table: list[dict], cadence: float) -> dict:
 def make_steps(cfg: dict, res: Resolver) -> list[dict]:
     """Gera os passos (tempo de cada pisada) a partir dos segmentos de locomoção."""
     steps = []
-    for seg in cfg["locomotion"]:
+    for seg in cfg.get("locomotion", []):
         t = res.time(seg["from"])
         t_end = res.time(seg["to"]) if "to" in seg else math.inf
         n_max = seg.get("steps")
@@ -262,6 +266,62 @@ def pulse_response(ev: dict, t: float) -> dict[str, float]:
     return {c: ev[c] * w for c in POS + ROT + ("fov_pct",) if c in ev}
 
 
+def make_bumps(cfg: dict, res: Resolver, seed: int) -> list[dict]:
+    """Batidas da estrada: instantes aleatórios (Poisson, semente fixa) por trecho `road`."""
+    out = []
+    for si, seg in enumerate(cfg.get("road", [])):
+        t0, t1 = res.time(seg["from"]), res.time(seg["to"])
+        rate = curve_from_spec({"mode": "linear", "keys": seg["rate_hz"]}, res)
+        amp = curve_from_spec(seg["amp"], res) if "amp" in seg else (lambda _t: 1.0)
+        rnd = random.Random(seed * 7919 + si)
+        t = t0
+        while True:
+            t += max(seg.get("min_gap_s", 0.12), rnd.expovariate(max(rate(t), 1e-3)))
+            if t >= t1:
+                break
+            size = (0.3 + 0.7 * rnd.random() ** 1.5) * amp(t)          # maioria pequena, poucas grandes
+            out.append({"t": snap(t), "size": size, "seg": seg["id"], "sx": rnd.choice((-1, 1)),
+                        "sr": rnd.choice((-1, 1)), "sp": rnd.choice((-1, 1)), "sfx": seg.get("sfx", {})})
+    return sorted(out, key=lambda b: b["t"])
+
+
+def bump_kick(b: dict, resp: dict) -> dict:
+    """Resposta de mola de uma batida (mesma matemática dos `kicks`)."""
+    return {"t": b["t"], "f_hz": resp["f_hz"], "tau_s": resp["tau_s"], "y_cm": resp["y_cm"] * b["size"],
+            "pitch": resp["pitch"] * b["size"] * b["sp"], "roll": resp["roll"] * b["size"] * b["sr"],
+            "x_cm": resp["x_cm"] * b["size"] * b["sx"]}
+
+
+def make_flicker(cfg: dict, res: Resolver, duration: float, seed: int):
+    """Falhas elétricas da lâmpada: eventos (marcados + rajadas) e o canal `light` por frame."""
+    n = int(round(duration * FPS))
+    fl = cfg.get("flicker")
+    if not fl:
+        return [], [1.0] * n
+    events = [{"t": snap(res.time(e["at"])), "frames": int(e["frames"]), "depth": float(e["depth"]),
+               "origin": "marcado", "note": e.get("note", "")} for e in fl.get("events", [])]
+    rate = curve_from_spec({"mode": "linear", "keys": fl["rate_hz"]}, res)
+    rnd = random.Random(seed * 104729 + 17)
+    t, t_end = res.time(fl.get("from", 0.0)), min(res.time(fl.get("to", duration)), duration - 0.1)
+    while True:
+        t += rnd.expovariate(max(rate(t), 1e-3))
+        if t >= t_end:
+            break
+        for _ in range(rnd.randint(*fl["burst_count"])):
+            frames = rnd.randint(*fl["burst_frames"])
+            events.append({"t": snap(t), "frames": frames, "depth": round(rnd.uniform(*fl["depth"]), 3),
+                           "origin": "rajada", "note": ""})
+            t += (frames + rnd.randint(*fl["burst_gap_frames"])) / FPS
+    base = curve_from_spec(fl["base"], res) if "base" in fl else (lambda _t: 1.0)
+    dip = [0.0] * n
+    for e in events:
+        f0 = int(round(e["t"] * FPS))
+        for f in range(max(f0, 0), min(f0 + e["frames"], n)):
+            dip[f] = max(dip[f], e["depth"])
+    light = [max(0.0, min(1.0, base(f / FPS) * (1.0 - dip[f]))) for f in range(n)]
+    return sorted(events, key=lambda e: e["t"]), light
+
+
 # ----------------------------------------------------------------------------
 # Montagem
 # ----------------------------------------------------------------------------
@@ -295,8 +355,19 @@ def build(cfg: dict, res: Resolver, breath_events: list[dict], speech_spans: lis
     sway_n = {ch: Noise(seed * 100 + 20 + i, 0.15, 0.6, 5) for i, ch in enumerate(("x_cm", "roll", "yaw"))}
     vib_f = A["bus_vibration"]["freq_hz"]
 
-    cut = res.time(cfg["fx"]["cut_to_black_at"])
+    fx = cfg["fx"]
+    if "black_ranges" in fx:
+        black_ranges = [(res.time(a), res.time(b)) for a, b in fx["black_ranges"]]
+    else:                                                    # compat: corte seco até o fim
+        black_ranges = [(res.time(fx["cut_to_black_at"]), duration)]
     step_frames = {int(round(s["t"] * FPS)) for s in steps}
+
+    bumps = make_bumps(cfg, res, seed)
+    bump_resp = cfg.get("bump_response", {})
+    bump_evs = [bump_kick(b, bump_resp) for b in bumps]
+    bump_ts = [b["t"] for b in bumps]
+    bump_frames = {int(round(b["t"] * FPS)) for b in bumps}
+    flickers, light = make_flicker(cfg, res, duration, seed)
 
     rows = []
     for fr in range(n_frames):
@@ -353,23 +424,31 @@ def build(cfg: dict, res: Resolver, breath_events: list[dict], speech_spans: lis
                 else:
                     acc[ch] += v
 
+        j = bisect.bisect_right(bump_ts, t) - 1
+        while j >= 0 and t - bump_ts[j] < 6 * bump_resp.get("tau_s", 0.16):
+            for ch, v in kick_response(bump_evs[j], t).items():
+                acc[ch] += v
+            j -= 1
+
         scene = next((sid for sid, a, b in scene_windows if a <= t < b), scene_windows[-1][0])
-        black = 1 if t >= cut - 1e-9 else 0
+        black = 1 if any(a - 1e-9 <= t < b - 1e-9 for a, b in black_ranges) else 0
         row = {"frame": fr, "t": round(t, 5), "scene": scene,
                "shake_x_cm": acc["x_cm"] * master, "shake_y_cm": acc["y_cm"] * master,
                "shake_z_cm": acc["z_cm"] * master,
                "shake_yaw": acc["yaw"] * master, "shake_pitch": acc["pitch"] * master,
                "shake_roll": acc["roll"] * master,
                "look_yaw": look["yaw"](t), "look_pitch": look["pitch"](t), "look_roll": look["roll"](t),
-               "fov_pct": fov * master,
+               "fov_pct": fov * master + c("fov_pct", t),
                "vignette": c("vignette", t), "edge_blur": c("edge_blur", t),
                "eyelid": c("eyelid", t), "black": black,
                "breath": level(t), "heart": hp, "speed_kmh": c("speed_kmh", t),
-               "step": 1 if fr in step_frames else 0}
+               "step": 1 if fr in step_frames else 0,
+               "light": light[fr], "motion_blur": c("motion_blur", t), "bump": 1 if fr in bump_frames else 0}
         if black:
             row["eyelid"] = 1.0
         rows.append(row)
 
     return {"rows": rows, "steps": [s for s in steps if s["t"] >= 0.0], "all_steps": steps, "gait": gait,
             "breath_cycles": cycles, "heartbeats": beats, "look_keys": look_keys, "kicks": kicks,
-            "pulses": pulses, "curves": curves, "cut_to_black_at": cut}
+            "pulses": pulses, "curves": curves, "black_ranges": black_ranges,
+            "bumps": bumps, "flickers": flickers}

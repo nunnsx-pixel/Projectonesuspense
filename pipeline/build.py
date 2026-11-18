@@ -18,6 +18,7 @@ CSV_COLUMNS = [
     "vignette", "edge_blur", "eyelid", "black",
     "breath", "heart", "speed_kmh", "step",
 ]
+OPTIONAL_COLUMNS = ("light", "motion_blur", "bump")     # entram no CSV só se camera.json pedir em `csv_extra`
 
 
 def _load(path: Path) -> dict:
@@ -130,12 +131,15 @@ def build_episode(ep_id: str, root: Path = ROOT, write: bool = True) -> dict:
 
     # ---- câmera -----------------------------------------------------------------
     cam_cfg = _load(ep_dir / "camera.json")
-    breath_events = narration.derive_breaths(items)
+    breath_events = narration.derive_breaths(
+        items, {n["scene"]: n["breath_min_gap"] for n in narr["scenes"] if "breath_min_gap" in n})
     speech_spans = [(i["start"] - 0.3, i["end"]) for i in items if i["kind"] == "speech"]
     cam = camera.build(cam_cfg, res, breath_events, speech_spans, windows, duration)
 
     # ---- SFX (cues + passos da câmera) ----------------------------------------------
-    sfx_out = sfx.build(sfx_cfg, res, cam["steps"], cam_cfg.get("seed", 348), windows, cam_cfg["gait_table"])
+    sfx_out = sfx.build(sfx_cfg, res, cam["steps"], cam_cfg.get("seed", 348), windows, cam_cfg.get("gait_table"),
+                        cam["bumps"], cam["flickers"], cam_cfg.get("flicker", {}).get("sfx"))
+    columns = CSV_COLUMNS + [c for c in cam_cfg.get("csv_extra", []) if c in OPTIONAL_COLUMNS]
     for cue in sfx_out["cues"]:
         _check_inside(f"cue {cue['id']}", cue["start"], cue["end"], duration)
         pfs = cue.pop("pitch_from_speed", None)
@@ -149,19 +153,19 @@ def build_episode(ep_id: str, root: Path = ROOT, write: bool = True) -> dict:
                 t += 1
             cue.setdefault("automation", {})["pitch_semitones"] = keys
     for ch in cam["rows"]:
-        for key in CSV_COLUMNS[3:]:
+        for key in columns[3:]:
             if isinstance(ch[key], float) and not math.isfinite(ch[key]):
                 raise ValueError(f"valor inválido na câmera, frame {ch['frame']}, coluna {key}")
     if len(cam["rows"]) != n_frames:
         raise ValueError("número de frames da câmera difere da duração")
     for it in items:
-        if it["kind"] == "speech" and it["end"] > cam["cut_to_black_at"]:
-            warnings.append(f"{it['id']} termina depois do corte para preto")
+        if it["kind"] == "speech" and any(it["start"] < b and it["end"] > a for a, b in cam["black_ranges"]):
+            warnings.append(f"{it['id']} cai numa faixa de tela preta")
 
     timeline = _assemble(project, ep, scenes, items, fits, beats, breath_events, cam, sfx_out, n_frames,
-                         duration, warnings)
+                         duration, warnings, columns)
     if write:
-        _write(ep_dir / "build", ep_id, timeline, cam["rows"])
+        _write(ep_dir / "build", ep_id, timeline, cam["rows"], columns)
     timeline["_cam"] = cam          # uso interno (testes); não vai para o JSON
     return timeline
 
@@ -194,7 +198,7 @@ def _check_inside(what: str, start: float, end: float, duration: float) -> None:
 
 
 def _assemble(project, ep, scenes, items, fits, beats, breath_events, cam, sfx_out, n_frames, duration,
-              warnings) -> dict:
+              warnings, columns) -> dict:
     def stamp(d: dict, *keys: str) -> dict:
         out = dict(d)
         for k in keys:
@@ -223,10 +227,12 @@ def _assemble(project, ep, scenes, items, fits, beats, breath_events, cam, sfx_o
         "sfx": {
             "cues": [stamp(c, "start", "end") for c in sfx_out["cues"]],
             "footsteps": [stamp(f, "start") for f in sfx_out["footsteps"]],
+            **({"bumps": [stamp(f, "start") for f in sfx_out["bumps"]]} if sfx_out["bumps"] else {}),
+            **({"flicker": [stamp(f, "start", "end") for f in sfx_out["flicker"]]} if sfx_out["flicker"] else {}),
             "mix": sfx_out["mix"],
         },
         "camera": {
-            "file": f"{ep['id']}.camera.csv", "columns": CSV_COLUMNS,
+            "file": f"{ep['id']}.camera.csv", "columns": columns,
             "steps": [{"t": s["t"], "frame": to_frame(s["t"]), "segment": s["seg"], "cadence": s["cadence"]}
                       for s in cam["steps"]],
             "look": [{k: v for k, v in k_.items() if k != "at"} for k_ in cam["look_keys"]],
@@ -234,7 +240,10 @@ def _assemble(project, ep, scenes, items, fits, beats, breath_events, cam, sfx_o
             "pulses": [{k: v for k, v in k_.items() if k != "at"} for k_ in cam["pulses"]],
             "heartbeats": [round(b[0], 3) for b in cam["heartbeats"] if b[0] < duration],
             "breath_cycles": cam["breath_cycles"],
-            "cut_to_black_at": cam["cut_to_black_at"],
+            "black_ranges": [[a, b] for a, b in cam["black_ranges"]],
+            **({"bumps": [{"t": b["t"], "frame": to_frame(b["t"]), "size": b["size"], "segment": b["seg"]}
+                          for b in cam["bumps"]]} if cam["bumps"] else {}),
+            **({"flicker": cam["flickers"]} if cam["flickers"] else {}),
         },
     })
 
@@ -246,16 +255,16 @@ def _stamp_item(item: dict, stamp) -> dict:
     return out
 
 
-def _write(out_dir: Path, ep_id: str, timeline: dict, rows: list[dict]) -> None:
+def _write(out_dir: Path, ep_id: str, timeline: dict, rows: list[dict], columns: list[str]) -> None:
     out_dir.mkdir(exist_ok=True)
     (out_dir / f"{ep_id}.timeline.json").write_text(
         json.dumps(timeline, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     with open(out_dir / f"{ep_id}.camera.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f, lineterminator="\n")
-        w.writerow(CSV_COLUMNS)
+        w.writerow(columns)
         for r in rows:
             w.writerow([(f"{r[c]:.5f}" if c == "t" else f"{r[c]:.4f}") if isinstance(r[c], float) else r[c]
-                        for c in CSV_COLUMNS])
+                        for c in columns])
     (out_dir / f"{ep_id}.cue-sheet.md").write_text(cue_sheet(timeline), encoding="utf-8")
     (out_dir / f"{ep_id}.overview.svg").write_text(overview.render(timeline, rows), encoding="utf-8")
 
@@ -273,7 +282,8 @@ def cue_sheet(tl: dict) -> str:
             add(b["start"], "BEAT", f"`{b['id']}` {b['text']}" + (" _(inferido)_" if b.get("origin") == "inferido" else ""), 1)
     for i in tl["narration"]:
         if i["kind"] == "speech":
-            add(i["start"], "VOZ", f"`{i['id']}` “{i['text']}” _(até {tc(i['end'])})_", 2)
+            how = f" _[{i['direction']}]_" if i.get("direction") else ""
+            add(i["start"], "VOZ", f"`{i['id']}`{how} “{i['text']}” _(até {tc(i['end'])})_", 2)
         else:
             add(i["start"], "RESPIRO", f"`{i['id']}` {i['label']} _(até {tc(i['end'])})_", 2)
     for c in tl["sfx"]["cues"]:
@@ -286,13 +296,29 @@ def cue_sheet(tl: dict) -> str:
     for seg, fs in by_seg.items():
         add(fs[0]["start"], "PASSOS", f"`{seg}` {len(fs)} passos até {tc(fs[-1]['start'])} — {fs[0]['surface']} "
             f"({fs[0]['origin']}); cada passo = frame de contato da câmera", 3)
+    bumps = tl["sfx"].get("bumps", [])
+    for seg in dict.fromkeys(b["segment"] for b in bumps):
+        bs = [b for b in bumps if b["segment"] == seg]
+        add(bs[0]["start"], "ESTRADA", f"`{seg}` {len(bs)} batidas até {tc(bs[-1]['start'])} ({bs[0]['origin']}); "
+            f"cada batida = solavanco da câmera (`bump=1` no CSV) + SFX no mesmo frame", 3)
+    lamp = tl["sfx"].get("flicker", [])
+    for e in lamp:
+        if e["origin_event"] == "marcado":
+            add(e["start"], "LUZ", f"apaga {round((e['end'] - e['start']) * 60)} frames (profundidade {e['depth']:g})", 3)
+    if lamp:
+        rnd = [e for e in lamp if e["origin_event"] != "marcado"]
+        add(lamp[0]["start"], "LUZ", f"{len(rnd)} falhas elétricas em rajadas aleatórias (semente fixa) de "
+            f"{tc(min(e['start'] for e in rnd))} a {tc(max(e['start'] for e in rnd))}; cada uma = queda do canal `light` "
+            f"+ SFX `{lamp[0]['tag']}` no mesmo frame", 3)
     for k in tl["camera"]["look"]:
         pose = f"yaw {k['yaw']:+g}°, pitch {k['pitch']:+g}°" + (f", roll {k['roll']:+g}°" if k.get("roll") else "")
         add(k["t"], "OLHAR", pose + (f" — {k['note']}" if k.get("note") else ""), 4)
     for k in tl["camera"]["kicks"] + tl["camera"]["pulses"]:
         if k.get("note"):
             add(k["t"], "IMPACTO", f"`{k['id']}` {k['note']}", 4)
-    add(tl["camera"]["cut_to_black_at"], "FX", "corte seco para preto absoluto", 4)
+    for a, b in tl["camera"]["black_ranges"]:
+        add(a, "FX", "corte seco para preto absoluto" if b >= tl["duration_s"]
+            else f"tela preta de {b - a:g}s (até {tc(b)})", 4)
     ev.sort(key=lambda e: (e[0], e[1]))
 
     lines = [f"# Cue sheet — {tl['episode']} · {tl['title']}", "",

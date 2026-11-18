@@ -15,6 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CSV = ROOT / "ep01" / "build" / "ep01.camera.csv"
+CSV2 = ROOT / "ep02" / "build" / "ep02.camera.csv"
 
 spec = importlib.util.spec_from_file_location("import_camera_csv", ROOT / "blender" / "import_camera_csv.py")
 imp = importlib.util.module_from_spec(spec)
@@ -71,14 +72,15 @@ class MathConventions(unittest.TestCase):
             prev = imp.euler_xyz(m, prev)
         self.assertAlmostEqual(prev[2], -math.radians(170), places=6)  # sem pulo de 2π
 
-    def test_euler_has_no_flips_over_whole_episode(self):
-        prev, worst = None, 0.0
-        for r in imp.read_rows(CSV):
-            _, e = imp.camera_pose(r, 0.01, prev)
-            if prev is not None:
-                worst = max(worst, max(abs(a - b) for a, b in zip(e, prev)))
-            prev = e
-        self.assertLess(math.degrees(worst), 6.0)          # maior passo por frame (o giro p/ janela é suave)
+    def test_euler_has_no_flips_over_whole_episodes(self):
+        for path in (CSV, CSV2):                           # Ep. 2 chega a yaw +150° (olhar para trás)
+            prev, worst = None, 0.0
+            for r in imp.read_rows(path):
+                _, e = imp.camera_pose(r, 0.01, prev)
+                if prev is not None:
+                    worst = max(worst, max(abs(a - b) for a, b in zip(e, prev)))
+                prev = e
+            self.assertLess(math.degrees(worst), 12.0, path.name)   # maior passo por frame (BUM do Ep. 2 é o mais brusco)
 
     def test_position_mapping_and_unit_scale(self):
         row = {"shake_x_cm": 10, "shake_y_cm": 20, "shake_z_cm": 30, "shake_yaw": 0, "shake_pitch": 0,
@@ -160,6 +162,43 @@ class BlenderScene(unittest.TestCase):
                         self.CAM_AT[2] + r["shake_y_cm"] / 100)
             for g, w in zip(m.translation, want_pos):
                 self.assertAlmostEqual(g, w, places=4, msg=f"frame {f}")
+
+    def assert_pose(self, scene, cam, r, f, start=1):
+        """Direção/roll/posição da câmera num frame, com fórmulas escritas à mão (independentes do importador)."""
+        self.at(scene, f, start)
+        yaw = math.radians(r["look_yaw"] + r["shake_yaw"])
+        pitch = math.radians(r["look_pitch"] + r["shake_pitch"])
+        roll = math.radians(r["look_roll"] + r["shake_roll"])
+        want_fwd = (math.sin(yaw) * math.cos(pitch), math.cos(yaw) * math.cos(pitch), math.sin(pitch))
+        m = cam.matrix_world
+        for g, w in zip(-m.col[2].xyz, want_fwd):
+            self.assertAlmostEqual(g, w, places=4, msg=f"frame {f}")
+        self.assertAlmostEqual(m.col[0].z, -math.sin(roll) * math.cos(pitch), places=3, msg=f"frame {f}")
+        want_pos = (self.CAM_AT[0] + r["shake_x_cm"] / 100, self.CAM_AT[1] + r["shake_z_cm"] / 100,
+                    self.CAM_AT[2] + r["shake_y_cm"] / 100)
+        for g, w in zip(m.translation, want_pos):
+            self.assertAlmostEqual(g, w, places=4, msg=f"frame {f}")
+
+    def test_ep02_poses_extra_channels_and_black_marker(self):
+        scene = self.fresh_scene()
+        imp.import_csv(CSV2)
+        cam = scene.camera
+        rows = {int(r["frame"]): r for r in imp.read_rows(CSV2)}
+        for f in (0, 31, 36, 60, 1907, 1950, 2407, 2700, 3000, 3597):         # inclui BUM, olhar p/ trás (+148°), janela, nuca
+            self.assert_pose(scene, cam, rows[f], f)
+        for f in (0, 29, 30, 33, 41, 42, 1000, 3300):                          # canais extras exatos (degraus)
+            self.at(scene, f)
+            for p in ("light", "bump", "black", "motion_blur"):
+                self.assertAlmostEqual(cam[p], rows[f][p], places=3, msg=f"{p} frame {f}")
+        marks = [(m.name, m.frame) for m in scene.timeline_markers]
+        self.assertIn(("POV:preto", 1), marks)                                 # tela preta já no 1º frame
+        self.assertEqual([m for m in marks if m[0] == "POV:preto"], [("POV:preto", 1)])   # e só essa
+        self.assertIn(("POV:s2", 1 + 1080), marks)
+
+    def test_ep01_has_no_extra_channels(self):
+        scene = self.fresh_scene()
+        imp.import_csv(CSV)
+        self.assertNotIn("light", scene.camera.keys())
 
     def test_sync_channels_fov_and_flags(self):
         scene = self.fresh_scene()

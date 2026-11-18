@@ -1,0 +1,70 @@
+{
+  "episode": "ep02",
+  "source": "ep02-despertar-escuro.md",
+  "lang": "pt-BR",
+  "_comment": "Fonte da narração do Ep. 2. Tempos NÃO ficam aqui: o pipeline os calcula (build/ep02.timeline.json). `breath` = som de respiração/garganta do roteiro; `direction` em uma fala = anotação de atuação do roteiro (ex.: sussurra) que vale até a próxima anotação. \"skip\": true tira o item do roteiro ativo.",
+
+  "lexicon": {
+    "348": "três quatro oito",
+    "GPS": "gê pê ésse",
+    "4G": "quatro gê"
+  },
+
+  "scenes": [
+    {
+      "scene": "s1",
+      "breath_min_gap": 0.15,
+      "delivery": "Grito curto de susto, respiração disparada e ofegante",
+      "window": [0.6, 14.2],
+      "pace_syl_s": 5.2,
+      "drag": [0.85, 1.25],
+      "items": [
+        { "id": "s1-01", "kind": "breath", "type": "gasp", "label": "Gasp alto de susto", "dur": 0.30, "gap_after": 0.0 },
+        { "id": "s1-02", "kind": "speech", "text": "CARALHO!" },
+        { "id": "s1-03", "kind": "speech", "text": "Que barulho foi esse?!" },
+        { "id": "s1-04", "kind": "speech", "text": "Que que pegou?" },
+        { "id": "s1-05", "kind": "speech", "text": "A gente bateu?!" },
+        { "id": "s1-06", "kind": "speech", "text": "Moço?!" },
+        { "id": "s1-07", "kind": "breath", "type": "pant", "label": "Respiração rápida: huh-huh-huh", "dur": 1.30, "gap_after": 0.15 },
+        { "id": "s1-08", "kind": "speech", "text": "Mano..." },
+        { "id": "s1-09", "kind": "speech", "text": "o ônibus deu um solavanco que parece que arrancou o eixo." }
+      ]
+    },
+    {
+      "scene": "s2",
+      "breath_min_gap": 0.15,
+      "delivery": "Voz trêmula, entrando em choque",
+      "window": [18.3, 39.2],
+      "pace_syl_s": 5.2,
+      "items": [
+        { "id": "s2-01", "kind": "speech", "text": "Espera aí..." },
+        { "id": "s2-02", "kind": "speech", "text": "por que a luz tá verde assim?" },
+        { "id": "s2-03", "kind": "breath", "type": "swallow", "label": "Engole seco", "dur": 0.60, "gap_after": 0.20 },
+        { "id": "s2-04", "kind": "speech", "text": "Mano, o banco tá..." },
+        { "id": "s2-05", "kind": "speech", "text": "por que tá tudo podre?!" },
+        { "id": "s2-06", "kind": "speech", "text": "A minha mochila tá imunda, velho!" },
+        { "id": "s2-07", "kind": "speech", "text": "E cadê o pessoal que tava embarcando?" },
+        { "id": "s2-08", "kind": "speech", "text": "Só tem um maluco lá no fundo sentado duro que nem estátua..." },
+        { "id": "s2-09", "kind": "speech", "direction": "Sussurra apavorado", "text": "Onde a gente tá?" },
+        { "id": "s2-10", "kind": "speech", "text": "Campinas já ficou umas três horas pra trás..." }
+      ]
+    },
+    {
+      "scene": "s3",
+      "breath_min_gap": 0.12,
+      "delivery": "Fala acelerada, quase sem ar",
+      "window": [40.6, 57.6],
+      "pace_syl_s": 6.0,
+      "items": [
+        { "id": "s3-01", "kind": "speech", "text": "Não é possível, o GPS morreu!" },
+        { "id": "s3-02", "kind": "speech", "text": "O 4G sumiu totalmente!" },
+        { "id": "s3-03", "kind": "speech", "text": "E aquela placa ali fora..." },
+        { "id": "s3-04", "kind": "speech", "text": "tava escrito 348?!" },
+        { "id": "s3-05", "kind": "speech", "text": "Não, o ponto 348 era um posto na beira da pista, ali fora é só..." },
+        { "id": "s3-06", "kind": "speech", "text": "é só mato morto!" },
+        { "id": "s3-07", "kind": "speech", "direction": "Voz falha", "text": "Motorista..." },
+        { "id": "s3-08", "kind": "speech", "text": "ei, motorista!" }
+      ]
+    }
+  ]
+}

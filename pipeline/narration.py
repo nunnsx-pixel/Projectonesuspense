@@ -32,6 +32,9 @@ BREATH_SHAPES = {
     "sniff":        {"in": 0.55, "hold": 0.0, "out": 0.45, "amp": 0.45},
     "yawn":         {"in": 0.55, "hold": 0.20, "out": 0.25, "amp": 1.8},
     "deep_slow":    {"in": 0.45, "hold": 0.10, "out": 0.45, "amp": 1.3},
+    "gasp":         {"in": 1.0, "hold": 0.0, "out": 0.0, "amp": 1.9},           # susto: inspira seco e já grita
+    "pant":         {"in": 0.5, "hold": 0.0, "out": 0.5, "amp": 1.2, "cycles": 3},   # huh-huh-huh
+    "swallow":      {"in": 0.3, "hold": 0.1, "out": 0.6, "amp": 0.2},           # engole seco (quase sem peito)
 }
 
 _V = "aeiouáéíóúâêôãõà"
@@ -183,21 +186,25 @@ def fit_status(k: float) -> str:
     return "ok"
 
 
-def derive_breaths(items: list[dict]) -> list[dict]:
+def derive_breaths(items: list[dict], min_gap: dict[str, float] | None = None) -> list[dict]:
     """Eventos de inspiração para a câmera: explícitos (do roteiro) + implícitos
-    (um respiro antes de cada frase, se houver pausa suficiente)."""
+    (um respiro antes de cada frase, se a pausa antes dela for >= `min_gap` da cena; padrão 0,3 s —
+    personagem ofegante usa um valor menor)."""
+    min_gap = min_gap or {}
     events = []
     for idx, it in enumerate(items):
         if it["kind"] != "breath":
             continue
         shape = BREATH_SHAPES[it["type"]]
-        dur = it["end"] - it["start"]
+        cycles = shape.get("cycles", 1)
+        dur = (it["end"] - it["start"]) / cycles
         inhale, hold, exhale = dur * shape["in"], dur * shape["hold"], dur * shape["out"]
         if exhale <= 0:     # a expiração acontece falando a frase seguinte
             nxt = next((n for n in items[idx + 1:] if n["kind"] == "speech"), None)
             exhale = min(4.0, max(0.4, nxt["end"] - (it["start"] + inhale))) if nxt else 0.6
-        events.append({"t": it["start"], "inhale": inhale, "hold": hold, "exhale": exhale,
-                       "amp": shape["amp"], "type": it["type"], "ref": it["id"], "explicit": True})
+        for c in range(cycles):
+            events.append({"t": it["start"] + c * dur, "inhale": inhale, "hold": hold, "exhale": exhale,
+                           "amp": shape["amp"], "type": it["type"], "ref": it["id"], "explicit": True})
     explicit_marks = [(e["t"], e["t"] + e["inhale"] + e["hold"]) for e in events]
     for it in items:
         if it["kind"] != "speech":
@@ -206,9 +213,9 @@ def derive_breaths(items: list[dict]) -> list[dict]:
             continue                           # já veio de um respiro explícito colado
         prev_end = max([e["end"] for e in items if e["end"] <= it["start"]] or [0.0])
         gap = it["start"] - prev_end
-        if gap < 0.3:
+        if gap < min_gap.get(it.get("scene"), 0.3):
             continue
-        inhale = min(0.35, max(0.15, gap * 0.7))
+        inhale = min(0.35, max(0.12, gap * 0.7))
         events.append({"t": it["start"] - inhale, "inhale": inhale, "hold": 0.0,
                        "exhale": min(5.0, max(0.5, it["end"] - it["start"])), "amp": 0.8,
                        "type": "inhale_phrase", "ref": it["id"], "explicit": False})
