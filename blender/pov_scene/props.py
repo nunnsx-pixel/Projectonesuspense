@@ -95,7 +95,8 @@ def _bald_head(head, skin, decay, eyes):
     for s in (-1, 1):
         kit.ball("orelha", 0.03, (s * 0.103, -0.005, -0.01), skin_m, parent=head, squash=(0.35, 0.8, 1.3))
     if decay:
-        dark, rot = M("decomposicao-escura", (0.02, 0.025, 0.012), rough=0.95), M("decomposicao-verde", (0.16, 0.2, 0.1), rough=0.9)
+        dark = M("decomposicao-escura", (0.02, 0.025, 0.012), rough=0.95)
+        rot = M(f"couro-solto-{skin}", tuple(min(1.0, c * 1.35 + 0.015) for c in skin), rough=0.8)   # a própria pele, só mais pálida
         if not eyes:                                                     # órbitas vazias
             for s in (-1, 1):
                 kit.ball("orbita", 0.027, (s * 0.04, 0.097, 0.02), dark, parent=head, squash=(1.0, 0.45, 1.1))
