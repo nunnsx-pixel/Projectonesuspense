@@ -14,7 +14,8 @@ no Blender 4.2 LTS e no 5.3 (módulo `bpy`).
 | Câmera POV | Balanço de caminhada, respiração, batimento, vibração do ônibus, solavancos e olhar, quadro a quadro | `ep0X/build/ep0X.camera.csv`, `blender/import_camera_csv.py` |
 | Cena 3D | Ônibus, cenário, personagens de corpo inteiro com esqueleto, luzes, efeitos de tela, materiais PBR procedurais | `blender/assemble_scene.py`, `blender/pov_scene/` |
 | Materiais | Manifesto + diretrizes de mapeamento de textura | `blender/materials.json`, `blender/TEXTURAS.md` |
-| Testes | Pura (sincronia, rotas, esqueleto, manifesto) e com Blender (cena montada) | `tests/` |
+| Voz real | Mede o áudio gravado e re-sincroniza o projeto (`python -m pipeline audio ep0X`) | `pipeline/audio.py`, `tests/test_audio.py` |
+| Testes | Pura (sincronia, rotas, esqueleto, manifesto, áudio) e com Blender (cena montada) | `tests/` |
 
 Cada `ep0X/README.md` explica as premissas daquele episódio (o que veio do roteiro e o que foi inferido).
 
@@ -22,7 +23,7 @@ Cada `ep0X/README.md` explica as premissas daquele episódio (o que veio do rote
 
 ```
 python -m pipeline build ep01 --strict      # idem ep02, ep03: regenera ep0X/build/
-python -m unittest discover -s tests         # 198 testes (86 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests         # 232 testes (86 exigem o módulo bpy; sem ele são pulados)
 blender -b -P blender/assemble_scene.py -- --episode ep01 --save ep01.blend
 blender -b -P blender/assemble_scene.py -- --episode ep03 --render-frames 23.8,46.8 --out previews --width 405 --samples 32
 ```
@@ -48,7 +49,7 @@ O build é determinístico: rodar de novo não muda nenhum arquivo gerado (confe
 
 ## O que falta para chegar aos vídeos finais
 
-1. **Voz.** A duração das falas hoje é **estimada** (sílabas e pontuação). Grave ou gere a voz (ElevenLabs), meça cada trecho, preencha o `narration.measured.json` do episódio (ao lado do `narration.json`) e rode o build: fala, respirações, câmera e SFX se re-sincronizam sozinhos (veja `ep01/README.md`). Se alguma cena estourar, o build avisa.
+1. **Voz.** A duração das falas hoje é **estimada** (sílabas e pontuação). Grave ou gere a voz (ElevenLabs), junte-a numa trilha do episódio (ou uma por cena) em `ep0X/audio/` e rode `python -m pipeline audio ep0X`: ele mede fala, pausas e respirações, grava o `narration.measured.json` e roda o build, e câmera, passos e SFX se re-sincronizam sozinhos (detalhes em `ep01/README.md`). Foi validado só com voz sintética; use `--dry-run` e confira a confiança por item na primeira gravação real.
 2. **Áudio.** O cue sheet (`ep0X/build/ep0X.cue-sheet.md`) e `timeline.json > sfx` dizem quando cada som entra, com ganho, origem (roteiro/inferido) e superfície dos passos. O som em si ainda não foi produzido.
 3. **Assets finais.** Hoje é *greybox* (caixas) com materiais procedurais. Para chegar ao "realista e detalhado": modelos com UV, conjuntos PBR em `blender/textures/<id>/` (o passo a passo está em `blender/TEXTURAS.md`), rostos e roupas de verdade, animação de personagem além do aceno, da mandíbula e da marcha.
 4. **Render.** 1080x1920 a 60 fps em Cycles. A prévia leva ~1 min por quadro a 405x720 em CPU; o render final pede GPU ou fazenda de render. `edge_blur` e `motion_blur` do CSV ficam como propriedades da câmera (ligue na pós).

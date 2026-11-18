@@ -45,7 +45,8 @@ def _round(obj, nd=4):
     return obj
 
 
-def build_episode(ep_id: str, root: Path = ROOT, write: bool = True) -> dict:
+def build_episode(ep_id: str, root: Path = ROOT, write: bool = True, use_measured: bool = True) -> dict:
+    """`use_measured=False` ignora narration.measured.json (devolve a linha do tempo ESTIMADA; usado pela análise de áudio)."""
     project = _load(root / "scenes-config.json")
     ep = next((e for e in project["episodes"] if e["id"] == ep_id), None)
     if ep is None:
@@ -99,14 +100,15 @@ def build_episode(ep_id: str, root: Path = ROOT, write: bool = True) -> dict:
                 f"pretendido ({st['pace_target_syl_s']} sil/s) e a janela tem {st['available_s']}s "
                 f"(fala efetiva a {st['articulation_syl_s']} sil/s). Corte falas com \"skip\": true em narration.json.")
     measured_file = ep_dir / "narration.measured.json"
-    if measured_file.exists():
+    if use_measured and measured_file.exists():
         measured = _load(measured_file)["items"]
         unknown = set(measured) - {i["id"] for i in items}
         if unknown:
             raise ValueError(f"narration.measured.json cita ids inexistentes/pulados: {sorted(unknown)}")
         for it in items:
             if it["id"] in measured:
-                _retime(it, measured[it["id"]]["start"], measured[it["id"]]["end"])
+                m = measured[it["id"]]
+                _retime(it, m["start"], m["end"], m.get("pauses"))
                 it["timing"] = "medido"
     for it in items:
         _snap_item(it)
@@ -170,13 +172,75 @@ def build_episode(ep_id: str, root: Path = ROOT, write: bool = True) -> dict:
     return timeline
 
 
-def _retime(it: dict, start: float, end: float) -> None:
-    """Move/estica um item (e suas palavras) para o intervalo medido na gravação."""
+def match_pauses(it: dict, start: float, end: float, pauses) -> list[tuple[float, float]]:
+    """Casa as pausas INTERNAS medidas (silêncios dentro da fala) com as pausas de pontuação estimadas do item.
+
+    Devolve os nós (tempo estimado -> tempo medido) do mapeamento por partes, em ordem crescente. Alinhamento
+    monótono (estilo Needleman-Wunsch) pela posição relativa dentro do item; só casa o que está a menos de 0,3 do
+    comprimento do item, e o resto fica sem nó (interpola)."""
+    words = it.get("words", [])
+    est = [(a["end"], b["start"]) for a, b in zip(words, words[1:]) if b["start"] - a["end"] >= 0.05]
+    mea = sorted((max(a, start), min(b, end)) for a, b in (pauses or []) if min(b, end) - max(a, start) >= 0.08)
+    if not est or not mea:
+        return []
     old_s, old_e = it["start"], it["end"]
-    k = (end - start) / (old_e - old_s) if old_e > old_s else 1.0
+    span_e, span_m = max(old_e - old_s, 1e-9), max(end - start, 1e-9)
+    re_ = [((a + b) / 2 - old_s) / span_e for a, b in est]
+    rm = [((a + b) / 2 - start) / span_m for a, b in mea]
+    UN = 0.25                                                   # custo de deixar uma pausa sem par
+    n, m = len(est), len(mea)
+    best = [[0.0] * (m + 1) for _ in range(n + 1)]
+    back = [[None] * (m + 1) for _ in range(n + 1)]
+    for i in range(n + 1):
+        for j in range(m + 1):
+            if i == 0 and j == 0:
+                continue
+            opts = []
+            if i:
+                opts.append((best[i - 1][j] + UN, "e"))
+            if j:
+                opts.append((best[i][j - 1] + UN, "m"))
+            if i and j and abs(re_[i - 1] - rm[j - 1]) <= 0.3:
+                opts.append((best[i - 1][j - 1] + abs(re_[i - 1] - rm[j - 1]), "x"))
+            best[i][j], back[i][j] = min(opts)
+    pairs, i, j = [], n, m
+    while i or j:
+        step = back[i][j]
+        if step == "x":
+            pairs.append((est[i - 1], mea[j - 1]))
+            i, j = i - 1, j - 1
+        elif step == "e":
+            i -= 1
+        else:
+            j -= 1
+    knots: list[tuple[float, float]] = []
+    for (ea, eb), (ma, mb) in reversed(pairs):
+        for k in ((ea, ma), (eb, max(mb, ma + 1e-6))):
+            if not knots or (k[0] > knots[-1][0] and k[1] > knots[-1][1]):
+                knots.append(k)
+    return [k for k in knots if old_s < k[0] < old_e and start < k[1] < end]
+
+
+def _retime(it: dict, start: float, end: float, pauses=None) -> None:
+    """Move/estica um item (e suas palavras) para o intervalo medido na gravação.
+
+    Sem `pauses`, as palavras se redistribuem proporcionalmente. Com `pauses` (silêncios internos medidos no áudio),
+    o mapeamento é linear POR PARTES: cada pausa de pontuação estimada cai na pausa medida e as palavras entre
+    elas se esticam no que sobra (as âncoras por palavra ficam certas mesmo em falas com reticências)."""
+    old_s, old_e = it["start"], it["end"]
+    knots = [(old_s, start)] + (match_pauses(it, start, end, pauses) if pauses else []) + [(old_e, end)]
+
+    def f(t: float) -> float:
+        if old_e <= old_s:
+            return start
+        for (t0, m0), (t1, m1) in zip(knots, knots[1:]):
+            if t <= t1 or (t1, m1) == knots[-1]:
+                return m0 + (t - t0) * (m1 - m0) / (t1 - t0) if t1 > t0 else m0
+        return end
+
     for w in it.get("words", []):
-        w["start"] = start + (w["start"] - old_s) * k
-        w["end"] = start + (w["end"] - old_s) * k
+        w["start"] = f(w["start"])
+        w["end"] = f(w["end"])
     it["start"], it["end"] = start, end
 
 

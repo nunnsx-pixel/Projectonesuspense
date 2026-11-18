@@ -7,7 +7,7 @@ em palavras da fala, em *beats* de cena ou uns nos outros. Mudou a fala? Todo o 
 ```
 python -m pipeline build ep01          # regenera ep01/build/
 python -m pipeline build ep01 --strict # sai com erro se houver avisos (ex.: fala que não cabe)
-python -m unittest discover -s tests   # 198 testes (86 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests   # 232 testes (86 exigem o módulo bpy; sem ele são pulados)
 ```
 
 ## Arquivos
@@ -80,15 +80,40 @@ voltar a não caber.
 
 ## Quando existir a voz gravada
 
-Os tempos das falas hoje são **estimados** (sílabas + pontuação), não medidos. Crie
-`narration.measured.json` com o início/fim reais de cada item e rode o build:
+Os tempos das falas hoje são **estimados** (sílabas + pontuação), não medidos. Com a voz em mãos há dois caminhos.
 
-```json
-{ "items": { "s1-02": { "start": 0.52, "end": 3.07 }, "s1-03": { "start": 3.40, "end": 4.00 } } }
+**Automático** (`pipeline/audio.py`): ponha o áudio em `ep01/audio/` e rode
+
+```
+python -m pipeline audio ep01 --dry-run     # só mostra a análise (tabela estimado × medido, confiança, avisos)
+python -m pipeline audio ep01               # grava narration.measured.json e roda o build
 ```
 
-As palavras são redistribuídas dentro do intervalo e tudo que está ancorado (celular entrando, bip da
-catraca, mochila, bocejo, partida do ônibus, passos de degrau…) se move junto. Itens medidos não podem
+- **Onde:** `ep01/audio/narration.wav` (a voz do episódio inteiro, com t=0 no início do vídeo) **ou** um arquivo por cena
+  (`s1.wav`, `s2.wav`, `s3.wav`). WAV é lido sem dependências; mp3/m4a/ogg/flac precisam do `ffmpeg` no PATH.
+  Por cena, o t=0 do arquivo cai no início *previsto* do 1º item da cena; para dizer onde cada arquivo realmente começa
+  na linha do tempo, crie `ep01/audio/offsets.json`, ex.: `{"s2": 18.3}` (segundos).
+- **Como mede:** energia por quadro de 10 ms + cruzamento de zero separam fala, respiração (ruído fraco) e silêncio, com
+  limiares relativos ao nível da própria gravação. Programação dinâmica escolhe, entre as pausas do áudio, as fronteiras que
+  melhor separam as falas do roteiro (pausas longas a favor; duração muito diferente da esperada contra). Respirações
+  (`breath`) e trechos sem voz (`silence`) ocupam as folgas entre as falas. As **pausas internas** de cada fala
+  (reticências, vírgulas) viram `pauses` e ancoram as palavras (o build faz o mapeamento linear por partes).
+- **O que sai:** `narration.measured.json` (início/fim por item, `pauses`, `conf` de 0 a 1 e `note` quando algo foi
+  estimado) e, depois do build, o resumo do que se re-sincronizou. Respiração não encontrada no áudio fica na posição
+  estimada, com `conf` baixa. Um `narration.measured.json` escrito à mão só é sobrescrito com `--force` (fica um `.bak`).
+- **Limites (valem para a análise por amplitude, sem reconhecimento de fala):** falas coladas com menos de ~0,1 s de pausa
+  são ambíguas; texto gravado diferente do roteiro desalinha; ruído de fundo alto pede revisão. Se a análise não
+  consegue separar as falas, ela diz isso em vez de chutar. Foi validada em voz **sintética** (nenhuma gravação real
+  existia): ver `tests/test_audio.py`.
+
+**À mão:** crie `narration.measured.json` com o início/fim reais de cada item e rode o build:
+
+```json
+{ "items": { "s1-02": { "start": 0.52, "end": 3.07 }, "s1-03": { "start": 3.40, "end": 4.00, "pauses": [[3.7, 3.8]] } } }
+```
+
+As palavras são redistribuídas dentro do intervalo (e, com `pauses`, em volta delas) e tudo que está ancorado (celular
+entrando, bip da catraca, mochila, bocejo, partida do ônibus, passos de degrau…) se move junto. Itens medidos não podem
 se sobrepor aos vizinhos (o build avisa quais).
 
 ## Premissas que assumi (ajuste se discordar)
