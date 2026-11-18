@@ -19,6 +19,7 @@ Projeto de animação 3D em **Primeira Pessoa (POV)** dividido em 3 episódios d
 
 ## 🎙️ Diretrizes de Áudio e Acting Vocal
 - **Protagonista:** Estudante universitário brasileiro (~21 anos). Monólogo contínuo em voz alta.
+- **O número 348** é sempre falado **"três quatro oito"** em todos os episódios (`lexicon` do `narration.json`).
 - **Curva Emocional:**
   1. **Ep. 01:** Voz acelerada, cansada, tom coloquial e bocejos curtos -> respiração lenta e pesada no final.
   2. **Ep. 02:** Sustos secos (*gasps*), respiração curta e ofegante, voz trêmula e desconfiada.

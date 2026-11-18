@@ -23,7 +23,7 @@
 - **Visual (POV):** Caminhada pelo corredor até a quarta fileira (do meio para a frente). Ele senta ao lado da janela. A mão direita joga uma **mochila preta de estudante** (com crachá universitário pendurado) no banco ao lado. Câmera vira para a janela: luzes da rodoviária ficam para trás na escuridão da rodovia. Vinheta escura fecha lentamente nas bordas da tela (*blur* gradual).
 - **SFX:** Ronco constante do ônibus ganhando velocidade no asfalto, som abafando gradualmente.
 - **Fala (Voz arrastada, bocejando, volume diminuindo):**
-  > "Pronto, mochila no banco do lado pra ninguém sentar junto, clássico. *(Bocejo longo e cansado)* Meu olho tá pesando demais de tanto ler artigo acadêmico. Faltam umas paradas até Jundiaí, mas o meu ponto é exato o **348**, na marginal da rodovia. Se eu passar do ponto 348, eu tô frito porque o próximo é no meio do nada... *(Respiração profunda e lenta)* Ai, fechar o olho só cinco minutinhos..."
+  > "Pronto, mochila no banco do lado pra ninguém sentar junto, clássico. *(Bocejo longo e cansado)* Meu ponto é o **348**, na marginal... Se eu passar dele, tô frito. *(Respiração profunda e lenta)* Ai, fechar o olho só cinco minutinhos..."
 
 ### [00:58 - 01:00] Transição Final
 - **Visual:** Pálpebras 3D fecham completamente a visão. Corte seco para preto absoluto.

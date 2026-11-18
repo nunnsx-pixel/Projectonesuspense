@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import sys
 import tempfile
@@ -151,6 +152,32 @@ class Ep01(unittest.TestCase):
         self.assertEqual(w["spoken"], "três quatro oito")
         self.assertEqual(w["syl"], 5)
         self.assertNotIn("meia", w["spoken"])             # "meia" = 6: "três-meia-oito" seria 368
+
+    def test_markdown_script_matches_active_narration(self):
+        """O .md (roteiro humano) tem que dizer o mesmo que narration.json: texto e respirações."""
+        md = (ROOT / "ep01-embarque-campinas.md").read_text(encoding="utf-8")
+        lines = re.findall(r"\*\*Fala[^\n]*\n\s*>\s*(.+)", md)
+        self.assertEqual(len(lines), 3)
+        for sid, line in zip(("s1", "s2", "s3"), lines):
+            items = [i for i in self.tl["narration"] if i["scene"] == sid]
+            labels = re.findall(r"\*\(([^)]*)\)\*", line)
+            text = re.sub(r"\*\([^)]*\)\*", "", line).replace("*", "").replace('"', "")
+            norm = lambda t: re.sub(r"\s+", " ", t).strip().lower()          # noqa: E731
+            self.assertEqual(norm(text), norm(" ".join(i["text"] for i in items if i["kind"] == "speech")), sid)
+            self.assertEqual([l.lower() for l in labels],
+                             [i["label"].lower() for i in items if i["kind"] == "breath"], sid)
+
+    def test_bus_leaves_before_the_yawn_and_reaches_full_roar(self):
+        beats = {b["id"]: b for s in self.tl["scenes"] for b in s["beats"]}
+        s3_01 = next(i for i in self.tl["narration"] if i["id"] == "s3-01")
+        yawn = next(i for i in self.tl["narration"] if i["id"] == "s3-02")
+        self.assertAlmostEqual(beats["b3-partida"]["start"], s3_01["end"], places=2)    # parte ao fim de "clássico."
+        self.assertLess(beats["b3-partida"]["start"], yawn["start"])
+        self.assertGreater(beats["b3-janela"]["start"], yawn["start"])                  # vira p/ a janela já no bocejo
+        speed = {round(r["t"], 3): r["speed_kmh"] for r in self.rows}
+        self.assertGreater(speed[58.0], 58)                                              # velocidade cheia no fim
+        eng = next(c for c in self.tl["sfx"]["cues"] if c["id"] == "motor-onibus")
+        self.assertGreater(dict(map(tuple, eng["automation"]["pitch_semitones"]))[58.0], 8.5)
 
     def test_deterministic(self):
         again = build_episode("ep01", write=False)

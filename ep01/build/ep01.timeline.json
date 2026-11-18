@@ -370,36 +370,35 @@
     {
      "id": "b3-partida",
      "at": {
-      "ref": "s3-02",
-      "edge": "end",
-      "offset": 0.2
+      "ref": "s3-01",
+      "edge": "end"
      },
      "dur": 4.0,
      "text": "O ônibus parte e ganha velocidade no asfalto.",
      "origin": "inferido",
      "scene": "s3",
-     "start": 44.6833,
-     "end": 48.6833,
-     "start_frame": 2681,
-     "start_tc": "00:44.683",
-     "end_frame": 2921,
-     "end_tc": "00:48.683"
+     "start": 41.9167,
+     "end": 45.9167,
+     "start_frame": 2515,
+     "start_tc": "00:41.917",
+     "end_frame": 2755,
+     "end_tc": "00:45.917"
     },
     {
      "id": "b3-janela",
      "at": {
       "beat": "b3-partida",
-      "offset": 1.0
+      "offset": 1.8
      },
      "dur": 3.0,
      "text": "A câmera vira para a janela: as luzes da rodoviária ficam para trás na escuridão.",
      "scene": "s3",
-     "start": 45.6833,
-     "end": 48.6833,
-     "start_frame": 2741,
-     "start_tc": "00:45.683",
-     "end_frame": 2921,
-     "end_tc": "00:48.683"
+     "start": 43.7167,
+     "end": 46.7167,
+     "start_frame": 2623,
+     "start_tc": "00:43.717",
+     "end_frame": 2803,
+     "end_tc": "00:46.717"
     },
     {
      "id": "b3-vinheta",
@@ -2256,79 +2255,79 @@
        0.0
       ],
       [
-       44.0,
+       41.0,
        0.0
       ],
       [
+       42.0,
+       0.003
+      ],
+      [
+       43.0,
+       0.419
+      ],
+      [
+       44.0,
+       1.234
+      ],
+      [
        45.0,
-       0.041
+       2.013
       ],
       [
        46.0,
-       0.589
+       2.324
       ],
       [
        47.0,
-       1.435
+       2.547
       ],
       [
        48.0,
-       2.142
+       3.065
       ],
       [
        49.0,
-       2.343
+       3.755
       ],
       [
        50.0,
-       2.646
+       4.496
       ],
       [
        51.0,
-       3.215
+       5.166
       ],
       [
        52.0,
-       3.928
+       5.643
       ],
       [
        53.0,
-       4.663
+       5.808
       ],
       [
        54.0,
-       5.299
+       6.081
       ],
       [
        55.0,
-       5.713
+       6.694
       ],
       [
        56.0,
-       5.832
+       7.47
       ],
       [
        57.0,
-       6.2
+       8.231
       ],
       [
        58.0,
-       6.867
+       8.799
       ],
       [
        59.0,
-       7.655
-      ],
-      [
-       60.0,
-       8.387
-      ],
-      [
-       61.0,
-       8.885
-      ],
-      [
-       62.0,
        9.0
       ]
      ]
@@ -3926,14 +3925,14 @@
    {
     "yaw": -6,
     "pitch": 0,
-    "t": 45.2833
+    "t": 42.5167
    },
    {
     "yaw": -68,
     "pitch": 3,
     "roll": 2,
     "note": "vira para a janela (esquerda): luzes da rodoviária ficam para trás",
-    "t": 46.8833
+    "t": 44.9167
    },
    {
     "yaw": -72,
@@ -4002,7 +4001,7 @@
     "z_cm": -2.8,
     "pitch": 1.6,
     "note": "arrancada do ônibus",
-    "t": 44.6833
+    "t": 41.9167
    }
   ],
   "pulses": [

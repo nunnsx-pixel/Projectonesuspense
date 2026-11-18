@@ -7,7 +7,7 @@ em palavras da fala, em *beats* de cena ou uns nos outros. Mudou a fala? Todo o 
 ```
 python -m pipeline build ep01          # regenera ep01/build/
 python -m pipeline build ep01 --strict # sai com erro se houver avisos (ex.: fala que não cabe)
-python -m unittest discover -s tests   # 41 testes (8 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests   # 43 testes (8 exigem o módulo bpy; sem ele são pulados)
 ```
 
 ## Arquivos
@@ -95,5 +95,6 @@ se sobrepor aos vizinhos (o build avisa quais).
 - Janela à **esquerda** do protagonista e banco do corredor à direita (a mão direita joga a mochila).
 - A caminhada pelo corredor começa em ~31,9 s (cena 2, em "mas beleza…") e termina ao sentar (36,9 s),
   para que ele já esteja sentado quando diz "Pronto, mochila…".
-- Os 3 cochilos (52,3 / 55,0 / 57,1 s), a pálpebra pesada no bocejo e a partida do ônibus (após o bocejo)
-  são coreografia minha em cima do roteiro; olhares e props marcados `inferido` também.
+- Os 3 cochilos (52,3 / 55,0 / 57,1 s), a pálpebra pesada no bocejo e a partida do ônibus (ao fim de
+  "clássico.", logo antes do bocejo; o ônibus chega a 62 km/h no último segundo) são coreografia minha
+  em cima do roteiro; olhares e props marcados `inferido` também.
