@@ -1,0 +1,104 @@
+{
+  "project": "O Ônibus do Ponto 348",
+  "format": "vertical 9:16",
+  "resolution": "1080x1920",
+  "fps": 60,
+  "episodes": [
+    {
+      "id": "ep01",
+      "title": "O Embarque em Campinas",
+      "file": "ep01-embarque-campinas.md",
+      "duration_seconds": 60,
+      "scenes": [
+        {
+          "start": "00:00",
+          "end": "00:15",
+          "description": "O Gancho (Terminal Rodoviário de Campinas)",
+          "visual": "Câmera POV balança rápido enquanto corre pelo saguão da Rodoviária de Campinas. Mão esquerda segura celular com tela rachada (23:47, 14%).",
+          "sfx": "Passos apressados, zumbido distante.",
+          "dialogue": "Mano, sério, eu odeio fazer trabalho em grupo! Juro por Deus. Sábado quase meia-noite saindo de Campinas pra Jundiaí... olha o estado dessa rodoviária, parece cenário de filme de terror mudo, velho. Cadê a plataforma dessa desgraça?!"
+        },
+        {
+          "start": "00:15",
+          "end": "00:35",
+          "description": "A Entrada no Ônibus",
+          "visual": "Chegada na plataforma escura. Ônibus intermunicipal padrão de SP parado com motor roncando baixo e faróis na neblina. Sobe degraus. Motorista acena. Passa bilhete na catraca.",
+          "sfx": "Motor diesel em marcha lenta, bip agudo da catraca.",
+          "dialogue": "Ainda bem que deu tempo. Boa noite, moço. Vai pro lado de Jundiaí, né? Linha vicinal... Nossa, o cheiro aqui dentro tá um catinga de graxa velha misturada com naftalina... mas beleza, só quero sentar e capotar."
+        },
+        {
+          "start": "00:35",
+          "end": "01:00",
+          "description": "O Assento e o Sono",
+          "visual": "Caminha até a quarta fileira, senta na janela. Mão joga mochila preta de estudante no banco ao lado. Câmera vira para a janela: luzes ficam para trás. Vinheta escura fecha nas bordas.",
+          "sfx": "Ronco constante do ônibus no asfalto, som abafando gradualmente.",
+          "dialogue": "Pronto, mochila no banco do lado pra ninguém sentar junto, clássico. Meu olho tá pesando demais de tanto ler artigo acadêmico. Faltam umas paradas até Jundiaí, mas o meu ponto é exato o 348, na marginal da rodovia. Se eu passar do ponto 348, eu tô frito porque o próximo é no meio do nada... Ai, fechar o olho só cinco minutinhos..."
+        }
+      ]
+    },
+    {
+      "id": "ep02",
+      "title": "O Despertar no Escuro",
+      "file": "ep02-despertar-escuro.md",
+      "duration_seconds": 60,
+      "scenes": [
+        {
+          "start": "00:00",
+          "end": "00:18",
+          "description": "O Gancho do Susto",
+          "visual": "Tela preta por 0.5s. Impacto violento (BUM!) sacode a câmera. Pálpebras abrem. Luz interna verde-escura fraca piscando (flicker).",
+          "sfx": "Baque seco de suspensão em buraco, metal rangendo, zumbido elétrico.",
+          "dialogue": "CARALHO! Que barulho foi esse?! Que que pegou? A gente bateu?! Moço?! Mano... o ônibus deu um solavanco que parece que arrancou o eixo."
+        },
+        {
+          "start": "00:18",
+          "end": "00:40",
+          "description": "A Deterioração do Ambiente",
+          "visual": "Câmera olha para o banco ao lado: estofado rasgado, espuma podre, mochila coberta de poeira cinza e teias de aranha. Olhar para trás: ônibus vazio, exceto por silhueta imóvel no fundo.",
+          "sfx": "Chassi velho rangendo sobre terreno irregular, vento uivando.",
+          "dialogue": "Espera aí... por que a luz tá verde assim? Mano, o banco tá... por que tá tudo podre?! A minha mochila tá imunda, velho! E cadê o pessoal que tava embarcando? Só tem um maluco lá no fundo sentado duro que nem estátua... Onde a gente tá? Campinas já ficou umas três horas pra trás..."
+        },
+        {
+          "start": "00:40",
+          "end": "01:00",
+          "description": "A Janela e o Celular Morto",
+          "visual": "Câmera vira para a janela: estrada de terra vermelha, árvores mortas, neblina. Placa com número 348 riscado. Celular mostra 'SEM SERVIÇO' e 00:00.",
+          "sfx": "Chiado estático do celular, som de cascalho sob os pneus.",
+          "dialogue": "Não é possível, o GPS morreu! O 4G sumiu totalmente! E aquela placa ali fora... tava escrito 348?! Não, o ponto 348 era um posto na beira da pista, ali fora é só... é só mato morto! Motorista... ei, motorista!"
+        }
+      ]
+    },
+    {
+      "id": "ep03",
+      "title": "O Fim da Linha",
+      "file": "ep03-fim-da-linha.md",
+      "duration_seconds": 60,
+      "scenes": [
+        {
+          "start": "00:00",
+          "end": "00:20",
+          "description": "O Confronto no Corredor",
+          "visual": "Protagonista levanta num salto e cambaleia pelo corredor, segurando nos balaústres enferrujados até a catraca.",
+          "sfx": "Batimentos cardíacos acelerados, passos pesados no piso metálico.",
+          "dialogue": "Moço, para o ônibus! Pelo amor de Deus, abre a porta e me deixa descer! Eu preciso descer no ponto 348, já passou muito! O senhor tá me levando pra onde?! Olha pra mim, caramba! PARA ESSE ÔNIBUS!"
+        },
+        {
+          "start": "00:20",
+          "end": "00:42",
+          "description": "A Revelação do Motorista",
+          "visual": "Motorista vira o pescoço 180 graus. Pele cinza, olhos brancos sem pupilas, sorriso esticado.",
+          "sfx": "Estalo seco de ossos, chiado de rádio AM antigo.",
+          "dialogue": "Você pegou esse ônibus em Campinas em 2019, estudante... O ponto 348 não existe mais desde que a gente caiu na ribanceira. Do que você tá falando?! Eu saí de Campinas agorinha pouco! Eu tenho aula amanhã de manhã! Você tá louco! Abre essa porta agora, seu maluco!"
+        },
+        {
+          "start": "00:42",
+          "end": "01:00",
+          "description": "O Clímax Final",
+          "visual": "Passageiro do fundo se aproxima e revela ser o próprio protagonista em decomposição. Porta abre revelando abismo de neblina vermelha e mãos pálidas.",
+          "sfx": "Chiado de ar comprimido, vento forte, murmúrios distantes.",
+          "dialogue": "NÃO! NÃO! SAI DE PERTO DE MIM! SOCORRO! Chegou a sua vez de esperar no ponto."
+        }
+      ]
+    }
+  ]
+}
