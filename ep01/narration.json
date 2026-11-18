@@ -2,10 +2,10 @@
   "episode": "ep01",
   "source": "ep01-embarque-campinas.md",
   "lang": "pt-BR",
-  "_comment": "Fonte da narração. Tempos NÃO ficam aqui: o pipeline os calcula (build/ep01.timeline.json). Aqui ficam texto, respirações, pausas fixas e a janela de cada cena. Marque \"skip\": true num item para cortá-lo sem apagar.",
+  "_comment": "Fonte da narração. Tempos NÃO ficam aqui: o pipeline os calcula (build/ep01.timeline.json). Aqui ficam texto, respirações, pausas fixas e a janela de cada cena. \"skip\": true tira o item do roteiro ativo sem apagar o texto (o dialogue de scenes-config.json deve bater com os itens NÃO pulados). s3-03 foi cortado por decisão do diretor; s3-04/05 foram enxugados.",
 
   "lexicon": {
-    "348": "trezentos e quarenta e oito"
+    "348": "três quatro oito"
   },
 
   "scenes": [
@@ -48,9 +48,9 @@
       "items": [
         { "id": "s3-01", "kind": "speech", "text": "Pronto, mochila no banco do lado pra ninguém sentar junto, clássico." },
         { "id": "s3-02", "kind": "breath", "type": "yawn", "label": "Bocejo longo e cansado", "dur": 2.20, "gap_after": 0.30 },
-        { "id": "s3-03", "kind": "speech", "text": "Meu olho tá pesando demais de tanto ler artigo acadêmico." },
-        { "id": "s3-04", "kind": "speech", "text": "Faltam umas paradas até Jundiaí, mas o meu ponto é exato o 348, na marginal da rodovia." },
-        { "id": "s3-05", "kind": "speech", "text": "Se eu passar do ponto 348, eu tô frito porque o próximo é no meio do nada..." },
+        { "id": "s3-03", "kind": "speech", "skip": true, "text": "Meu olho tá pesando demais de tanto ler artigo acadêmico." },
+        { "id": "s3-04", "kind": "speech", "text": "Meu ponto é o 348, na marginal..." },
+        { "id": "s3-05", "kind": "speech", "text": "Se eu passar dele, tô frito." },
         { "id": "s3-06", "kind": "breath", "type": "deep_slow", "label": "Respiração profunda e lenta", "dur": 2.00, "gap_after": 0.35 },
         { "id": "s3-07", "kind": "speech", "text": "Ai, fechar o olho só cinco minutinhos..." }
       ]

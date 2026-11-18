@@ -82,7 +82,7 @@ def build_episode(ep_id: str, root: Path = ROOT, write: bool = True) -> dict:
         w0, w1 = nsc["window"]
         if not (sc["start"] <= w0 < w1 <= sc["end"]):
             raise ValueError(f"janela da narração {nsc['scene']} fora da cena {sc['start']}-{sc['end']}")
-        script = " ".join(i["text"] for i in nsc["items"] if i["kind"] == "speech")
+        script = " ".join(i["text"] for i in nsc["items"] if i["kind"] == "speech" and not i.get("skip"))
         if _norm_text(script) != _norm_text(sc["config"]["dialogue"]):
             raise ValueError(f"texto da narração {nsc['scene']} difere do dialogue em scenes-config.json")
         out = narration.layout_scene(nsc, narr.get("lexicon", {}), pauses)

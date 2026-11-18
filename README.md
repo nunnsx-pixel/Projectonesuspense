@@ -9,6 +9,7 @@ Projeto de animação 3D em **Primeira Pessoa (POV)** dividido em 3 episódios d
 - `ep03-fim-da-linha.md` — Parte 3 (00:00 - 01:00): Confronto com o motorista e clímax.
 - `scenes-config.json` — Janelas de tempo, falas e SFX resumidos de cada episódio.
 - `ep01/` — Fontes sincronizadas do Ep. 01 (narração, cenas, SFX, câmera POV) + `build/` gerado. Veja `ep01/README.md`.
+- `blender/` — Importador do `camera.csv` para a câmera principal do Blender (60fps). Veja `blender/README.md`.
 - `pipeline/` e `tests/` — Gerador (`python -m pipeline build ep01`) e testes (`python -m unittest discover -s tests`). Só biblioteca padrão do Python.
 
 ## 🎨 Especificações Técnicas (Claude Code / Pipeline 3D)

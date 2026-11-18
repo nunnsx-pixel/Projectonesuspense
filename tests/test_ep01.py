@@ -132,6 +132,26 @@ class Ep01(unittest.TestCase):
         self.assertIn("pitch_semitones", eng["automation"])
         self.assertIn("lowpass_hz", eng["automation"])
 
+    def test_every_scene_fits_its_window(self):
+        self.assertEqual(self.tl["warnings"], [])
+        for sc in self.tl["scenes"]:
+            self.assertEqual(sc["narration_fit"]["status"], "ok", sc["id"])
+
+    def test_scene3_is_the_approved_script(self):
+        s3 = [i for i in self.tl["narration"] if i["scene"] == "s3"]
+        spoken = " ".join(i["text"] for i in s3 if i["kind"] == "speech")
+        self.assertEqual(spoken, "Pronto, mochila no banco do lado pra ninguém sentar junto, clássico. "
+                                 "Meu ponto é o 348, na marginal... Se eu passar dele, tô frito. "
+                                 "Ai, fechar o olho só cinco minutinhos...")
+        self.assertNotIn("s3-03", [i["id"] for i in s3])                    # "Meu olho tá pesando" cortado
+        self.assertEqual([i["id"] for i in s3 if i["kind"] == "breath"], ["s3-02", "s3-06"])  # bocejo e respiração
+
+    def test_348_is_spoken_tres_quatro_oito(self):
+        w = next(w for i in self.tl["narration"] if i["id"] == "s3-04" for w in i["words"] if w["w"] == "348")
+        self.assertEqual(w["spoken"], "três quatro oito")
+        self.assertEqual(w["syl"], 5)
+        self.assertNotIn("meia", w["spoken"])             # "meia" = 6: "três-meia-oito" seria 368
+
     def test_deterministic(self):
         again = build_episode("ep01", write=False)
         again.pop("_cam")
@@ -188,21 +208,22 @@ class Validation(unittest.TestCase):
             self.assertEqual(tl["scenes"][0]["narration_fit"]["status"], "ESTOURA")
             self.assertTrue(any(w.startswith("s1:") for w in tl["warnings"]))
 
-    def test_skip_flag_cuts_lines_and_fixes_scene3(self):
-        base = build_episode("ep01", write=False)["scenes"][2]["narration_fit"]["fit_ratio"]
+    def test_skipped_line_leaves_the_active_script(self):
+        """`skip` tira a fala do roteiro ativo: o dialogue de scenes-config.json precisa acompanhar."""
+        last = " Ai, fechar o olho só cinco minutinhos..."
         with tempfile.TemporaryDirectory() as d:
             root = copy_project(Path(d))
+            edit_json(root / "ep01" / "narration.json", lambda n: [
+                it.update(skip=True) for it in n["scenes"][2]["items"] if it["id"] == "s3-07"])
+            with self.assertRaisesRegex(ValueError, "difere do dialogue"):        # dialogue ainda tem a fala
+                build_episode("ep01", root=root, write=False)
 
-            def cut(n):
-                for it in n["scenes"][2]["items"]:
-                    if it["id"] in ("s3-03", "s3-04"):
-                        it["skip"] = True
-            edit_json(root / "ep01" / "narration.json", cut)
+            def drop(c):
+                sc = c["episodes"][0]["scenes"][2]
+                sc["dialogue"] = sc["dialogue"].replace(last, "")
+            edit_json(root / "scenes-config.json", drop)
             tl = build_episode("ep01", root=root, write=False)
-        fit = tl["scenes"][2]["narration_fit"]
-        self.assertGreater(fit["fit_ratio"], 0.8)
-        self.assertGreater(fit["fit_ratio"], base * 1.5)
-        self.assertNotIn("s3-03", [i["id"] for i in tl["narration"]])
+        self.assertNotIn("s3-07", [i["id"] for i in tl["narration"]])
 
     def test_measured_timing_overrides_and_cues_follow(self):
         with tempfile.TemporaryDirectory() as d:
