@@ -23,7 +23,7 @@
       "sfx": { "tag": "passos-pesados-metal", "gain_db": -5, "origin": "roteiro" }
     },
     {
-      "id": "recua-catraca", "from": { "ref": "s2-05", "edge": "start", "offset": 0.05 }, "steps": 2, "cadence": 1.6,
+      "id": "recua-divisoria", "from": { "ref": "s2-05", "edge": "start", "offset": 0.05 }, "steps": 2, "cadence": 1.6,
       "scale": { "sway_x_cm": 2.2, "roll_deg": 2.0, "bob_y_cm": 1.2 },
       "surface": "piso metálico (recuando de costas)",
       "sfx": { "tag": "passos-pesados-metal", "gain_db": -5, "origin": "roteiro" }
@@ -169,7 +169,7 @@
     { "id": "k-grab-3", "at": { "cue": "mao-balaustre-3" }, "f_hz": 4.5, "tau_s": 0.22, "pitch": -6.0, "roll": 4.5, "y_cm": -1.6, "x_cm": 2.2, "note": "agarra o balaústre" },
     { "id": "k-grab-4", "at": { "cue": "mao-balaustre-4" }, "f_hz": 4.5, "tau_s": 0.22, "pitch": -5.0, "roll": -4.0, "y_cm": -1.4, "x_cm": -2.0, "note": "agarra o balaústre" },
     { "id": "k-grito", "at": { "beat": "b1-grito" }, "f_hz": 3.6, "tau_s": 0.30, "z_cm": 4.0, "pitch": -4.0, "note": "investe gritando" },
-    { "id": "k-costas", "at": { "cue": "costas-catraca" }, "f_hz": 4.2, "tau_s": 0.28, "z_cm": -5.0, "pitch": 7.0, "y_cm": -1.6, "note": "costas batem na catraca" },
+    { "id": "k-costas", "at": { "cue": "costas-divisoria" }, "f_hz": 4.2, "tau_s": 0.28, "z_cm": -5.0, "pitch": 7.0, "y_cm": -1.6, "note": "costas batem na catraca" },
     { "id": "k-revela", "at": { "beat": "b3-revela" }, "f_hz": 3.2, "tau_s": 0.40, "z_cm": -5.0, "pitch": 6.0, "yaw": 4.0, "note": "recua ao ver o próprio rosto" },
     { "id": "k-porta", "at": { "beat": "b3-porta" }, "f_hz": 2.5, "tau_s": 0.40, "pitch": 2.0, "z_cm": -3.0, "note": "a pressão da porta abrindo" },
     { "id": "k-ombro", "at": { "beat": "b3-ombro" }, "f_hz": 4.0, "tau_s": 0.30, "roll": -10.0, "x_cm": 6.0, "yaw": -8.0, "note": "a mão agarra o ombro" },

@@ -4,7 +4,7 @@ from __future__ import annotations
 import math
 
 from . import bus as busmod
-from . import kit, props, routes, world
+from . import kit, materials, props, routes, world
 from .layout import BAG_SEAT, DOOR_HALF, DOOR_Y, DRIVER, FLOOR_Z, MY_SEAT, STAIRS
 
 WORLD = ((0.010, 0.016, 0.034), 1.0)
@@ -15,7 +15,7 @@ HALL_H = 4.4
 
 def _terminal():
     M = kit.mat
-    floor = M("piso-encerado", (0.30, 0.33, 0.38), rough=0.10)
+    floor = materials.get("piso-encerado")                      # PBR: ladrilho de granilite encerado, com juntas
     wall = M("parede-rodoviaria", (0.45, 0.48, 0.50), rough=0.9)
     concrete = M("concreto", (0.12, 0.12, 0.13), rough=0.9)
     tube = M("fluorescente-estourada", (0.92, 0.96, 1.0), emit=22.0)
@@ -68,7 +68,7 @@ def _street(ctx):
 def build(env):
     ctx, M = env.ctx, kit.mat
     env.refs = busmod.build_bus(env.bus, decayed=False, light_color=(0.85, 0.95, 0.90), tube_strength=TUBE,
-                                light_energy=ENERGY, catraca_at=(0.95, DOOR_Y), catraca_rot=90)
+                                light_energy=ENERGY)
     env.refs["headlights"][0].data.energy = env.refs["headlights"][1].data.energy = 1200
     env.track = routes.ep01(ctx)
     env.bus_moves = True

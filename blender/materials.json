@@ -1,0 +1,77 @@
+{
+  "_comment": "Fonte de verdade dos materiais PBR da série. `space`: 'bus' = coordenadas presas ao ônibus (a textura anda com ele, sem nadar) | 'world' = cenário fixo. `tile_m` = lado, em METROS, de uma repetição da textura (dimensiona o mapeamento). `maps` = mapas aceitos se existir um conjunto em blender/textures/<id>/ (ver blender/TEXTURAS.md); sem imagens, vale o procedural abaixo. Cada `variant` sobrescreve parâmetros do procedural.",
+
+  "convencoes": {
+    "unidade": "metros; o mapeamento é em caixa (triplanar) escalado por 1/tile_m, então primitivas não-uniformes não esticam a textura",
+    "cor": "albedo em sRGB; roughness, metallic, ao, height e normal em Non-Color",
+    "normal": "OpenGL (+Y para cima), tangente; só usada em malhas com UV (o greybox usa height como relevo)",
+    "formatos": ["png", "jpg", "exr"]
+  },
+
+  "materials": {
+    "piso-encerado": {
+      "desc": "Piso encerado da Rodoviária de Campinas: ladrilho de granilite claro e lustroso, com juntas, que reflete as fluorescentes estouradas.",
+      "episodes": ["ep01"], "space": "world", "tile_m": 1.2,
+      "maps": ["albedo", "roughness", "ao", "height", "normal"],
+      "procedural": {
+        "color": [0.30, 0.33, 0.38], "color2": [0.26, 0.29, 0.34], "joint_color": [0.07, 0.07, 0.08],
+        "joint": 0.012, "roughness": [0.04, 0.22], "joint_roughness": 0.65, "coat": 0.6, "scuffs": 0.35
+      },
+      "variants": { "encerado": {} }
+    },
+
+    "estofado": {
+      "desc": "Estofado dos bancos (tecido azul de ônibus intermunicipal). Limpo no Ep. 1; mofado, rasgado e podre nos Ep. 2 e 3 (manchas de mofo preto-esverdeado).",
+      "episodes": ["ep01", "ep02", "ep03"], "space": "bus", "tile_m": 0.35,
+      "maps": ["albedo", "roughness", "ao", "height", "normal"],
+      "procedural": {
+        "color": [0.10, 0.27, 0.55], "weave": 90.0, "weave_bump": 0.35, "roughness": 0.85,
+        "mold": 0.0, "mold_color": [0.03, 0.05, 0.03], "mold_green": [0.10, 0.15, 0.05], "mold_scale": 2.6
+      },
+      "variants": {
+        "limpo": {},
+        "mofado": { "color": [0.12, 0.26, 0.45], "mold": 0.75, "roughness": 0.95 },
+        "podre": { "color": [0.08, 0.14, 0.22], "mold": 1.0, "roughness": 1.0, "weave_bump": 0.6 }
+      }
+    },
+
+    "metal-enferrujado": {
+      "desc": "Metal dos balaústres, degraus, catraca, divisória e portas: aço cinza que enferruja em manchas (laranja-marrom, áspero, sem brilho metálico).",
+      "episodes": ["ep01", "ep02", "ep03"], "space": "bus", "tile_m": 0.6,
+      "maps": ["albedo", "roughness", "metallic", "ao", "height", "normal"],
+      "procedural": {
+        "metal_color": [0.30, 0.30, 0.32], "rust_color": [0.36, 0.14, 0.05], "rust_dark": [0.14, 0.06, 0.03],
+        "rust": 0.25, "metal_roughness": 0.35, "rust_roughness": 0.92, "rust_scale": 4.0, "bump": 0.4
+      },
+      "variants": {
+        "gasto": { "rust": 0.20 },
+        "enferrujado": { "rust": 0.72 },
+        "podre": { "rust": 0.95 }
+      }
+    },
+
+    "terra-vermelha": {
+      "desc": "Terra vermelha da estrada (Ep. 2 e 3): barro seco avermelhado com variação de cor, pedriscos e poças mais escuras; a faixa da estrada é mais compactada e clara.",
+      "episodes": ["ep02", "ep03"], "space": "world", "tile_m": 2.0,
+      "maps": ["albedo", "roughness", "ao", "height", "normal"],
+      "procedural": {
+        "color": [0.30, 0.085, 0.05], "color2": [0.18, 0.05, 0.035], "pebbles": 1.0, "pebble_scale": 26.0,
+        "roughness": 1.0, "wet": 0.25
+      },
+      "variants": {
+        "terra": {},
+        "estrada": { "color": [0.38, 0.12, 0.07], "color2": [0.30, 0.09, 0.05], "pebbles": 0.45, "wet": 0.1 }
+      }
+    },
+
+    "neblina-rasteira": {
+      "desc": "Neblina volumétrica rente ao chão (Ep. 3): camada que anda com o ônibus, mais densa perto do solo, em manchas (ruído em coordenadas de mundo, então não 'nada'), com um brilho rosado.",
+      "episodes": ["ep03"], "space": "world", "kind": "volume",
+      "procedural": {
+        "density": 0.16, "height_m": 1.1, "noise_scale": 0.12, "color": [0.60, 0.34, 0.30], "glow": 0.02,
+        "size_m": [70.0, 180.0, 4.0]
+      },
+      "variants": { "rasteira": {} }
+    }
+  }
+}

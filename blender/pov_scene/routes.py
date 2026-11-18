@@ -5,14 +5,14 @@ O avanço dos trechos a pé é guiado pelos PASSOS da timeline (mesmos do CSV e 
 """
 from __future__ import annotations
 
-from .layout import (BAG_SEAT, CATRACA_DOOR, DOOR_Y, EYE_RUN, EYE_SEAT, EYE_STAND, FLOOR_Z, MY_SEAT, ROW_Y, STAIRS)
+from .layout import (DIVIDER_T, DIVIDER_Y, DOOR_Y, EYE_RUN, EYE_SEAT, EYE_STAND, FLOOR_Z, MY_SEAT, SEAT_SINK, STAIRS)
 from .path import Leg, Track
 
 AISLE_LEAN = (MY_SEAT[0] + 0.85, MY_SEAT[1])          # inclina-se sobre o corredor (x = -0,10): fora dos encostos
 RUN_START, FOOT_OF_STAIRS = (46.0, DOOR_Y), (3.05, DOOR_Y)
 S0 = (-0.75, -2.20)                                     # Ep. 3: de pé diante do motorista (ele a ~15° à esquerda)
-AFTER_RECOIL = (-0.75, -2.80)                           # Ep. 3: costas na catraca (catraca em y = -2,95)
-CATRACA_EP03 = (-0.75, -2.95)
+AFTER_RECOIL = (-0.75, DIVIDER_Y + DIVIDER_T / 2 + 0.115)   # Ep. 3: costas na DIVISÓRIA (face dela + meia espessura do corpo)
+DOUBLE_BEHIND = (-0.72, DIVIDER_Y - DIVIDER_T / 2 - 0.15)   # Ep. 3: o duplo, do outro lado da divisória, ao alcance do ombro
 
 
 def ep01(ctx) -> Track:
@@ -34,7 +34,8 @@ def ep01(ctx) -> Track:
         Leg("corredor", [(0.3, DOOR_Y), (0.0, -1.5), seat0], [[0, 270], [0.25, 180], [1, 180]], FLOOR_Z, EYE_STAND,
             steps=walk, from_time=walk[0] - 0.4),
         Leg("senta", [seat0, (MY_SEAT[0] + 0.4, MY_SEAT[1]), MY_SEAT], [[0, 180], [0.45, 270], [1, 360]], FLOOR_Z,
-            [[0, EYE_STAND], [0.5, EYE_STAND], [1, EYE_SEAT]], span=(walk[-1], sit_end)),
+            [[0, EYE_STAND], [0.5, EYE_STAND], [1, EYE_SEAT - SEAT_SINK]], span=(walk[-1], sit_end)),     # afunda na almofada
+        Leg("acomoda", [MY_SEAT, MY_SEAT], 0, FLOOR_Z, [[0, EYE_SEAT - SEAT_SINK], [1, EYE_SEAT]], span=(sit_end, sit_end + 0.7)),
     ])
 
 
@@ -65,13 +66,14 @@ def ep02(ctx) -> Track:
 def ep03(ctx) -> Track:
     st = ctx.steps
     stumble = st("cambaleio-corredor")
-    back = st("recua-catraca")
+    back = st("recua-divisoria")
     pushed = st("empurrado")
     t_push = ctx.beat("b3-empurra")[0]
     door = (1.45, DOOR_Y)
     return Track([
         Leg("levanta-num-salto", [MY_SEAT, MY_SEAT], 0, FLOOR_Z, [[0, EYE_SEAT], [1, EYE_RUN]], span=(0.0, stumble[0])),
-        Leg("cambaleia", [MY_SEAT, (-0.2, -5.6), (-0.2, -4.0), S0], 0, FLOOR_Z, EYE_RUN, steps=stumble, from_time=stumble[0]),
+        Leg("cambaleia", [MY_SEAT, (-0.05, -5.6), (-0.05, -2.6), S0], 0, FLOOR_Z, EYE_RUN, steps=stumble,     # pelo corredor, por cima da divisória
+            from_time=stumble[0]),
         Leg("recua-2-passos", [S0, AFTER_RECOIL], 0, FLOOR_Z, EYE_RUN, steps=back, from_time=ctx.item("s2-05")[0]),
         Leg("empurrado", [AFTER_RECOIL, (0.5, -1.6), door], [[0, 0], [0.6, 40], [1, 80]], FLOOR_Z, [[0, EYE_RUN], [1, 1.40]],
             steps=pushed, from_time=t_push),

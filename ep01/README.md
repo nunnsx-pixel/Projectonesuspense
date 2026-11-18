@@ -7,7 +7,7 @@ em palavras da fala, em *beats* de cena ou uns nos outros. Mudou a fala? Todo o 
 ```
 python -m pipeline build ep01          # regenera ep01/build/
 python -m pipeline build ep01 --strict # sai com erro se houver avisos (ex.: fala que não cabe)
-python -m unittest discover -s tests   # 139 testes (48 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests   # 161 testes (62 exigem o módulo bpy; sem ele são pulados)
 ```
 
 ## Arquivos

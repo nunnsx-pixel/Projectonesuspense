@@ -82,7 +82,7 @@ class Routes(unittest.TestCase):
     def test_foot_lands_on_the_camera_step_frames(self):
         """O avanço de cada trecho a pé é uma função dos contatos: em cada passo a fase é inteira."""
         for ep, seg, leg_id in (("ep01", "corrida-saguao", "corrida"), ("ep01", "corredor", "corredor"),
-                                ("ep03", "cambaleio-corredor", "cambaleia"), ("ep03", "recua-catraca", "recua-2-passos")):
+                                ("ep03", "cambaleio-corredor", "cambaleia"), ("ep03", "recua-divisoria", "recua-2-passos")):
             leg = next(l for l in self.tr[ep].legs if l.id == leg_id)
             steps = self.ctx[ep].steps(seg)
             for i, t in enumerate(steps):
@@ -105,9 +105,9 @@ class Routes(unittest.TestCase):
         tr, ctx = self.tr["ep01"], self.ctx["ep01"]
         s0, s1 = ctx.beat("b3-senta")
         self.assertAlmostEqual(tr.sample(s0 - 0.45).eye, L.EYE_STAND, places=2)        # ainda de pé
-        self.assertAlmostEqual(tr.sample(s0 + 0.2).eye, L.EYE_SEAT, places=2)          # já POUSOU: junto do baque do banco
+        self.assertAlmostEqual(tr.sample(s0 + 0.2).eye, L.EYE_SEAT - L.SEAT_SINK, places=2)   # POUSOU junto do baque e AFUNDOU
         end = tr.sample(s1 + 0.5)
-        self.assertAlmostEqual(end.eye, L.EYE_SEAT, places=2)
+        self.assertAlmostEqual(end.eye, L.EYE_SEAT, places=2)                           # acomodado
         self.assertAlmostEqual(end.x, L.MY_SEAT[0], places=3)
         self.assertAlmostEqual(end.y, L.MY_SEAT[1], places=3)
         self.assertAlmostEqual(rel(end.heading), 0.0, places=3)                        # sentado olhando para a frente
@@ -162,14 +162,49 @@ class Routes(unittest.TestCase):
         self.assertAlmostEqual(run.pose(0).x, L.MY_SEAT[0])                                 # sai do banco da janela
         self.assertAlmostEqual(run.pose(0).y, L.MY_SEAT[1])
         self.assertEqual(len(ctx.steps("cambaleio-corredor")), 12)
-        catraca = routes.CATRACA_EP03
         end = tr.sample(35.0)
-        self.assertLess(math.dist((end.x, end.y), catraca), 0.25)                            # as costas na catraca
-        self.assertEqual(len(ctx.steps("recua-catraca")), 2)
+        self.assertAlmostEqual(end.y, routes.AFTER_RECOIL[1], places=3)
+        # as costas encostam na DIVISÓRIA (face dela + meia espessura do corpo), dentro do vão dela em x
+        self.assertAlmostEqual(end.y - (L.DIVIDER_Y + L.DIVIDER_T / 2), 0.115, places=3)
+        self.assertTrue(L.DIVIDER_X[0] < end.x < L.DIVIDER_X[1])
+        self.assertEqual(len(ctx.steps("recua-divisoria")), 2)
         out = tr.sample(ctx.duration - 0.01)
         self.assertGreater(out.x, L.HALF_W + 0.8)                                            # caiu para fora da porta
         self.assertLess(out.floor, 0.1)
         self.assertLess(abs(tr.sample(58.2).y - L.DOOR_Y), 0.2)                              # passando pela porta
+
+    def test_catraca_is_fixed_and_the_divider_sits_behind_it_leaving_the_aisle_free(self):
+        self.assertEqual(L.CATRACA_DOOR, (0.95, L.DOOR_Y))                                   # ao pé da porta, na frente, nos 3 episódios
+        self.assertLess(L.DIVIDER_Y, L.CATRACA_DOOR[1])                                      # a divisória fica ATRÁS (para o fundo)
+        self.assertLess(L.DIVIDER_X[1], -L.AISLE_HALF)                                       # e não fecha o corredor
+        self.assertAlmostEqual(L.DIVIDER_X[0], -L.HALF_W)
+        for ep, tr in self.tr.items():                                                       # ninguém atravessa a divisória
+            for r in self.ctx[ep].rows()[::6]:
+                p = tr.sample(r["t"])
+                inside = (L.DIVIDER_X[0] < p.x < L.DIVIDER_X[1]) and abs(p.y - L.DIVIDER_Y) < L.DIVIDER_T / 2 + 0.10
+                self.assertFalse(inside, f"{ep} t={r['t']:.2f}: cabeça dentro da divisória ({p.x:.2f},{p.y:.2f})")
+
+    def test_the_double_reaches_over_the_divider_to_the_shoulder(self):
+        back, you = routes.DOUBLE_BEHIND, routes.AFTER_RECOIL
+        self.assertLess(back[1], L.DIVIDER_Y)                                                # do outro lado da divisória
+        self.assertLess(math.dist(back, you), 0.65)                                          # ao alcance do ombro
+        self.assertLess(abs(back[0] - you[0]), 0.1)                                          # logo atrás dele
+
+    def test_seated_eye_is_slightly_above_the_seats_and_sinks_then_settles(self):
+        self.assertAlmostEqual(L.EYE_SEAT - L.HEADREST_TOP, L.EYE_ABOVE_HEADREST, places=3)
+        self.assertTrue(0.03 <= L.EYE_SEAT - L.HEADREST_TOP <= 0.10)                         # "ligeiramente acima" dos bancos
+        self.assertGreater(L.EYE_SEAT - L.SEAT_BACK_TOP, L.EYE_SEAT - L.HEADREST_TOP)        # encostos ainda mais abaixo
+        self.assertTrue(0.75 <= L.EYE_SEAT - L.SEAT_CUSHION_TOP <= 0.90)                     # olhos 75-90 cm acima da almofada
+        self.assertLess(L.EYE_SEAT, L.EYE_RUN)
+        tr, ctx = self.tr["ep01"], self.ctx["ep01"]
+        sit = next(l for l in tr.legs if l.id == "senta")
+        low = min(tr.sample(t).eye for t in (sit.t1 + k * 0.05 for k in range(0, 16)))
+        self.assertAlmostEqual(low, L.EYE_SEAT - L.SEAT_SINK, places=3)                      # afunda 4 cm...
+        self.assertAlmostEqual(tr.sample(sit.t1 + 1.0).eye, L.EYE_SEAT, places=3)            # ...e se acomoda
+        for ep in ("ep01", "ep02"):                                                          # e em nenhum momento sentado fica abaixo dos apoios
+            for r in self.ctx[ep].rows()[::30]:
+                if r["t"] > (37.9 if ep == "ep01" else 0.0):
+                    self.assertGreater(self.tr[ep].sample(r["t"]).eye, L.HEADREST_TOP, f"{ep} t={r['t']:.1f}")
 
     def test_all_poses_are_physical(self):
         for ep, tr in self.tr.items():

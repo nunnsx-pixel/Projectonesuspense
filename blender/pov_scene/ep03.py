@@ -4,7 +4,7 @@ from __future__ import annotations
 import math
 
 from . import bus as busmod
-from . import kit, props, routes, world
+from . import kit, materials, props, routes, world
 from .layout import DOOR_HALF, DOOR_Y, DRIVER, FLOOR_Z, HALF_W, LAST_SEAT, MY_SEAT, ROW_Y
 from .path import smoothstep
 
@@ -41,12 +41,13 @@ def _abyss(env):
 def build(env):
     ctx, M = env.ctx, kit.mat
     env.refs = busmod.build_bus(env.bus, decayed=True, light_color=(0.30, 0.95, 0.50), tube_strength=TUBE,
-                                light_energy=ENERGY, catraca_at=routes.CATRACA_EP03, catraca_rot=0)
+                                light_energy=ENERGY)
     env.track = routes.ep03(ctx)
     env.bus_moves = True
     dist = ctx.bus_distance()
     world.dirt_road(dist[-1] + 160, y0=-90, seed=3)
     world.fog(0.02, color=(0.60, 0.34, 0.30), glow=0.03)
+    materials.ground_fog(env.bus)                                # neblina volumétrica rasteira, anda com o ônibus
     world.moon(energy=6.0)
     _abyss(env)
     first, last = env.start_frame, env.start_frame + len(ctx.rows()) - 1
@@ -87,7 +88,7 @@ def build(env):
     kit.visible_between(sil["root"], first, env.f(up0 + 0.2), first, last)
     dbl = props.figure("duplo", env.bus, loc=(lx, ly, FLOOR_Z), heading=0, coat=(0.20, 0.22, 0.28), skin=(0.40, 0.46, 0.36), eyes=False)
     props.backpack("mochila-duplo", dbl["root"], dusty=True, loc=(0, -0.22, 0.95))
-    behind = (-0.70, -3.35)
+    behind = routes.DOUBLE_BEHIND
     with kit.interp("BEZIER"):
         for t, loc in ((up0 + 0.2, (lx, ly, FLOOR_Z)), (walk0, (lx, ly + 0.2, FLOOR_Z)), (walk1, (-0.05, -4.2, FLOOR_Z)),
                        (walk1 + 1.0, (behind[0], behind[1], FLOOR_Z))):

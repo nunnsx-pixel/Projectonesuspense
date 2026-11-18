@@ -82,22 +82,31 @@ para o "banco ao lado" e ele **se inclina sobre o corredor** para ver a silhueta
 motorista (dos bancos da janela os encostos bloqueiam a vista). Os testes de `routes.py` comparam a direção
 geométrica (motorista, porta, banco, último banco) com o `look_yaw` do CSV.
 
-**Continuidade do roteiro (para você decidir):** a catraca está **ao pé da porta** no Ep. 1 (ele passa o bilhete
-logo ao subir) e **logo atrás da cabine** no Ep. 3 ("recuando… batendo as costas na catraca"). Como cada episódio é
-uma cena separada, montei cada um com a catraca onde o roteiro a coloca; se quiser a mesma posição nos três,
-é preciso ajustar o roteiro ou o layout (`pov_scene/layout.py`, `routes.py`).
+**Layout fixo nos três episódios (decidido):** a catraca fica **ao pé da porta de embarque, na frente**
+(`layout.CATRACA_DOOR`), igual no Ep. 1, 2 e 3. No Ep. 3, quando ele recua e bate as costas, bate na
+**divisória/parapeito logo atrás da catraca** (`layout.DIVIDER_*`, cue `costas-divisoria`, trecho `recua-divisoria`).
+O passageiro do fundo (duplo) fica parado do outro lado da divisória (`routes.DOUBLE_BEHIND`).
 
-**O que NÃO está coberto:** texturas e assets finais (é greybox); `edge_blur` e `motion_blur` do CSV ficam só como
+**Altura dos olhos sentado:** a câmera fica **ligeiramente acima** dos encostos e apoios de cabeça (1,34 m contra
+1,29 m), com os bancos um pouco abaixo da linha de visão. Ao sentar, a cabeça **afunda 4 cm** com o baque e se
+acomoda de volta em 0,7 s. Constantes em `layout.py`; tabela em [`TEXTURAS.md`](TEXTURAS.md).
+
+**Texturas PBR:** os materiais vêm de [`materials.json`](materials.json) via `pov_scene/materials.py` (procedural por
+padrão; conjuntos de imagens em `blender/textures/<id>/` entram sozinhos, com `--textures-dir` para mudar a pasta).
+Piso encerado (Ep. 1), estofado mofado e metal enferrujado (Ep. 2 e 3), terra vermelha e neblina rasteira volumétrica
+(Ep. 2 e 3). Mapeamento, resoluções, espaços (`bus`/`world`) e passo a passo em [`TEXTURAS.md`](TEXTURAS.md).
+
+**O que NÃO está coberto:** assets finais e texturas fotográficas (os materiais são procedurais; veja `TEXTURAS.md`); `edge_blur` e `motion_blur` do CSV ficam só como
 propriedades da câmera (ligue no compositor/pós); áudio (os cues estão nos marcadores/`timeline.json`);
 animação de personagem além dos movimentos acima (andar do passageiro, rosto do duplo). A neblina de mundo
-também enevoa levemente o interior do ônibus (volume de mundo preenche tudo).
+e a rasteira (Ep. 3) enevoam levemente o interior do ônibus (volumes não têm paredes).
 
 ## Testado
 
 `tests/test_scene_routes.py` (Python puro): o caminho da cabeça (continuidade, passadas humanas, o pé nos frames dos
 passos, degraus, sentar junto do baque, geometria × olhar do CSV). `tests/test_blender_scene.py` (precisa de `bpy`):
 monta os 3 episódios e confere hierarquia, cabeça × trajeto, drivers de luz/vinheta/pálpebra/preto, marcadores,
-visibilidade dos filhos, e os bugs que já tivemos. `tests/test_blender_import.py`: a matemática de eixos/sinais roda em qualquer Python; os testes de cena
+visibilidade dos filhos, a catraca/divisória fixas, a altura dos olhos sentado × encostos, os materiais (procedural e conjuntos de imagens) e os bugs que já tivemos. `tests/test_blender_import.py`: a matemática de eixos/sinais roda em qualquer Python; os testes de cena
 rodam o importador no Blender **4.2 LTS e 5.3** (módulo `bpy`, sem interface), com os CSVs dos três
 episódios: direção do olhar (inclusive +148° e +172° para trás, e o mergulho final do Ep. 3 com pitch −70° e
 roll 45°), roll, posição, FOV, flags em degrau, canais extras, marcadores, reimportação, rig existente,

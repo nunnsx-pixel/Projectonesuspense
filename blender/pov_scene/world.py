@@ -6,7 +6,7 @@ import random
 
 import bpy
 
-from . import kit
+from . import kit, materials
 
 
 def fog(density: float, color=(0.5, 0.35, 0.33), glow: float = 0.0):
@@ -36,8 +36,8 @@ def dirt_road(length: float, y0: float = -60.0, seed: int = 2, tree_gap=(6.0, 11
     """Chão vermelho, faixa da estrada e árvores mortas retorcidas dos dois lados, de y0 até y0+length."""
     rnd = random.Random(seed)
     M = kit.mat
-    kit.plane("terra", (300, length + 200), (0, y0 + length / 2, 0), M("terra", color, rough=1.0))
-    kit.plane("estrada", (5.2, length + 200), (0, y0 + length / 2, 0.01), M("estrada", (0.35, 0.10, 0.06), rough=1.0))
+    kit.plane("terra", (300, length + 200), (0, y0 + length / 2, 0), materials.get("terra-vermelha", "terra"))
+    kit.plane("estrada", (5.2, length + 200), (0, y0 + length / 2, 0.01), materials.get("terra-vermelha", "estrada"))
     bark = M("tronco-morto", (0.06, 0.045, 0.04), rough=1.0)
     for side in (-1, 1):
         y = y0

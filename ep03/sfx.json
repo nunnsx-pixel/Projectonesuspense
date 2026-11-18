@@ -52,8 +52,8 @@
       "desc": "Estalo seco de ossos: o rosto chega à câmera.", "at": { "beat": "b2-pescoco", "offset": 2.4 }, "gain_db": 0
     },
     {
-      "id": "costas-catraca", "layer": "foley", "origin": "inferido",
-      "desc": "Costas do protagonista batendo na catraca de metal.",
+      "id": "costas-divisoria", "layer": "foley", "origin": "inferido",
+      "desc": "Costas do protagonista batendo na divisória (parapeito) de metal logo atrás da catraca.",
       "at": { "ref": "s2-05", "edge": "start", "offset": 1.0 }, "gain_db": -3
     },
     {

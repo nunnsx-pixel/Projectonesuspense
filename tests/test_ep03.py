@@ -169,9 +169,9 @@ class Ep03(unittest.TestCase):
         self.assertTrue(all(self.rows[f]["light"] == 0.0 for f in range(f0, f0 + ev[0]["frames"])))
 
     def test_two_steps_back_then_the_turnstile_hit(self):
-        back = [s for s in self.tl["sfx"]["footsteps"] if s["segment"] == "recua-catraca"]
+        back = [s for s in self.tl["sfx"]["footsteps"] if s["segment"] == "recua-divisoria"]
         self.assertEqual(len(back), 2)                                                      # "recuando dois passos"
-        hit = self.cues["costas-catraca"]
+        hit = self.cues["costas-divisoria"]
         self.assertGreater(hit["start"], back[-1]["start"])                                  # ...e então bate as costas
         self.assertEqual(round(self.kicks["k-costas"]["t"] * FPS), hit["start_frame"])
         gasp = self.items["s2-05"]

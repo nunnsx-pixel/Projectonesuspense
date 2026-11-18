@@ -25,7 +25,7 @@ sys.path.insert(0, str(HERE.parent))
 import bpy  # noqa: E402
 
 import import_camera_csv as imp  # noqa: E402
-from pov_scene import fx, kit  # noqa: E402
+from pov_scene import fx, kit, materials  # noqa: E402
 from pov_scene.ctx import Ctx  # noqa: E402
 
 
@@ -79,11 +79,13 @@ def _markers(env: Env):
             kit.marker(sc, f"VOZ:{i['id']}{'/' + who if who else ''}", env.f(i["start"]))
 
 
-def assemble(ep: str, root=None, save: str | None = None, camera_name: str = "Camera"):
+def assemble(ep: str, root=None, save: str | None = None, camera_name: str = "Camera", textures_dir=None):
     ctx = Ctx(ep, root)
     mod = importlib.import_module(f"pov_scene.{ep}")
     sc = kit.new_scene(*mod.WORLD)
+    materials.reset()
     bus = kit.empty("ONIBUS")
+    materials.configure(bus_root=bus, textures_dir=textures_dir)   # texturas 'bus' ficam presas ao ônibus
     head = kit.empty("POV_Head", parent=bus)
     cd = bpy.data.cameras.new(camera_name)
     cd.sensor_fit = "VERTICAL"
@@ -136,8 +138,9 @@ def main(argv=None):
     ap.add_argument("--render-frames", help="tempos (s) separados por vírgula para renderizar prévias")
     ap.add_argument("--out", default="previews", help="pasta das prévias")
     ap.add_argument("--samples", type=int, default=24)
+    ap.add_argument("--textures-dir", help="pasta com conjuntos PBR (padrão: blender/textures); sem imagens, vale o procedural")
     a = ap.parse_args(argv)
-    env = assemble(a.episode, save=None)
+    env = assemble(a.episode, save=None, textures_dir=a.textures_dir)
     if a.render_frames:
         render_frames(env, [float(x) for x in a.render_frames.split(",")], a.out, samples=a.samples)
     if a.save:

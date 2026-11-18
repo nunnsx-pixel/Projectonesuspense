@@ -193,7 +193,7 @@
    "set": {
     "location": "Catraca, atrás da cabine do motorista (o ônibus segue sem reduzir a velocidade)",
     "lighting": "Luz verde piscando; chiado de rádio AM antigo fora de sintonia.",
-    "character_state": "Terror: grito sufocado, recua dois passos e bate as costas na catraca.",
+    "character_state": "Terror: grito sufocado, recua dois passos e bate as costas na divisória (parapeito) logo atrás da catraca.",
     "characters": [
      {
       "name": "motorista",
@@ -252,7 +252,7 @@
       "edge": "start"
      },
      "dur": 1.5,
-     "text": "Grito sufocado: recua dois passos e bate as costas na catraca.",
+     "text": "Grito sufocado: recua dois passos e bate as costas na divisória (parapeito) atrás da catraca.",
      "scene": "s2",
      "start": 33.4333,
      "end": 34.9333,
@@ -2703,10 +2703,10 @@
     "end_tc": "00:22.700"
    },
    {
-    "id": "costas-catraca",
+    "id": "costas-divisoria",
     "layer": "foley",
     "origin": "inferido",
-    "desc": "Costas do protagonista batendo na catraca de metal.",
+    "desc": "Costas do protagonista batendo na divisória (parapeito) de metal logo atrás da catraca.",
     "gain_db": -3,
     "start": 34.4333,
     "end": 34.4333,
@@ -3074,7 +3074,7 @@
     "gain_db": -4.01,
     "intensity": 0.61,
     "foot": "L",
-    "segment": "recua-catraca",
+    "segment": "recua-divisoria",
     "scene": "s2",
     "generated": "camera.step",
     "start_frame": 2009,
@@ -3092,7 +3092,7 @@
     "gain_db": -5.91,
     "intensity": 0.61,
     "foot": "R",
-    "segment": "recua-catraca",
+    "segment": "recua-divisoria",
     "scene": "s2",
     "generated": "camera.step",
     "start_frame": 2046,
@@ -9634,13 +9634,13 @@
    {
     "t": 33.4833,
     "frame": 2009,
-    "segment": "recua-catraca",
+    "segment": "recua-divisoria",
     "cadence": 1.6
    },
    {
     "t": 34.1,
     "frame": 2046,
-    "segment": "recua-catraca",
+    "segment": "recua-divisoria",
     "cadence": 1.6
    },
    {

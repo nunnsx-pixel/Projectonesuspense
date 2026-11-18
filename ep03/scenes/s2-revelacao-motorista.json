@@ -7,7 +7,7 @@
   "set": {
     "location": "Catraca, atrás da cabine do motorista (o ônibus segue sem reduzir a velocidade)",
     "lighting": "Luz verde piscando; chiado de rádio AM antigo fora de sintonia.",
-    "character_state": "Terror: grito sufocado, recua dois passos e bate as costas na catraca.",
+    "character_state": "Terror: grito sufocado, recua dois passos e bate as costas na divisória (parapeito) logo atrás da catraca.",
     "characters": [
       { "name": "motorista",
         "state": "Gira o pescoço 180° em direção à câmera, devagar. Pele cinza-cadavérica, bochechas fundas, olhos completamente brancos sem pupilas, sorriso esticado e imóvel. Voz grave, distorcida como rádio antigo ecoando." }
@@ -20,7 +20,7 @@
     { "id": "b2-rosto", "at": { "beat": "b2-pescoco", "edge": "end" }, "dur": 6.0,
       "text": "Rosto revelado: pele cinza-cadavérica, bochechas fundas, olhos brancos sem pupilas, sorriso esticado e imóvel." },
     { "id": "b2-recua", "at": { "ref": "s2-05", "edge": "start" }, "dur": 1.5,
-      "text": "Grito sufocado: recua dois passos e bate as costas na catraca." },
+      "text": "Grito sufocado: recua dois passos e bate as costas na divisória (parapeito) atrás da catraca." },
     { "id": "b2-porta", "at": { "ref": "s2-10", "word": "porta", "edge": "start", "offset": -0.2 }, "dur": 1.2,
       "text": "Olha para a porta, exigindo que abram.", "origin": "inferido" }
   ]

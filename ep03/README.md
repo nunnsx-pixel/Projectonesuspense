@@ -65,7 +65,7 @@ tenho aula amanhã de manhã!" ou "Você tá louco!"). Falado: "348" = **três q
 - **Corte para preto aos 59,0 s.** O roteiro diz "Corte Seco [00:59]" e "silêncio absoluto e tela preta". Assumi
   que a imagem corta em 59,0 s junto com o som de freada, e que os 0,4 s finais são silêncio com tela preta.
   Trocar o instante: `fx.black_ranges` (camera.json) e o beat `b3-corte`.
-- **Inferidos (podem ser apagados):** o ronco do motor, o rangido dos balaústres, as costas na catraca, o clique
+- **Inferidos (podem ser apagados):** o ronco do motor, o rangido dos balaústres, as costas na divisória (parapeito atrás da catraca), o clique
   do botão, a mão no ombro, os passos do passageiro, o brilho/falha das lâmpadas como SFX individuais, e todos os
   olhares (porta, para-brisa, motorista). **Do roteiro:** batimentos, passos pesados, chassi, estalo de ossos,
   rádio AM, porta pneumática, vento, murmúrios e a freada com metal retorcendo.

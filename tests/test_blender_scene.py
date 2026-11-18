@@ -7,6 +7,7 @@ que já tivemos (objetos da porta fora do ônibus; filhos que não somem com o p
 from __future__ import annotations
 
 import math
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -23,6 +24,7 @@ except ImportError:
 if bpy is not None:
     import assemble_scene as A
     from pov_scene import layout as L
+    from pov_scene import routes
 
 
 def at(env, t):
@@ -109,6 +111,40 @@ class Base:
         self.assertEqual(len([n for n in names if n.startswith("VOZ:")]), len(speech))
         self.assertEqual({n for n in names if n.startswith("CENA:")}, {"CENA:s1", "CENA:s2", "CENA:s3"})
 
+    def test_catraca_is_fixed_at_the_door_and_the_divider_sits_behind_it(self):
+        cat = self.obj["catraca"]
+        self.assertEqual((round(cat.location.x, 3), round(cat.location.y, 3), round(cat.location.z, 3)),
+                         (L.CATRACA_DOOR[0], L.CATRACA_DOOR[1], round(L.FLOOR_Z, 3)))   # igual nos 3 episódios
+        self.assertAlmostEqual(math.degrees(cat.rotation_euler.z), 90, places=3)
+        div = self.obj["divisoria"]
+        self.assertAlmostEqual(div.location.y, L.DIVIDER_Y, places=3)
+        self.assertLess(div.location.y, cat.location.y)                                # atrás da catraca
+        self.assertAlmostEqual(div.location.x + div.dimensions.x / 2, L.DIVIDER_X[1], places=3)
+        self.assertLess(div.location.x + div.dimensions.x / 2, -L.AISLE_HALF)           # corredor livre
+        self.assertAlmostEqual(div.dimensions.z, L.DIVIDER_H, places=3)
+
+    SEATED_T = None
+
+    def test_seated_eye_is_slightly_above_every_seat_back_and_headrest(self):
+        if self.SEATED_T is None:
+            self.skipTest("episódio sem trecho sentado estável")
+        e = self.env
+        at(e, self.SEATED_T)
+        eye = e.head.location.z - L.FLOOR_Z                                              # altura acima do piso do ônibus
+        self.assertAlmostEqual(eye, L.EYE_SEAT, places=3)
+        tops = {"apoio": [], "encosto": [], "assento": []}
+        for o in self.obj:                                                               # só os bancos dos passageiros (não o do motorista)
+            for k in tops:
+                if re.match(rf"{k}-\d+-", o.name) and o.type == "MESH":
+                    tops[k].append(o.location.z + o.dimensions.z / 2 - L.FLOOR_Z)
+        self.assertEqual(len(tops["apoio"]), 36)                                          # 9 fileiras x 4 bancos
+        self.assertAlmostEqual(max(tops["apoio"]), L.HEADREST_TOP, places=3)
+        self.assertAlmostEqual(max(tops["encosto"]), L.SEAT_BACK_TOP, places=3)
+        self.assertAlmostEqual(max(tops["assento"]), L.SEAT_CUSHION_TOP, places=3)
+        margin = eye - max(tops["apoio"])
+        self.assertTrue(0.03 <= margin <= 0.10, f"olhos {margin * 100:.0f} cm acima dos apoios")   # "ligeiramente acima"
+        self.assertTrue(0.75 <= eye - max(tops["assento"]) <= 0.90)                       # ergonomia sentado
+
     def test_children_hide_with_their_parent(self):
         """Esconder um pai NÃO esconde os filhos no Blender: todo objeto animado tem que ser escondido junto."""
         e = self.env
@@ -119,6 +155,16 @@ class Base:
                     for ch in ob.children_recursive:
                         self.assertIsNotNone(ch.animation_data, f"{ob.name} esconde, mas o filho {ch.name} não")
                         self.assertIn("hide_render", {fc.data_path for fc in _fcurves(ch.animation_data.action)})
+
+
+def json_params(mat):
+    import json
+    return json.loads(mat["pov_params"])
+
+
+def manifest():
+    import json
+    return json.loads((ROOT / "blender" / "materials.json").read_text(encoding="utf-8"))
 
 
 def _fcurves(action):
@@ -134,6 +180,26 @@ def _fcurves(action):
 
 class Ep01(Base, unittest.TestCase):
     EP = "ep01"
+    SEATED_T = 39.0
+
+    def test_pbr_floor_seats_and_steel(self):
+        floor = self.obj["piso-saguao"].active_material
+        self.assertEqual((floor["pov_id"], floor["pov_source"]), ("piso-encerado", "procedural"))
+        kinds = {n.bl_idname for n in floor.node_tree.nodes}
+        self.assertIn("ShaderNodeTexBrick", kinds)                                        # ladrilhos com juntas
+        self.assertIn("ShaderNodeBsdfPrincipled", kinds)
+        bsdf = next(n for n in floor.node_tree.nodes if n.bl_idname == "ShaderNodeBsdfPrincipled")
+        self.assertGreater(bsdf.inputs["Coat Weight"].default_value, 0.3)                 # cera = verniz
+        self.assertEqual(self.obj["assento-0-left_window"].active_material["pov_variant"], "limpo")
+        self.assertEqual(self.obj["balaustre-0--1"].active_material["pov_variant"], "gasto")
+
+    def test_sit_sinks_into_the_cushion_then_settles(self):
+        e = self.env
+        s0 = self.ctx.beat("b3-senta")[0]
+        at(e, s0 + 0.2)
+        self.assertAlmostEqual(e.head.location.z - L.FLOOR_Z, L.EYE_SEAT - L.SEAT_SINK, places=2)
+        at(e, s0 + 1.5)
+        self.assertAlmostEqual(e.head.location.z - L.FLOOR_Z, L.EYE_SEAT, places=3)
 
     def test_doors_open_for_boarding_and_close_before_the_bus_leaves(self):
         e = self.env
@@ -198,6 +264,29 @@ class Ep01(Base, unittest.TestCase):
 
 class Ep02(Base, unittest.TestCase):
     EP = "ep02"
+    SEATED_T = 12.0
+
+    def test_pbr_moldy_upholstery_rusty_metal_and_red_dirt_in_world_space(self):
+        seat = self.obj["assento-0-left_window"].active_material
+        self.assertEqual(seat["pov_variant"], "mofado")
+        self.assertGreater(json_params(seat)["mold"], 0.5)
+        self.assertEqual(self.obj["assento-3-left_aisle"].active_material["pov_variant"], "podre")   # o banco rasgado, ao lado dele
+        self.assertEqual(json_params(self.obj["assento-3-left_aisle"].active_material)["mold"], 1.0)
+        pole = self.obj["balaustre-0--1"].active_material
+        self.assertEqual((pole["pov_id"], pole["pov_variant"]), ("metal-enferrujado", "enferrujado"))
+        self.assertGreater(json_params(pole)["rust"], 0.5)
+        ground = self.obj["terra"].active_material
+        self.assertEqual((ground["pov_id"], ground["pov_variant"]), ("terra-vermelha", "terra"))
+        self.assertEqual(self.obj["estrada"].active_material["pov_variant"], "estrada")
+        # espaço de coordenadas: bus-local para o que anda com o ônibus; mundo para o cenário fixo
+        tc = next(n for n in seat.node_tree.nodes if n.bl_idname == "ShaderNodeTexCoord")
+        self.assertEqual(tc.object, self.env.bus)
+        self.assertTrue(any(n.bl_idname == "ShaderNodeNewGeometry" for n in ground.node_tree.nodes))
+        self.assertFalse(any(n.bl_idname == "ShaderNodeTexCoord" for n in ground.node_tree.nodes))
+        for m in (seat, pole, ground):                                                      # mapeamento em metros
+            mp = next(n for n in m.node_tree.nodes if n.bl_idname == "ShaderNodeMapping")
+            tile = manifest()["materials"][m["pov_id"]]["tile_m"]
+            self.assertAlmostEqual(mp.inputs["Scale"].default_value[0], 1 / tile, places=4)
 
     def test_everything_outside_is_where_the_window_is(self):
         """O cenário externo é fixo e o ônibus anda: a placa 348 precisa passar pela janela em b3-placa."""
@@ -236,6 +325,23 @@ class Ep02(Base, unittest.TestCase):
 
 class Ep03(Base, unittest.TestCase):
     EP = "ep03"
+
+    def test_ground_fog_follows_the_bus_and_thins_out_with_height(self):
+        """Neblina volumétrica rasteira presa ao ônibus; densidade = base·e^(−z/h)·mancha (EXPONENT é unário!)."""
+        fog = self.obj["neblina-rasteira"]
+        self.assertEqual(fog.parent, self.env.bus)
+        nt = fog.active_material.node_tree
+        kinds = {n.bl_idname for n in nt.nodes}
+        self.assertIn("ShaderNodeVolumePrincipled", kinds)
+        expo = next(n for n in nt.nodes if n.bl_idname == "ShaderNodeMath" and n.operation == "EXPONENT")
+        self.assertTrue(expo.inputs[0].is_linked)                                           # regressão: antes era constante (e^2,7 ≈ 15x)
+        vol = next(n for n in nt.nodes if n.bl_idname == "ShaderNodeVolumePrincipled")
+        self.assertTrue(vol.inputs["Density"].is_linked)
+        out = next(n for n in nt.nodes if n.bl_idname == "ShaderNodeOutputMaterial")
+        self.assertTrue(out.inputs["Volume"].is_linked)
+        self.assertFalse(out.inputs["Surface"].is_linked)                                    # só volume
+        pos = next(n for n in nt.nodes if n.bl_idname == "ShaderNodeNewGeometry")           # mundo: a névoa não nada
+        self.assertTrue(pos.outputs["Position"].is_linked)
 
     def test_abyss_and_hands_belong_to_the_bus_so_the_door_opens_onto_them(self):
         """Regressão: o abismo estava no mundo e o ônibus andava 800 m, então a porta abria para o nada."""
@@ -287,7 +393,7 @@ class Ep03(Base, unittest.TestCase):
         at(e, self.ctx.beat("b3-revela")[0])
         self.assertGreater(dbl.location.y, -5.0)                                  # já saiu do fundo (era -10)
         at(e, 56.0)
-        self.assertLess(math.dist((dbl.location.x, dbl.location.y), (-0.70, -3.35)), 0.2)     # parado logo atrás dele
+        self.assertLess(math.dist((dbl.location.x, dbl.location.y), routes.DOUBLE_BEHIND), 0.2)   # parado atrás da divisória
 
     def test_handrail_grabs_reach_forward_on_the_same_frames_as_the_sfx(self):
         e = self.env
@@ -306,6 +412,62 @@ class Ep03(Base, unittest.TestCase):
         self.assertTrue(vis(grp, e, o0 + 0.1))
         at(e, o0 + 0.1)
         self.assertGreater(grp.location.x, 0.1)                                   # entra pelo canto direito
+
+
+@unittest.skipUnless(bpy is not None, "módulo bpy não instalado")
+class ImageTextureSets(unittest.TestCase):
+    """Conjuntos PBR em imagens assumem no lugar do procedural (mapeamento em caixa, em metros)."""
+
+    def setUp(self):
+        import tempfile
+        from pov_scene import kit, materials
+        self.kit, self.materials = kit, materials
+        bpy.ops.wm.read_factory_settings(use_empty=True)
+        kit.reset()
+        materials.reset()
+        self.tmp = Path(tempfile.mkdtemp())
+        materials.configure(textures_dir=self.tmp)
+
+    def make(self, folder, names):
+        d = self.tmp / folder
+        d.mkdir(parents=True, exist_ok=True)
+        for n in names:
+            img = bpy.data.images.new(f"t-{folder}-{n}", 4, 4)
+            img.filepath_raw = str(d / f"{n}.png")
+            img.file_format = "PNG"
+            img.save()
+
+    def test_without_images_the_procedural_is_used(self):
+        m = self.materials.get("metal-enferrujado", "enferrujado")
+        self.assertEqual(m["pov_source"], "procedural")
+        self.assertEqual(self.materials.find_maps("metal-enferrujado"), {})
+
+    def test_image_set_replaces_the_procedural_with_box_projection_and_right_colorspaces(self):
+        self.make("metal-enferrujado", ["albedo", "roughness", "metallic", "height"])
+        m = self.materials.get("metal-enferrujado", "enferrujado")
+        self.assertEqual(m["pov_source"], "imagens:albedo,height,metallic,roughness")
+        tex = [n for n in m.node_tree.nodes if n.bl_idname == "ShaderNodeTexImage"]
+        self.assertEqual(len(tex), 4)
+        self.assertTrue(all(t.projection == "BOX" and t.extension == "REPEAT" for t in tex))
+        spaces = {Path(t.image.filepath).stem: t.image.colorspace_settings.name for t in tex}
+        self.assertEqual(spaces["albedo"], "sRGB")
+        self.assertTrue(all(v == "Non-Color" for k, v in spaces.items() if k != "albedo"))
+        bsdf = next(n for n in m.node_tree.nodes if n.bl_idname == "ShaderNodeBsdfPrincipled")
+        self.assertTrue(bsdf.inputs["Base Color"].is_linked and bsdf.inputs["Roughness"].is_linked)
+        self.assertTrue(bsdf.inputs["Metallic"].is_linked and bsdf.inputs["Normal"].is_linked)   # height -> bump
+        mp = next(n for n in m.node_tree.nodes if n.bl_idname == "ShaderNodeMapping")
+        self.assertAlmostEqual(mp.inputs["Scale"].default_value[0], 1 / 0.6, places=4)              # tile_m = 0,6 m
+
+    def test_variant_folder_wins_over_the_base_folder(self):
+        self.make("estofado", ["albedo"])
+        self.make("estofado/podre", ["albedo", "roughness"])
+        self.assertEqual(sorted(self.materials.find_maps("estofado", "podre")), ["albedo", "roughness"])
+        self.assertEqual(self.materials.find_maps("estofado", "podre")["albedo"].parent.name, "podre")
+        self.assertEqual(sorted(self.materials.find_maps("estofado", "limpo")), ["albedo"])          # sem pasta própria: usa a base
+
+    def test_unknown_variant_is_an_error(self):
+        with self.assertRaises(KeyError):
+            self.materials.get("estofado", "inexistente")
 
 
 if __name__ == "__main__":

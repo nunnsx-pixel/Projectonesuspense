@@ -20,6 +20,22 @@ BAG_SEAT = (SEAT_X["left_aisle"], ROW_Y[MY_ROW - 1])           # mochila (banco 
 DRIVER = (-0.95, -1.45)                                         # banco do motorista
 DOOR_Y, DOOR_HALF = -1.0, 0.5                                   # porta na parede direita (x=+1,30)
 STAIRS = [(2.55, 0.32), (2.05, 0.64), (1.55, 0.96)]             # (x do contato do pé, altura do degrau)
-CATRACA_DOOR = (0.95, DOOR_Y)                                   # Ep. 1: leitor/catraca ao pé da porta
-EYE_STAND, EYE_RUN, EYE_SEAT = 1.62, 1.55, 1.15
+CATRACA_DOOR = (0.95, DOOR_Y)                                   # catraca FIXA nos 3 episódios: ao pé da porta, na frente
+# Divisória (parapeito) logo atrás da catraca/cabine: o Ep. 3 recua 2 passos e bate as costas nela.
+# Cobre o lado esquerdo (do motorista até a borda do corredor), deixando o corredor livre.
+DIVIDER_Y, DIVIDER_T, DIVIDER_H = -2.95, 0.08, 1.05
+DIVIDER_X = (-HALF_W, -AISLE_HALF - 0.02)
+
+# ---- Bancos e altura dos olhos sentado (m acima do piso do ônibus) -------------------------------------------
+# Ergonomia: olhos ~0,83 m acima da almofada e ~5 cm ACIMA do topo dos encostos/apoios de cabeça à frente,
+# de modo que os bancos ficam ligeiramente abaixo da linha de visão. Ao sentar ele AFUNDA na almofada
+# (SEAT_SINK) e se acomoda de volta; o baque da câmera (k-sentar) acompanha o pouso.
+SEAT_CUSHION_TOP = 0.51
+SEAT_BACK_H, HEADREST_H = 0.62, 0.16
+SEAT_BACK_TOP = SEAT_CUSHION_TOP + SEAT_BACK_H                  # 1,13
+HEADREST_TOP = SEAT_BACK_TOP + HEADREST_H                       # 1,29
+EYE_ABOVE_HEADREST = 0.05
+SEAT_SINK = 0.04
+EYE_STAND, EYE_RUN = 1.62, 1.55
+EYE_SEAT = round(HEADREST_TOP + EYE_ABOVE_HEADREST, 3)          # 1,34
 LAST_SEAT = (0.0, ROW_Y[-1] - 0.05)                             # banco do fundo (silhueta)
