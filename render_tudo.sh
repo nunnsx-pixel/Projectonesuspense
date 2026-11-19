@@ -13,6 +13,7 @@
 #   STAGE_DIR=/content/stage ./render_tudo.sh   # o Blender grava numa pasta LOCAL e cada lote é copiado para RENDERS_DIR (Drive)
 #   PERFIL=t4 ./render_tudo.sh             # poupa RAM/VRAM (ladrilhos 512, texturas 1k, menos rebatidas): GPU T4 do Colab
 #   TEXTURES_DIR=/content/textures ./render_tudo.sh   # pasta das texturas (baixadas para lá se faltarem); padrão: blender/textures
+#   STEP=2 ./render_tudo.sh                # 30 fps: renderiza 1 quadro a cada 2 (metade do trabalho) e monta um mp4 de 30 fps; padrão 1 = 60 fps
 #   FORCE=1 ./render_tudo.sh               # refaz o mp4 de um episódio que já está pronto (padrão: pula)
 #   DRY_RUN=1 ./render_tudo.sh             # só mostra os comandos
 #
@@ -35,6 +36,7 @@ STAGE_DIR="${STAGE_DIR:-}"
 PERFIL="${PERFIL:-}"
 FORCE="${FORCE:-0}"
 TEXTURES_DIR="${TEXTURES_DIR:-}"
+STEP="${STEP:-1}"
 BLENDER_ARGS=()
 [ -n "${BLENDER:-}" ] && BLENDER_ARGS=(--blender "$BLENDER")
 [ -n "${GPU_BACKEND:-}" ] && BLENDER_ARGS+=(--backend "$GPU_BACKEND" --device gpu)
@@ -49,6 +51,7 @@ RENDER_ARGS=()
 [ -n "$STAGE_DIR" ] && RENDER_ARGS+=(--stage "$STAGE_DIR")
 STAGE_ARGS=()
 [ -n "$STAGE_DIR" ] && STAGE_ARGS=(--stage "$STAGE_DIR")
+[ "$STEP" -gt 1 ] && { RENDER_ARGS+=(--step "$STEP"); STAGE_ARGS+=(--step "$STEP"); }
 
 run() { echo "+ $*"; [ -n "${DRY_RUN:-}" ] || "$@"; }
 

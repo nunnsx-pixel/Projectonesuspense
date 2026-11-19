@@ -250,16 +250,19 @@ def run_assemble(args, root: Path = ROOT) -> int:
     n = tl["frames"]
     folder = Path(args.renders).resolve() / ep
     have = _frames_on_disk(folder)
-    missing = [k for k in range(n) if k not in have]
+    step = max(getattr(args, "step", 1), 1)                       # --step 2: o render foi a 30 fps (quadros 0, 2, 4...) e o mp4 também
+    expected = list(range(0, n, step))
+    missing = [k for k in expected if k not in have]
+    fps_out = FPS // step
     audio = Path(args.audio) if args.audio else root / ep / "build" / f"{ep}.mix.wav"
     out = Path(args.out).resolve() / f"{ep}{args.suffix}.mp4"
-    print(f"{ep}: {len(have)}/{n} quadros em {folder} · áudio {audio.name if audio.exists() else 'AUSENTE'}")
+    print(f"{ep}: {sum(1 for k in expected if k in have)}/{len(expected)} quadros ({fps_out} fps) em {folder} · áudio {audio.name if audio.exists() else 'AUSENTE'}")
     if not shutil.which("ffmpeg"):
         raise SystemExit("ffmpeg não encontrado no PATH")
     if not have:
         raise SystemExit("nenhum quadro renderizado: rode `python -m pipeline render` antes")
     if missing and not args.allow_partial:
-        raise SystemExit(f"faltam {len(missing)} de {n} quadros (primeiro: {missing[0]}); termine o render ou use --allow-partial "
+        raise SystemExit(f"faltam {len(missing)} de {len(expected)} quadros (primeiro: {missing[0]}); termine o render ou use --allow-partial "
                          f"(segura o último quadro renderizado: serve só de prévia)")
     out.parent.mkdir(parents=True, exist_ok=True)
     stage = getattr(args, "stage", None)
@@ -267,7 +270,8 @@ def run_assemble(args, root: Path = ROOT) -> int:
     work_dir.mkdir(parents=True, exist_ok=True)
     part = work_dir / (out.name + ".part")                        # codifica num .part e só renomeia quando termina: mp4 existente = mp4 inteiro
     cmd = ["ffmpeg", "-v", "error", "-y"]
-    if not missing:
+    concat = bool(missing) or step > 1
+    if not concat:
         cmd += ["-framerate", str(FPS), "-start_number", "1", "-i", str(folder / "f%05d.png")]
     else:                                                      # quadros esparsos: o ffconcat segura cada um até o próximo
         keys = sorted(have)
@@ -282,13 +286,15 @@ def run_assemble(args, root: Path = ROOT) -> int:
     if have_audio:
         cmd += ["-i", str(audio)]
     vf = ["scale=1080:1920:flags=lanczos"] if args.upscale else []
-    if missing:                                            # o ffconcat perde o último quadro: segura o final e `-t` fecha a conta exata
+    if concat:                                             # o ffconcat perde o último quadro: segura o final e `-t` fecha a conta exata
         vf.append("tpad=stop_mode=clone:stop_duration=1")
-    cmd += (["-vf", ",".join(vf)] if vf else []) + ["-r", str(FPS), "-c:v", "libx264", "-preset", args.preset, "-crf", str(args.crf),
+    cmd += (["-vf", ",".join(vf)] if vf else []) + ["-r", str(fps_out), "-c:v", "libx264", "-preset", args.preset, "-crf", str(args.crf),
                                                    "-pix_fmt", "yuv420p", "-movflags", "+faststart"]
+    if getattr(args, "maxrate", None):                     # teto de bitrate (ex.: 1500k): mantém o arquivo pequeno
+        cmd += ["-maxrate", args.maxrate, "-bufsize", f"{2 * int(args.maxrate.rstrip('kK'))}k"]
     if have_audio:
-        cmd += ["-c:a", "aac", "-b:a", "192k", "-ar", "48000"]
-    cmd += ["-frames:v", str(n), "-t", f"{n / FPS + 0.05:.6f}", "-f", "mp4", str(part)]   # n quadros exatos; o -t só apara o áudio no fim
+        cmd += ["-c:a", "aac", "-b:a", getattr(args, "audio_bitrate", "192k"), "-ar", "48000"]
+    cmd += ["-frames:v", str(len(expected)), "-t", f"{n / FPS + 0.05:.6f}", "-f", "mp4", str(part)]   # n quadros exatos; o -t só apara o áudio no fim
     r = subprocess.run(cmd)
     if r.returncode:
         part.unlink(missing_ok=True)

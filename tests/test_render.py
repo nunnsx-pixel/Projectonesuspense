@@ -83,7 +83,7 @@ class Assemble(unittest.TestCase):
 
     def ns(self, **kw):
         base = dict(episode="ep01", renders=str(self.root / "renders"), out=str(self.root / "out"), audio=None, allow_partial=False,
-                    upscale=False, suffix="", preset="ultrafast", crf=30, stage=None)
+                    upscale=False, suffix="", preset="ultrafast", crf=30, stage=None, step=1, maxrate=None, audio_bitrate="192k")
         base.update(kw)
         return Namespace(**base)
 
@@ -104,6 +104,18 @@ class Assemble(unittest.TestCase):
         self.assertEqual(render.run_assemble(self.ns(allow_partial=True, suffix=".previa"), self.root), 0)
         self.assertIn("60 quadros", render.probe(self.root / "out" / "ep01.previa.mp4"))
 
+
+    def test_half_rate_render_becomes_a_true_30fps_mp4_with_the_same_duration(self):
+        self.frames(range(0, 60, 2))
+        self.assertEqual(render.run_assemble(self.ns(step=2), self.root), 0)
+        info = render.probe(self.root / "out" / "ep01.mp4")
+        self.assertIn("30/1 · 30 quadros", info)
+        self.assertIn("1.000 s", info)
+
+    def test_half_rate_with_a_missing_frame_is_still_refused(self):
+        self.frames([k for k in range(0, 60, 2) if k != 10])
+        with self.assertRaisesRegex(SystemExit, "faltam 1 de 30"):
+            render.run_assemble(self.ns(step=2), self.root)
 
     def test_assemble_is_atomic_and_can_encode_on_a_local_stage(self):
         self.frames(range(60))
