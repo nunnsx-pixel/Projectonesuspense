@@ -1,0 +1,29 @@
+{
+  "id": "s1",
+  "config_index": 0,
+  "name": "O Gancho (Terminal Rodoviário de Campinas)",
+  "source": "ep01-embarque-campinas.md · [00:00 - 00:15]",
+
+  "set": {
+    "location": "Terminal Rodoviário de Campinas, saguão quase vazio",
+    "time_of_day": "noite de sábado, quase meia-noite",
+    "lighting": "Luzes fluorescentes brancas estouradas no teto; piso encerado refletindo as luzes; iluminação urbana noturna fria.",
+    "character_state": "Protagonista correndo, ofegante, ritmo acelerado.",
+    "props": [
+      { "name": "celular", "state": "tela rachada, relógio 23:47, bateria 14%, segurado na mão ESQUERDA" },
+      { "name": "mochila preta de estudante", "state": "nas costas (objeto âncora da série)", "origin": "inferido" }
+    ]
+  },
+
+  "_comment_beats": "`at` aceita segundos ou âncora em palavra da narração (ver pipeline/timeline.py). `origin` omitido = está no roteiro.",
+  "beats": [
+    { "id": "b1-corrida", "at": 0.0, "dur": 14.0,
+      "text": "Corre pelo saguão; a câmera balança rápido a cada passada." },
+    { "id": "b1-celular", "at": { "ref": "s1-04", "word": "quase", "edge": "start", "offset": -0.45 }, "dur": 2.4,
+      "text": "Mão esquerda entra em quadro com o celular rachado (23:47 / 14%) enquanto ele diz \"quase meia-noite\"." },
+    { "id": "b1-teto", "at": { "ref": "s1-05", "word": "olha", "edge": "start" }, "dur": 2.2,
+      "text": "Olha o estado da rodoviária: fluorescentes estouradas no teto, piso encerado refletindo.", "origin": "inferido" },
+    { "id": "b1-procura", "at": { "ref": "s1-06", "edge": "start" }, "dur": 2.0,
+      "text": "Varre o saguão à procura da plataforma.", "origin": "inferido" }
+  ]
+}

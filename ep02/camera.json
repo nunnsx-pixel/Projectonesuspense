@@ -1,0 +1,143 @@
+{
+  "episode": "ep02",
+  "_comment": "Rig da câmera POV do Ep. 2 (sentado, ônibus em estrada de terra). Mesma convenção do Ep. 1: camada ADITIVA de balanço (shake_*) + intenção de olhar (look_*); final = look + shake. Posição em cm, rotação em graus; +X direita, +Y cima, +Z frente; yaw+ direita, pitch+ cima, roll+ inclina p/ direita. Todo `at` aceita segundos ou âncora (palavra da fala, beat ou cue).",
+
+  "seed": 2,
+  "intensity": 1.0,
+  "csv_extra": ["light", "motion_blur", "bump"],
+
+  "amplitudes": {
+    "_comment": "Pico típico de cada camada em escala 1.0 (multiplicada pelas curvas abaixo).",
+    "noise": { "band_hz": [0.35, 3.4], "x_cm": 0.5, "y_cm": 0.35, "z_cm": 0.5, "yaw": 1.8, "pitch": 1.2, "roll": 0.8, "fov_pct": 0.4 },
+    "breath": { "pitch_deg": 1.1, "y_cm": 0.9, "z_cm": 0.3 },
+    "heart": { "pitch_deg": 0.18, "y_cm": 0.10, "fov_pct": 0.35 },
+    "bus_vibration": { "freq_hz": [8.5, 13.0], "x_cm": 0.12, "y_cm": 0.25, "pitch": 0.12, "roll": 0.10 },
+    "bus_sway": { "x_cm": 1.5, "roll": 0.8, "yaw": 0.5 },
+    "bus_lean": { "pitch_deg_per_ms2": 0.9, "z_cm_per_ms2": -1.6 }
+  },
+
+  "_comment_road": "Terreno irregular: batidas em instantes aleatórios (semente fixa). Cada batida = solavanco da câmera (bump=1 no CSV) + SFX do chassi no MESMO frame. `rate_hz` = batidas por segundo.",
+  "bump_response": { "f_hz": 5.5, "tau_s": 0.16, "y_cm": 1.4, "pitch": 1.1, "roll": 1.3, "x_cm": 0.7 },
+  "road": [
+    {
+      "id": "estrada-susto", "from": 1.4, "to": 18.0,
+      "rate_hz": [[1.4, 1.9], [6.0, 1.3], [18.0, 1.0]],
+      "sfx": { "tag": "rangido-chassi", "tag_big": "batida-suspensao", "big_from": 0.8, "gain_db": -17, "origin": "roteiro" }
+    },
+    {
+      "id": "estrada-deterioracao", "from": 18.0, "to": 40.0,
+      "rate_hz": [[18.0, 1.0], [40.0, 1.3]],
+      "sfx": { "tag": "rangido-chassi", "tag_big": "batida-suspensao", "big_from": 0.8, "gain_db": -13, "origin": "roteiro" }
+    },
+    {
+      "id": "estrada-terra", "from": 40.0, "to": 59.8,
+      "rate_hz": [[40.0, 1.8], [58.0, 2.3]],
+      "sfx": { "tag": "cascalho-batida", "tag_big": "batida-suspensao", "big_from": 0.85, "gain_db": -16, "origin": "roteiro" }
+    }
+  ],
+
+  "_comment_flicker": "Luz verde com falha elétrica. `events` = quedas marcadas (as lâmpadas morrem no BUM e voltam falhando); o resto são rajadas aleatórias (semente fixa) a `rate_hz` rajadas/s. light=1 normal, 0 apagada. Cada queda gera um SFX de falha elétrica no mesmo frame.",
+  "flicker": {
+    "from": 2.0, "to": 59.0,
+    "rate_hz": [[2.0, 0.55], [14.0, 0.45], [18.0, 0.30], [30.0, 0.25], [40.0, 0.40], [52.0, 0.60], [58.0, 0.90]],
+    "burst_count": [1, 3], "burst_frames": [1, 4], "burst_gap_frames": [1, 3], "depth": [0.55, 1.0],
+    "events": [
+      { "at": 0.5, "frames": 12, "depth": 1.0, "note": "BUM: as lâmpadas morrem no impacto" },
+      { "at": 0.78, "frames": 5, "depth": 0.9, "note": "voltam falhando enquanto ele abre os olhos" },
+      { "at": 1.05, "frames": 3, "depth": 0.8 },
+      { "at": 1.30, "frames": 7, "depth": 0.85 },
+      { "at": 1.62, "frames": 2, "depth": 0.6 }
+    ],
+    "sfx": { "tag": "falha-eletrica-lampada", "gain_db": -16, "origin": "inferido" }
+  },
+
+  "curves": {
+    "_comment": "Envelopes no tempo. Lista = suavizada; {\"mode\":\"linear\",\"keys\":[...]} = linear.",
+    "noise": [
+      [0.0, 0.2], [0.5, 0.2], [0.55, 5.0], [0.9, 3.4], [1.8, 1.6], [3.0, 1.1], [18.0, 0.9], [30.0, 1.0],
+      [39.8, 1.0], [40.0, 3.0], [40.7, 1.4], [50.0, 1.6], [57.6, 1.2], [58.6, 0.15], [60.0, 0.10]
+    ],
+    "breath": [[0.0, 1.0], [0.6, 1.8], [14.0, 1.4], [40.0, 1.3], [60.0, 1.3]],
+    "heart": [[0.0, 0.5], [0.5, 1.3], [10.0, 1.1], [40.0, 1.2], [60.0, 1.7]],
+    "hr_bpm": {
+      "mode": "linear",
+      "keys": [[0.0, 62], [0.45, 62], [0.7, 150], [3.0, 142], [8.0, 138], [14.0, 128], [18.0, 124], [28.0, 132],
+               [36.0, 140], [40.0, 148], [48.0, 158], [56.0, 168], [60.0, 172]]
+    },
+    "breath_rate": {
+      "mode": "linear",
+      "keys": [[0.0, 12], [0.5, 12], [0.8, 45], [10.0, 40], [18.0, 36], [30.0, 38], [40.0, 46], [50.0, 52], [60.0, 55]]
+    },
+    "bus_vib": [[0.0, 0.6], [0.5, 1.0], [60.0, 1.0]],
+    "bus_sway": [[0.0, 0.5], [0.5, 1.5], [3.0, 1.2], [40.0, 1.6], [60.0, 1.4]],
+    "speed_kmh": [[0.0, 40.0], [0.5, 40.0], [2.5, 33.0], [10.0, 36.0], [30.0, 38.0], [44.0, 35.0], [60.0, 30.0]],
+
+    "vignette": [[0.0, 0.30], [18.0, 0.36], [40.0, 0.46], [58.0, 0.55], [59.9, 0.72]],
+    "edge_blur": [[0.0, 0.0], [0.6, 0.35], [3.0, 0.10], [40.0, 0.12], [58.0, 0.30]],
+    "eyelid": [
+      [0.0, 1.0], [0.5, 1.0], [0.56, 0.7], [0.8, 0.0],
+      [3.2, 0.0], [3.35, 0.8], [3.5, 0.0],
+      [8.0, 0.0], [8.15, 0.6], [8.35, 0.0],
+      [{ "ref": "s2-03", "edge": "start" }, 0.0], [{ "ref": "s2-03", "edge": "start", "offset": 0.2 }, 0.7],
+      [{ "ref": "s2-03", "edge": "end" }, 0.0]
+    ],
+    "motion_blur": [
+      [0.0, 0.0], [0.5, 0.0], [0.53, 1.0], [0.9, 0.85], [2.0, 0.25], [4.0, 0.05], [5.0, 0.0],
+      [39.95, 0.0], [40.08, 0.8], [40.6, 0.0],
+      [{ "beat": "b3-placa", "offset": -0.1 }, 0.0], [{ "beat": "b3-placa", "offset": 0.2 }, 0.65], [{ "beat": "b3-placa", "offset": 0.9 }, 0.0],
+      [{ "beat": "b2-silhueta", "offset": -0.2 }, 0.0], [{ "beat": "b2-silhueta", "offset": 0.05 }, 0.5], [{ "beat": "b2-silhueta", "offset": 0.5 }, 0.0]
+    ],
+    "fov_pct": [[57.6, 0.0], [59.95, -16.0]]
+  },
+
+  "fx": { "black_ranges": [[0.0, 0.5]] },
+
+  "_comment_look": "Intenção de olhar. Cada chave = pose de CHEGADA; entre chaves a transição é suave. Janela à ESQUERDA (yaw negativo), banco do corredor/mochila à DIREITA (yaw positivo).",
+  "look": [
+    { "at": 0.0, "yaw": 0, "pitch": 0, "note": "olhos fechados, cabeça caída (tela preta)" },
+    { "at": 0.62, "yaw": -8, "pitch": 14, "note": "o impacto joga a cabeça para cima e para trás" },
+    { "at": { "ref": "s1-03", "word": "barulho", "edge": "start" }, "yaw": -62, "pitch": 1, "note": "olha a janela: só escuridão" },
+    { "at": { "ref": "s1-04", "edge": "start" }, "yaw": -8, "pitch": -24, "note": "olha para baixo, como se procurasse o que bateu" },
+    { "at": { "ref": "s1-05", "edge": "start" }, "yaw": 2, "pitch": 7, "note": "olha para a frente (a gente bateu?)" },
+    { "at": { "ref": "s1-06", "edge": "start" }, "yaw": 7, "pitch": 9, "note": "chama o motorista: costas imóveis lá na frente" },
+    { "at": { "ref": "s1-07", "edge": "start" }, "yaw": 0, "pitch": -36, "note": "cabeça baixa, recobrando o ar" },
+    { "at": { "ref": "s1-09", "word": "tranco", "edge": "start" }, "yaw": 0, "pitch": 26, "note": "olha o teto: luzes verdes piscando" },
+    { "at": { "ref": "s2-02", "edge": "end" }, "yaw": 4, "pitch": 24 },
+    { "at": { "ref": "s2-04", "word": "banco", "edge": "start", "offset": -0.1 }, "yaw": 30, "pitch": -40, "note": "olha o banco ao lado (direita): estofado rasgado, espuma podre, mofo" },
+    { "at": { "ref": "s2-06", "edge": "start" }, "yaw": 22, "pitch": -48, "note": "olha a mochila: poeira cinza e teias de aranha" },
+    { "at": { "ref": "s2-07", "edge": "start" }, "yaw": -6, "pitch": 6, "note": "levanta o olhar: cadê todo mundo?" },
+    { "at": { "ref": "s2-07", "word": "embarcando", "edge": "start" }, "yaw": 12, "pitch": 4, "note": "varre o ônibus" },
+    { "at": { "ref": "s2-08", "word": "maluco", "edge": "start", "offset": -0.5 }, "yaw": 12, "pitch": 4, "note": "(arma o giro)" },
+    { "at": { "ref": "s2-08", "word": "maluco", "edge": "start", "offset": -0.05 }, "yaw": 148, "pitch": 3, "note": "olhar rápido para trás pelo corredor: silhueta imóvel no último banco" },
+    { "at": { "ref": "s2-08", "word": "estátua", "edge": "end" }, "yaw": 150, "pitch": 3 },
+    { "at": { "ref": "s2-09", "edge": "start", "offset": 0.3 }, "yaw": 20, "pitch": -4, "note": "volta a olhar para a frente (sussurra)" },
+    { "at": { "ref": "s2-10", "edge": "start" }, "yaw": -4, "pitch": -12 },
+    { "at": 39.7, "yaw": -14, "pitch": -8, "note": "olhar perdido, prestes a olhar a janela" },
+    { "at": 40.12, "yaw": -78, "pitch": 3, "note": "vira brusca para a janela: estrada de terra vermelha, árvores mortas, neblina" },
+    { "at": { "beat": "b3-celular", "offset": 0.5 }, "yaw": -30, "pitch": -24, "note": "olha o celular: SEM SERVIÇO, 00:00" },
+    { "at": { "ref": "s3-02", "edge": "end", "offset": 0.1 }, "yaw": -32, "pitch": -22 },
+    { "at": { "ref": "s3-03", "word": "placa", "edge": "start", "offset": -0.1 }, "yaw": -84, "pitch": 4, "note": "levanta o olhar para a janela: a placa vem aí" },
+    { "at": { "beat": "b3-placa", "offset": 0.7 }, "yaw": -128, "pitch": 2, "note": "a placa passa rápido: a cabeça gira para trás acompanhando" },
+    { "at": { "ref": "s3-05", "edge": "start" }, "yaw": -110, "pitch": 2 },
+    { "at": { "ref": "s3-06", "edge": "start" }, "yaw": -80, "pitch": 0, "note": "só mato morto" },
+    { "at": { "ref": "s3-06", "edge": "end" }, "yaw": -70, "pitch": -2 },
+    { "at": { "beat": "b3-motorista", "offset": 0.45 }, "yaw": 2, "pitch": 5, "note": "olha para a frente e chama o motorista" },
+    { "at": 58.0, "yaw": -2, "pitch": 6, "note": "fixa a nuca rígida e cinzenta do motorista" },
+    { "at": 59.95, "yaw": -2, "pitch": 6.5 }
+  ],
+
+  "_comment_kicks": "Impactos de mola amortecida (valor = pico do 1º balanço). f_hz = frequência, tau_s = quanto demora a morrer.",
+  "kicks": [
+    { "id": "k-bum-vertical", "at": { "beat": "b1-bum" }, "f_hz": 3.4, "tau_s": 0.55, "y_cm": 7.0, "pitch": 9.0, "z_cm": -2.0, "note": "BUM: sobe com o buraco e despenca" },
+    { "id": "k-bum-lateral", "at": { "beat": "b1-bum", "offset": 0.03 }, "f_hz": 2.6, "tau_s": 0.7, "x_cm": -6.0, "roll": 9.0, "yaw": 6.0, "note": "BUM: sacode para os lados" },
+    { "id": "k-bum-rebote", "at": { "beat": "b1-bum", "offset": 0.22 }, "f_hz": 4.4, "tau_s": 0.4, "y_cm": -3.5, "pitch": -5.0, "x_cm": 3.0, "roll": -5.0, "note": "rebote da suspensão" }
+  ],
+
+  "_comment_pulses": "Sobe e desce suave (attack/decay em s).",
+  "pulses": [
+    { "id": "p-engole", "at": { "ref": "s2-03", "edge": "start", "offset": 0.1 }, "attack": 0.1, "decay": 0.4, "pitch": -1.4, "y_cm": -0.35, "note": "engole seco" },
+    { "id": "p-silhueta", "at": { "beat": "b2-silhueta", "offset": 0.3 }, "attack": 0.12, "decay": 0.9, "pitch": 1.6, "z_cm": -1.5, "note": "recua ao ver a silhueta" },
+    { "id": "p-celular", "at": { "beat": "b3-celular", "offset": 0.2 }, "attack": 0.25, "decay": 0.5, "y_cm": -0.8, "roll": 1.0, "note": "braço levanta o celular" },
+    { "id": "p-voz-falha", "at": { "ref": "s3-07", "edge": "start" }, "attack": 0.15, "decay": 0.6, "pitch": -1.8, "y_cm": -0.5, "note": "a voz falha" }
+  ]
+}

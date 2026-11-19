@@ -1,0 +1,33 @@
+{
+  "id": "s3",
+  "config_index": 2,
+  "name": "A Janela e o Celular Morto",
+  "source": "ep02-despertar-escuro.md · [00:40 - 01:00] + Transição Final [00:58 - 01:00]",
+
+  "set": {
+    "location": "Interior do ônibus, olhando pela janela (esquerda); estrada de terra vermelha",
+    "lighting": "Luz verde piscando por dentro; neblina densa por fora.",
+    "character_state": "Fala acelerada, quase sem ar; a voz falha ao chamar o motorista.",
+    "outside": "Sem asfalto ou postes: estrada de terra vermelha cercada por árvores retorcidas e mortas sob neblina densa.",
+    "props": [
+      { "name": "placa de metal", "state": "enferrujada e torta, passa rápido, números 348 riscados" },
+      { "name": "celular", "state": "tela mostra SEM SERVIÇO e relógio travado em 00:00; mão ESQUERDA (a mesma do Ep. 1)", "origin": "inferido (mão)" }
+    ]
+  },
+
+  "beats": [
+    { "id": "b3-janela", "at": 40.0, "dur": 0.8,
+      "text": "A câmera vira brusca para a janela: estrada de terra vermelha, árvores mortas, neblina densa." },
+    { "id": "b3-celular", "at": { "ref": "s3-01", "word": "GPS", "edge": "start", "offset": -0.35 },
+      "until": { "ref": "s3-02", "edge": "end", "offset": 0.3 },
+      "text": "A mão (esquerda) levanta o celular: SEM SERVIÇO, relógio travado em 00:00; chiado estático." },
+    { "id": "b3-placa", "at": { "ref": "s3-03", "word": "placa", "edge": "start", "offset": -0.3 }, "dur": 1.1,
+      "text": "Uma placa de metal enferrujada e torta passa rápido, com o número 348 riscado." },
+    { "id": "b3-mato", "at": { "ref": "s3-06", "edge": "start" }, "dur": 1.4,
+      "text": "Só mato morto lá fora.", "origin": "inferido" },
+    { "id": "b3-motorista", "at": { "ref": "s3-07", "edge": "start", "offset": -0.25 }, "until": 58.0,
+      "text": "Olha para a frente e chama o motorista, que não reage.", "origin": "inferido" },
+    { "id": "b3-nuca", "at": 58.0, "until": 60.0,
+      "text": "[Transição Final 00:58-01:00] A câmera foca na nuca rígida e cinzenta do motorista lá na frente. Corte seco." }
+  ]
+}

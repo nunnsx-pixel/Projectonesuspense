@@ -1,0 +1,253 @@
+{
+  "generated_by": "python -m pipeline audio",
+  "audio": {
+    "s1.mp3": {
+      "offset": 0.55,
+      "duration": 17.6,
+      "floor_db": -56.3,
+      "speech_db": -13.9,
+      "contrast_db": 42.4,
+      "voiced_runs": 10,
+      "breath_runs": 17,
+      "cut_candidates": 49,
+      "offset_default": true,
+      "scene": "s1",
+      "speaker": null
+    },
+    "s2.motorista.mp3": {
+      "offset": 22.14,
+      "duration": 10.49,
+      "floor_db": -81.0,
+      "speech_db": -13.8,
+      "contrast_db": 67.2,
+      "voiced_runs": 2,
+      "breath_runs": 1,
+      "cut_candidates": 29,
+      "offset_default": true,
+      "scene": "s2",
+      "speaker": "motorista"
+    },
+    "s2.protagonista.mp3": {
+      "offset": 32.613,
+      "duration": 9.12,
+      "floor_db": -84.3,
+      "speech_db": -12.5,
+      "contrast_db": 71.9,
+      "voiced_runs": 6,
+      "breath_runs": 2,
+      "cut_candidates": 26,
+      "offset_default": true,
+      "scene": "s2",
+      "speaker": "protagonista"
+    },
+    "s3.protagonista.mp3": {
+      "offset": 46.77,
+      "duration": 4.37,
+      "floor_db": -63.3,
+      "speech_db": -10.7,
+      "contrast_db": 52.6,
+      "voiced_runs": 5,
+      "breath_runs": 0,
+      "cut_candidates": 10,
+      "offset_default": true,
+      "scene": "s3",
+      "speaker": "protagonista"
+    },
+    "s3.motorista.mp3": {
+      "offset": 52.357,
+      "duration": 3.89,
+      "floor_db": -85.9,
+      "speech_db": -13.7,
+      "contrast_db": 72.1,
+      "voiced_runs": 1,
+      "breath_runs": 0,
+      "cut_candidates": 9,
+      "offset_default": true,
+      "scene": "s3",
+      "speaker": "motorista"
+    }
+  },
+  "tracks": [
+    "s1.mp3",
+    "s2.motorista.mp3",
+    "s2.protagonista.mp3",
+    "s3.protagonista.mp3",
+    "s3.motorista.mp3"
+  ],
+  "params": {
+    "contrast_min_db": 12.0,
+    "voice_frac": 0.4,
+    "edge_db": 6.0,
+    "breath_zcr": 0.2,
+    "breath_below_db": 12.0,
+    "breath_min_s": 0.12,
+    "min_gap_s": 0.05,
+    "min_pause_s": 0.1,
+    "min_speech_s": 0.06,
+    "w_dur": 2.0,
+    "w_pos": 0.0,
+    "w_gap": 0.8,
+    "pos_sigma_s": 1.2,
+    "w_block": 0.35,
+    "w_runs": 0.4,
+    "w_pause": 0.5,
+    "w_rate": 8.0,
+    "min_item_s": 0.12
+  },
+  "items": {
+    "s1-01": {
+      "start": 0.6,
+      "end": 4.51,
+      "conf": 0.75
+    },
+    "s1-02": {
+      "start": 4.51,
+      "end": 6.13,
+      "pauses": [
+        [
+          5.1,
+          5.32
+        ]
+      ],
+      "conf": 0.96
+    },
+    "s1-03": {
+      "start": 6.58,
+      "end": 9.0,
+      "conf": 0.89
+    },
+    "s1-04": {
+      "start": 9.41,
+      "end": 12.44,
+      "conf": 0.95
+    },
+    "s1-05": {
+      "start": 13.02,
+      "end": 14.4,
+      "conf": 0.68
+    },
+    "s1-06": {
+      "start": 14.61,
+      "end": 16.51,
+      "pauses": [
+        [
+          14.82,
+          15.04
+        ]
+      ],
+      "conf": 0.53
+    },
+    "s1-07": {
+      "start": 16.83,
+      "end": 17.83,
+      "conf": 0.85
+    },
+    "s2-01": {
+      "start": 20.3,
+      "end": 22.3,
+      "conf": 0.5,
+      "note": "trecho sem voz: duração prevista, junto do item seguinte"
+    },
+    "s2-02": {
+      "start": 22.3,
+      "end": 27.09,
+      "conf": 0.97
+    },
+    "s2-03": {
+      "start": 27.78,
+      "end": 32.56,
+      "conf": 1.0
+    },
+    "s2-04": {
+      "start": 32.56,
+      "end": 32.633,
+      "conf": 0.5,
+      "note": "trecho sem voz: ocupa a folga entre as falas vizinhas"
+    },
+    "s2-05": {
+      "start": 32.633,
+      "end": 33.483,
+      "conf": 0.75
+    },
+    "s2-06": {
+      "start": 33.593,
+      "end": 34.933,
+      "conf": 0.63
+    },
+    "s2-07": {
+      "start": 35.123,
+      "end": 36.883,
+      "pauses": [
+        [
+          35.453,
+          35.563
+        ]
+      ],
+      "conf": 0.42
+    },
+    "s2-08": {
+      "start": 36.903,
+      "end": 38.663,
+      "conf": 0.33
+    },
+    "s2-09": {
+      "start": 38.813,
+      "end": 39.523,
+      "conf": 0.36
+    },
+    "s2-10": {
+      "start": 39.543,
+      "end": 41.683,
+      "pauses": [
+        [
+          39.813,
+          39.963
+        ]
+      ],
+      "conf": 0.66
+    },
+    "s3-01": {
+      "start": 42.4,
+      "end": 46.8,
+      "conf": 0.5,
+      "note": "trecho sem voz: duração prevista, junto do item seguinte"
+    },
+    "s3-02": {
+      "start": 46.8,
+      "end": 47.44,
+      "conf": 0.52
+    },
+    "s3-03": {
+      "start": 47.51,
+      "end": 48.09,
+      "conf": 0.18
+    },
+    "s3-04": {
+      "start": 48.18,
+      "end": 50.07,
+      "pauses": [
+        [
+          48.76,
+          48.89
+        ]
+      ],
+      "conf": 0.2
+    },
+    "s3-05": {
+      "start": 50.19,
+      "end": 51.03,
+      "conf": 0.62
+    },
+    "s3-06": {
+      "start": 51.447,
+      "end": 52.447,
+      "conf": 0.5,
+      "note": "trecho sem voz: duração prevista, junto do item seguinte"
+    },
+    "s3-07": {
+      "start": 52.447,
+      "end": 55.997,
+      "conf": 1.0
+    }
+  }
+}

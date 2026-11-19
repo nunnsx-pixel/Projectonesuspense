@@ -1,0 +1,50 @@
+{
+  "episode": "ep01",
+  "_comment": "Cues de SFX. origin: \"roteiro\" = está no .md; \"inferido\" = som implícito numa ação descrita (pode apagar). gain_db é só sugestão inicial de mixagem. Os PASSOS não ficam aqui: são gerados a partir da câmera (camera.json > locomotion) para cair no frame exato da pisada.",
+
+  "cues": [
+    {
+      "id": "amb-rodoviaria", "layer": "ambiencia", "origin": "roteiro",
+      "desc": "Zumbido distante de rodoviária (fluorescentes + reverb de saguão grande e vazio).",
+      "at": 0.0, "until": 17.5, "fade_in": 0.0, "fade_out": 2.5, "gain_db": -24, "loop": true
+    },
+    {
+      "id": "motor-onibus", "layer": "veiculo", "origin": "roteiro",
+      "desc": "Motor diesel em marcha lenta; depois o ronco constante do ônibus ganhando velocidade no asfalto. A altura (pitch) acompanha speed_kmh da câmera; o som abafa gradualmente (lowpass + queda de volume) enquanto o sono chega.",
+      "at": 13.5, "until": 59.5, "fade_in": 2.5, "fade_out": 0.0, "gain_db": -14, "loop": true,
+      "pitch_from_speed": { "max_semitones": 9, "max_kmh": 62 },
+      "automation": {
+        "gain_db": [
+          [13.5, -22], [16.0, -9], [19.5, -9], [21.0, -2], [41.5, -2], [46.0, 1], [50.0, 0], [59.5, -12]
+        ],
+        "lowpass_hz": [
+          [44.0, 18000], [50.0, 6000], [55.0, 2200], [58.5, 900], [59.5, 650]
+        ]
+      }
+    },
+    {
+      "id": "bip-catraca", "layer": "interface", "origin": "roteiro",
+      "desc": "Bip agudo da catraca eletrônica ao ler o bilhete.",
+      "at": { "ref": "s2-04", "word": "né", "edge": "end", "offset": 0.2 }, "gain_db": -8
+    },
+    {
+      "id": "catraca-giro", "layer": "foley", "origin": "inferido",
+      "desc": "Giro mecânico da catraca logo após o bip.",
+      "at": { "cue": "bip-catraca", "offset": 0.35 }, "gain_db": -10
+    },
+    {
+      "id": "sentar-banco", "layer": "foley", "origin": "inferido",
+      "desc": "Corpo caindo no estofado do banco + rangido leve.",
+      "at": { "beat": "b3-senta", "offset": 0.05 }, "gain_db": -9
+    },
+    {
+      "id": "mochila-banco", "layer": "foley", "origin": "inferido",
+      "desc": "Mochila (com chaveiro/crachá chacoalhando) batendo no banco ao lado.",
+      "at": { "beat": "b3-mochila", "offset": 0.25 }, "gain_db": -9
+    }
+  ],
+
+  "mix": {
+    "narration_gain_db": [[37.2, 0], [58.4, -9]]
+  }
+}

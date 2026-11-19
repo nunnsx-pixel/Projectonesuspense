@@ -1,0 +1,5 @@
+CC0 1.0 Universal — Poly Haven
+Conjunto: red_dirt_mud_01 (2k)
+Origem: https://polyhaven.com/a/red_dirt_mud_01
+Usado em: terra-vermelha/estrada
+Baixado por blender/tools/fetch_textures.py (blender/textures_sources.json).

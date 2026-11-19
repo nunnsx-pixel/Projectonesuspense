@@ -1,0 +1,52 @@
+{
+  "_comment": "De onde vêm as imagens de blender/textures/ (todas CC0 do Poly Haven). `python blender/tools/fetch_textures.py` baixa tudo (ou só um material: --only terra-vermelha) e escreve LICENCA.txt ao lado de cada conjunto. As imagens NÃO vão para o git (binários); este arquivo e os LICENCA.txt vão. Materiais que não aparecem aqui seguem procedurais (o estofado estampado azul/cinza não tem equivalente CC0). `skip` = mapas do conjunto que NÃO se usam (ex.: o Metal do tecido é só brilho de fibra).",
+  "fonte": "https://polyhaven.com",
+  "licenca": "CC0 1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/)",
+  "mapas": {
+    "albedo": "Diffuse",
+    "roughness": "Rough",
+    "ao": "AO",
+    "height": "Displacement",
+    "metallic": "Metal",
+    "normal": "nor_gl"
+  },
+  "sets": {
+    "piso-encerado": {
+      "": {
+        "slug": "terrazzo_tiles",
+        "res": "2k"
+      }
+    },
+    "piso-emborrachado": {
+      "": {
+        "slug": "rubber_tiles",
+        "res": "2k"
+      }
+    },
+    "camisa-social": {
+      "": {
+        "slug": "denim_fabric_03",
+        "res": "1k",
+        "skip": [
+          "metallic"
+        ]
+      }
+    },
+    "metal-enferrujado": {
+      "": {
+        "slug": "rusty_metal_02",
+        "res": "1k"
+      }
+    },
+    "terra-vermelha": {
+      "terra": {
+        "slug": "red_laterite_soil_stones",
+        "res": "2k"
+      },
+      "estrada": {
+        "slug": "red_dirt_mud_01",
+        "res": "2k"
+      }
+    }
+  }
+}

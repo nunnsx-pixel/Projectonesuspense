@@ -1,0 +1,7349 @@
+{
+ "project": "O Ônibus do Ponto 348",
+ "episode": "ep02",
+ "title": "O Despertar no Escuro",
+ "fps": 60,
+ "resolution": "1080x1920",
+ "duration_s": 60.0,
+ "frames": 3600,
+ "conventions": {
+  "units": "segundos (t) e frames (_frame, @60fps); timecode MM:SS.mmm (_tc)",
+  "axes": "+X direita, +Y cima, +Z frente; yaw+ direita, pitch+ cima, roll+ inclina p/ direita; ordem YXZ",
+  "camera_csv": "shake_* = camada ADITIVA (cm e graus); look_* = intenção de olhar; rotação final = look + shake. fov_pct = variação % do FOV.",
+  "narration_timing": "ESTIMADO por sílabas e pontuação (ainda sem gravação)."
+ },
+ "warnings": [],
+ "scenes": [
+  {
+   "id": "s1",
+   "name": "O Gancho do Susto",
+   "start": 0,
+   "end": 18,
+   "start_frame": 0,
+   "start_tc": "00:00.000",
+   "end_frame": 1080,
+   "end_tc": "00:18.000",
+   "set": {
+    "location": "Interior do ônibus, quarta fileira, banco da janela (continuidade do Ep. 1)",
+    "lighting": "A iluminação interna mudou completamente: luz fluorescente verde-escura, fraca, piscando com falha elétrica (flicker).",
+    "character_state": "Acorda em pânico: gasp, respiração disparada e ofegante.",
+    "assumption": "Janela à ESQUERDA do protagonista e banco do corredor (mochila) à direita, como no Ep. 1."
+   },
+   "narration_fit": {
+    "window": [
+     0.6,
+     14.2
+    ],
+    "pace_target_syl_s": 5.2,
+    "syllables": 42,
+    "articulation_syl_s": 4.45,
+    "overall_syl_s": 3.09,
+    "needed_s_at_target_pace": 12.61,
+    "available_s": 13.6,
+    "fit_ratio": 1.091,
+    "status": "ok"
+   },
+   "beats": [
+    {
+     "id": "b1-preto",
+     "at": 0.0,
+     "dur": 0.5,
+     "text": "Tela preta por 0,5 s.",
+     "scene": "s1",
+     "start": 0.0,
+     "end": 0.5,
+     "start_frame": 0,
+     "start_tc": "00:00.000",
+     "end_frame": 30,
+     "end_tc": "00:00.500"
+    },
+    {
+     "id": "b1-bum",
+     "at": 0.5,
+     "dur": 1.0,
+     "text": "BUM! Impacto violento sacode a câmera para cima e para os lados (motion blur intenso).",
+     "scene": "s1",
+     "start": 0.5,
+     "end": 1.5,
+     "start_frame": 30,
+     "start_tc": "00:00.500",
+     "end_frame": 90,
+     "end_tc": "00:01.500"
+    },
+    {
+     "id": "b1-olhos",
+     "at": 0.55,
+     "dur": 0.25,
+     "text": "As pálpebras abrem de supetão.",
+     "scene": "s1",
+     "start": 0.55,
+     "end": 0.8,
+     "start_frame": 33,
+     "start_tc": "00:00.550",
+     "end_frame": 48,
+     "end_tc": "00:00.800"
+    },
+    {
+     "id": "b1-luz",
+     "at": 0.5,
+     "until": 18.0,
+     "text": "Luz verde-escura fraca piscando com falha elétrica (as lâmpadas morrem no impacto e voltam falhando).",
+     "scene": "s1",
+     "start": 0.5,
+     "end": 18.0,
+     "start_frame": 30,
+     "start_tc": "00:00.500",
+     "end_frame": 1080,
+     "end_tc": "00:18.000"
+    },
+    {
+     "id": "b1-janela",
+     "at": {
+      "ref": "s1-03",
+      "word": "barulho",
+      "edge": "start"
+     },
+     "dur": 1.4,
+     "text": "Olha para a janela, à esquerda: só escuridão.",
+     "origin": "inferido",
+     "scene": "s1",
+     "start": 3.0167,
+     "end": 4.4167,
+     "start_frame": 181,
+     "start_tc": "00:03.017",
+     "end_frame": 265,
+     "end_tc": "00:04.417"
+    },
+    {
+     "id": "b1-frente",
+     "at": {
+      "ref": "s1-05",
+      "edge": "start"
+     },
+     "dur": 2.6,
+     "text": "Olha para a frente, para o motorista, que não responde (\"Moço?!\").",
+     "origin": "inferido",
+     "scene": "s1",
+     "start": 5.2167,
+     "end": 7.8167,
+     "start_frame": 313,
+     "start_tc": "00:05.217",
+     "end_frame": 469,
+     "end_tc": "00:07.817"
+    },
+    {
+     "id": "b1-ofegante",
+     "at": {
+      "ref": "s1-07",
+      "edge": "start"
+     },
+     "dur": 1.6,
+     "text": "Respiração disparada: cabeça baixa, recobrando o ar (huh-huh-huh).",
+     "origin": "inferido",
+     "scene": "s1",
+     "start": 7.0167,
+     "end": 8.6167,
+     "start_frame": 421,
+     "start_tc": "00:07.017",
+     "end_frame": 517,
+     "end_tc": "00:08.617"
+    },
+    {
+     "id": "b1-teto",
+     "at": {
+      "ref": "s1-09",
+      "word": "tranco",
+      "edge": "start"
+     },
+     "dur": 2.4,
+     "text": "Olha o teto: as luzes verdes piscando (gancho para a cena 2).",
+     "origin": "inferido",
+     "scene": "s1",
+     "start": 10.7333,
+     "end": 13.1333,
+     "start_frame": 644,
+     "start_tc": "00:10.733",
+     "end_frame": 788,
+     "end_tc": "00:13.133"
+    }
+   ]
+  },
+  {
+   "id": "s2",
+   "name": "A Deterioração do Ambiente",
+   "start": 18,
+   "end": 40,
+   "start_frame": 1080,
+   "start_tc": "00:18.000",
+   "end_frame": 2400,
+   "end_tc": "00:40.000",
+   "set": {
+    "location": "Interior do ônibus, quarta fileira",
+    "lighting": "Luz verde-escura piscando; vento uivando pelas frestas da janela.",
+    "character_state": "Voz trêmula, entrando em choque.",
+    "props": [
+     {
+      "name": "banco ao lado",
+      "state": "estofado azul rasgado, espuma amarela podre exposta, manchas de mofo preto"
+     },
+     {
+      "name": "mochila preta de estudante",
+      "state": "coberta por poeira cinza grossa e teias de aranha secas (objeto âncora: deterioração desde o Ep. 1)"
+     }
+    ],
+    "characters": [
+     {
+      "name": "silhueta no último banco",
+      "state": "imóvel, olhando fixamente para a frente; vista só de relance pelo corredor"
+     }
+    ]
+   },
+   "narration_fit": {
+    "window": [
+     18.3,
+     39.2
+    ],
+    "pace_target_syl_s": 5.2,
+    "syllables": 92,
+    "articulation_syl_s": 5.65,
+    "overall_syl_s": 4.4,
+    "needed_s_at_target_pace": 22.55,
+    "available_s": 20.9,
+    "fit_ratio": 0.924,
+    "status": "ok"
+   },
+   "beats": [
+    {
+     "id": "b2-luz",
+     "at": {
+      "ref": "s2-01",
+      "edge": "start"
+     },
+     "dur": 3.4,
+     "text": "Continua olhando as luzes verdes (\"por que a luz tá verde assim?\").",
+     "origin": "inferido",
+     "scene": "s2",
+     "start": 18.3,
+     "end": 21.7,
+     "start_frame": 1098,
+     "start_tc": "00:18.300",
+     "end_frame": 1302,
+     "end_tc": "00:21.700"
+    },
+    {
+     "id": "b2-banco",
+     "at": {
+      "ref": "s2-04",
+      "word": "banco",
+      "edge": "start",
+      "offset": -0.3
+     },
+     "dur": 3.2,
+     "text": "A câmera olha para baixo e para o banco ao lado: estofado azul rasgado, espuma amarela podre exposta, mofo preto.",
+     "scene": "s2",
+     "start": 23.0833,
+     "end": 26.2833,
+     "start_frame": 1385,
+     "start_tc": "00:23.083",
+     "end_frame": 1577,
+     "end_tc": "00:26.283"
+    },
+    {
+     "id": "b2-mochila",
+     "at": {
+      "ref": "s2-06",
+      "edge": "start"
+     },
+     "dur": 2.4,
+     "text": "A mochila preta no banco ao lado está coberta de poeira cinza grossa e teias de aranha secas.",
+     "scene": "s2",
+     "start": 25.9,
+     "end": 28.3,
+     "start_frame": 1554,
+     "start_tc": "00:25.900",
+     "end_frame": 1698,
+     "end_tc": "00:28.300"
+    },
+    {
+     "id": "b2-corredor",
+     "at": {
+      "ref": "s2-07",
+      "edge": "start"
+     },
+     "dur": 2.7,
+     "text": "Varre o ônibus à procura dos outros passageiros: vazio.",
+     "origin": "inferido",
+     "scene": "s2",
+     "start": 28.15,
+     "end": 30.85,
+     "start_frame": 1689,
+     "start_tc": "00:28.150",
+     "end_frame": 1851,
+     "end_tc": "00:30.850"
+    },
+    {
+     "id": "b2-silhueta",
+     "at": {
+      "ref": "s2-08",
+      "word": "maluco",
+      "edge": "start",
+      "offset": -0.2
+     },
+     "dur": 2.6,
+     "text": "Olhar rápido para trás pelo corredor: ônibus vazio, exceto por uma silhueta imóvel no último banco, olhando fixamente para a frente.",
+     "scene": "s2",
+     "start": 30.9,
+     "end": 33.5,
+     "start_frame": 1854,
+     "start_tc": "00:30.900",
+     "end_frame": 2010,
+     "end_tc": "00:33.500"
+    },
+    {
+     "id": "b2-sussurro",
+     "at": {
+      "ref": "s2-09",
+      "edge": "start"
+     },
+     "dur": 3.4,
+     "text": "Volta a olhar para a frente, sussurrando apavorado.",
+     "origin": "inferido",
+     "scene": "s2",
+     "start": 34.8167,
+     "end": 38.2167,
+     "start_frame": 2089,
+     "start_tc": "00:34.817",
+     "end_frame": 2293,
+     "end_tc": "00:38.217"
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "name": "A Janela e o Celular Morto",
+   "start": 40,
+   "end": 60,
+   "start_frame": 2400,
+   "start_tc": "00:40.000",
+   "end_frame": 3600,
+   "end_tc": "01:00.000",
+   "set": {
+    "location": "Interior do ônibus, olhando pela janela (esquerda); estrada de terra vermelha",
+    "lighting": "Luz verde piscando por dentro; neblina densa por fora.",
+    "character_state": "Fala acelerada, quase sem ar; a voz falha ao chamar o motorista.",
+    "outside": "Sem asfalto ou postes: estrada de terra vermelha cercada por árvores retorcidas e mortas sob neblina densa.",
+    "props": [
+     {
+      "name": "placa de metal",
+      "state": "enferrujada e torta, passa rápido, números 348 riscados"
+     },
+     {
+      "name": "celular",
+      "state": "tela mostra SEM SERVIÇO e relógio travado em 00:00; mão ESQUERDA (a mesma do Ep. 1)",
+      "origin": "inferido (mão)"
+     }
+    ]
+   },
+   "narration_fit": {
+    "window": [
+     40.6,
+     57.6
+    ],
+    "pace_target_syl_s": 6.0,
+    "syllables": 85,
+    "articulation_syl_s": 6.46,
+    "overall_syl_s": 5.0,
+    "needed_s_at_target_pace": 19.27,
+    "available_s": 17.0,
+    "fit_ratio": 0.882,
+    "status": "ok"
+   },
+   "beats": [
+    {
+     "id": "b3-janela",
+     "at": 40.0,
+     "dur": 0.8,
+     "text": "A câmera vira brusca para a janela: estrada de terra vermelha, árvores mortas, neblina densa.",
+     "scene": "s3",
+     "start": 40.0,
+     "end": 40.8,
+     "start_frame": 2400,
+     "start_tc": "00:40.000",
+     "end_frame": 2448,
+     "end_tc": "00:40.800"
+    },
+    {
+     "id": "b3-celular",
+     "at": {
+      "ref": "s3-01",
+      "word": "GPS",
+      "edge": "start",
+      "offset": -0.35
+     },
+     "until": {
+      "ref": "s3-02",
+      "edge": "end",
+      "offset": 0.3
+     },
+     "text": "A mão (esquerda) levanta o celular: SEM SERVIÇO, relógio travado em 00:00; chiado estático.",
+     "scene": "s3",
+     "start": 41.7333,
+     "end": 45.7333,
+     "start_frame": 2504,
+     "start_tc": "00:41.733",
+     "end_frame": 2744,
+     "end_tc": "00:45.733"
+    },
+    {
+     "id": "b3-placa",
+     "at": {
+      "ref": "s3-03",
+      "word": "placa",
+      "edge": "start",
+      "offset": -0.3
+     },
+     "dur": 1.1,
+     "text": "Uma placa de metal enferrujada e torta passa rápido, com o número 348 riscado.",
+     "scene": "s3",
+     "start": 46.0,
+     "end": 47.1,
+     "start_frame": 2760,
+     "start_tc": "00:46.000",
+     "end_frame": 2826,
+     "end_tc": "00:47.100"
+    },
+    {
+     "id": "b3-mato",
+     "at": {
+      "ref": "s3-06",
+      "edge": "start"
+     },
+     "dur": 1.4,
+     "text": "Só mato morto lá fora.",
+     "origin": "inferido",
+     "scene": "s3",
+     "start": 53.8833,
+     "end": 55.2833,
+     "start_frame": 3233,
+     "start_tc": "00:53.883",
+     "end_frame": 3317,
+     "end_tc": "00:55.283"
+    },
+    {
+     "id": "b3-motorista",
+     "at": {
+      "ref": "s3-07",
+      "edge": "start",
+      "offset": -0.25
+     },
+     "until": 58.0,
+     "text": "Olha para a frente e chama o motorista, que não reage.",
+     "origin": "inferido",
+     "scene": "s3",
+     "start": 55.2667,
+     "end": 58.0,
+     "start_frame": 3316,
+     "start_tc": "00:55.267",
+     "end_frame": 3480,
+     "end_tc": "00:58.000"
+    },
+    {
+     "id": "b3-nuca",
+     "at": 58.0,
+     "until": 60.0,
+     "text": "[Transição Final 00:58-01:00] A câmera foca na nuca rígida e cinzenta do motorista lá na frente. Corte seco.",
+     "scene": "s3",
+     "start": 58.0,
+     "end": 60.0,
+     "start_frame": 3480,
+     "start_tc": "00:58.000",
+     "end_frame": 3600,
+     "end_tc": "01:00.000"
+    }
+   ]
+  }
+ ],
+ "narration": [
+  {
+   "id": "s1-01",
+   "kind": "breath",
+   "type": "gasp",
+   "label": "Gasp alto de susto",
+   "dur": 0.3,
+   "gap_after": 0.0,
+   "start": 0.6,
+   "end": 1.6167,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 36,
+   "start_tc": "00:00.600",
+   "end_frame": 97,
+   "end_tc": "00:01.617"
+  },
+  {
+   "id": "s1-02",
+   "kind": "speech",
+   "text": "CARALHO!",
+   "start": 1.7333,
+   "words": [
+    {
+     "w": "CARALHO",
+     "spoken": "CARALHO",
+     "punct": "!",
+     "syl": 3,
+     "start": 1.7333,
+     "end": 2.6167,
+     "start_frame": 104,
+     "start_tc": "00:01.733",
+     "end_frame": 157,
+     "end_tc": "00:02.617"
+    }
+   ],
+   "end": 2.6167,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 104,
+   "start_tc": "00:01.733",
+   "end_frame": 157,
+   "end_tc": "00:02.617"
+  },
+  {
+   "id": "s1-03",
+   "kind": "speech",
+   "text": "Que barulho foi esse?!",
+   "start": 2.9167,
+   "words": [
+    {
+     "w": "Que",
+     "spoken": "Que",
+     "punct": "",
+     "syl": 1,
+     "start": 2.9167,
+     "end": 3.0167,
+     "start_frame": 175,
+     "start_tc": "00:02.917",
+     "end_frame": 181,
+     "end_tc": "00:03.017"
+    },
+    {
+     "w": "barulho",
+     "spoken": "barulho",
+     "punct": "",
+     "syl": 3,
+     "start": 3.0167,
+     "end": 3.4667,
+     "start_frame": 181,
+     "start_tc": "00:03.017",
+     "end_frame": 208,
+     "end_tc": "00:03.467"
+    },
+    {
+     "w": "foi",
+     "spoken": "foi",
+     "punct": "",
+     "syl": 1,
+     "start": 3.4667,
+     "end": 3.6167,
+     "start_frame": 208,
+     "start_tc": "00:03.467",
+     "end_frame": 217,
+     "end_tc": "00:03.617"
+    },
+    {
+     "w": "esse",
+     "spoken": "esse",
+     "punct": "?!",
+     "syl": 2,
+     "start": 3.6167,
+     "end": 3.9833,
+     "start_frame": 217,
+     "start_tc": "00:03.617",
+     "end_frame": 239,
+     "end_tc": "00:03.983"
+    }
+   ],
+   "end": 3.9833,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 175,
+   "start_tc": "00:02.917",
+   "end_frame": 239,
+   "end_tc": "00:03.983"
+  },
+  {
+   "id": "s1-04",
+   "kind": "speech",
+   "text": "Que que pegou?!",
+   "start": 4.2333,
+   "words": [
+    {
+     "w": "Que",
+     "spoken": "Que",
+     "punct": "",
+     "syl": 1,
+     "start": 4.2333,
+     "end": 4.3667,
+     "start_frame": 254,
+     "start_tc": "00:04.233",
+     "end_frame": 262,
+     "end_tc": "00:04.367"
+    },
+    {
+     "w": "que",
+     "spoken": "que",
+     "punct": "",
+     "syl": 1,
+     "start": 4.3667,
+     "end": 4.4833,
+     "start_frame": 262,
+     "start_tc": "00:04.367",
+     "end_frame": 269,
+     "end_tc": "00:04.483"
+    },
+    {
+     "w": "pegou",
+     "spoken": "pegou",
+     "punct": "?!",
+     "syl": 2,
+     "start": 4.4833,
+     "end": 4.9667,
+     "start_frame": 269,
+     "start_tc": "00:04.483",
+     "end_frame": 298,
+     "end_tc": "00:04.967"
+    }
+   ],
+   "end": 4.9667,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 254,
+   "start_tc": "00:04.233",
+   "end_frame": 298,
+   "end_tc": "00:04.967"
+  },
+  {
+   "id": "s1-05",
+   "kind": "speech",
+   "text": "A gente bateu?!",
+   "start": 5.2167,
+   "words": [
+    {
+     "w": "A",
+     "spoken": "A",
+     "punct": "",
+     "syl": 1,
+     "start": 5.2167,
+     "end": 5.3333,
+     "start_frame": 313,
+     "start_tc": "00:05.217",
+     "end_frame": 320,
+     "end_tc": "00:05.333"
+    },
+    {
+     "w": "gente",
+     "spoken": "gente",
+     "punct": "",
+     "syl": 2,
+     "start": 5.3333,
+     "end": 5.6667,
+     "start_frame": 320,
+     "start_tc": "00:05.333",
+     "end_frame": 340,
+     "end_tc": "00:05.667"
+    },
+    {
+     "w": "bateu",
+     "spoken": "bateu",
+     "punct": "?!",
+     "syl": 2,
+     "start": 5.6667,
+     "end": 6.0833,
+     "start_frame": 340,
+     "start_tc": "00:05.667",
+     "end_frame": 365,
+     "end_tc": "00:06.083"
+    }
+   ],
+   "end": 6.0833,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 313,
+   "start_tc": "00:05.217",
+   "end_frame": 365,
+   "end_tc": "00:06.083"
+  },
+  {
+   "id": "s1-06",
+   "kind": "speech",
+   "text": "Moço?!",
+   "start": 6.3833,
+   "words": [
+    {
+     "w": "Moço",
+     "spoken": "Moço",
+     "punct": "?!",
+     "syl": 2,
+     "start": 6.3833,
+     "end": 6.9833,
+     "start_frame": 383,
+     "start_tc": "00:06.383",
+     "end_frame": 419,
+     "end_tc": "00:06.983"
+    }
+   ],
+   "end": 6.9833,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 383,
+   "start_tc": "00:06.383",
+   "end_frame": 419,
+   "end_tc": "00:06.983"
+  },
+  {
+   "id": "s1-07",
+   "kind": "breath",
+   "type": "pant",
+   "label": "Respiração rápida: huh... huh... huh",
+   "dur": 1.3,
+   "gap_after": 0.15,
+   "start": 7.0167,
+   "end": 8.4167,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 421,
+   "start_tc": "00:07.017",
+   "end_frame": 505,
+   "end_tc": "00:08.417"
+  },
+  {
+   "id": "s1-08",
+   "kind": "speech",
+   "text": "Mano...",
+   "start": 8.7,
+   "words": [
+    {
+     "w": "Mano",
+     "spoken": "Mano",
+     "punct": "...",
+     "syl": 2,
+     "start": 8.7,
+     "end": 9.3333,
+     "start_frame": 522,
+     "start_tc": "00:08.700",
+     "end_frame": 560,
+     "end_tc": "00:09.333"
+    }
+   ],
+   "end": 9.3333,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 522,
+   "start_tc": "00:08.700",
+   "end_frame": 560,
+   "end_tc": "00:09.333"
+  },
+  {
+   "id": "s1-09",
+   "kind": "speech",
+   "text": "o ônibus deu um tranco que parece que arrancou o eixo.",
+   "start": 9.7167,
+   "words": [
+    {
+     "w": "o",
+     "spoken": "o",
+     "punct": "",
+     "syl": 1,
+     "start": 9.7167,
+     "end": 9.85,
+     "start_frame": 583,
+     "start_tc": "00:09.717",
+     "end_frame": 591,
+     "end_tc": "00:09.850"
+    },
+    {
+     "w": "ônibus",
+     "spoken": "ônibus",
+     "punct": "",
+     "syl": 3,
+     "start": 9.85,
+     "end": 10.4167,
+     "start_frame": 591,
+     "start_tc": "00:09.850",
+     "end_frame": 625,
+     "end_tc": "00:10.417"
+    },
+    {
+     "w": "deu",
+     "spoken": "deu",
+     "punct": "",
+     "syl": 1,
+     "start": 10.4167,
+     "end": 10.6,
+     "start_frame": 625,
+     "start_tc": "00:10.417",
+     "end_frame": 636,
+     "end_tc": "00:10.600"
+    },
+    {
+     "w": "um",
+     "spoken": "um",
+     "punct": "",
+     "syl": 1,
+     "start": 10.6,
+     "end": 10.7333,
+     "start_frame": 636,
+     "start_tc": "00:10.600",
+     "end_frame": 644,
+     "end_tc": "00:10.733"
+    },
+    {
+     "w": "tranco",
+     "spoken": "tranco",
+     "punct": "",
+     "syl": 2,
+     "start": 10.7333,
+     "end": 11.1333,
+     "start_frame": 644,
+     "start_tc": "00:10.733",
+     "end_frame": 668,
+     "end_tc": "00:11.133"
+    },
+    {
+     "w": "que",
+     "spoken": "que",
+     "punct": "",
+     "syl": 1,
+     "start": 11.1333,
+     "end": 11.2667,
+     "start_frame": 668,
+     "start_tc": "00:11.133",
+     "end_frame": 676,
+     "end_tc": "00:11.267"
+    },
+    {
+     "w": "parece",
+     "spoken": "parece",
+     "punct": "",
+     "syl": 3,
+     "start": 11.2667,
+     "end": 11.8667,
+     "start_frame": 676,
+     "start_tc": "00:11.267",
+     "end_frame": 712,
+     "end_tc": "00:11.867"
+    },
+    {
+     "w": "que",
+     "spoken": "que",
+     "punct": "",
+     "syl": 1,
+     "start": 11.8667,
+     "end": 12.0167,
+     "start_frame": 712,
+     "start_tc": "00:11.867",
+     "end_frame": 721,
+     "end_tc": "00:12.017"
+    },
+    {
+     "w": "arrancou",
+     "spoken": "arrancou",
+     "punct": "",
+     "syl": 3,
+     "start": 12.0167,
+     "end": 12.6333,
+     "start_frame": 721,
+     "start_tc": "00:12.017",
+     "end_frame": 758,
+     "end_tc": "00:12.633"
+    },
+    {
+     "w": "o",
+     "spoken": "o",
+     "punct": "",
+     "syl": 1,
+     "start": 12.6333,
+     "end": 12.7833,
+     "start_frame": 758,
+     "start_tc": "00:12.633",
+     "end_frame": 767,
+     "end_tc": "00:12.783"
+    },
+    {
+     "w": "eixo",
+     "spoken": "eixo",
+     "punct": ".",
+     "syl": 2,
+     "start": 12.7833,
+     "end": 13.3167,
+     "start_frame": 767,
+     "start_tc": "00:12.783",
+     "end_frame": 799,
+     "end_tc": "00:13.317"
+    }
+   ],
+   "end": 13.3167,
+   "scene": "s1",
+   "timing": "medido",
+   "start_frame": 583,
+   "start_tc": "00:09.717",
+   "end_frame": 799,
+   "end_tc": "00:13.317"
+  },
+  {
+   "id": "s2-01",
+   "kind": "speech",
+   "text": "Espera aí...",
+   "start": 18.3,
+   "words": [
+    {
+     "w": "Espera",
+     "spoken": "Espera",
+     "punct": "",
+     "syl": 3,
+     "start": 18.3,
+     "end": 18.9,
+     "start_frame": 1098,
+     "start_tc": "00:18.300",
+     "end_frame": 1134,
+     "end_tc": "00:18.900"
+    },
+    {
+     "w": "aí",
+     "spoken": "aí",
+     "punct": "...",
+     "syl": 2,
+     "start": 18.9,
+     "end": 19.4333,
+     "start_frame": 1134,
+     "start_tc": "00:18.900",
+     "end_frame": 1166,
+     "end_tc": "00:19.433"
+    }
+   ],
+   "end": 19.4333,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 1098,
+   "start_tc": "00:18.300",
+   "end_frame": 1166,
+   "end_tc": "00:19.433"
+  },
+  {
+   "id": "s2-02",
+   "kind": "speech",
+   "text": "por que a luz tá verde assim...?",
+   "start": 20.1333,
+   "words": [
+    {
+     "w": "por",
+     "spoken": "por",
+     "punct": "",
+     "syl": 1,
+     "start": 20.1333,
+     "end": 20.2667,
+     "start_frame": 1208,
+     "start_tc": "00:20.133",
+     "end_frame": 1216,
+     "end_tc": "00:20.267"
+    },
+    {
+     "w": "que",
+     "spoken": "que",
+     "punct": "",
+     "syl": 1,
+     "start": 20.2667,
+     "end": 20.4,
+     "start_frame": 1216,
+     "start_tc": "00:20.267",
+     "end_frame": 1224,
+     "end_tc": "00:20.400"
+    },
+    {
+     "w": "a",
+     "spoken": "a",
+     "punct": "",
+     "syl": 1,
+     "start": 20.4,
+     "end": 20.5333,
+     "start_frame": 1224,
+     "start_tc": "00:20.400",
+     "end_frame": 1232,
+     "end_tc": "00:20.533"
+    },
+    {
+     "w": "luz",
+     "spoken": "luz",
+     "punct": "",
+     "syl": 1,
+     "start": 20.5333,
+     "end": 20.7167,
+     "start_frame": 1232,
+     "start_tc": "00:20.533",
+     "end_frame": 1243,
+     "end_tc": "00:20.717"
+    },
+    {
+     "w": "tá",
+     "spoken": "tá",
+     "punct": "",
+     "syl": 1,
+     "start": 20.7167,
+     "end": 20.85,
+     "start_frame": 1243,
+     "start_tc": "00:20.717",
+     "end_frame": 1251,
+     "end_tc": "00:20.850"
+    },
+    {
+     "w": "verde",
+     "spoken": "verde",
+     "punct": "",
+     "syl": 2,
+     "start": 20.85,
+     "end": 21.2333,
+     "start_frame": 1251,
+     "start_tc": "00:20.850",
+     "end_frame": 1274,
+     "end_tc": "00:21.233"
+    },
+    {
+     "w": "assim",
+     "spoken": "assim",
+     "punct": "?",
+     "syl": 2,
+     "start": 21.2333,
+     "end": 21.7,
+     "start_frame": 1274,
+     "start_tc": "00:21.233",
+     "end_frame": 1302,
+     "end_tc": "00:21.700"
+    }
+   ],
+   "end": 21.7,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 1208,
+   "start_tc": "00:20.133",
+   "end_frame": 1302,
+   "end_tc": "00:21.700"
+  },
+  {
+   "id": "s2-03",
+   "kind": "breath",
+   "type": "swallow",
+   "label": "Engole seco",
+   "dur": 0.6,
+   "gap_after": 0.2,
+   "start": 22.05,
+   "end": 22.2167,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 1323,
+   "start_tc": "00:22.050",
+   "end_frame": 1333,
+   "end_tc": "00:22.217"
+  },
+  {
+   "id": "s2-04",
+   "kind": "speech",
+   "text": "Mano, o banco tá...",
+   "start": 22.6667,
+   "words": [
+    {
+     "w": "Mano",
+     "spoken": "Mano",
+     "punct": ",",
+     "syl": 2,
+     "start": 22.6667,
+     "end": 23.0833,
+     "start_frame": 1360,
+     "start_tc": "00:22.667",
+     "end_frame": 1385,
+     "end_tc": "00:23.083"
+    },
+    {
+     "w": "o",
+     "spoken": "o",
+     "punct": "",
+     "syl": 1,
+     "start": 23.25,
+     "end": 23.3833,
+     "start_frame": 1395,
+     "start_tc": "00:23.250",
+     "end_frame": 1403,
+     "end_tc": "00:23.383"
+    },
+    {
+     "w": "banco",
+     "spoken": "banco",
+     "punct": "",
+     "syl": 2,
+     "start": 23.3833,
+     "end": 23.7667,
+     "start_frame": 1403,
+     "start_tc": "00:23.383",
+     "end_frame": 1426,
+     "end_tc": "00:23.767"
+    },
+    {
+     "w": "tá",
+     "spoken": "tá",
+     "punct": "...",
+     "syl": 1,
+     "start": 23.7667,
+     "end": 23.95,
+     "start_frame": 1426,
+     "start_tc": "00:23.767",
+     "end_frame": 1437,
+     "end_tc": "00:23.950"
+    }
+   ],
+   "end": 23.95,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 1360,
+   "start_tc": "00:22.667",
+   "end_frame": 1437,
+   "end_tc": "00:23.950"
+  },
+  {
+   "id": "s2-05",
+   "kind": "speech",
+   "text": "por que tá tudo podre?!",
+   "start": 24.2,
+   "words": [
+    {
+     "w": "por",
+     "spoken": "por",
+     "punct": "",
+     "syl": 1,
+     "start": 24.2,
+     "end": 24.35,
+     "start_frame": 1452,
+     "start_tc": "00:24.200",
+     "end_frame": 1461,
+     "end_tc": "00:24.350"
+    },
+    {
+     "w": "que",
+     "spoken": "que",
+     "punct": "",
+     "syl": 1,
+     "start": 24.35,
+     "end": 24.5,
+     "start_frame": 1461,
+     "start_tc": "00:24.350",
+     "end_frame": 1470,
+     "end_tc": "00:24.500"
+    },
+    {
+     "w": "tá",
+     "spoken": "tá",
+     "punct": "",
+     "syl": 1,
+     "start": 24.5,
+     "end": 24.6333,
+     "start_frame": 1470,
+     "start_tc": "00:24.500",
+     "end_frame": 1478,
+     "end_tc": "00:24.633"
+    },
+    {
+     "w": "tudo",
+     "spoken": "tudo",
+     "punct": "",
+     "syl": 2,
+     "start": 24.6333,
+     "end": 25.05,
+     "start_frame": 1478,
+     "start_tc": "00:24.633",
+     "end_frame": 1503,
+     "end_tc": "00:25.050"
+    },
+    {
+     "w": "podre",
+     "spoken": "podre",
+     "punct": "?!",
+     "syl": 2,
+     "start": 25.05,
+     "end": 25.5833,
+     "start_frame": 1503,
+     "start_tc": "00:25.050",
+     "end_frame": 1535,
+     "end_tc": "00:25.583"
+    }
+   ],
+   "end": 25.5833,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 1452,
+   "start_tc": "00:24.200",
+   "end_frame": 1535,
+   "end_tc": "00:25.583"
+  },
+  {
+   "id": "s2-06",
+   "kind": "speech",
+   "text": "A minha mochila tá imunda, velho!",
+   "start": 25.9,
+   "words": [
+    {
+     "w": "A",
+     "spoken": "A",
+     "punct": "",
+     "syl": 1,
+     "start": 25.9,
+     "end": 26.0,
+     "start_frame": 1554,
+     "start_tc": "00:25.900",
+     "end_frame": 1560,
+     "end_tc": "00:26.000"
+    },
+    {
+     "w": "minha",
+     "spoken": "minha",
+     "punct": "",
+     "syl": 2,
+     "start": 26.0,
+     "end": 26.3,
+     "start_frame": 1560,
+     "start_tc": "00:26.000",
+     "end_frame": 1578,
+     "end_tc": "00:26.300"
+    },
+    {
+     "w": "mochila",
+     "spoken": "mochila",
+     "punct": "",
+     "syl": 3,
+     "start": 26.3,
+     "end": 26.75,
+     "start_frame": 1578,
+     "start_tc": "00:26.300",
+     "end_frame": 1605,
+     "end_tc": "00:26.750"
+    },
+    {
+     "w": "tá",
+     "spoken": "tá",
+     "punct": "",
+     "syl": 1,
+     "start": 26.75,
+     "end": 26.85,
+     "start_frame": 1605,
+     "start_tc": "00:26.750",
+     "end_frame": 1611,
+     "end_tc": "00:26.850"
+    },
+    {
+     "w": "imunda",
+     "spoken": "imunda",
+     "punct": ",",
+     "syl": 3,
+     "start": 26.85,
+     "end": 27.35,
+     "start_frame": 1611,
+     "start_tc": "00:26.850",
+     "end_frame": 1641,
+     "end_tc": "00:27.350"
+    },
+    {
+     "w": "velho",
+     "spoken": "velho",
+     "punct": "!",
+     "syl": 2,
+     "start": 27.4667,
+     "end": 27.8167,
+     "start_frame": 1648,
+     "start_tc": "00:27.467",
+     "end_frame": 1669,
+     "end_tc": "00:27.817"
+    }
+   ],
+   "end": 27.8167,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 1554,
+   "start_tc": "00:25.900",
+   "end_frame": 1669,
+   "end_tc": "00:27.817"
+  },
+  {
+   "id": "s2-07",
+   "kind": "speech",
+   "text": "E cadê todo mundo que tava embarcando...?",
+   "start": 28.15,
+   "words": [
+    {
+     "w": "E",
+     "spoken": "E",
+     "punct": "",
+     "syl": 1,
+     "start": 28.15,
+     "end": 28.25,
+     "start_frame": 1689,
+     "start_tc": "00:28.150",
+     "end_frame": 1695,
+     "end_tc": "00:28.250"
+    },
+    {
+     "w": "cadê",
+     "spoken": "cadê",
+     "punct": "",
+     "syl": 2,
+     "start": 28.25,
+     "end": 28.5167,
+     "start_frame": 1695,
+     "start_tc": "00:28.250",
+     "end_frame": 1711,
+     "end_tc": "00:28.517"
+    },
+    {
+     "w": "todo",
+     "spoken": "todo",
+     "punct": "",
+     "syl": 2,
+     "start": 28.5167,
+     "end": 28.7833,
+     "start_frame": 1711,
+     "start_tc": "00:28.517",
+     "end_frame": 1727,
+     "end_tc": "00:28.783"
+    },
+    {
+     "w": "mundo",
+     "spoken": "mundo",
+     "punct": "",
+     "syl": 2,
+     "start": 28.7833,
+     "end": 29.05,
+     "start_frame": 1727,
+     "start_tc": "00:28.783",
+     "end_frame": 1743,
+     "end_tc": "00:29.050"
+    },
+    {
+     "w": "que",
+     "spoken": "que",
+     "punct": "",
+     "syl": 1,
+     "start": 29.05,
+     "end": 29.15,
+     "start_frame": 1743,
+     "start_tc": "00:29.050",
+     "end_frame": 1749,
+     "end_tc": "00:29.150"
+    },
+    {
+     "w": "tava",
+     "spoken": "tava",
+     "punct": "",
+     "syl": 2,
+     "start": 29.15,
+     "end": 29.4167,
+     "start_frame": 1749,
+     "start_tc": "00:29.150",
+     "end_frame": 1765,
+     "end_tc": "00:29.417"
+    },
+    {
+     "w": "embarcando",
+     "spoken": "embarcando",
+     "punct": "?",
+     "syl": 4,
+     "start": 29.4167,
+     "end": 30.0833,
+     "start_frame": 1765,
+     "start_tc": "00:29.417",
+     "end_frame": 1805,
+     "end_tc": "00:30.083"
+    }
+   ],
+   "end": 30.0833,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 1689,
+   "start_tc": "00:28.150",
+   "end_frame": 1805,
+   "end_tc": "00:30.083"
+  },
+  {
+   "id": "s2-08",
+   "kind": "speech",
+   "text": "Só tem um maluco lá no fundo... sentado duro que nem estátua...",
+   "start": 30.6667,
+   "words": [
+    {
+     "w": "Só",
+     "spoken": "Só",
+     "punct": "",
+     "syl": 1,
+     "start": 30.6667,
+     "end": 30.8333,
+     "start_frame": 1840,
+     "start_tc": "00:30.667",
+     "end_frame": 1850,
+     "end_tc": "00:30.833"
+    },
+    {
+     "w": "tem",
+     "spoken": "tem",
+     "punct": "",
+     "syl": 1,
+     "start": 30.8333,
+     "end": 31.0,
+     "start_frame": 1850,
+     "start_tc": "00:30.833",
+     "end_frame": 1860,
+     "end_tc": "00:31.000"
+    },
+    {
+     "w": "um",
+     "spoken": "um",
+     "punct": "",
+     "syl": 1,
+     "start": 31.0,
+     "end": 31.1,
+     "start_frame": 1860,
+     "start_tc": "00:31.000",
+     "end_frame": 1866,
+     "end_tc": "00:31.100"
+    },
+    {
+     "w": "maluco",
+     "spoken": "maluco",
+     "punct": "",
+     "syl": 3,
+     "start": 31.1,
+     "end": 31.5833,
+     "start_frame": 1866,
+     "start_tc": "00:31.100",
+     "end_frame": 1895,
+     "end_tc": "00:31.583"
+    },
+    {
+     "w": "lá",
+     "spoken": "lá",
+     "punct": "",
+     "syl": 1,
+     "start": 31.5833,
+     "end": 31.75,
+     "start_frame": 1895,
+     "start_tc": "00:31.583",
+     "end_frame": 1905,
+     "end_tc": "00:31.750"
+    },
+    {
+     "w": "no",
+     "spoken": "no",
+     "punct": "",
+     "syl": 1,
+     "start": 31.75,
+     "end": 31.8667,
+     "start_frame": 1905,
+     "start_tc": "00:31.750",
+     "end_frame": 1912,
+     "end_tc": "00:31.867"
+    },
+    {
+     "w": "fundo",
+     "spoken": "fundo",
+     "punct": "...",
+     "syl": 2,
+     "start": 31.8667,
+     "end": 32.2833,
+     "start_frame": 1912,
+     "start_tc": "00:31.867",
+     "end_frame": 1937,
+     "end_tc": "00:32.283"
+    },
+    {
+     "w": "sentado",
+     "spoken": "sentado",
+     "punct": "",
+     "syl": 3,
+     "start": 32.3833,
+     "end": 32.9167,
+     "start_frame": 1943,
+     "start_tc": "00:32.383",
+     "end_frame": 1975,
+     "end_tc": "00:32.917"
+    },
+    {
+     "w": "duro",
+     "spoken": "duro",
+     "punct": "",
+     "syl": 2,
+     "start": 32.9167,
+     "end": 33.25,
+     "start_frame": 1975,
+     "start_tc": "00:32.917",
+     "end_frame": 1995,
+     "end_tc": "00:33.250"
+    },
+    {
+     "w": "que",
+     "spoken": "que",
+     "punct": "",
+     "syl": 1,
+     "start": 33.25,
+     "end": 33.3833,
+     "start_frame": 1995,
+     "start_tc": "00:33.250",
+     "end_frame": 2003,
+     "end_tc": "00:33.383"
+    },
+    {
+     "w": "nem",
+     "spoken": "nem",
+     "punct": "",
+     "syl": 1,
+     "start": 33.3833,
+     "end": 33.55,
+     "start_frame": 2003,
+     "start_tc": "00:33.383",
+     "end_frame": 2013,
+     "end_tc": "00:33.550"
+    },
+    {
+     "w": "estátua",
+     "spoken": "estátua",
+     "punct": "...",
+     "syl": 3,
+     "start": 33.55,
+     "end": 34.2333,
+     "start_frame": 2013,
+     "start_tc": "00:33.550",
+     "end_frame": 2054,
+     "end_tc": "00:34.233"
+    }
+   ],
+   "end": 34.2333,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 1840,
+   "start_tc": "00:30.667",
+   "end_frame": 2054,
+   "end_tc": "00:34.233"
+  },
+  {
+   "id": "s2-09",
+   "kind": "speech",
+   "direction": "Sussurro apavorado",
+   "text": "Onde a gente tá...?",
+   "start": 34.8167,
+   "words": [
+    {
+     "w": "Onde",
+     "spoken": "Onde",
+     "punct": "",
+     "syl": 2,
+     "start": 34.8167,
+     "end": 35.15,
+     "start_frame": 2089,
+     "start_tc": "00:34.817",
+     "end_frame": 2109,
+     "end_tc": "00:35.150"
+    },
+    {
+     "w": "a",
+     "spoken": "a",
+     "punct": "",
+     "syl": 1,
+     "start": 35.15,
+     "end": 35.2667,
+     "start_frame": 2109,
+     "start_tc": "00:35.150",
+     "end_frame": 2116,
+     "end_tc": "00:35.267"
+    },
+    {
+     "w": "gente",
+     "spoken": "gente",
+     "punct": "",
+     "syl": 2,
+     "start": 35.2667,
+     "end": 35.6,
+     "start_frame": 2116,
+     "start_tc": "00:35.267",
+     "end_frame": 2136,
+     "end_tc": "00:35.600"
+    },
+    {
+     "w": "tá",
+     "spoken": "tá",
+     "punct": "?",
+     "syl": 1,
+     "start": 35.6,
+     "end": 35.75,
+     "start_frame": 2136,
+     "start_tc": "00:35.600",
+     "end_frame": 2145,
+     "end_tc": "00:35.750"
+    }
+   ],
+   "end": 35.75,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 2089,
+   "start_tc": "00:34.817",
+   "end_frame": 2145,
+   "end_tc": "00:35.750"
+  },
+  {
+   "id": "s2-10",
+   "kind": "speech",
+   "text": "Campinas já ficou umas três horas pra trás...",
+   "start": 36.1333,
+   "words": [
+    {
+     "w": "Campinas",
+     "spoken": "Campinas",
+     "punct": "",
+     "syl": 3,
+     "start": 36.1333,
+     "end": 36.7833,
+     "start_frame": 2168,
+     "start_tc": "00:36.133",
+     "end_frame": 2207,
+     "end_tc": "00:36.783"
+    },
+    {
+     "w": "já",
+     "spoken": "já",
+     "punct": "",
+     "syl": 1,
+     "start": 36.7833,
+     "end": 36.9333,
+     "start_frame": 2207,
+     "start_tc": "00:36.783",
+     "end_frame": 2216,
+     "end_tc": "00:36.933"
+    },
+    {
+     "w": "ficou",
+     "spoken": "ficou",
+     "punct": "",
+     "syl": 2,
+     "start": 36.9333,
+     "end": 37.3667,
+     "start_frame": 2216,
+     "start_tc": "00:36.933",
+     "end_frame": 2242,
+     "end_tc": "00:37.367"
+    },
+    {
+     "w": "umas",
+     "spoken": "umas",
+     "punct": "",
+     "syl": 2,
+     "start": 37.3667,
+     "end": 37.8,
+     "start_frame": 2242,
+     "start_tc": "00:37.367",
+     "end_frame": 2268,
+     "end_tc": "00:37.800"
+    },
+    {
+     "w": "três",
+     "spoken": "três",
+     "punct": "",
+     "syl": 1,
+     "start": 37.8,
+     "end": 38.0167,
+     "start_frame": 2268,
+     "start_tc": "00:37.800",
+     "end_frame": 2281,
+     "end_tc": "00:38.017"
+    },
+    {
+     "w": "horas",
+     "spoken": "horas",
+     "punct": "",
+     "syl": 2,
+     "start": 38.0167,
+     "end": 38.45,
+     "start_frame": 2281,
+     "start_tc": "00:38.017",
+     "end_frame": 2307,
+     "end_tc": "00:38.450"
+    },
+    {
+     "w": "pra",
+     "spoken": "pra",
+     "punct": "",
+     "syl": 1,
+     "start": 38.45,
+     "end": 38.6167,
+     "start_frame": 2307,
+     "start_tc": "00:38.450",
+     "end_frame": 2317,
+     "end_tc": "00:38.617"
+    },
+    {
+     "w": "trás",
+     "spoken": "trás",
+     "punct": "...",
+     "syl": 1,
+     "start": 38.6167,
+     "end": 38.8833,
+     "start_frame": 2317,
+     "start_tc": "00:38.617",
+     "end_frame": 2333,
+     "end_tc": "00:38.883"
+    }
+   ],
+   "end": 38.8833,
+   "scene": "s2",
+   "timing": "medido",
+   "start_frame": 2168,
+   "start_tc": "00:36.133",
+   "end_frame": 2333,
+   "end_tc": "00:38.883"
+  },
+  {
+   "id": "s3-01",
+   "kind": "speech",
+   "text": "Não é possível... O GPS morreu!",
+   "start": 40.6,
+   "words": [
+    {
+     "w": "Não",
+     "spoken": "Não",
+     "punct": "",
+     "syl": 2,
+     "start": 40.6,
+     "end": 40.9333,
+     "start_frame": 2436,
+     "start_tc": "00:40.600",
+     "end_frame": 2456,
+     "end_tc": "00:40.933"
+    },
+    {
+     "w": "é",
+     "spoken": "é",
+     "punct": "",
+     "syl": 1,
+     "start": 40.9333,
+     "end": 41.05,
+     "start_frame": 2456,
+     "start_tc": "00:40.933",
+     "end_frame": 2463,
+     "end_tc": "00:41.050"
+    },
+    {
+     "w": "possível",
+     "spoken": "possível",
+     "punct": "...",
+     "syl": 3,
+     "start": 41.05,
+     "end": 41.6833,
+     "start_frame": 2463,
+     "start_tc": "00:41.050",
+     "end_frame": 2501,
+     "end_tc": "00:41.683"
+    },
+    {
+     "w": "O",
+     "spoken": "O",
+     "punct": "",
+     "syl": 1,
+     "start": 41.95,
+     "end": 42.0833,
+     "start_frame": 2517,
+     "start_tc": "00:41.950",
+     "end_frame": 2525,
+     "end_tc": "00:42.083"
+    },
+    {
+     "w": "GPS",
+     "spoken": "gê pê ésse",
+     "punct": "",
+     "syl": 4,
+     "start": 42.0833,
+     "end": 42.85,
+     "start_frame": 2525,
+     "start_tc": "00:42.083",
+     "end_frame": 2571,
+     "end_tc": "00:42.850"
+    },
+    {
+     "w": "morreu",
+     "spoken": "morreu",
+     "punct": "!",
+     "syl": 2,
+     "start": 42.85,
+     "end": 43.3167,
+     "start_frame": 2571,
+     "start_tc": "00:42.850",
+     "end_frame": 2599,
+     "end_tc": "00:43.317"
+    }
+   ],
+   "end": 43.3167,
+   "scene": "s3",
+   "timing": "medido",
+   "start_frame": 2436,
+   "start_tc": "00:40.600",
+   "end_frame": 2599,
+   "end_tc": "00:43.317"
+  },
+  {
+   "id": "s3-02",
+   "kind": "speech",
+   "text": "O 4G sumiu totalmente!",
+   "start": 43.6167,
+   "words": [
+    {
+     "w": "O",
+     "spoken": "O",
+     "punct": "",
+     "syl": 1,
+     "start": 43.6167,
+     "end": 43.7333,
+     "start_frame": 2617,
+     "start_tc": "00:43.617",
+     "end_frame": 2624,
+     "end_tc": "00:43.733"
+    },
+    {
+     "w": "4G",
+     "spoken": "quatro gê",
+     "punct": "",
+     "syl": 3,
+     "start": 43.7333,
+     "end": 44.25,
+     "start_frame": 2624,
+     "start_tc": "00:43.733",
+     "end_frame": 2655,
+     "end_tc": "00:44.250"
+    },
+    {
+     "w": "sumiu",
+     "spoken": "sumiu",
+     "punct": "",
+     "syl": 2,
+     "start": 44.25,
+     "end": 44.6,
+     "start_frame": 2655,
+     "start_tc": "00:44.250",
+     "end_frame": 2676,
+     "end_tc": "00:44.600"
+    },
+    {
+     "w": "totalmente",
+     "spoken": "totalmente",
+     "punct": "!",
+     "syl": 4,
+     "start": 44.6,
+     "end": 45.4333,
+     "start_frame": 2676,
+     "start_tc": "00:44.600",
+     "end_frame": 2726,
+     "end_tc": "00:45.433"
+    }
+   ],
+   "end": 45.4333,
+   "scene": "s3",
+   "timing": "medido",
+   "start_frame": 2617,
+   "start_tc": "00:43.617",
+   "end_frame": 2726,
+   "end_tc": "00:45.433"
+  },
+  {
+   "id": "s3-03",
+   "kind": "speech",
+   "text": "E aquela placa ali fora...",
+   "start": 45.8833,
+   "words": [
+    {
+     "w": "E",
+     "spoken": "E",
+     "punct": "",
+     "syl": 1,
+     "start": 45.8833,
+     "end": 45.9667,
+     "start_frame": 2753,
+     "start_tc": "00:45.883",
+     "end_frame": 2758,
+     "end_tc": "00:45.967"
+    },
+    {
+     "w": "aquela",
+     "spoken": "aquela",
+     "punct": "",
+     "syl": 3,
+     "start": 45.9667,
+     "end": 46.3,
+     "start_frame": 2758,
+     "start_tc": "00:45.967",
+     "end_frame": 2778,
+     "end_tc": "00:46.300"
+    },
+    {
+     "w": "placa",
+     "spoken": "placa",
+     "punct": "",
+     "syl": 2,
+     "start": 46.3,
+     "end": 46.5167,
+     "start_frame": 2778,
+     "start_tc": "00:46.300",
+     "end_frame": 2791,
+     "end_tc": "00:46.517"
+    },
+    {
+     "w": "ali",
+     "spoken": "ali",
+     "punct": "",
+     "syl": 2,
+     "start": 46.5167,
+     "end": 46.75,
+     "start_frame": 2791,
+     "start_tc": "00:46.517",
+     "end_frame": 2805,
+     "end_tc": "00:46.750"
+    },
+    {
+     "w": "fora",
+     "spoken": "fora",
+     "punct": "...",
+     "syl": 2,
+     "start": 46.75,
+     "end": 47.0333,
+     "start_frame": 2805,
+     "start_tc": "00:46.750",
+     "end_frame": 2822,
+     "end_tc": "00:47.033"
+    }
+   ],
+   "end": 47.0333,
+   "scene": "s3",
+   "timing": "medido",
+   "start_frame": 2753,
+   "start_tc": "00:45.883",
+   "end_frame": 2822,
+   "end_tc": "00:47.033"
+  },
+  {
+   "id": "s3-04",
+   "kind": "speech",
+   "text": "tava escrito 348?!",
+   "start": 47.4,
+   "words": [
+    {
+     "w": "tava",
+     "spoken": "tava",
+     "punct": "",
+     "syl": 2,
+     "start": 47.4,
+     "end": 47.6833,
+     "start_frame": 2844,
+     "start_tc": "00:47.400",
+     "end_frame": 2861,
+     "end_tc": "00:47.683"
+    },
+    {
+     "w": "escrito",
+     "spoken": "escrito",
+     "punct": "",
+     "syl": 3,
+     "start": 47.6833,
+     "end": 48.1333,
+     "start_frame": 2861,
+     "start_tc": "00:47.683",
+     "end_frame": 2888,
+     "end_tc": "00:48.133"
+    },
+    {
+     "w": "348",
+     "spoken": "três quatro oito",
+     "punct": "?!",
+     "syl": 5,
+     "start": 48.1333,
+     "end": 49.0333,
+     "start_frame": 2888,
+     "start_tc": "00:48.133",
+     "end_frame": 2942,
+     "end_tc": "00:49.033"
+    }
+   ],
+   "end": 49.0333,
+   "scene": "s3",
+   "timing": "medido",
+   "start_frame": 2844,
+   "start_tc": "00:47.400",
+   "end_frame": 2942,
+   "end_tc": "00:49.033"
+  },
+  {
+   "id": "s3-05",
+   "kind": "speech",
+   "text": "Não, o ponto 348 era um posto na beira da pista, ali fora é só...",
+   "start": 49.3333,
+   "words": [
+    {
+     "w": "Não",
+     "spoken": "Não",
+     "punct": ",",
+     "syl": 2,
+     "start": 49.3333,
+     "end": 49.65,
+     "start_frame": 2960,
+     "start_tc": "00:49.333",
+     "end_frame": 2979,
+     "end_tc": "00:49.650"
+    },
+    {
+     "w": "o",
+     "spoken": "o",
+     "punct": "",
+     "syl": 1,
+     "start": 49.7833,
+     "end": 49.8833,
+     "start_frame": 2987,
+     "start_tc": "00:49.783",
+     "end_frame": 2993,
+     "end_tc": "00:49.883"
+    },
+    {
+     "w": "ponto",
+     "spoken": "ponto",
+     "punct": "",
+     "syl": 2,
+     "start": 49.8833,
+     "end": 50.1833,
+     "start_frame": 2993,
+     "start_tc": "00:49.883",
+     "end_frame": 3011,
+     "end_tc": "00:50.183"
+    },
+    {
+     "w": "348",
+     "spoken": "três quatro oito",
+     "punct": "",
+     "syl": 5,
+     "start": 50.1833,
+     "end": 50.9167,
+     "start_frame": 3011,
+     "start_tc": "00:50.183",
+     "end_frame": 3055,
+     "end_tc": "00:50.917"
+    },
+    {
+     "w": "era",
+     "spoken": "era",
+     "punct": "",
+     "syl": 2,
+     "start": 50.9167,
+     "end": 51.2,
+     "start_frame": 3055,
+     "start_tc": "00:50.917",
+     "end_frame": 3072,
+     "end_tc": "00:51.200"
+    },
+    {
+     "w": "um",
+     "spoken": "um",
+     "punct": "",
+     "syl": 1,
+     "start": 51.2,
+     "end": 51.3,
+     "start_frame": 3072,
+     "start_tc": "00:51.200",
+     "end_frame": 3078,
+     "end_tc": "00:51.300"
+    },
+    {
+     "w": "posto",
+     "spoken": "posto",
+     "punct": "",
+     "syl": 2,
+     "start": 51.3,
+     "end": 51.6,
+     "start_frame": 3078,
+     "start_tc": "00:51.300",
+     "end_frame": 3096,
+     "end_tc": "00:51.600"
+    },
+    {
+     "w": "na",
+     "spoken": "na",
+     "punct": "",
+     "syl": 1,
+     "start": 51.6,
+     "end": 51.7,
+     "start_frame": 3096,
+     "start_tc": "00:51.600",
+     "end_frame": 3102,
+     "end_tc": "00:51.700"
+    },
+    {
+     "w": "beira",
+     "spoken": "beira",
+     "punct": "",
+     "syl": 2,
+     "start": 51.7,
+     "end": 52.0,
+     "start_frame": 3102,
+     "start_tc": "00:51.700",
+     "end_frame": 3120,
+     "end_tc": "00:52.000"
+    },
+    {
+     "w": "da",
+     "spoken": "da",
+     "punct": "",
+     "syl": 1,
+     "start": 52.0,
+     "end": 52.1,
+     "start_frame": 3120,
+     "start_tc": "00:52.000",
+     "end_frame": 3126,
+     "end_tc": "00:52.100"
+    },
+    {
+     "w": "pista",
+     "spoken": "pista",
+     "punct": ",",
+     "syl": 2,
+     "start": 52.1,
+     "end": 52.4167,
+     "start_frame": 3126,
+     "start_tc": "00:52.100",
+     "end_frame": 3145,
+     "end_tc": "00:52.417"
+    },
+    {
+     "w": "ali",
+     "spoken": "ali",
+     "punct": "",
+     "syl": 2,
+     "start": 52.55,
+     "end": 52.85,
+     "start_frame": 3153,
+     "start_tc": "00:52.550",
+     "end_frame": 3171,
+     "end_tc": "00:52.850"
+    },
+    {
+     "w": "fora",
+     "spoken": "fora",
+     "punct": "",
+     "syl": 2,
+     "start": 52.85,
+     "end": 53.1333,
+     "start_frame": 3171,
+     "start_tc": "00:52.850",
+     "end_frame": 3188,
+     "end_tc": "00:53.133"
+    },
+    {
+     "w": "é",
+     "spoken": "é",
+     "punct": "",
+     "syl": 1,
+     "start": 53.1333,
+     "end": 53.2333,
+     "start_frame": 3188,
+     "start_tc": "00:53.133",
+     "end_frame": 3194,
+     "end_tc": "00:53.233"
+    },
+    {
+     "w": "só",
+     "spoken": "só",
+     "punct": "...",
+     "syl": 1,
+     "start": 53.2333,
+     "end": 53.4333,
+     "start_frame": 3194,
+     "start_tc": "00:53.233",
+     "end_frame": 3206,
+     "end_tc": "00:53.433"
+    }
+   ],
+   "end": 53.4333,
+   "scene": "s3",
+   "timing": "medido",
+   "start_frame": 2960,
+   "start_tc": "00:49.333",
+   "end_frame": 3206,
+   "end_tc": "00:53.433"
+  },
+  {
+   "id": "s3-06",
+   "kind": "speech",
+   "text": "é só mato morto!",
+   "start": 53.8833,
+   "words": [
+    {
+     "w": "é",
+     "spoken": "é",
+     "punct": "",
+     "syl": 1,
+     "start": 53.8833,
+     "end": 54.0,
+     "start_frame": 3233,
+     "start_tc": "00:53.883",
+     "end_frame": 3240,
+     "end_tc": "00:54.000"
+    },
+    {
+     "w": "só",
+     "spoken": "só",
+     "punct": "",
+     "syl": 1,
+     "start": 54.0,
+     "end": 54.1833,
+     "start_frame": 3240,
+     "start_tc": "00:54.000",
+     "end_frame": 3251,
+     "end_tc": "00:54.183"
+    },
+    {
+     "w": "mato",
+     "spoken": "mato",
+     "punct": "",
+     "syl": 2,
+     "start": 54.1833,
+     "end": 54.5167,
+     "start_frame": 3251,
+     "start_tc": "00:54.183",
+     "end_frame": 3271,
+     "end_tc": "00:54.517"
+    },
+    {
+     "w": "morto",
+     "spoken": "morto",
+     "punct": "!",
+     "syl": 2,
+     "start": 54.5167,
+     "end": 54.9333,
+     "start_frame": 3271,
+     "start_tc": "00:54.517",
+     "end_frame": 3296,
+     "end_tc": "00:54.933"
+    }
+   ],
+   "end": 54.9333,
+   "scene": "s3",
+   "timing": "medido",
+   "start_frame": 3233,
+   "start_tc": "00:53.883",
+   "end_frame": 3296,
+   "end_tc": "00:54.933"
+  },
+  {
+   "id": "s3-07",
+   "kind": "speech",
+   "direction": "Voz falha",
+   "text": "Motorista...",
+   "start": 55.5167,
+   "words": [
+    {
+     "w": "Motorista",
+     "spoken": "Motorista",
+     "punct": "...",
+     "syl": 4,
+     "start": 55.5167,
+     "end": 56.1667,
+     "start_frame": 3331,
+     "start_tc": "00:55.517",
+     "end_frame": 3370,
+     "end_tc": "00:56.167"
+    }
+   ],
+   "end": 56.1667,
+   "scene": "s3",
+   "timing": "medido",
+   "start_frame": 3331,
+   "start_tc": "00:55.517",
+   "end_frame": 3370,
+   "end_tc": "00:56.167"
+  },
+  {
+   "id": "s3-08",
+   "kind": "speech",
+   "text": "ei... motorista?!",
+   "start": 56.6833,
+   "words": [
+    {
+     "w": "ei",
+     "spoken": "ei",
+     "punct": "...",
+     "syl": 1,
+     "start": 56.6833,
+     "end": 56.9333,
+     "start_frame": 3401,
+     "start_tc": "00:56.683",
+     "end_frame": 3416,
+     "end_tc": "00:56.933"
+    },
+    {
+     "w": "motorista",
+     "spoken": "motorista",
+     "punct": "?!",
+     "syl": 4,
+     "start": 57.5,
+     "end": 58.2333,
+     "start_frame": 3450,
+     "start_tc": "00:57.500",
+     "end_frame": 3494,
+     "end_tc": "00:58.233"
+    }
+   ],
+   "end": 58.2333,
+   "scene": "s3",
+   "timing": "medido",
+   "start_frame": 3401,
+   "start_tc": "00:56.683",
+   "end_frame": 3494,
+   "end_tc": "00:58.233"
+  }
+ ],
+ "breaths": [
+  {
+   "t": 0.6,
+   "inhale": 1.0167,
+   "hold": 0.0,
+   "exhale": 1.0,
+   "amp": 1.9,
+   "type": "gasp",
+   "ref": "s1-01",
+   "explicit": true
+  },
+  {
+   "t": 2.7067,
+   "inhale": 0.21,
+   "hold": 0.0,
+   "exhale": 1.0667,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s1-03",
+   "explicit": false
+  },
+  {
+   "t": 4.0583,
+   "inhale": 0.175,
+   "hold": 0.0,
+   "exhale": 0.7333,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s1-04",
+   "explicit": false
+  },
+  {
+   "t": 5.0417,
+   "inhale": 0.175,
+   "hold": 0.0,
+   "exhale": 0.8667,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s1-05",
+   "explicit": false
+  },
+  {
+   "t": 6.1733,
+   "inhale": 0.21,
+   "hold": 0.0,
+   "exhale": 0.6,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s1-06",
+   "explicit": false
+  },
+  {
+   "t": 7.0167,
+   "inhale": 0.2333,
+   "hold": 0.0,
+   "exhale": 0.2333,
+   "amp": 1.2,
+   "type": "pant",
+   "ref": "s1-07",
+   "explicit": true
+  },
+  {
+   "t": 7.4833,
+   "inhale": 0.2333,
+   "hold": 0.0,
+   "exhale": 0.2333,
+   "amp": 1.2,
+   "type": "pant",
+   "ref": "s1-07",
+   "explicit": true
+  },
+  {
+   "t": 7.95,
+   "inhale": 0.2333,
+   "hold": 0.0,
+   "exhale": 0.2333,
+   "amp": 1.2,
+   "type": "pant",
+   "ref": "s1-07",
+   "explicit": true
+  },
+  {
+   "t": 8.5017,
+   "inhale": 0.1983,
+   "hold": 0.0,
+   "exhale": 0.6333,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s1-08",
+   "explicit": false
+  },
+  {
+   "t": 9.4483,
+   "inhale": 0.2683,
+   "hold": 0.0,
+   "exhale": 3.6,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s1-09",
+   "explicit": false
+  },
+  {
+   "t": 17.95,
+   "inhale": 0.35,
+   "hold": 0.0,
+   "exhale": 1.1333,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-01",
+   "explicit": false
+  },
+  {
+   "t": 19.7833,
+   "inhale": 0.35,
+   "hold": 0.0,
+   "exhale": 1.5667,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-02",
+   "explicit": false
+  },
+  {
+   "t": 22.05,
+   "inhale": 0.05,
+   "hold": 0.0167,
+   "exhale": 0.1,
+   "amp": 0.2,
+   "type": "swallow",
+   "ref": "s2-03",
+   "explicit": true
+  },
+  {
+   "t": 22.3517,
+   "inhale": 0.315,
+   "hold": 0.0,
+   "exhale": 1.2833,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-04",
+   "explicit": false
+  },
+  {
+   "t": 24.025,
+   "inhale": 0.175,
+   "hold": 0.0,
+   "exhale": 1.3833,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-05",
+   "explicit": false
+  },
+  {
+   "t": 25.6783,
+   "inhale": 0.2217,
+   "hold": 0.0,
+   "exhale": 1.9167,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-06",
+   "explicit": false
+  },
+  {
+   "t": 27.9167,
+   "inhale": 0.2333,
+   "hold": 0.0,
+   "exhale": 1.9333,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-07",
+   "explicit": false
+  },
+  {
+   "t": 30.3167,
+   "inhale": 0.35,
+   "hold": 0.0,
+   "exhale": 3.5667,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-08",
+   "explicit": false
+  },
+  {
+   "t": 34.4667,
+   "inhale": 0.35,
+   "hold": 0.0,
+   "exhale": 0.9333,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-09",
+   "explicit": false
+  },
+  {
+   "t": 35.865,
+   "inhale": 0.2683,
+   "hold": 0.0,
+   "exhale": 2.75,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s2-10",
+   "explicit": false
+  },
+  {
+   "t": 40.25,
+   "inhale": 0.35,
+   "hold": 0.0,
+   "exhale": 2.7167,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s3-01",
+   "explicit": false
+  },
+  {
+   "t": 43.4067,
+   "inhale": 0.21,
+   "hold": 0.0,
+   "exhale": 1.8167,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s3-02",
+   "explicit": false
+  },
+  {
+   "t": 45.5683,
+   "inhale": 0.315,
+   "hold": 0.0,
+   "exhale": 1.15,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s3-03",
+   "explicit": false
+  },
+  {
+   "t": 47.1433,
+   "inhale": 0.2567,
+   "hold": 0.0,
+   "exhale": 1.6333,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s3-04",
+   "explicit": false
+  },
+  {
+   "t": 49.1233,
+   "inhale": 0.21,
+   "hold": 0.0,
+   "exhale": 4.1,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s3-05",
+   "explicit": false
+  },
+  {
+   "t": 53.5683,
+   "inhale": 0.315,
+   "hold": 0.0,
+   "exhale": 1.05,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s3-06",
+   "explicit": false
+  },
+  {
+   "t": 55.1667,
+   "inhale": 0.35,
+   "hold": 0.0,
+   "exhale": 0.65,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s3-07",
+   "explicit": false
+  },
+  {
+   "t": 56.3333,
+   "inhale": 0.35,
+   "hold": 0.0,
+   "exhale": 1.55,
+   "amp": 0.8,
+   "type": "inhale_phrase",
+   "ref": "s3-08",
+   "explicit": false
+  }
+ ],
+ "sfx": {
+  "cues": [
+   {
+    "id": "motor-onibus",
+    "layer": "veiculo",
+    "origin": "inferido",
+    "desc": "Ronco do ônibus em movimento (continuidade do Ep. 1). Abafado como no fim do Ep. 1 durante a tela preta; abre de uma vez no impacto.",
+    "gain_db": -16,
+    "loop": true,
+    "start": 0.0,
+    "end": 60.0,
+    "scene": "s1",
+    "automation": {
+     "gain_db": [
+      [
+       0.0,
+       -24.0
+      ],
+      [
+       0.5,
+       -24.0
+      ],
+      [
+       0.7,
+       -14.0
+      ]
+     ],
+     "lowpass_hz": [
+      [
+       0.0,
+       650.0
+      ],
+      [
+       0.5,
+       650.0
+      ],
+      [
+       0.65,
+       18000.0
+      ]
+     ],
+     "pitch_semitones": [
+      [
+       0.0,
+       5.806
+      ],
+      [
+       1.0,
+       5.648
+      ],
+      [
+       2.0,
+       4.949
+      ],
+      [
+       3.0,
+       4.796
+      ],
+      [
+       4.0,
+       4.836
+      ],
+      [
+       5.0,
+       4.903
+      ],
+      [
+       6.0,
+       4.986
+      ],
+      [
+       7.0,
+       5.073
+      ],
+      [
+       8.0,
+       5.149
+      ],
+      [
+       9.0,
+       5.205
+      ],
+      [
+       10.0,
+       5.226
+      ],
+      [
+       11.0,
+       5.228
+      ],
+      [
+       12.0,
+       5.234
+      ],
+      [
+       13.0,
+       5.243
+      ],
+      [
+       14.0,
+       5.256
+      ],
+      [
+       15.0,
+       5.271
+      ],
+      [
+       16.0,
+       5.289
+      ],
+      [
+       17.0,
+       5.308
+      ],
+      [
+       18.0,
+       5.328
+      ],
+      [
+       19.0,
+       5.349
+      ],
+      [
+       20.0,
+       5.371
+      ],
+      [
+       21.0,
+       5.393
+      ],
+      [
+       22.0,
+       5.414
+      ],
+      [
+       23.0,
+       5.434
+      ],
+      [
+       24.0,
+       5.453
+      ],
+      [
+       25.0,
+       5.471
+      ],
+      [
+       26.0,
+       5.486
+      ],
+      [
+       27.0,
+       5.498
+      ],
+      [
+       28.0,
+       5.508
+      ],
+      [
+       29.0,
+       5.514
+      ],
+      [
+       30.0,
+       5.516
+      ],
+      [
+       31.0,
+       5.51
+      ],
+      [
+       32.0,
+       5.492
+      ],
+      [
+       33.0,
+       5.465
+      ],
+      [
+       34.0,
+       5.43
+      ],
+      [
+       35.0,
+       5.389
+      ],
+      [
+       36.0,
+       5.345
+      ],
+      [
+       37.0,
+       5.298
+      ],
+      [
+       38.0,
+       5.252
+      ],
+      [
+       39.0,
+       5.208
+      ],
+      [
+       40.0,
+       5.167
+      ],
+      [
+       41.0,
+       5.132
+      ],
+      [
+       42.0,
+       5.105
+      ],
+      [
+       43.0,
+       5.087
+      ],
+      [
+       44.0,
+       5.081
+      ],
+      [
+       45.0,
+       5.072
+      ],
+      [
+       46.0,
+       5.049
+      ],
+      [
+       47.0,
+       5.014
+      ],
+      [
+       48.0,
+       4.967
+      ],
+      [
+       49.0,
+       4.912
+      ],
+      [
+       50.0,
+       4.851
+      ],
+      [
+       51.0,
+       4.785
+      ],
+      [
+       52.0,
+       4.718
+      ],
+      [
+       53.0,
+       4.65
+      ],
+      [
+       54.0,
+       4.584
+      ],
+      [
+       55.0,
+       4.523
+      ],
+      [
+       56.0,
+       4.468
+      ],
+      [
+       57.0,
+       4.422
+      ],
+      [
+       58.0,
+       4.386
+      ],
+      [
+       59.0,
+       4.363
+      ],
+      [
+       60.0,
+       4.355
+      ],
+      [
+       61.0,
+       4.355
+      ]
+     ]
+    },
+    "start_frame": 0,
+    "start_tc": "00:00.000",
+    "end_frame": 3600,
+    "end_tc": "01:00.000"
+   },
+   {
+    "id": "bum-buraco",
+    "layer": "impacto",
+    "origin": "roteiro",
+    "desc": "Baque seco e ensurdecedor da suspensão batendo em um buraco. Sincronizado com o chacoalhão da câmera, o motion blur e a queda da luz.",
+    "gain_db": 0,
+    "start": 0.5,
+    "end": 0.5,
+    "scene": "s1",
+    "start_frame": 30,
+    "start_tc": "00:00.500",
+    "end_frame": 30,
+    "end_tc": "00:00.500"
+   },
+   {
+    "id": "zumbido-eletrico",
+    "layer": "eletrico",
+    "origin": "roteiro",
+    "desc": "Zumbido elétrico das lâmpadas fluorescentes defeituosas. As falhas pontuais (queda da luz) são geradas de camera.json > flicker.",
+    "fade_in": 0.1,
+    "gain_db": -22,
+    "loop": true,
+    "start": 0.5,
+    "end": 60.0,
+    "scene": "s1",
+    "automation": {
+     "gain_db": [
+      [
+       0.5,
+       -14.0
+      ],
+      [
+       3.0,
+       -22.0
+      ],
+      [
+       30.0,
+       -24.0
+      ],
+      [
+       52.0,
+       -22.0
+      ],
+      [
+       60.0,
+       -18.0
+      ]
+     ]
+    },
+    "start_frame": 30,
+    "start_tc": "00:00.500",
+    "end_frame": 3600,
+    "end_tc": "01:00.000"
+   },
+   {
+    "id": "metal-rangendo-bum",
+    "layer": "veiculo",
+    "origin": "roteiro",
+    "desc": "Metal rangendo / chassi torcendo logo depois do impacto.",
+    "fade_out": 1.2,
+    "gain_db": -8,
+    "start": 0.55,
+    "end": 3.45,
+    "scene": "s1",
+    "start_frame": 33,
+    "start_tc": "00:00.550",
+    "end_frame": 207,
+    "end_tc": "00:03.450"
+   },
+   {
+    "id": "chassi-rangendo",
+    "layer": "veiculo",
+    "origin": "roteiro",
+    "desc": "Chassi velho rangendo sobre terreno irregular (cama contínua; os solavancos individuais são gerados de camera.json > road).",
+    "fade_in": 1.5,
+    "gain_db": -14,
+    "loop": true,
+    "start": 2.5,
+    "end": 60.0,
+    "scene": "s1",
+    "automation": {
+     "gain_db": [
+      [
+       2.5,
+       -16.0
+      ],
+      [
+       18.0,
+       -9.0
+      ],
+      [
+       38.0,
+       -9.0
+      ],
+      [
+       44.0,
+       -15.0
+      ],
+      [
+       60.0,
+       -15.0
+      ]
+     ]
+    },
+    "start_frame": 150,
+    "start_tc": "00:02.500",
+    "end_frame": 3600,
+    "end_tc": "01:00.000"
+   },
+   {
+    "id": "vento-frestas",
+    "layer": "ambiencia",
+    "origin": "roteiro",
+    "desc": "Vento uivando pelas frestas da janela.",
+    "fade_in": 3.0,
+    "gain_db": -16,
+    "loop": true,
+    "start": 16.0,
+    "end": 60.0,
+    "scene": "s1",
+    "automation": {
+     "gain_db": [
+      [
+       16.0,
+       -22.0
+      ],
+      [
+       20.0,
+       -12.0
+      ],
+      [
+       38.0,
+       -12.0
+      ],
+      [
+       44.0,
+       -20.0
+      ],
+      [
+       60.0,
+       -20.0
+      ]
+     ]
+    },
+    "start_frame": 960,
+    "start_tc": "00:16.000",
+    "end_frame": 3600,
+    "end_tc": "01:00.000"
+   },
+   {
+    "id": "cascalho-pneus",
+    "layer": "veiculo",
+    "origin": "roteiro",
+    "desc": "Cascalho sob os pneus na estrada de terra.",
+    "fade_in": 3.0,
+    "gain_db": -13,
+    "loop": true,
+    "start": 37.0,
+    "end": 60.0,
+    "scene": "s2",
+    "start_frame": 2220,
+    "start_tc": "00:37.000",
+    "end_frame": 3600,
+    "end_tc": "01:00.000"
+   },
+   {
+    "id": "chiado-celular",
+    "layer": "interface",
+    "origin": "roteiro",
+    "desc": "Chiado estático leve vindo do celular sem sinal.",
+    "fade_in": 0.1,
+    "fade_out": 0.3,
+    "gain_db": -18,
+    "loop": true,
+    "start": 41.7333,
+    "end": 45.7333,
+    "scene": "s3",
+    "start_frame": 2504,
+    "start_tc": "00:41.733",
+    "end_frame": 2744,
+    "end_tc": "00:45.733"
+   }
+  ],
+  "footsteps": [],
+  "bumps": [
+   {
+    "id": "batida-001",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 1.5167,
+    "end": 1.5167,
+    "gain_db": -14.41,
+    "intensity": 0.94,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 91,
+    "start_tc": "00:01.517"
+   },
+   {
+    "id": "batida-002",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 1.7167,
+    "end": 1.7167,
+    "gain_db": -17.18,
+    "intensity": 0.51,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 103,
+    "start_tc": "00:01.717"
+   },
+   {
+    "id": "batida-003",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 2.7167,
+    "end": 2.7167,
+    "gain_db": -18.28,
+    "intensity": 0.41,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 163,
+    "start_tc": "00:02.717"
+   },
+   {
+    "id": "batida-004",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 3.85,
+    "end": 3.85,
+    "gain_db": -15.5,
+    "intensity": 0.63,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 231,
+    "start_tc": "00:03.850"
+   },
+   {
+    "id": "batida-005",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 4.15,
+    "end": 4.15,
+    "gain_db": -16.06,
+    "intensity": 0.82,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 249,
+    "start_tc": "00:04.150"
+   },
+   {
+    "id": "batida-006",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 5.1,
+    "end": 5.1,
+    "gain_db": -16.69,
+    "intensity": 0.55,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 306,
+    "start_tc": "00:05.100"
+   },
+   {
+    "id": "batida-007",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 5.4333,
+    "end": 5.4333,
+    "gain_db": -16.51,
+    "intensity": 0.45,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 326,
+    "start_tc": "00:05.433"
+   },
+   {
+    "id": "batida-008",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 5.8333,
+    "end": 5.8333,
+    "gain_db": -19.03,
+    "intensity": 0.3,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 350,
+    "start_tc": "00:05.833"
+   },
+   {
+    "id": "batida-009",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 6.6833,
+    "end": 6.6833,
+    "gain_db": -14.77,
+    "intensity": 0.85,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 401,
+    "start_tc": "00:06.683"
+   },
+   {
+    "id": "batida-010",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 10.3333,
+    "end": 10.3333,
+    "gain_db": -14.19,
+    "intensity": 0.93,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 620,
+    "start_tc": "00:10.333"
+   },
+   {
+    "id": "batida-011",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 11.5667,
+    "end": 11.5667,
+    "gain_db": -19.0,
+    "intensity": 0.32,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 694,
+    "start_tc": "00:11.567"
+   },
+   {
+    "id": "batida-012",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 12.6333,
+    "end": 12.6333,
+    "gain_db": -18.04,
+    "intensity": 0.37,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 758,
+    "start_tc": "00:12.633"
+   },
+   {
+    "id": "batida-013",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 12.7667,
+    "end": 12.7667,
+    "gain_db": -14.1,
+    "intensity": 0.92,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 766,
+    "start_tc": "00:12.767"
+   },
+   {
+    "id": "batida-014",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 12.9167,
+    "end": 12.9167,
+    "gain_db": -17.93,
+    "intensity": 0.36,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 775,
+    "start_tc": "00:12.917"
+   },
+   {
+    "id": "batida-015",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 13.8833,
+    "end": 13.8833,
+    "gain_db": -17.62,
+    "intensity": 0.32,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 833,
+    "start_tc": "00:13.883"
+   },
+   {
+    "id": "batida-016",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 14.1333,
+    "end": 14.1333,
+    "gain_db": -16.82,
+    "intensity": 0.64,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 848,
+    "start_tc": "00:14.133"
+   },
+   {
+    "id": "batida-017",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 14.3833,
+    "end": 14.3833,
+    "gain_db": -15.89,
+    "intensity": 0.77,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 863,
+    "start_tc": "00:14.383"
+   },
+   {
+    "id": "batida-018",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 14.95,
+    "end": 14.95,
+    "gain_db": -17.77,
+    "intensity": 0.5,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 897,
+    "start_tc": "00:14.950"
+   },
+   {
+    "id": "batida-019",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 15.0833,
+    "end": 15.0833,
+    "gain_db": -17.98,
+    "intensity": 0.33,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 905,
+    "start_tc": "00:15.083"
+   },
+   {
+    "id": "batida-020",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 15.65,
+    "end": 15.65,
+    "gain_db": -15.1,
+    "intensity": 0.67,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 939,
+    "start_tc": "00:15.650"
+   },
+   {
+    "id": "batida-021",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 17.1667,
+    "end": 17.1667,
+    "gain_db": -17.28,
+    "intensity": 0.42,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 1030,
+    "start_tc": "00:17.167"
+   },
+   {
+    "id": "batida-022",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 17.3667,
+    "end": 17.3667,
+    "gain_db": -14.77,
+    "intensity": 0.78,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 1042,
+    "start_tc": "00:17.367"
+   },
+   {
+    "id": "batida-023",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 17.5833,
+    "end": 17.5833,
+    "gain_db": -15.8,
+    "intensity": 0.74,
+    "segment": "estrada-susto",
+    "scene": "s1",
+    "generated": "camera.bump",
+    "start_frame": 1055,
+    "start_tc": "00:17.583"
+   },
+   {
+    "id": "batida-024",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 18.5667,
+    "end": 18.5667,
+    "gain_db": -13.52,
+    "intensity": 0.33,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1114,
+    "start_tc": "00:18.567"
+   },
+   {
+    "id": "batida-025",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 20.0,
+    "end": 20.0,
+    "gain_db": -13.26,
+    "intensity": 0.59,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1200,
+    "start_tc": "00:20.000"
+   },
+   {
+    "id": "batida-026",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 20.1333,
+    "end": 20.1333,
+    "gain_db": -14.55,
+    "intensity": 0.31,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1208,
+    "start_tc": "00:20.133"
+   },
+   {
+    "id": "batida-027",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 20.9,
+    "end": 20.9,
+    "gain_db": -12.07,
+    "intensity": 0.6,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1254,
+    "start_tc": "00:20.900"
+   },
+   {
+    "id": "batida-028",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 21.3667,
+    "end": 21.3667,
+    "gain_db": -13.49,
+    "intensity": 0.34,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1282,
+    "start_tc": "00:21.367"
+   },
+   {
+    "id": "batida-029",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 22.2333,
+    "end": 22.2333,
+    "gain_db": -10.76,
+    "intensity": 0.9,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1334,
+    "start_tc": "00:22.233"
+   },
+   {
+    "id": "batida-030",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 22.9833,
+    "end": 22.9833,
+    "gain_db": -12.36,
+    "intensity": 0.74,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1379,
+    "start_tc": "00:22.983"
+   },
+   {
+    "id": "batida-031",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 23.3,
+    "end": 23.3,
+    "gain_db": -14.62,
+    "intensity": 0.31,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1398,
+    "start_tc": "00:23.300"
+   },
+   {
+    "id": "batida-032",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 23.4333,
+    "end": 23.4333,
+    "gain_db": -12.41,
+    "intensity": 0.69,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1406,
+    "start_tc": "00:23.433"
+   },
+   {
+    "id": "batida-033",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 23.9,
+    "end": 23.9,
+    "gain_db": -13.41,
+    "intensity": 0.51,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1434,
+    "start_tc": "00:23.900"
+   },
+   {
+    "id": "batida-034",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 27.9333,
+    "end": 27.9333,
+    "gain_db": -11.47,
+    "intensity": 0.65,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1676,
+    "start_tc": "00:27.933"
+   },
+   {
+    "id": "batida-035",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 29.0167,
+    "end": 29.0167,
+    "gain_db": -13.55,
+    "intensity": 0.51,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1741,
+    "start_tc": "00:29.017"
+   },
+   {
+    "id": "batida-036",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 29.1333,
+    "end": 29.1333,
+    "gain_db": -11.25,
+    "intensity": 0.66,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1748,
+    "start_tc": "00:29.133"
+   },
+   {
+    "id": "batida-037",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 29.4667,
+    "end": 29.4667,
+    "gain_db": -10.85,
+    "intensity": 0.73,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1768,
+    "start_tc": "00:29.467"
+   },
+   {
+    "id": "batida-038",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 29.6333,
+    "end": 29.6333,
+    "gain_db": -14.57,
+    "intensity": 0.39,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1778,
+    "start_tc": "00:29.633"
+   },
+   {
+    "id": "batida-039",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 30.5167,
+    "end": 30.5167,
+    "gain_db": -14.28,
+    "intensity": 0.33,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1831,
+    "start_tc": "00:30.517"
+   },
+   {
+    "id": "batida-040",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 30.85,
+    "end": 30.85,
+    "gain_db": -12.17,
+    "intensity": 0.64,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1851,
+    "start_tc": "00:30.850"
+   },
+   {
+    "id": "batida-041",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 31.2333,
+    "end": 31.2333,
+    "gain_db": -14.62,
+    "intensity": 0.39,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1874,
+    "start_tc": "00:31.233"
+   },
+   {
+    "id": "batida-042",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 33.05,
+    "end": 33.05,
+    "gain_db": -13.51,
+    "intensity": 0.44,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 1983,
+    "start_tc": "00:33.050"
+   },
+   {
+    "id": "batida-043",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 33.75,
+    "end": 33.75,
+    "gain_db": -11.65,
+    "intensity": 0.59,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 2025,
+    "start_tc": "00:33.750"
+   },
+   {
+    "id": "batida-044",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 33.9167,
+    "end": 33.9167,
+    "gain_db": -12.22,
+    "intensity": 0.76,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 2035,
+    "start_tc": "00:33.917"
+   },
+   {
+    "id": "batida-045",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 34.0833,
+    "end": 34.0833,
+    "gain_db": -13.99,
+    "intensity": 0.3,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 2045,
+    "start_tc": "00:34.083"
+   },
+   {
+    "id": "batida-046",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 35.9,
+    "end": 35.9,
+    "gain_db": -13.63,
+    "intensity": 0.52,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 2154,
+    "start_tc": "00:35.900"
+   },
+   {
+    "id": "batida-047",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 37.4,
+    "end": 37.4,
+    "gain_db": -10.13,
+    "intensity": 0.95,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 2244,
+    "start_tc": "00:37.400"
+   },
+   {
+    "id": "batida-048",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 38.85,
+    "end": 38.85,
+    "gain_db": -10.67,
+    "intensity": 0.76,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 2331,
+    "start_tc": "00:38.850"
+   },
+   {
+    "id": "batida-049",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "rangido-chassi",
+    "start": 39.5,
+    "end": 39.5,
+    "gain_db": -14.76,
+    "intensity": 0.31,
+    "segment": "estrada-deterioracao",
+    "scene": "s2",
+    "generated": "camera.bump",
+    "start_frame": 2370,
+    "start_tc": "00:39.500"
+   },
+   {
+    "id": "batida-050",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 40.3833,
+    "end": 40.3833,
+    "gain_db": -14.21,
+    "intensity": 0.96,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2423,
+    "start_tc": "00:40.383"
+   },
+   {
+    "id": "batida-051",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 40.7,
+    "end": 40.7,
+    "gain_db": -16.07,
+    "intensity": 0.63,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2442,
+    "start_tc": "00:40.700"
+   },
+   {
+    "id": "batida-052",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 41.4,
+    "end": 41.4,
+    "gain_db": -16.29,
+    "intensity": 0.44,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2484,
+    "start_tc": "00:41.400"
+   },
+   {
+    "id": "batida-053",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 42.5333,
+    "end": 42.5333,
+    "gain_db": -15.09,
+    "intensity": 0.81,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2552,
+    "start_tc": "00:42.533"
+   },
+   {
+    "id": "batida-054",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 42.9,
+    "end": 42.9,
+    "gain_db": -15.82,
+    "intensity": 0.67,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2574,
+    "start_tc": "00:42.900"
+   },
+   {
+    "id": "batida-055",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 43.0333,
+    "end": 43.0333,
+    "gain_db": -17.09,
+    "intensity": 0.32,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2582,
+    "start_tc": "00:43.033"
+   },
+   {
+    "id": "batida-056",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 44.0167,
+    "end": 44.0167,
+    "gain_db": -15.23,
+    "intensity": 0.49,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2641,
+    "start_tc": "00:44.017"
+   },
+   {
+    "id": "batida-057",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 44.3,
+    "end": 44.3,
+    "gain_db": -15.42,
+    "intensity": 0.62,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2658,
+    "start_tc": "00:44.300"
+   },
+   {
+    "id": "batida-058",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 44.65,
+    "end": 44.65,
+    "gain_db": -14.15,
+    "intensity": 0.84,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2679,
+    "start_tc": "00:44.650"
+   },
+   {
+    "id": "batida-059",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 44.95,
+    "end": 44.95,
+    "gain_db": -13.71,
+    "intensity": 0.84,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2697,
+    "start_tc": "00:44.950"
+   },
+   {
+    "id": "batida-060",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 45.5,
+    "end": 45.5,
+    "gain_db": -17.44,
+    "intensity": 0.4,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2730,
+    "start_tc": "00:45.500"
+   },
+   {
+    "id": "batida-061",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 45.6167,
+    "end": 45.6167,
+    "gain_db": -16.67,
+    "intensity": 0.36,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2737,
+    "start_tc": "00:45.617"
+   },
+   {
+    "id": "batida-062",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 45.9333,
+    "end": 45.9333,
+    "gain_db": -17.11,
+    "intensity": 0.42,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2756,
+    "start_tc": "00:45.933"
+   },
+   {
+    "id": "batida-063",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 46.1,
+    "end": 46.1,
+    "gain_db": -15.69,
+    "intensity": 0.52,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2766,
+    "start_tc": "00:46.100"
+   },
+   {
+    "id": "batida-064",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 47.2,
+    "end": 47.2,
+    "gain_db": -14.01,
+    "intensity": 0.68,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2832,
+    "start_tc": "00:47.200"
+   },
+   {
+    "id": "batida-065",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 48.5333,
+    "end": 48.5333,
+    "gain_db": -16.95,
+    "intensity": 0.49,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2912,
+    "start_tc": "00:48.533"
+   },
+   {
+    "id": "batida-066",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 48.7667,
+    "end": 48.7667,
+    "gain_db": -16.39,
+    "intensity": 0.42,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2926,
+    "start_tc": "00:48.767"
+   },
+   {
+    "id": "batida-067",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 48.8833,
+    "end": 48.8833,
+    "gain_db": -15.09,
+    "intensity": 0.62,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2933,
+    "start_tc": "00:48.883"
+   },
+   {
+    "id": "batida-068",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 49.4333,
+    "end": 49.4333,
+    "gain_db": -17.9,
+    "intensity": 0.3,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2966,
+    "start_tc": "00:49.433"
+   },
+   {
+    "id": "batida-069",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 49.7667,
+    "end": 49.7667,
+    "gain_db": -17.12,
+    "intensity": 0.39,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 2986,
+    "start_tc": "00:49.767"
+   },
+   {
+    "id": "batida-070",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 50.1667,
+    "end": 50.1667,
+    "gain_db": -14.44,
+    "intensity": 0.59,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3010,
+    "start_tc": "00:50.167"
+   },
+   {
+    "id": "batida-071",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 50.5667,
+    "end": 50.5667,
+    "gain_db": -15.75,
+    "intensity": 0.38,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3034,
+    "start_tc": "00:50.567"
+   },
+   {
+    "id": "batida-072",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 50.8,
+    "end": 50.8,
+    "gain_db": -17.77,
+    "intensity": 0.33,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3048,
+    "start_tc": "00:50.800"
+   },
+   {
+    "id": "batida-073",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 51.2,
+    "end": 51.2,
+    "gain_db": -16.5,
+    "intensity": 0.35,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3072,
+    "start_tc": "00:51.200"
+   },
+   {
+    "id": "batida-074",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 51.3333,
+    "end": 51.3333,
+    "gain_db": -14.99,
+    "intensity": 0.52,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3080,
+    "start_tc": "00:51.333"
+   },
+   {
+    "id": "batida-075",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 51.6167,
+    "end": 51.6167,
+    "gain_db": -17.02,
+    "intensity": 0.42,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3097,
+    "start_tc": "00:51.617"
+   },
+   {
+    "id": "batida-076",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 51.7333,
+    "end": 51.7333,
+    "gain_db": -15.21,
+    "intensity": 0.59,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3104,
+    "start_tc": "00:51.733"
+   },
+   {
+    "id": "batida-077",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 51.85,
+    "end": 51.85,
+    "gain_db": -14.85,
+    "intensity": 0.84,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3111,
+    "start_tc": "00:51.850"
+   },
+   {
+    "id": "batida-078",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 52.8333,
+    "end": 52.8333,
+    "gain_db": -16.56,
+    "intensity": 0.45,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3170,
+    "start_tc": "00:52.833"
+   },
+   {
+    "id": "batida-079",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 53.55,
+    "end": 53.55,
+    "gain_db": -15.24,
+    "intensity": 0.57,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3213,
+    "start_tc": "00:53.550"
+   },
+   {
+    "id": "batida-080",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 54.2833,
+    "end": 54.2833,
+    "gain_db": -15.69,
+    "intensity": 0.52,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3257,
+    "start_tc": "00:54.283"
+   },
+   {
+    "id": "batida-081",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 54.6833,
+    "end": 54.6833,
+    "gain_db": -15.37,
+    "intensity": 0.51,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3281,
+    "start_tc": "00:54.683"
+   },
+   {
+    "id": "batida-082",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 54.8,
+    "end": 54.8,
+    "gain_db": -14.98,
+    "intensity": 0.81,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3288,
+    "start_tc": "00:54.800"
+   },
+   {
+    "id": "batida-083",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 55.1667,
+    "end": 55.1667,
+    "gain_db": -17.37,
+    "intensity": 0.32,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3310,
+    "start_tc": "00:55.167"
+   },
+   {
+    "id": "batida-084",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 55.7167,
+    "end": 55.7167,
+    "gain_db": -13.4,
+    "intensity": 0.81,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3343,
+    "start_tc": "00:55.717"
+   },
+   {
+    "id": "batida-085",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 56.3667,
+    "end": 56.3667,
+    "gain_db": -13.62,
+    "intensity": 0.87,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3382,
+    "start_tc": "00:56.367"
+   },
+   {
+    "id": "batida-086",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 56.5833,
+    "end": 56.5833,
+    "gain_db": -16.14,
+    "intensity": 0.49,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3395,
+    "start_tc": "00:56.583"
+   },
+   {
+    "id": "batida-087",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 56.8667,
+    "end": 56.8667,
+    "gain_db": -17.3,
+    "intensity": 0.32,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3412,
+    "start_tc": "00:56.867"
+   },
+   {
+    "id": "batida-088",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 56.9833,
+    "end": 56.9833,
+    "gain_db": -12.47,
+    "intensity": 0.93,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3419,
+    "start_tc": "00:56.983"
+   },
+   {
+    "id": "batida-089",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 57.2,
+    "end": 57.2,
+    "gain_db": -16.35,
+    "intensity": 0.42,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3432,
+    "start_tc": "00:57.200"
+   },
+   {
+    "id": "batida-090",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 57.65,
+    "end": 57.65,
+    "gain_db": -18.11,
+    "intensity": 0.31,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3459,
+    "start_tc": "00:57.650"
+   },
+   {
+    "id": "batida-091",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 57.7833,
+    "end": 57.7833,
+    "gain_db": -16.42,
+    "intensity": 0.33,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3467,
+    "start_tc": "00:57.783"
+   },
+   {
+    "id": "batida-092",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 58.9,
+    "end": 58.9,
+    "gain_db": -16.54,
+    "intensity": 0.47,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3534,
+    "start_tc": "00:58.900"
+   },
+   {
+    "id": "batida-093",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "batida-suspensao",
+    "start": 59.0167,
+    "end": 59.0167,
+    "gain_db": -13.37,
+    "intensity": 0.96,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3541,
+    "start_tc": "00:59.017"
+   },
+   {
+    "id": "batida-094",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 59.1333,
+    "end": 59.1333,
+    "gain_db": -15.04,
+    "intensity": 0.76,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3548,
+    "start_tc": "00:59.133"
+   },
+   {
+    "id": "batida-095",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 59.2667,
+    "end": 59.2667,
+    "gain_db": -15.22,
+    "intensity": 0.65,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3556,
+    "start_tc": "00:59.267"
+   },
+   {
+    "id": "batida-096",
+    "layer": "veiculo",
+    "kind": "bump",
+    "origin": "roteiro",
+    "tag": "cascalho-batida",
+    "start": 59.55,
+    "end": 59.55,
+    "gain_db": -15.14,
+    "intensity": 0.7,
+    "segment": "estrada-terra",
+    "scene": "s3",
+    "generated": "camera.bump",
+    "start_frame": 3573,
+    "start_tc": "00:59.550"
+   }
+  ],
+  "flicker": [
+   {
+    "id": "falha-luz-001",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 0.5,
+    "end": 0.7,
+    "gain_db": -12.66,
+    "depth": 1.0,
+    "origin_event": "marcado",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 30,
+    "start_tc": "00:00.500",
+    "end_frame": 42,
+    "end_tc": "00:00.700"
+   },
+   {
+    "id": "falha-luz-002",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 0.7833,
+    "end": 0.8667,
+    "gain_db": -12.59,
+    "depth": 0.9,
+    "origin_event": "marcado",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 47,
+    "start_tc": "00:00.783",
+    "end_frame": 52,
+    "end_tc": "00:00.867"
+   },
+   {
+    "id": "falha-luz-003",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 1.05,
+    "end": 1.1,
+    "gain_db": -14.24,
+    "depth": 0.8,
+    "origin_event": "marcado",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 63,
+    "start_tc": "00:01.050",
+    "end_frame": 66,
+    "end_tc": "00:01.100"
+   },
+   {
+    "id": "falha-luz-004",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 1.3,
+    "end": 1.4167,
+    "gain_db": -12.75,
+    "depth": 0.85,
+    "origin_event": "marcado",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 78,
+    "start_tc": "00:01.300",
+    "end_frame": 85,
+    "end_tc": "00:01.417"
+   },
+   {
+    "id": "falha-luz-005",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 1.6167,
+    "end": 1.65,
+    "gain_db": -15.96,
+    "depth": 0.6,
+    "origin_event": "marcado",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 97,
+    "start_tc": "00:01.617",
+    "end_frame": 99,
+    "end_tc": "00:01.650"
+   },
+   {
+    "id": "falha-luz-006",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 7.9333,
+    "end": 7.9667,
+    "gain_db": -12.19,
+    "depth": 0.92,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 476,
+    "start_tc": "00:07.933",
+    "end_frame": 478,
+    "end_tc": "00:07.967"
+   },
+   {
+    "id": "falha-luz-007",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 11.9333,
+    "end": 12.0,
+    "gain_db": -14.92,
+    "depth": 0.574,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 716,
+    "start_tc": "00:11.933",
+    "end_frame": 720,
+    "end_tc": "00:12.000"
+   },
+   {
+    "id": "falha-luz-008",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 12.05,
+    "end": 12.0667,
+    "gain_db": -12.18,
+    "depth": 0.978,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 723,
+    "start_tc": "00:12.050",
+    "end_frame": 724,
+    "end_tc": "00:12.067"
+   },
+   {
+    "id": "falha-luz-009",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 12.1167,
+    "end": 12.1667,
+    "gain_db": -13.74,
+    "depth": 0.741,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 727,
+    "start_tc": "00:12.117",
+    "end_frame": 730,
+    "end_tc": "00:12.167"
+   },
+   {
+    "id": "falha-luz-010",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 13.7333,
+    "end": 13.75,
+    "gain_db": -13.83,
+    "depth": 0.822,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 824,
+    "start_tc": "00:13.733",
+    "end_frame": 825,
+    "end_tc": "00:13.750"
+   },
+   {
+    "id": "falha-luz-011",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 13.7833,
+    "end": 13.8,
+    "gain_db": -14.55,
+    "depth": 0.634,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 827,
+    "start_tc": "00:13.783",
+    "end_frame": 828,
+    "end_tc": "00:13.800"
+   },
+   {
+    "id": "falha-luz-012",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 13.8333,
+    "end": 13.8667,
+    "gain_db": -13.36,
+    "depth": 0.845,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 830,
+    "start_tc": "00:13.833",
+    "end_frame": 832,
+    "end_tc": "00:13.867"
+   },
+   {
+    "id": "falha-luz-013",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 14.1,
+    "end": 14.1667,
+    "gain_db": -15.68,
+    "depth": 0.594,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 846,
+    "start_tc": "00:14.100",
+    "end_frame": 850,
+    "end_tc": "00:14.167"
+   },
+   {
+    "id": "falha-luz-014",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 14.9,
+    "end": 14.9667,
+    "gain_db": -11.5,
+    "depth": 0.97,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 894,
+    "start_tc": "00:14.900",
+    "end_frame": 898,
+    "end_tc": "00:14.967"
+   },
+   {
+    "id": "falha-luz-015",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 15.0,
+    "end": 15.0667,
+    "gain_db": -15.29,
+    "depth": 0.609,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 900,
+    "start_tc": "00:15.000",
+    "end_frame": 904,
+    "end_tc": "00:15.067"
+   },
+   {
+    "id": "falha-luz-016",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 15.0833,
+    "end": 15.1333,
+    "gain_db": -13.23,
+    "depth": 0.872,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 905,
+    "start_tc": "00:15.083",
+    "end_frame": 908,
+    "end_tc": "00:15.133"
+   },
+   {
+    "id": "falha-luz-017",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 16.05,
+    "end": 16.1,
+    "gain_db": -14.68,
+    "depth": 0.593,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 963,
+    "start_tc": "00:16.050",
+    "end_frame": 966,
+    "end_tc": "00:16.100"
+   },
+   {
+    "id": "falha-luz-018",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 16.1167,
+    "end": 16.1667,
+    "gain_db": -15.14,
+    "depth": 0.634,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 967,
+    "start_tc": "00:16.117",
+    "end_frame": 970,
+    "end_tc": "00:16.167"
+   },
+   {
+    "id": "falha-luz-019",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 16.85,
+    "end": 16.8667,
+    "gain_db": -15.26,
+    "depth": 0.559,
+    "origin_event": "rajada",
+    "scene": "s1",
+    "generated": "camera.flicker",
+    "start_frame": 1011,
+    "start_tc": "00:16.850",
+    "end_frame": 1012,
+    "end_tc": "00:16.867"
+   },
+   {
+    "id": "falha-luz-020",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 21.25,
+    "end": 21.2833,
+    "gain_db": -13.89,
+    "depth": 0.83,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1275,
+    "start_tc": "00:21.250",
+    "end_frame": 1277,
+    "end_tc": "00:21.283"
+   },
+   {
+    "id": "falha-luz-021",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 21.3333,
+    "end": 21.3833,
+    "gain_db": -14.71,
+    "depth": 0.592,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1280,
+    "start_tc": "00:21.333",
+    "end_frame": 1283,
+    "end_tc": "00:21.383"
+   },
+   {
+    "id": "falha-luz-022",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 24.4667,
+    "end": 24.5,
+    "gain_db": -14.11,
+    "depth": 0.785,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1468,
+    "start_tc": "00:24.467",
+    "end_frame": 1470,
+    "end_tc": "00:24.500"
+   },
+   {
+    "id": "falha-luz-023",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 24.55,
+    "end": 24.6,
+    "gain_db": -14.55,
+    "depth": 0.771,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1473,
+    "start_tc": "00:24.550",
+    "end_frame": 1476,
+    "end_tc": "00:24.600"
+   },
+   {
+    "id": "falha-luz-024",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 24.6167,
+    "end": 24.6833,
+    "gain_db": -14.02,
+    "depth": 0.652,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1477,
+    "start_tc": "00:24.617",
+    "end_frame": 1481,
+    "end_tc": "00:24.683"
+   },
+   {
+    "id": "falha-luz-025",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 25.4833,
+    "end": 25.5,
+    "gain_db": -15.3,
+    "depth": 0.653,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1529,
+    "start_tc": "00:25.483",
+    "end_frame": 1530,
+    "end_tc": "00:25.500"
+   },
+   {
+    "id": "falha-luz-026",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 25.5333,
+    "end": 25.6,
+    "gain_db": -14.37,
+    "depth": 0.615,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1532,
+    "start_tc": "00:25.533",
+    "end_frame": 1536,
+    "end_tc": "00:25.600"
+   },
+   {
+    "id": "falha-luz-027",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 30.75,
+    "end": 30.8167,
+    "gain_db": -13.56,
+    "depth": 0.708,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1845,
+    "start_tc": "00:30.750",
+    "end_frame": 1849,
+    "end_tc": "00:30.817"
+   },
+   {
+    "id": "falha-luz-028",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 32.4167,
+    "end": 32.4333,
+    "gain_db": -13.29,
+    "depth": 0.817,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1945,
+    "start_tc": "00:32.417",
+    "end_frame": 1946,
+    "end_tc": "00:32.433"
+   },
+   {
+    "id": "falha-luz-029",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 32.4667,
+    "end": 32.5,
+    "gain_db": -13.93,
+    "depth": 0.857,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1948,
+    "start_tc": "00:32.467",
+    "end_frame": 1950,
+    "end_tc": "00:32.500"
+   },
+   {
+    "id": "falha-luz-030",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 32.5167,
+    "end": 32.5667,
+    "gain_db": -15.09,
+    "depth": 0.701,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1951,
+    "start_tc": "00:32.517",
+    "end_frame": 1954,
+    "end_tc": "00:32.567"
+   },
+   {
+    "id": "falha-luz-031",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 32.8667,
+    "end": 32.9167,
+    "gain_db": -12.7,
+    "depth": 0.971,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 1972,
+    "start_tc": "00:32.867",
+    "end_frame": 1975,
+    "end_tc": "00:32.917"
+   },
+   {
+    "id": "falha-luz-032",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 34.0333,
+    "end": 34.0833,
+    "gain_db": -13.6,
+    "depth": 0.822,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 2042,
+    "start_tc": "00:34.033",
+    "end_frame": 2045,
+    "end_tc": "00:34.083"
+   },
+   {
+    "id": "falha-luz-033",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 34.6333,
+    "end": 34.6833,
+    "gain_db": -14.2,
+    "depth": 0.703,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 2078,
+    "start_tc": "00:34.633",
+    "end_frame": 2081,
+    "end_tc": "00:34.683"
+   },
+   {
+    "id": "falha-luz-034",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 34.7167,
+    "end": 34.7667,
+    "gain_db": -11.86,
+    "depth": 0.924,
+    "origin_event": "rajada",
+    "scene": "s2",
+    "generated": "camera.flicker",
+    "start_frame": 2083,
+    "start_tc": "00:34.717",
+    "end_frame": 2086,
+    "end_tc": "00:34.767"
+   },
+   {
+    "id": "falha-luz-035",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 42.3667,
+    "end": 42.3833,
+    "gain_db": -12.64,
+    "depth": 0.949,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2542,
+    "start_tc": "00:42.367",
+    "end_frame": 2543,
+    "end_tc": "00:42.383"
+   },
+   {
+    "id": "falha-luz-036",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 42.4,
+    "end": 42.4167,
+    "gain_db": -12.69,
+    "depth": 0.985,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2544,
+    "start_tc": "00:42.400",
+    "end_frame": 2545,
+    "end_tc": "00:42.417"
+   },
+   {
+    "id": "falha-luz-037",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 42.5333,
+    "end": 42.6,
+    "gain_db": -15.05,
+    "depth": 0.606,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2552,
+    "start_tc": "00:42.533",
+    "end_frame": 2556,
+    "end_tc": "00:42.600"
+   },
+   {
+    "id": "falha-luz-038",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 42.6167,
+    "end": 42.6667,
+    "gain_db": -12.75,
+    "depth": 0.979,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2557,
+    "start_tc": "00:42.617",
+    "end_frame": 2560,
+    "end_tc": "00:42.667"
+   },
+   {
+    "id": "falha-luz-039",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 46.9833,
+    "end": 47.0167,
+    "gain_db": -15.49,
+    "depth": 0.646,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2819,
+    "start_tc": "00:46.983",
+    "end_frame": 2821,
+    "end_tc": "00:47.017"
+   },
+   {
+    "id": "falha-luz-040",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 47.0333,
+    "end": 47.0667,
+    "gain_db": -13.77,
+    "depth": 0.767,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2822,
+    "start_tc": "00:47.033",
+    "end_frame": 2824,
+    "end_tc": "00:47.067"
+   },
+   {
+    "id": "falha-luz-041",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 48.8667,
+    "end": 48.9,
+    "gain_db": -15.21,
+    "depth": 0.56,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2932,
+    "start_tc": "00:48.867",
+    "end_frame": 2934,
+    "end_tc": "00:48.900"
+   },
+   {
+    "id": "falha-luz-042",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 48.95,
+    "end": 48.9667,
+    "gain_db": -15.69,
+    "depth": 0.626,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2937,
+    "start_tc": "00:48.950",
+    "end_frame": 2938,
+    "end_tc": "00:48.967"
+   },
+   {
+    "id": "falha-luz-043",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 49.0,
+    "end": 49.0167,
+    "gain_db": -15.57,
+    "depth": 0.564,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2940,
+    "start_tc": "00:49.000",
+    "end_frame": 2941,
+    "end_tc": "00:49.017"
+   },
+   {
+    "id": "falha-luz-044",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 49.3833,
+    "end": 49.4333,
+    "gain_db": -13.54,
+    "depth": 0.767,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2963,
+    "start_tc": "00:49.383",
+    "end_frame": 2966,
+    "end_tc": "00:49.433"
+   },
+   {
+    "id": "falha-luz-045",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 49.8833,
+    "end": 49.9167,
+    "gain_db": -11.73,
+    "depth": 0.981,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 2993,
+    "start_tc": "00:49.883",
+    "end_frame": 2995,
+    "end_tc": "00:49.917"
+   },
+   {
+    "id": "falha-luz-046",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 52.4167,
+    "end": 52.4833,
+    "gain_db": -15.75,
+    "depth": 0.555,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3145,
+    "start_tc": "00:52.417",
+    "end_frame": 3149,
+    "end_tc": "00:52.483"
+   },
+   {
+    "id": "falha-luz-047",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 52.5,
+    "end": 52.5333,
+    "gain_db": -12.35,
+    "depth": 0.879,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3150,
+    "start_tc": "00:52.500",
+    "end_frame": 3152,
+    "end_tc": "00:52.533"
+   },
+   {
+    "id": "falha-luz-048",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 52.5833,
+    "end": 52.6,
+    "gain_db": -14.1,
+    "depth": 0.804,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3155,
+    "start_tc": "00:52.583",
+    "end_frame": 3156,
+    "end_tc": "00:52.600"
+   },
+   {
+    "id": "falha-luz-049",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 53.6333,
+    "end": 53.6833,
+    "gain_db": -15.18,
+    "depth": 0.56,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3218,
+    "start_tc": "00:53.633",
+    "end_frame": 3221,
+    "end_tc": "00:53.683"
+   },
+   {
+    "id": "falha-luz-050",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 53.7,
+    "end": 53.75,
+    "gain_db": -13.37,
+    "depth": 0.774,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3222,
+    "start_tc": "00:53.700",
+    "end_frame": 3225,
+    "end_tc": "00:53.750"
+   },
+   {
+    "id": "falha-luz-051",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 55.0833,
+    "end": 55.1167,
+    "gain_db": -13.15,
+    "depth": 0.78,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3305,
+    "start_tc": "00:55.083",
+    "end_frame": 3307,
+    "end_tc": "00:55.117"
+   },
+   {
+    "id": "falha-luz-052",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 55.1667,
+    "end": 55.2167,
+    "gain_db": -13.05,
+    "depth": 0.87,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3310,
+    "start_tc": "00:55.167",
+    "end_frame": 3313,
+    "end_tc": "00:55.217"
+   },
+   {
+    "id": "falha-luz-053",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 55.2667,
+    "end": 55.3333,
+    "gain_db": -13.79,
+    "depth": 0.857,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3316,
+    "start_tc": "00:55.267",
+    "end_frame": 3320,
+    "end_tc": "00:55.333"
+   },
+   {
+    "id": "falha-luz-054",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 58.9667,
+    "end": 59.0,
+    "gain_db": -16.16,
+    "depth": 0.57,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3538,
+    "start_tc": "00:58.967",
+    "end_frame": 3540,
+    "end_tc": "00:59.000"
+   },
+   {
+    "id": "falha-luz-055",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 59.05,
+    "end": 59.1,
+    "gain_db": -12.11,
+    "depth": 0.98,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3543,
+    "start_tc": "00:59.050",
+    "end_frame": 3546,
+    "end_tc": "00:59.100"
+   },
+   {
+    "id": "falha-luz-056",
+    "layer": "eletrico",
+    "kind": "flicker",
+    "origin": "inferido",
+    "tag": "falha-eletrica-lampada",
+    "start": 59.15,
+    "end": 59.2,
+    "gain_db": -13.27,
+    "depth": 0.906,
+    "origin_event": "rajada",
+    "scene": "s3",
+    "generated": "camera.flicker",
+    "start_frame": 3549,
+    "start_tc": "00:59.150",
+    "end_frame": 3552,
+    "end_tc": "00:59.200"
+   }
+  ],
+  "mix": {}
+ },
+ "camera": {
+  "file": "ep02.camera.csv",
+  "columns": [
+   "frame",
+   "t",
+   "scene",
+   "shake_x_cm",
+   "shake_y_cm",
+   "shake_z_cm",
+   "shake_yaw",
+   "shake_pitch",
+   "shake_roll",
+   "look_yaw",
+   "look_pitch",
+   "look_roll",
+   "fov_pct",
+   "vignette",
+   "edge_blur",
+   "eyelid",
+   "black",
+   "breath",
+   "heart",
+   "speed_kmh",
+   "step",
+   "light",
+   "motion_blur",
+   "bump"
+  ],
+  "steps": [],
+  "look": [
+   {
+    "yaw": 0,
+    "pitch": 0,
+    "note": "olhos fechados, cabeça caída (tela preta)",
+    "t": 0.0
+   },
+   {
+    "yaw": -8,
+    "pitch": 14,
+    "note": "o impacto joga a cabeça para cima e para trás",
+    "t": 0.62
+   },
+   {
+    "yaw": -62,
+    "pitch": 1,
+    "note": "olha a janela: só escuridão",
+    "t": 3.0167
+   },
+   {
+    "yaw": -8,
+    "pitch": -24,
+    "note": "olha para baixo, como se procurasse o que bateu",
+    "t": 4.2333
+   },
+   {
+    "yaw": 2,
+    "pitch": 7,
+    "note": "olha para a frente (a gente bateu?)",
+    "t": 5.2167
+   },
+   {
+    "yaw": 7,
+    "pitch": 9,
+    "note": "chama o motorista: costas imóveis lá na frente",
+    "t": 6.3833
+   },
+   {
+    "yaw": 0,
+    "pitch": -36,
+    "note": "cabeça baixa, recobrando o ar",
+    "t": 7.0167
+   },
+   {
+    "yaw": 0,
+    "pitch": 26,
+    "note": "olha o teto: luzes verdes piscando",
+    "t": 10.7333
+   },
+   {
+    "yaw": 4,
+    "pitch": 24,
+    "t": 21.7
+   },
+   {
+    "yaw": 30,
+    "pitch": -40,
+    "note": "olha o banco ao lado (direita): estofado rasgado, espuma podre, mofo",
+    "t": 23.2833
+   },
+   {
+    "yaw": 22,
+    "pitch": -48,
+    "note": "olha a mochila: poeira cinza e teias de aranha",
+    "t": 25.9
+   },
+   {
+    "yaw": -6,
+    "pitch": 6,
+    "note": "levanta o olhar: cadê todo mundo?",
+    "t": 28.15
+   },
+   {
+    "yaw": 12,
+    "pitch": 4,
+    "note": "varre o ônibus",
+    "t": 29.4167
+   },
+   {
+    "yaw": 12,
+    "pitch": 4,
+    "note": "(arma o giro)",
+    "t": 30.6
+   },
+   {
+    "yaw": 148,
+    "pitch": 3,
+    "note": "olhar rápido para trás pelo corredor: silhueta imóvel no último banco",
+    "t": 31.05
+   },
+   {
+    "yaw": 150,
+    "pitch": 3,
+    "t": 34.2333
+   },
+   {
+    "yaw": 20,
+    "pitch": -4,
+    "note": "volta a olhar para a frente (sussurra)",
+    "t": 35.1167
+   },
+   {
+    "yaw": -4,
+    "pitch": -12,
+    "t": 36.1333
+   },
+   {
+    "yaw": -14,
+    "pitch": -8,
+    "note": "olhar perdido, prestes a olhar a janela",
+    "t": 39.7
+   },
+   {
+    "yaw": -78,
+    "pitch": 3,
+    "note": "vira brusca para a janela: estrada de terra vermelha, árvores mortas, neblina",
+    "t": 40.12
+   },
+   {
+    "yaw": -30,
+    "pitch": -24,
+    "note": "olha o celular: SEM SERVIÇO, 00:00",
+    "t": 42.2333
+   },
+   {
+    "yaw": -32,
+    "pitch": -22,
+    "t": 45.5333
+   },
+   {
+    "yaw": -84,
+    "pitch": 4,
+    "note": "levanta o olhar para a janela: a placa vem aí",
+    "t": 46.2
+   },
+   {
+    "yaw": -128,
+    "pitch": 2,
+    "note": "a placa passa rápido: a cabeça gira para trás acompanhando",
+    "t": 46.7
+   },
+   {
+    "yaw": -110,
+    "pitch": 2,
+    "t": 49.3333
+   },
+   {
+    "yaw": -80,
+    "pitch": 0,
+    "note": "só mato morto",
+    "t": 53.8833
+   },
+   {
+    "yaw": -70,
+    "pitch": -2,
+    "t": 54.9333
+   },
+   {
+    "yaw": 2,
+    "pitch": 5,
+    "note": "olha para a frente e chama o motorista",
+    "t": 55.7167
+   },
+   {
+    "yaw": -2,
+    "pitch": 6,
+    "note": "fixa a nuca rígida e cinzenta do motorista",
+    "t": 58.0
+   },
+   {
+    "yaw": -2,
+    "pitch": 6.5,
+    "t": 59.95
+   }
+  ],
+  "kicks": [
+   {
+    "id": "k-bum-vertical",
+    "f_hz": 3.4,
+    "tau_s": 0.55,
+    "y_cm": 7.0,
+    "pitch": 9.0,
+    "z_cm": -2.0,
+    "note": "BUM: sobe com o buraco e despenca",
+    "t": 0.5
+   },
+   {
+    "id": "k-bum-lateral",
+    "f_hz": 2.6,
+    "tau_s": 0.7,
+    "x_cm": -6.0,
+    "roll": 9.0,
+    "yaw": 6.0,
+    "note": "BUM: sacode para os lados",
+    "t": 0.53
+   },
+   {
+    "id": "k-bum-rebote",
+    "f_hz": 4.4,
+    "tau_s": 0.4,
+    "y_cm": -3.5,
+    "pitch": -5.0,
+    "x_cm": 3.0,
+    "roll": -5.0,
+    "note": "rebote da suspensão",
+    "t": 0.72
+   }
+  ],
+  "pulses": [
+   {
+    "id": "p-engole",
+    "attack": 0.1,
+    "decay": 0.4,
+    "pitch": -1.4,
+    "y_cm": -0.35,
+    "note": "engole seco",
+    "t": 22.15
+   },
+   {
+    "id": "p-silhueta",
+    "attack": 0.12,
+    "decay": 0.9,
+    "pitch": 1.6,
+    "z_cm": -1.5,
+    "note": "recua ao ver a silhueta",
+    "t": 31.2
+   },
+   {
+    "id": "p-celular",
+    "attack": 0.25,
+    "decay": 0.5,
+    "y_cm": -0.8,
+    "roll": 1.0,
+    "note": "braço levanta o celular",
+    "t": 41.9333
+   },
+   {
+    "id": "p-voz-falha",
+    "attack": 0.15,
+    "decay": 0.6,
+    "pitch": -1.8,
+    "y_cm": -0.5,
+    "note": "a voz falha",
+    "t": 55.5167
+   }
+  ],
+  "heartbeats": [
+   0.737,
+   1.139,
+   1.545,
+   1.955,
+   2.369,
+   2.788,
+   3.21,
+   3.633,
+   4.058,
+   4.483,
+   4.91,
+   5.338,
+   5.766,
+   6.196,
+   6.627,
+   7.059,
+   7.492,
+   7.926,
+   8.361,
+   8.799,
+   9.239,
+   9.682,
+   10.127,
+   10.575,
+   11.025,
+   11.477,
+   11.932,
+   12.39,
+   12.851,
+   13.314,
+   13.78,
+   14.248,
+   14.719,
+   15.191,
+   15.665,
+   16.141,
+   16.619,
+   17.098,
+   17.579,
+   18.063,
+   18.546,
+   19.027,
+   19.507,
+   19.985,
+   20.462,
+   20.938,
+   21.412,
+   21.885,
+   22.356,
+   22.826,
+   23.295,
+   23.762,
+   24.228,
+   24.692,
+   25.156,
+   25.617,
+   26.078,
+   26.537,
+   26.995,
+   27.452,
+   27.907,
+   28.361,
+   28.814,
+   29.265,
+   29.714,
+   30.162,
+   30.609,
+   31.054,
+   31.497,
+   31.939,
+   32.38,
+   32.819,
+   33.257,
+   33.694,
+   34.129,
+   34.562,
+   34.995,
+   35.426,
+   35.855,
+   36.283,
+   36.709,
+   37.132,
+   37.553,
+   37.971,
+   38.386,
+   38.8,
+   39.21,
+   39.619,
+   40.025,
+   40.43,
+   40.833,
+   41.235,
+   41.636,
+   42.035,
+   42.433,
+   42.829,
+   43.225,
+   43.619,
+   44.012,
+   44.403,
+   44.793,
+   45.182,
+   45.57,
+   45.957,
+   46.342,
+   46.726,
+   47.109,
+   47.491,
+   47.872,
+   48.251,
+   48.63,
+   49.007,
+   49.383,
+   49.758,
+   50.132,
+   50.505,
+   50.877,
+   51.248,
+   51.618,
+   51.986,
+   52.354,
+   52.721,
+   53.086,
+   53.451,
+   53.814,
+   54.177,
+   54.538,
+   54.899,
+   55.258,
+   55.617,
+   55.975,
+   56.332,
+   56.688,
+   57.043,
+   57.398,
+   57.751,
+   58.104,
+   58.457,
+   58.808,
+   59.159,
+   59.51,
+   59.859
+  ],
+  "breath_cycles": [
+   {
+    "t": 0.6,
+    "inhale": 1.0167,
+    "hold": 0.0,
+    "exhale": 1.0,
+    "amp": 1.9,
+    "type": "gasp",
+    "ref": "s1-01",
+    "explicit": true
+   },
+   {
+    "t": 2.7067,
+    "inhale": 0.21,
+    "hold": 0.0,
+    "exhale": 1.0667,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s1-03",
+    "explicit": false
+   },
+   {
+    "t": 4.0583,
+    "inhale": 0.175,
+    "hold": 0.0,
+    "exhale": 0.7333,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s1-04",
+    "explicit": false
+   },
+   {
+    "t": 5.0417,
+    "inhale": 0.175,
+    "hold": 0.0,
+    "exhale": 0.8667,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s1-05",
+    "explicit": false
+   },
+   {
+    "t": 6.1733,
+    "inhale": 0.21,
+    "hold": 0.0,
+    "exhale": 0.6,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s1-06",
+    "explicit": false
+   },
+   {
+    "t": 7.0167,
+    "inhale": 0.2333,
+    "hold": 0.0,
+    "exhale": 0.2333,
+    "amp": 1.2,
+    "type": "pant",
+    "ref": "s1-07",
+    "explicit": true
+   },
+   {
+    "t": 7.4833,
+    "inhale": 0.2333,
+    "hold": 0.0,
+    "exhale": 0.2333,
+    "amp": 1.2,
+    "type": "pant",
+    "ref": "s1-07",
+    "explicit": true
+   },
+   {
+    "t": 7.95,
+    "inhale": 0.2333,
+    "hold": 0.0,
+    "exhale": 0.2333,
+    "amp": 1.2,
+    "type": "pant",
+    "ref": "s1-07",
+    "explicit": true
+   },
+   {
+    "t": 8.5017,
+    "inhale": 0.1983,
+    "hold": 0.0,
+    "exhale": 0.6333,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s1-08",
+    "explicit": false
+   },
+   {
+    "t": 9.4483,
+    "inhale": 0.2683,
+    "hold": 0.0,
+    "exhale": 3.6,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s1-09",
+    "explicit": false
+   },
+   {
+    "t": 13.3167,
+    "inhale": 0.5947,
+    "hold": 0.0,
+    "exhale": 0.9702,
+    "amp": 1.0,
+    "type": "basal",
+    "ref": null,
+    "explicit": false
+   },
+   {
+    "t": 14.8815,
+    "inhale": 0.607,
+    "hold": 0.0,
+    "exhale": 0.9904,
+    "amp": 1.0,
+    "type": "basal",
+    "ref": null,
+    "explicit": false
+   },
+   {
+    "t": 16.479,
+    "inhale": 0.6202,
+    "hold": 0.0,
+    "exhale": 1.012,
+    "amp": 1.0,
+    "type": "basal",
+    "ref": null,
+    "explicit": false
+   },
+   {
+    "t": 17.95,
+    "inhale": 0.35,
+    "hold": 0.0,
+    "exhale": 1.1333,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-01",
+    "explicit": false
+   },
+   {
+    "t": 19.7833,
+    "inhale": 0.35,
+    "hold": 0.0,
+    "exhale": 1.5667,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-02",
+    "explicit": false
+   },
+   {
+    "t": 22.05,
+    "inhale": 0.05,
+    "hold": 0.0167,
+    "exhale": 0.1,
+    "amp": 0.2,
+    "type": "swallow",
+    "ref": "s2-03",
+    "explicit": true
+   },
+   {
+    "t": 22.3517,
+    "inhale": 0.315,
+    "hold": 0.0,
+    "exhale": 1.2833,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-04",
+    "explicit": false
+   },
+   {
+    "t": 24.025,
+    "inhale": 0.175,
+    "hold": 0.0,
+    "exhale": 1.3833,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-05",
+    "explicit": false
+   },
+   {
+    "t": 25.6783,
+    "inhale": 0.2217,
+    "hold": 0.0,
+    "exhale": 1.9167,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-06",
+    "explicit": false
+   },
+   {
+    "t": 27.9167,
+    "inhale": 0.2333,
+    "hold": 0.0,
+    "exhale": 1.9333,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-07",
+    "explicit": false
+   },
+   {
+    "t": 30.3167,
+    "inhale": 0.35,
+    "hold": 0.0,
+    "exhale": 3.5667,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-08",
+    "explicit": false
+   },
+   {
+    "t": 34.4667,
+    "inhale": 0.35,
+    "hold": 0.0,
+    "exhale": 0.9333,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-09",
+    "explicit": false
+   },
+   {
+    "t": 35.865,
+    "inhale": 0.2683,
+    "hold": 0.0,
+    "exhale": 2.75,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s2-10",
+    "explicit": false
+   },
+   {
+    "t": 38.8833,
+    "inhale": 0.5055,
+    "hold": 0.0,
+    "exhale": 0.8247,
+    "amp": 1.0,
+    "type": "basal",
+    "ref": null,
+    "explicit": false
+   },
+   {
+    "t": 40.25,
+    "inhale": 0.35,
+    "hold": 0.0,
+    "exhale": 2.7167,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s3-01",
+    "explicit": false
+   },
+   {
+    "t": 43.4067,
+    "inhale": 0.21,
+    "hold": 0.0,
+    "exhale": 1.8167,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s3-02",
+    "explicit": false
+   },
+   {
+    "t": 45.5683,
+    "inhale": 0.315,
+    "hold": 0.0,
+    "exhale": 1.15,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s3-03",
+    "explicit": false
+   },
+   {
+    "t": 47.1433,
+    "inhale": 0.2567,
+    "hold": 0.0,
+    "exhale": 1.6333,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s3-04",
+    "explicit": false
+   },
+   {
+    "t": 49.1233,
+    "inhale": 0.21,
+    "hold": 0.0,
+    "exhale": 4.1,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s3-05",
+    "explicit": false
+   },
+   {
+    "t": 53.5683,
+    "inhale": 0.315,
+    "hold": 0.0,
+    "exhale": 1.05,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s3-06",
+    "explicit": false
+   },
+   {
+    "t": 55.1667,
+    "inhale": 0.35,
+    "hold": 0.0,
+    "exhale": 0.65,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s3-07",
+    "explicit": false
+   },
+   {
+    "t": 56.3333,
+    "inhale": 0.35,
+    "hold": 0.0,
+    "exhale": 1.55,
+    "amp": 0.8,
+    "type": "inhale_phrase",
+    "ref": "s3-08",
+    "explicit": false
+   },
+   {
+    "t": 58.2333,
+    "inhale": 0.4186,
+    "hold": 0.0,
+    "exhale": 0.6829,
+    "amp": 1.0,
+    "type": "basal",
+    "ref": null,
+    "explicit": false
+   }
+  ],
+  "black_ranges": [
+   [
+    0.0,
+    0.5
+   ]
+  ],
+  "bumps": [
+   {
+    "t": 1.5167,
+    "frame": 91,
+    "size": 0.9444,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 1.7167,
+    "frame": 103,
+    "size": 0.5128,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 2.7167,
+    "frame": 163,
+    "size": 0.4073,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 3.85,
+    "frame": 231,
+    "size": 0.627,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 4.15,
+    "frame": 249,
+    "size": 0.8208,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 5.1,
+    "frame": 306,
+    "size": 0.5501,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 5.4333,
+    "frame": 326,
+    "size": 0.4487,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 5.8333,
+    "frame": 350,
+    "size": 0.3019,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 6.6833,
+    "frame": 401,
+    "size": 0.8536,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 10.3333,
+    "frame": 620,
+    "size": 0.929,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 11.5667,
+    "frame": 694,
+    "size": 0.3204,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 12.6333,
+    "frame": 758,
+    "size": 0.3671,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 12.7667,
+    "frame": 766,
+    "size": 0.916,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 12.9167,
+    "frame": 775,
+    "size": 0.361,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 13.8833,
+    "frame": 833,
+    "size": 0.3219,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 14.1333,
+    "frame": 848,
+    "size": 0.6437,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 14.3833,
+    "frame": 863,
+    "size": 0.7718,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 14.95,
+    "frame": 897,
+    "size": 0.5021,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 15.0833,
+    "frame": 905,
+    "size": 0.3343,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 15.65,
+    "frame": 939,
+    "size": 0.6749,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 17.1667,
+    "frame": 1030,
+    "size": 0.4228,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 17.3667,
+    "frame": 1042,
+    "size": 0.7807,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 17.5833,
+    "frame": 1055,
+    "size": 0.7391,
+    "segment": "estrada-susto"
+   },
+   {
+    "t": 18.5667,
+    "frame": 1114,
+    "size": 0.331,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 20.0,
+    "frame": 1200,
+    "size": 0.589,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 20.1333,
+    "frame": 1208,
+    "size": 0.3116,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 20.9,
+    "frame": 1254,
+    "size": 0.5977,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 21.3667,
+    "frame": 1282,
+    "size": 0.3424,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 22.2333,
+    "frame": 1334,
+    "size": 0.9,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 22.9833,
+    "frame": 1379,
+    "size": 0.7436,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 23.3,
+    "frame": 1398,
+    "size": 0.3075,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 23.4333,
+    "frame": 1406,
+    "size": 0.6948,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 23.9,
+    "frame": 1434,
+    "size": 0.5051,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 27.9333,
+    "frame": 1676,
+    "size": 0.651,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 29.0167,
+    "frame": 1741,
+    "size": 0.509,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 29.1333,
+    "frame": 1748,
+    "size": 0.6637,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 29.4667,
+    "frame": 1768,
+    "size": 0.7326,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 29.6333,
+    "frame": 1778,
+    "size": 0.3869,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 30.5167,
+    "frame": 1831,
+    "size": 0.3267,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 30.85,
+    "frame": 1851,
+    "size": 0.6413,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 31.2333,
+    "frame": 1874,
+    "size": 0.3894,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 33.05,
+    "frame": 1983,
+    "size": 0.4396,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 33.75,
+    "frame": 2025,
+    "size": 0.5896,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 33.9167,
+    "frame": 2035,
+    "size": 0.76,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 34.0833,
+    "frame": 2045,
+    "size": 0.3025,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 35.9,
+    "frame": 2154,
+    "size": 0.5205,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 37.4,
+    "frame": 2244,
+    "size": 0.9522,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 38.85,
+    "frame": 2331,
+    "size": 0.7562,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 39.5,
+    "frame": 2370,
+    "size": 0.306,
+    "segment": "estrada-deterioracao"
+   },
+   {
+    "t": 40.3833,
+    "frame": 2423,
+    "size": 0.9615,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 40.7,
+    "frame": 2442,
+    "size": 0.6272,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 41.4,
+    "frame": 2484,
+    "size": 0.4387,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 42.5333,
+    "frame": 2552,
+    "size": 0.8131,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 42.9,
+    "frame": 2574,
+    "size": 0.6677,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 43.0333,
+    "frame": 2582,
+    "size": 0.3196,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 44.0167,
+    "frame": 2641,
+    "size": 0.4878,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 44.3,
+    "frame": 2658,
+    "size": 0.6234,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 44.65,
+    "frame": 2679,
+    "size": 0.8424,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 44.95,
+    "frame": 2697,
+    "size": 0.8353,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 45.5,
+    "frame": 2730,
+    "size": 0.3959,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 45.6167,
+    "frame": 2737,
+    "size": 0.3618,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 45.9333,
+    "frame": 2756,
+    "size": 0.4244,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 46.1,
+    "frame": 2766,
+    "size": 0.516,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 47.2,
+    "frame": 2832,
+    "size": 0.6786,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 48.5333,
+    "frame": 2912,
+    "size": 0.4896,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 48.7667,
+    "frame": 2926,
+    "size": 0.4159,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 48.8833,
+    "frame": 2933,
+    "size": 0.6155,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 49.4333,
+    "frame": 2966,
+    "size": 0.3,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 49.7667,
+    "frame": 2986,
+    "size": 0.3906,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 50.1667,
+    "frame": 3010,
+    "size": 0.5944,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 50.5667,
+    "frame": 3034,
+    "size": 0.3757,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 50.8,
+    "frame": 3048,
+    "size": 0.3306,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 51.2,
+    "frame": 3072,
+    "size": 0.3474,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 51.3333,
+    "frame": 3080,
+    "size": 0.5183,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 51.6167,
+    "frame": 3097,
+    "size": 0.4178,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 51.7333,
+    "frame": 3104,
+    "size": 0.5944,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 51.85,
+    "frame": 3111,
+    "size": 0.8442,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 52.8333,
+    "frame": 3170,
+    "size": 0.4516,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 53.55,
+    "frame": 3213,
+    "size": 0.5683,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 54.2833,
+    "frame": 3257,
+    "size": 0.5209,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 54.6833,
+    "frame": 3281,
+    "size": 0.5139,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 54.8,
+    "frame": 3288,
+    "size": 0.8071,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 55.1667,
+    "frame": 3310,
+    "size": 0.3221,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 55.7167,
+    "frame": 3343,
+    "size": 0.812,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 56.3667,
+    "frame": 3382,
+    "size": 0.869,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 56.5833,
+    "frame": 3395,
+    "size": 0.4927,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 56.8667,
+    "frame": 3412,
+    "size": 0.3157,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 56.9833,
+    "frame": 3419,
+    "size": 0.9259,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 57.2,
+    "frame": 3432,
+    "size": 0.4166,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 57.65,
+    "frame": 3459,
+    "size": 0.3082,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 57.7833,
+    "frame": 3467,
+    "size": 0.3303,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 58.9,
+    "frame": 3534,
+    "size": 0.4674,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 59.0167,
+    "frame": 3541,
+    "size": 0.9599,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 59.1333,
+    "frame": 3548,
+    "size": 0.7552,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 59.2667,
+    "frame": 3556,
+    "size": 0.6491,
+    "segment": "estrada-terra"
+   },
+   {
+    "t": 59.55,
+    "frame": 3573,
+    "size": 0.7024,
+    "segment": "estrada-terra"
+   }
+  ],
+  "flicker": [
+   {
+    "t": 0.5,
+    "frames": 12,
+    "depth": 1.0,
+    "origin": "marcado",
+    "note": "BUM: as lâmpadas morrem no impacto"
+   },
+   {
+    "t": 0.7833,
+    "frames": 5,
+    "depth": 0.9,
+    "origin": "marcado",
+    "note": "voltam falhando enquanto ele abre os olhos"
+   },
+   {
+    "t": 1.05,
+    "frames": 3,
+    "depth": 0.8,
+    "origin": "marcado",
+    "note": ""
+   },
+   {
+    "t": 1.3,
+    "frames": 7,
+    "depth": 0.85,
+    "origin": "marcado",
+    "note": ""
+   },
+   {
+    "t": 1.6167,
+    "frames": 2,
+    "depth": 0.6,
+    "origin": "marcado",
+    "note": ""
+   },
+   {
+    "t": 7.9333,
+    "frames": 2,
+    "depth": 0.92,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 11.9333,
+    "frames": 4,
+    "depth": 0.574,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 12.05,
+    "frames": 1,
+    "depth": 0.978,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 12.1167,
+    "frames": 3,
+    "depth": 0.741,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 13.7333,
+    "frames": 1,
+    "depth": 0.822,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 13.7833,
+    "frames": 1,
+    "depth": 0.634,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 13.8333,
+    "frames": 2,
+    "depth": 0.845,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 14.1,
+    "frames": 4,
+    "depth": 0.594,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 14.9,
+    "frames": 4,
+    "depth": 0.97,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 15.0,
+    "frames": 4,
+    "depth": 0.609,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 15.0833,
+    "frames": 3,
+    "depth": 0.872,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 16.05,
+    "frames": 3,
+    "depth": 0.593,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 16.1167,
+    "frames": 3,
+    "depth": 0.634,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 16.85,
+    "frames": 1,
+    "depth": 0.559,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 21.25,
+    "frames": 2,
+    "depth": 0.83,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 21.3333,
+    "frames": 3,
+    "depth": 0.592,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 24.4667,
+    "frames": 2,
+    "depth": 0.785,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 24.55,
+    "frames": 3,
+    "depth": 0.771,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 24.6167,
+    "frames": 4,
+    "depth": 0.652,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 25.4833,
+    "frames": 1,
+    "depth": 0.653,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 25.5333,
+    "frames": 4,
+    "depth": 0.615,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 30.75,
+    "frames": 4,
+    "depth": 0.708,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 32.4167,
+    "frames": 1,
+    "depth": 0.817,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 32.4667,
+    "frames": 2,
+    "depth": 0.857,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 32.5167,
+    "frames": 3,
+    "depth": 0.701,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 32.8667,
+    "frames": 3,
+    "depth": 0.971,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 34.0333,
+    "frames": 3,
+    "depth": 0.822,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 34.6333,
+    "frames": 3,
+    "depth": 0.703,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 34.7167,
+    "frames": 3,
+    "depth": 0.924,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 42.3667,
+    "frames": 1,
+    "depth": 0.949,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 42.4,
+    "frames": 1,
+    "depth": 0.985,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 42.5333,
+    "frames": 4,
+    "depth": 0.606,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 42.6167,
+    "frames": 3,
+    "depth": 0.979,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 46.9833,
+    "frames": 2,
+    "depth": 0.646,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 47.0333,
+    "frames": 2,
+    "depth": 0.767,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 48.8667,
+    "frames": 2,
+    "depth": 0.56,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 48.95,
+    "frames": 1,
+    "depth": 0.626,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 49.0,
+    "frames": 1,
+    "depth": 0.564,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 49.3833,
+    "frames": 3,
+    "depth": 0.767,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 49.8833,
+    "frames": 2,
+    "depth": 0.981,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 52.4167,
+    "frames": 4,
+    "depth": 0.555,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 52.5,
+    "frames": 2,
+    "depth": 0.879,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 52.5833,
+    "frames": 1,
+    "depth": 0.804,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 53.6333,
+    "frames": 3,
+    "depth": 0.56,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 53.7,
+    "frames": 3,
+    "depth": 0.774,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 55.0833,
+    "frames": 2,
+    "depth": 0.78,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 55.1667,
+    "frames": 3,
+    "depth": 0.87,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 55.2667,
+    "frames": 4,
+    "depth": 0.857,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 58.9667,
+    "frames": 2,
+    "depth": 0.57,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 59.05,
+    "frames": 3,
+    "depth": 0.98,
+    "origin": "rajada",
+    "note": ""
+   },
+   {
+    "t": 59.15,
+    "frames": 3,
+    "depth": 0.906,
+    "origin": "rajada",
+    "note": ""
+   }
+  ]
+ }
+}

@@ -1,0 +1,227 @@
+{
+  "generated_by": "python -m pipeline audio",
+  "audio": {
+    "s1.mp3": {
+      "offset": 0.13,
+      "duration": 14.46,
+      "floor_db": -63.4,
+      "speech_db": -13.0,
+      "contrast_db": 50.4,
+      "voiced_runs": 7,
+      "breath_runs": 4,
+      "cut_candidates": 47,
+      "offset_default": true,
+      "scene": "s1",
+      "speaker": null
+    },
+    "s2.mp3": {
+      "offset": 16.87,
+      "duration": 17.76,
+      "floor_db": -64.3,
+      "speech_db": -16.8,
+      "contrast_db": 47.6,
+      "voiced_runs": 10,
+      "breath_runs": 5,
+      "cut_candidates": 45,
+      "offset_default": true,
+      "scene": "s2",
+      "speaker": null
+    },
+    "s3.mp3": {
+      "offset": 37.13,
+      "duration": 21.46,
+      "floor_db": -62.4,
+      "speech_db": -19.2,
+      "contrast_db": 43.2,
+      "voiced_runs": 16,
+      "breath_runs": 7,
+      "cut_candidates": 47,
+      "offset_default": true,
+      "scene": "s3",
+      "speaker": null
+    }
+  },
+  "tracks": [
+    "s1.mp3",
+    "s2.mp3",
+    "s3.mp3"
+  ],
+  "params": {
+    "contrast_min_db": 12.0,
+    "voice_frac": 0.4,
+    "edge_db": 6.0,
+    "breath_zcr": 0.2,
+    "breath_below_db": 12.0,
+    "breath_min_s": 0.12,
+    "min_gap_s": 0.05,
+    "min_pause_s": 0.1,
+    "min_speech_s": 0.06,
+    "w_dur": 2.0,
+    "w_pos": 0.0,
+    "w_gap": 0.8,
+    "pos_sigma_s": 1.2,
+    "w_block": 0.35,
+    "w_runs": 0.4,
+    "w_pause": 0.5,
+    "w_rate": 8.0,
+    "min_item_s": 0.12
+  },
+  "items": {
+    "s1-01": {
+      "start": 0.15,
+      "end": 0.74,
+      "conf": 0.75
+    },
+    "s1-02": {
+      "start": 0.94,
+      "end": 4.21,
+      "pauses": [
+        [
+          1.44,
+          1.88
+        ]
+      ],
+      "conf": 0.55
+    },
+    "s1-03": {
+      "start": 4.32,
+      "end": 5.04,
+      "conf": 0.54
+    },
+    "s1-04": {
+      "start": 5.67,
+      "end": 8.26,
+      "conf": 0.68
+    },
+    "s1-05": {
+      "start": 8.28,
+      "end": 12.45,
+      "pauses": [
+        [
+          8.89,
+          9.09
+        ]
+      ],
+      "conf": 0.48
+    },
+    "s1-06": {
+      "start": 12.67,
+      "end": 14.48,
+      "conf": 0.76
+    },
+    "s2-01": {
+      "start": 16.92,
+      "end": 17.69,
+      "conf": 0.75
+    },
+    "s2-02": {
+      "start": 17.95,
+      "end": 20.58,
+      "pauses": [
+        [
+          18.83,
+          18.99
+        ],
+        [
+          19.62,
+          19.72
+        ]
+      ],
+      "conf": 0.45
+    },
+    "s2-03": {
+      "start": 20.6,
+      "end": 22.49,
+      "pauses": [
+        [
+          21.47,
+          21.7
+        ]
+      ],
+      "conf": 0.52
+    },
+    "s2-04": {
+      "start": 22.99,
+      "end": 24.54,
+      "conf": 0.74
+    },
+    "s2-05": {
+      "start": 24.79,
+      "end": 25.98,
+      "conf": 0.78
+    },
+    "s2-06": {
+      "start": 26.14,
+      "end": 26.43,
+      "conf": 0.75
+    },
+    "s2-07": {
+      "start": 26.77,
+      "end": 31.59,
+      "conf": 0.9
+    },
+    "s2-08": {
+      "start": 31.97,
+      "end": 34.52,
+      "pauses": [
+        [
+          32.63,
+          32.91
+        ]
+      ],
+      "conf": 0.94
+    },
+    "s3-01": {
+      "start": 37.2,
+      "end": 42.15,
+      "pauses": [
+        [
+          40.89,
+          41.04
+        ],
+        [
+          41.23,
+          41.37
+        ]
+      ],
+      "conf": 0.67
+    },
+    "s3-02": {
+      "start": 42.43,
+      "end": 44.47,
+      "conf": 0.75
+    },
+    "s3-04": {
+      "start": 44.75,
+      "end": 48.43,
+      "conf": 0.84
+    },
+    "s3-05": {
+      "start": 49.06,
+      "end": 51.62,
+      "pauses": [
+        [
+          51.01,
+          51.33
+        ]
+      ],
+      "conf": 0.66
+    },
+    "s3-06": {
+      "start": 51.62,
+      "end": 54.81,
+      "conf": 0.75
+    },
+    "s3-07": {
+      "start": 55.49,
+      "end": 58.17,
+      "pauses": [
+        [
+          55.59,
+          56.09
+        ]
+      ],
+      "conf": 0.83
+    }
+  }
+}

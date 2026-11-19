@@ -1,0 +1,40 @@
+{
+  "id": "s3",
+  "config_index": 2,
+  "name": "O Clímax Final",
+  "source": "ep03-fim-da-linha.md · [00:42 - 01:00] (Ação Final [00:57 - 01:00]; Corte Seco [00:59])",
+
+  "set": {
+    "location": "Catraca/corredor do ônibus; porta pneumática à direita da cabine",
+    "lighting": "Luz verde piscando perto (revelação); depois o brilho de uma neblina vermelha vinda da porta aberta.",
+    "character_state": "Pânico absoluto, gritando.",
+    "characters": [
+      { "name": "passageiro do fundo", "state": "O MESMO rosto, a mesma roupa e a mesma mochila do protagonista, em decomposição; levanta-se e caminha rápido pelo corredor." },
+      { "name": "motorista", "state": "Aperta um botão vermelho; voz calma e macabra." }
+    ],
+    "outside": "Porta aberta: abismo infinito de neblina vermelha com dezenas de mãos pálidas estendidas para dentro."
+  },
+
+  "beats": [
+    { "id": "b3-olha-tras", "at": 42.0, "dur": 0.9,
+      "text": "O protagonista olha para trás, desesperado." },
+    { "id": "b3-levanta", "at": 42.8, "dur": 1.4,
+      "text": "O passageiro do fundo se levantou." },
+    { "id": "b3-caminha", "at": 43.4, "until": 46.4,
+      "text": "Ele caminha rápido pelo corredor, em direção ao protagonista." },
+    { "id": "b3-revela", "at": 46.4, "dur": 1.6,
+      "text": "Quando a luz verde pisca bem perto, revela-se: mesmo rosto, mesma roupa e mesma mochila do protagonista, em decomposição." },
+    { "id": "b3-vira-frente", "at": { "ref": "s3-05", "edge": "end", "offset": 0.1 }, "dur": 0.5,
+      "text": "O protagonista vira para a frente." },
+    { "id": "b3-botao", "at": { "ref": "s3-06", "edge": "start", "offset": 0.1 }, "dur": 0.3,
+      "text": "O motorista aperta um botão vermelho." },
+    { "id": "b3-porta", "at": { "ref": "s3-06", "edge": "start", "offset": 0.45 }, "dur": 1.2,
+      "text": "A porta pneumática abre com chiado alto: abismo infinito de neblina vermelha, dezenas de mãos pálidas estendidas para dentro." },
+    { "id": "b3-ombro", "at": { "ref": "s3-07", "edge": "end" }, "dur": 0.5,
+      "text": "[Ação Final 00:57] O passageiro decomposto agarra o ombro do protagonista por trás (a mão podre entra no canto da tela)." },
+    { "id": "b3-empurra", "at": { "beat": "b3-ombro", "offset": 0.4 }, "until": 59.0,
+      "text": "Empurra o protagonista para fora da porta aberta, direto na neblina vermelha." },
+    { "id": "b3-corte", "at": 59.0, "dur": 1.0,
+      "text": "[Corte Seco 00:59] Som ensurdecedor de freada brusca e metal retorcendo, seguido de silêncio absoluto e tela preta." }
+  ]
+}

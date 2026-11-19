@@ -1,0 +1,77 @@
+{
+  "episode": "ep03",
+  "source": "ep03-fim-da-linha.md",
+  "lang": "pt-BR",
+  "_comment": "Fonte da narração do Ep. 3. Tempos NÃO ficam aqui: o pipeline os calcula (build/ep03.timeline.json). `speaker` = quem fala (padrão: protagonista); `pace_syl_s` numa fala = ritmo próprio dela (ex.: motorista lento); `silence` = trecho sem voz de duração fixa (ação visual); `breath` = som de respiração do roteiro. \"skip\": true tira o item do roteiro ativo.",
+
+  "lexicon": {
+    "348": "três quatro oito",
+    "2019": "dois mil e dezenove"
+  },
+
+  "speakers": {
+    "protagonista": { "voice": "Estudante universitário brasileiro (~21 anos): desespero total, voz embargada, quase chorando; hiperventilação audível." },
+    "motorista": {
+      "voice": "Voz grave, distorcida como rádio antigo ecoando; calma e macabra.",
+      "fx_suggestion": { "pitch_semitones": -5, "bandpass_hz": [300, 3400], "distortion": "média", "echo_ms": 140, "mix_with": "radio-am" }
+    }
+  },
+
+  "scenes": [
+    {
+      "scene": "s1",
+      "breath_min_gap": 0.12,
+      "delivery": "Desespero total, voz embargada, quase chorando",
+      "window": [0.6, 19.2],
+      "pace_syl_s": 5.6,
+      "drag": [1.0, 0.9],
+      "items": [
+        { "id": "s1-01", "kind": "breath", "type": "hyperventilate", "label": "Hiperventilando", "dur": 1.70, "gap_after": 0.0 },
+        { "id": "s1-02", "kind": "speech", "text": "Moço, para o ônibus!" },
+        { "id": "s1-03", "kind": "speech", "text": "Pelo amor de Deus, abre a porta e me deixa descer!" },
+        { "id": "s1-04", "kind": "speech", "text": "Eu preciso descer no ponto 348, já passou muito!" },
+        { "id": "s1-05", "kind": "speech", "text": "O senhor tá me levando pra onde?!" },
+        { "id": "s1-06", "kind": "speech", "text": "Olha pra mim, caramba!" },
+        { "id": "s1-07", "kind": "speech", "text": "PARA ESSE ÔNIBUS!" }
+      ]
+    },
+    {
+      "scene": "s2",
+      "breath_min_gap": 0.12,
+      "delivery": "Motorista: grave, distorcido, lento · Protagonista: grito sufocado de terror",
+      "window": [20.3, 41.8],
+      "pace_syl_s": 6.5,
+      "items": [
+        { "id": "s2-01", "kind": "silence", "label": "o pescoço do motorista gira (só o estalo e o rádio)", "dur": 2.0 },
+        { "id": "s2-02", "kind": "speech", "speaker": "motorista", "pace_syl_s": 4.6,
+          "text": "Você pegou esse ônibus em Campinas em 2019, estudante..." },
+        { "id": "s2-03", "kind": "speech", "speaker": "motorista", "pace_syl_s": 4.6,
+          "text": "O ponto 348 não existe mais desde que a gente caiu na ribanceira." },
+        { "id": "s2-04", "kind": "silence", "label": "o protagonista processa o que ouviu", "dur": 0.35 },
+        { "id": "s2-05", "kind": "breath", "type": "gasp", "label": "Gasp de terror", "dur": 0.35, "gap_after": 0.0 },
+        { "id": "s2-06", "kind": "speech", "text": "Do que você tá falando...?!" },
+        { "id": "s2-07", "kind": "speech", "text": "Eu saí de Campinas agorinha pouco!" },
+        { "id": "s2-08", "kind": "speech", "text": "Eu tenho aula amanhã de manhã!" },
+        { "id": "s2-09", "kind": "speech", "text": "Você tá louco!" },
+        { "id": "s2-10", "kind": "speech", "text": "Abre essa porta agora, seu maluco!" }
+      ]
+    },
+    {
+      "scene": "s3",
+      "breath_min_gap": 0.12,
+      "delivery": "Protagonista: pânico absoluto, gritando · Motorista: voz calma e macabra",
+      "window": [42.4, 57.0],
+      "pace_syl_s": 6.0,
+      "items": [
+        { "id": "s3-01", "kind": "silence", "label": "o passageiro do fundo se levanta e vem pelo corredor (só ônibus, luz e passos)", "dur": 4.4 },
+        { "id": "s3-02", "kind": "speech", "text": "NÃO!" },
+        { "id": "s3-03", "kind": "speech", "text": "NÃO!" },
+        { "id": "s3-04", "kind": "speech", "text": "SAI DE PERTO DE MIM!" },
+        { "id": "s3-05", "kind": "speech", "text": "SOCORRO!" },
+        { "id": "s3-06", "kind": "silence", "label": "ele vira para a frente; o motorista aperta o botão vermelho; a porta abre", "dur": 1.0 },
+        { "id": "s3-07", "kind": "speech", "speaker": "motorista", "pace_syl_s": 3.2,
+          "text": "Chegou a sua vez de esperar no ponto." }
+      ]
+    }
+  ]
+}
