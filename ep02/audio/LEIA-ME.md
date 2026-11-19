@@ -1,7 +1,6 @@
 # Áudio da voz — ep02
 
-Coloque aqui a voz do episódio (WAV, ou mp3/m4a/ogg/flac se o `ffmpeg` estiver instalado). Os arquivos **não vão para
-o git** (só este guia e o `offsets.json`); o que fica versionado é o `narration.measured.json` gerado a partir deles.
+Coloque aqui a voz do episódio (WAV, ou mp3/m4a/ogg/flac se o `ffmpeg` estiver instalado). Os `.mp3` finais de cada bloco **vão para o git** (junto com este guia, o `PROMPTS.md`, o `offsets.json` e o `narration.measured.json` gerado a partir deles); backups (`rodadaN/`, `versoes_do_usuario/`) e a mixagem `.wav` ficam de fora.
 
 Um arquivo por cena (a voz do protagonista): `s1.mp3`, `s2.mp3`, `s3.mp3`.
 

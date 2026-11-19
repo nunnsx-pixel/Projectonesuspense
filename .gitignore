@@ -1,11 +1,13 @@
 __pycache__/
 *.pyc
 ep*/narration.measured.json.bak
-# áudio da voz (binário, fica fora do git; o measured.json gerado é que se versiona)
+# áudio da voz: só os .mp3 finais de cada bloco são versionados (com o measured.json); backups, wav e mixagem ficam fora
 ep*/audio/*
 !ep*/audio/LEIA-ME.md
 !ep*/audio/offsets.json
 !ep*/audio/PROMPTS.md
+# as vozes finais (2,9 MB) vão para o git; as pastas rodadaN/ e versoes_do_usuario/ continuam de fora
+!ep*/audio/*.mp3
 
 # render e vídeos (binários, ficam fora do git): sequências de imagens, mp4, áudio mixado e as imagens das texturas
 renders/
