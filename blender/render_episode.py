@@ -7,12 +7,15 @@
   --bench N          renderiza N quadros espalhados pelo episódio, mede e projeta o tempo total (não grava a sequência).
   --resume           (padrão) pula quadros que já existem; --overwrite refaz.
   --device auto|cpu|gpu  auto = GPU (OptiX/CUDA/HIP/Metal/oneAPI) se houver, senão CPU.
+  --frames 10,11,12  renderiza exatamente estes quadros (usado pelo lote do `pipeline render --batch`).
+  --perfil t4        poupa RAM/VRAM (ladrilhos de 512 px, texturas limitadas, menos rebatidas): para a T4 do Colab.
 
 Saída: <out>/<ep>/f00001.png ... (numeração do Blender: quadro do CSV + 1). 1080x1920 a 60 fps é o padrão do episódio.
 """
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 import time
 from pathlib import Path
@@ -51,7 +54,21 @@ def pick_device(sc, want: str, backend: str = "auto") -> str:
     return "CPU"
 
 
-def configure(sc, width, height, samples, device, threads, backend="auto"):
+def apply_profile(sc, perfil: str, width: int):
+    """Perfil de memória. `t4` = GPU de 16 GB de VRAM e ~12 GB de RAM (Colab): ladrilhos pequenos, texturas em no máximo 1024 px
+    (a 720 px de largura 2k não aparece), rebatidas e vaga-lumes contidos. Cada ajuste é opcional (muda de versão para versão)."""
+    if perfil != "t4":
+        return
+    cy = sc.cycles
+    for attr, val in (("tile_size", 512), ("adaptive_threshold", 0.03), ("sample_clamp_indirect", 4.0), ("max_bounces", 3),
+                      ("denoising_prefilter", "FAST"), ("texture_limit_render", "1024" if width <= 720 else "2048")):
+        try:
+            setattr(cy, attr, val)
+        except (AttributeError, TypeError, ValueError):
+            pass
+
+
+def configure(sc, width, height, samples, device, threads, backend="auto", perfil=""):
     sc.render.engine = "CYCLES"
     cy = sc.cycles
     used = pick_device(sc, device, backend)
@@ -71,6 +88,7 @@ def configure(sc, width, height, samples, device, threads, backend="auto"):
     sc.render.image_settings.compression = 15
     sc.view_settings.view_transform = "Standard"
     sc.render.use_persistent_data = True                     # reaproveita a cena entre quadros (muito mais rápido)
+    apply_profile(sc, perfil, width)
     if threads:
         sc.render.threads_mode = "FIXED"
         sc.render.threads = threads
@@ -89,6 +107,8 @@ def main(argv=None):
     ap.add_argument("--device", default="auto", choices=("auto", "cpu", "gpu"))
     ap.add_argument("--backend", default="auto", choices=("auto", "optix", "cuda", "hip", "metal", "oneapi"),
                     help="API da GPU (auto = a melhor disponível; no Colab, cuda é a aposta segura)")
+    ap.add_argument("--perfil", default="", choices=("", "t4"), help="perfil de memória (t4 = Colab)")
+    ap.add_argument("--frames", help="lista de quadros (0 = 1º do CSV), ex.: 120,121,122; vale no lugar de --first/--last/--step")
     ap.add_argument("--threads", type=int, default=0)
     ap.add_argument("--first", type=int, default=0)
     ap.add_argument("--last", type=int)
@@ -100,7 +120,7 @@ def main(argv=None):
     env = asm.assemble(a.episode, textures_dir=a.textures_dir)
     sc = env.sc
     height = a.height or round(a.width * 16 / 9)
-    used = configure(sc, a.width, height, a.samples, a.device, a.threads, a.backend)
+    used = configure(sc, a.width, height, a.samples, a.device, a.threads, a.backend, a.perfil)
     if a.device == "gpu" and used == "CPU":
         sys.exit(f"[RENDER] --device gpu pedido, mas nenhuma GPU com a API {a.backend} foi encontrada (veja nvidia-smi)")
     n = len(env.ctx.rows())
@@ -122,6 +142,8 @@ def main(argv=None):
         print(f"[BENCH] média {mean:.1f} s/quadro -> episódio inteiro ({n} quadros) ≈ {mean * n / 3600:.1f} h neste hardware")
         return 0
     todo = [k for k in range(a.first, last + 1, a.step)]
+    if a.frames:
+        todo = [k for k in sorted({int(x) for x in a.frames.split(",") if x.strip()}) if 0 <= k < n]
     done = skipped = 0
     t_start = time.time()
     for k in todo:
@@ -130,8 +152,10 @@ def main(argv=None):
             skipped += 1
             continue
         sc.frame_set(env.start_frame + k)
-        sc.render.filepath = str(f.with_suffix(""))
+        tmp = out / f"_w{os.getpid()}.png"                   # grava num nome temporário e renomeia: um corte no meio não deixa quadro pela metade
+        sc.render.filepath = str(tmp.with_suffix(""))
         bpy.ops.render.render(write_still=True)
+        os.replace(tmp, f)
         done += 1
         if done % 10 == 0 or k == todo[-1]:
             el = time.time() - t_start

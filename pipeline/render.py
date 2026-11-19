@@ -3,7 +3,15 @@
   python -m pipeline render ep01 [--width 1080 --samples 96 --device auto]     # sequência de imagens em renders/ep01/
   python -m pipeline render ep01 --bench 6                                      # mede s/quadro e projeta o tempo total
   python -m pipeline render ep01 --chunks 8 --chunk 3                           # só o 4º de 8 lotes (granja de render)
+  python -m pipeline render ep01 --batch 30 --stage /content/stage --out /drive/out/quadros   # Colab: lotes curtos com checkpoint
+  python -m pipeline render ep01 --status --out /drive/out/quadros              # quantos quadros já existem
   python -m pipeline assemble ep01                                              # renders + mix.wav -> out/ep01.mp4
+
+LOTES (`--batch N`): o Blender é aberto para N quadros por vez e fechado em seguida (a memória volta ao zero a cada lote), e cada
+quadro pronto é gravado de forma atômica na pasta final (`--out`, p.ex. o Google Drive). Com `--stage` o Blender grava numa pasta
+LOCAL rápida e cada lote é copiado para a pasta final antes do próximo. O que falta é sempre recalculado do que já está na pasta
+final, então depois de uma queda basta rodar o mesmo comando: ele continua do primeiro quadro que falta. Lote que falha (falta
+de memória, Blender morto) é repetido com metade dos quadros.
 
 O render roda `blender/render_episode.py` (Blender instalado, ou o módulo `bpy` do Python). A montagem usa o ffmpeg:
 H.264 yuv420p, 60 fps, AAC 192 kb/s, `+faststart` (pronto para o TikTok). O vídeo só sai completo se houver TODOS os quadros;
@@ -17,6 +25,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 from .timeline import FPS, ROOT
@@ -52,28 +61,177 @@ def frame_range(args, n: int) -> tuple[int, int]:
     return first, last
 
 
-def run_render(args, root: Path = ROOT) -> int:
-    tl = _timeline(args.episode, root)
-    first, last = frame_range(args, tl["frames"])
-    cmd = blender_command(args, root) + ["--episode", args.episode, "--out", str(Path(args.out).resolve()),
-                                         "--width", str(args.width), "--samples", str(args.samples), "--device", args.device,
-                                         "--first", str(first), "--last", str(last), "--step", str(args.step)]
+def _common_args(args, first: int, last: int) -> list[str]:
+    cmd = ["--episode", args.episode, "--width", str(args.width), "--samples", str(args.samples), "--device", args.device,
+           "--first", str(first), "--last", str(last), "--step", str(args.step)]
     if args.height:
         cmd += ["--height", str(args.height)]
     if getattr(args, "backend", "auto") != "auto":
         cmd += ["--backend", args.backend]
+    if getattr(args, "perfil", ""):
+        cmd += ["--perfil", args.perfil]
     if args.threads:
         cmd += ["--threads", str(args.threads)]
+    if args.textures_dir:
+        cmd += ["--textures-dir", args.textures_dir]
+    return cmd
+
+
+def _spawn(cmd: list[str], cwd: Path) -> int:
+    """Roda um lote (tests trocam esta função por uma falsa)."""
+    return subprocess.run(cmd, cwd=cwd).returncode
+
+
+def png_ok(path: Path) -> bool:
+    """PNG inteiro? (assinatura no começo e o bloco IEND no fim: um arquivo cortado no meio da gravação falha aqui)."""
+    try:
+        if path.stat().st_size < 67:
+            return False
+        with open(path, "rb") as f:
+            if f.read(8) != b"\x89PNG\r\n\x1a\n":
+                return False
+            f.seek(-12, 2)
+            return f.read(12) == b"\x00\x00\x00\x00IEND\xaeB`\x82"
+    except OSError:
+        return False
+
+
+def sync_stage(stage: Path, final: Path) -> list[int]:
+    """Move os quadros prontos da pasta local para a final (copia para `.part`, confere o tamanho e renomeia: nunca deixa
+    quadro pela metade na pasta final). Devolve os quadros que chegaram. Quadro corrompido na pasta local é descartado."""
+    got = []
+    for src in sorted(stage.glob("f*.png")):
+        try:
+            k = int(src.stem[1:]) - 1
+        except ValueError:
+            continue
+        if not png_ok(src):
+            src.unlink(missing_ok=True)
+            continue
+        dst = final / src.name
+        part = final / (src.name + ".part")
+        shutil.copyfile(src, part)
+        if part.stat().st_size != src.stat().st_size:
+            part.unlink(missing_ok=True)
+            continue
+        os.replace(part, dst)
+        src.unlink(missing_ok=True)
+        got.append(k)
+    for stray in stage.glob("_w*.png"):                      # sobra de um Blender morto no meio de um quadro
+        stray.unlink(missing_ok=True)
+    return got
+
+
+def memory_line() -> str:
+    """RAM e VRAM em uso (para o log: mostra se a queda foi falta de memória)."""
+    parts = []
+    try:
+        info = {k: int(v.split()[0]) for k, v in (ln.split(":", 1) for ln in open("/proc/meminfo", encoding="utf-8"))
+                if k in ("MemTotal", "MemAvailable")}
+        parts.append(f"RAM {(info['MemTotal'] - info['MemAvailable']) / 1048576:.1f}/{info['MemTotal'] / 1048576:.1f} GB")
+    except (OSError, KeyError, ValueError):
+        pass
+    try:
+        import resource
+        parts.append(f"pico do Blender {resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss / 1048576:.1f} GB")
+    except (ImportError, OSError):
+        pass
+    if shutil.which("nvidia-smi"):
+        try:
+            o = subprocess.run(["nvidia-smi", "--query-gpu=memory.used,memory.total", "--format=csv,noheader,nounits"],
+                               capture_output=True, text=True, timeout=10).stdout.split(",")
+            parts.append(f"VRAM {int(o[0]) / 1024:.1f}/{int(o[1]) / 1024:.1f} GB")
+        except (OSError, ValueError, IndexError, subprocess.SubprocessError):
+            pass
+    return " · ".join(parts)
+
+
+def run_status(args, root: Path = ROOT) -> int:
+    tl = _timeline(args.episode, root)
+    n = tl["frames"]
+    final = Path(args.out).resolve() / args.episode
+    have = _frames_on_disk(final) if final.exists() else {}
+    target = list(range(args.first, (n - 1 if args.last is None else min(args.last, n - 1)) + 1, args.step))
+    done = sum(1 for k in target if k in have)
+    print(f"{args.episode}: {done}/{len(target)} quadros ({100 * done / max(len(target), 1):.0f}%) em {final}")
+    log = final.parent / f"{args.episode}.log"
+    if log.exists():
+        lines = log.read_text(encoding="utf-8").strip().splitlines()
+        if lines:
+            print(f"último registro: {lines[-1]}")
+    return 0
+
+
+def _batched(args, root: Path, n: int, first: int, last: int) -> int:
+    ep = args.episode
+    final = Path(args.out).resolve() / ep
+    stage = Path(args.stage).resolve() / ep if args.stage else None
+    final.mkdir(parents=True, exist_ok=True)
+    if stage:
+        stage.mkdir(parents=True, exist_ok=True)
+        sync_stage(stage, final)                             # sobras da área local (a célula foi interrompida no meio)
+    have = set(_frames_on_disk(final))
+    target = list(range(first, last + 1, args.step))
+    base = blender_command(args, root) + _common_args(args, first, last)
+    out_arg = str(Path(args.stage).resolve() if stage else Path(args.out).resolve())
+    log = final.parent / f"{ep}.log"
+    batch, failures, t0, start_done = args.batch, 0, time.time(), sum(1 for k in target if k in have)
+    print(f"[LOTE] {ep}: {start_done}/{len(target)} quadros já prontos em {final}")
+    while True:
+        todo = [k for k in target if k not in have]
+        if not todo:
+            break
+        part = todo[:batch]
+        cmd = base + ["--out", out_arg, "--frames", ",".join(str(k) for k in part)]
+        print(f"[LOTE] quadros {part[0]}..{part[-1]} ({len(part)}) · faltam {len(todo)}", flush=True)
+        if args.dry_run:
+            print(" ".join(cmd))
+            return 0
+        t1 = time.time()
+        rc = _spawn(cmd, root)
+        if stage:
+            sync_stage(stage, final)
+        new = {k for k in part if (final / f"f{k + 1:05d}.png").exists()}
+        have |= new
+        done_now = sum(1 for k in target if k in have)
+        per = (time.time() - t1) / max(len(new), 1)
+        line = (f"{time.strftime('%Y-%m-%d %H:%M:%S')} {ep} lote de {len(part)} · +{len(new)} quadros · {done_now}/{len(target)} · "
+                f"{per:.1f} s/quadro · {memory_line()}")
+        print(f"[LOTE] {line}", flush=True)
+        try:
+            with open(log, "a", encoding="utf-8") as f:
+                f.write(line + "\n")
+        except OSError:
+            pass
+        if rc != 0 or not new:
+            failures += 1
+            batch = max(4, batch // 2)
+            print(f"[LOTE] o lote falhou (código {rc}); tentativa {failures}/{args.retries}; o próximo terá {batch} quadros", flush=True)
+            if failures >= args.retries:
+                print(f"[LOTE] desisti depois de {failures} falhas seguidas; rode o mesmo comando para retomar do quadro {todo[0]}")
+                return rc or 1
+        else:
+            failures, batch = 0, min(args.batch, batch * 2)
+    print(f"[LOTE] {ep}: todos os {len(target)} quadros prontos ({(time.time() - t0) / 60:.0f} min nesta rodada)")
+    return 0
+
+
+def run_render(args, root: Path = ROOT) -> int:
+    if getattr(args, "status", False):
+        return run_status(args, root)
+    tl = _timeline(args.episode, root)
+    first, last = frame_range(args, tl["frames"])
+    if getattr(args, "batch", 0) and not args.bench:
+        return _batched(args, root, tl["frames"], first, last)
+    cmd = blender_command(args, root) + _common_args(args, first, last) + ["--out", str(Path(args.out).resolve())]
     if args.bench:
         cmd += ["--bench", str(args.bench)]
     if args.overwrite:
         cmd += ["--overwrite"]
-    if args.textures_dir:
-        cmd += ["--textures-dir", args.textures_dir]
     print(" ".join(cmd))
     if args.dry_run:
         return 0
-    return subprocess.run(cmd, cwd=root).returncode
+    return _spawn(cmd, root)
 
 
 def _frames_on_disk(folder: Path) -> dict[int, Path]:
@@ -104,6 +262,10 @@ def run_assemble(args, root: Path = ROOT) -> int:
         raise SystemExit(f"faltam {len(missing)} de {n} quadros (primeiro: {missing[0]}); termine o render ou use --allow-partial "
                          f"(segura o último quadro renderizado: serve só de prévia)")
     out.parent.mkdir(parents=True, exist_ok=True)
+    stage = getattr(args, "stage", None)
+    work_dir = Path(stage).resolve() if stage else out.parent
+    work_dir.mkdir(parents=True, exist_ok=True)
+    part = work_dir / (out.name + ".part")                        # codifica num .part e só renomeia quando termina: mp4 existente = mp4 inteiro
     cmd = ["ffmpeg", "-v", "error", "-y"]
     if not missing:
         cmd += ["-framerate", str(FPS), "-start_number", "1", "-i", str(folder / "f%05d.png")]
@@ -126,10 +288,16 @@ def run_assemble(args, root: Path = ROOT) -> int:
                                                    "-pix_fmt", "yuv420p", "-movflags", "+faststart"]
     if have_audio:
         cmd += ["-c:a", "aac", "-b:a", "192k", "-ar", "48000"]
-    cmd += ["-frames:v", str(n), "-t", f"{n / FPS + 0.05:.6f}", str(out)]       # n quadros exatos; o -t só apara o áudio no fim
+    cmd += ["-frames:v", str(n), "-t", f"{n / FPS + 0.05:.6f}", "-f", "mp4", str(part)]   # n quadros exatos; o -t só apara o áudio no fim
     r = subprocess.run(cmd)
     if r.returncode:
+        part.unlink(missing_ok=True)
         return r.returncode
+    if stage:
+        shutil.copyfile(part, out.with_name(out.name + ".part"))
+        part.unlink(missing_ok=True)
+        part = out.with_name(out.name + ".part")
+    os.replace(part, out)
     info = probe(out)
     print(f"-> {out} · {info}")
     return 0
