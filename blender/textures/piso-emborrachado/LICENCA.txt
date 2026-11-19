@@ -1,0 +1,5 @@
+CC0 1.0 Universal — Poly Haven
+Conjunto: rubber_tiles (2k)
+Origem: https://polyhaven.com/a/rubber_tiles
+Usado em: piso-emborrachado
+Baixado por blender/tools/fetch_textures.py (blender/textures_sources.json).

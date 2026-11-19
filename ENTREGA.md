@@ -15,6 +15,9 @@ no Blender 4.2 LTS e no 5.3 (módulo `bpy`).
 | Cena 3D | Ônibus, cenário, personagens de corpo inteiro com esqueleto, luzes, efeitos de tela, materiais PBR procedurais | `blender/assemble_scene.py`, `blender/pov_scene/` |
 | Materiais | Manifesto + diretrizes de mapeamento de textura | `blender/materials.json`, `blender/TEXTURAS.md` |
 | Voz real | Mede o áudio gravado e re-sincroniza o projeto (`python -m pipeline audio ep0X`) | `pipeline/audio.py`, `tests/test_audio.py` |
+| Mixagem | Voz medida + SFX sintetizados nos instantes do roteiro, com loudness e corte seco do Ep. 3 (`python -m pipeline mix ep0X`) | `pipeline/mix.py`, `tests/test_mix.py` |
+| Texturas | Conjuntos PBR CC0 (Poly Haven) aplicados, com o estado narrativo vindo do manifesto | `blender/textures_sources.json`, `blender/tools/fetch_textures.py`, `blender/pov_scene/materials.py` |
+| Render e montagem | Sequência de imagens retomável/em lotes e mp4 final com áudio (`python -m pipeline render` / `assemble`) | `blender/render_episode.py`, `pipeline/render.py`, `tests/test_render.py` |
 | Testes | Pura (sincronia, rotas, esqueleto, manifesto, áudio) e com Blender (cena montada) | `tests/` |
 
 Cada `ep0X/README.md` explica as premissas daquele episódio (o que veio do roteiro e o que foi inferido).
@@ -23,7 +26,11 @@ Cada `ep0X/README.md` explica as premissas daquele episódio (o que veio do rote
 
 ```
 python -m pipeline build ep01 --strict      # idem ep02, ep03: regenera ep0X/build/
-python -m unittest discover -s tests         # 242 testes (86 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests         # 264 testes (93 exigem o módulo bpy; sem ele são pulados)
+python -m pipeline mix ep01                 # ep01.mix.wav (voz + SFX), idem ep02, ep03
+python blender/tools/fetch_textures.py      # texturas CC0 (uma vez)
+python -m pipeline render ep01 --bench 6    # s/quadro neste hardware; sem --bench renderiza tudo (retomável)
+python -m pipeline assemble ep01            # mp4 final com áudio
 blender -b -P blender/assemble_scene.py -- --episode ep01 --save ep01.blend
 blender -b -P blender/assemble_scene.py -- --episode ep03 --render-frames 23.8,46.8 --out previews --width 405 --samples 32
 ```
@@ -41,6 +48,7 @@ O build é determinístico: rodar de novo não muda nenhum arquivo gerado (confe
 - **Ep. 1, cena 3:** texto do briefing cortado para caber na janela, mantendo as duas menções ao 348 (`ep01/README.md`); o ônibus parte aos 40,7 s.
 - **Ep. 2 e 3:** redação do briefing aplicada.
 - **Sem contornos pretos** (Freestyle desligado, testado).
+- **Tela preta é preto de verdade** (corte final do Ep. 1 e do Ep. 3, abertura do Ep. 2): o plano preto fica a 5 cm da câmera, é maior que o campo de visão e zera a névoa por driver; antes o corte do Ep. 3 saía vermelho-escuro (testado).
 
 ## Decisões em aberto (nada foi mudado sem sua confirmação)
 
@@ -50,10 +58,10 @@ O build é determinístico: rodar de novo não muda nenhum arquivo gerado (confe
 ## O que falta para chegar aos vídeos finais
 
 1. **Voz.** **Feita e medida (18/11/2026).** Os 11 blocos foram gerados pelo conector do ElevenLabs (modelo `eleven_v4`, voz Eduardo e a voz criada "Horror motorista"); os prompts da versão final de cada bloco e o ajuste de ffmpeg aplicado (tempo sem mudar o tom, corte de silêncios) estão em `ep0X/audio/PROMPTS.md`. Os áudios **não ficam no git** (ficam em `ep0X/audio/`, ignorados); o que vale no repositório é o `ep0X/narration.measured.json`, gerado por `python -m pipeline audio ep0X` (mede fala, pausas e respirações, grava o `measured.json` e roda o build; câmera, passos e SFX se re-sincronizam sozinhos; detalhes em `ep01/README.md`). Todas as cenas cabem na janela: Ep. 1 = 0,9–14,5 / 18,0–34,5 / 37,2–58,2 s; Ep. 2 = 1,7–13,3 / 18,3–38,9 / 40,6–58,2 s; Ep. 3 = 4,5–17,8 / 22,3–41,7 / 46,8–56,0 s (voz medida × janelas 0–15/15–35/35–60, 0–18/18–40/40–60 e 0–20/20–42/42–60 s). Se regerar uma voz, rode o comando de novo (o `measured.json` é regravado; um escrito à mão só com `--force`).
-2. **Áudio.** O cue sheet (`ep0X/build/ep0X.cue-sheet.md`) e `timeline.json > sfx` dizem quando cada som entra, com ganho, origem (roteiro/inferido) e superfície dos passos. O som em si ainda não foi produzido.
-3. **Assets finais.** Hoje é *greybox* (caixas) com materiais procedurais. Para chegar ao "realista e detalhado": modelos com UV, conjuntos PBR em `blender/textures/<id>/` (o passo a passo está em `blender/TEXTURAS.md`), rostos e roupas de verdade, animação de personagem além do aceno, da mandíbula e da marcha.
-4. **Render.** 1080x1920 a 60 fps em Cycles. A prévia leva ~1 min por quadro a 405x720 em CPU; o render final pede GPU ou fazenda de render. `edge_blur` e `motion_blur` do CSV ficam como propriedades da câmera (ligue na pós).
-5. **Montagem.** Juntar imagem, voz e SFX seguindo o cue sheet e conferir o corte seco do Ep. 3 aos 59,0 s (silêncio absoluto até 60,0 s).
+2. **Áudio.** **Mixagem pronta.** `python -m pipeline mix ep0X` junta a voz medida (na posição do `measured.json`, com o nível igualado) e os SFX do cue sheet num arquivo estéreo de 48 kHz e 60,000 s (`ep0X.mix.wav`, em `ep0X/build/`; não vai para o git): camas (ambiência, motor que segue a velocidade do CSV, chiado, vento...), sons pontuais (catraca, bip, estalos, BUM, freada...), passos, batidas da estrada, falhas de luz e batimentos, cada um no instante e com o ganho do roteiro, mais a automação do episódio (voz que abaixa no fim do Ep. 1, ambiência que cai no Ep. 3) e o **silêncio absoluto** do Ep. 3 depois da freada. Volume: -15,7 / -17,0 / -14,5 LUFS (Ep. 1/2/3), picos em -1 dBFS. **Os sons são sintetizados** (ruído filtrado, senos e envelopes, determinísticos): marcam timbre, nível e instante, mas não substituem foley gravado. Para trocar um som por um arquivo de biblioteca, mude a receita dele em `pipeline/mix.py` (`SHOT`, `STEP`, `BED`); a sincronia não muda.
+3. **Assets finais.** As **texturas** estão aplicadas conforme `blender/TEXTURAS.md`: conjuntos CC0 do Poly Haven (baixados por `blender/tools/fetch_textures.py`, fora do git, com licença em cada pasta) para piso encerado, piso do ônibus, camisa, metal e terra; o estado narrativo de cada variante continua vindo do `materials.json`. O estofado estampado segue procedural. O resto ainda é *greybox* (caixas): faltam modelos com UV, rostos e roupas de verdade e animação de personagem além do aceno, da mandíbula e da marcha.
+4. **Render.** `python -m pipeline render ep0X` (Blender ou módulo `bpy`) escreve a sequência de imagens 1080x1920 a 60 fps; é retomável (`--resume`), roda em lotes (`--chunks N --chunk i`) e mede o hardware (`--bench N`: s/quadro e horas por episódio). **Não deu para renderizar aqui:** o ambiente tem 4 núcleos de CPU e nenhuma GPU, e o Cycles levou ~9 min por quadro a 1080x1920 (64 amostras) e ~6 s a 270x480; o episódio inteiro são 3600 quadros (10.800 nos três). Faltam, portanto, **horas de GPU** (ou uma granja de render): com uma GPU de uso geral a ~20 s/quadro seriam ~20 h por episódio, e o `--bench 6` no seu hardware dá o número exato.
+5. **Montagem.** `python -m pipeline assemble ep0X` junta a sequência e o `ep0X.mix.wav` num mp4 H.264 yuv420p 60 fps, AAC 192 kb/s, `+faststart` (1080x1920, 60,000 s, 3600 quadros) e confere o arquivo com o ffprobe; recusa montar se faltarem quadros (`--allow-partial` segura o último quadro: só prévia). **Prévias já montadas** neste ambiente (216x384 ampliadas, 1 quadro a cada 24, com a mixagem final): nos arquivos `ep0X.previa.mp4` da pasta de saída `out`. Servem para conferir sincronia de voz, SFX e cortes; **não** são o vídeo final.
 
 ## Limitações conhecidas
 

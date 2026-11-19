@@ -15,6 +15,24 @@ materials.get("metal-enferrujado", "enferrujado")     # devolve o material (cach
 3. A pasta pode ser trocada com `--textures-dir`. O material guarda `pov_source` (`procedural` ou `imagens:...`),
    `pov_variant` e `pov_params` (útil para conferir o que foi aplicado).
 
+## Conjuntos aplicados (Poly Haven, CC0)
+
+`python blender/tools/fetch_textures.py` baixa os conjuntos listados em [`textures_sources.json`](textures_sources.json) para
+`blender/textures/` (as imagens ficam fora do git; cada pasta traz um `LICENCA.txt` com a origem). Sem as imagens, o procedural
+continua valendo, então a cena monta do mesmo jeito.
+
+| Material | Conjunto (slug) | O que a foto dá | O que continua vindo do manifesto |
+|---|---|---|---|
+| `piso-encerado` | `terrazzo_tiles` (2k) | granilite com juntas e grão | matiz (cinza-azulado) e verniz: a foto é fosca, o saguão é encerado |
+| `piso-emborrachado` | `rubber_tiles` (2k) | borracha em placas | `sujo`: terra seca (`dirt`) por cima |
+| `camisa-social` | `denim_fabric_03` (1k) | trama do tecido e relevo | matiz (`azul`/`encardida`) e manchas de suor (`stain`) |
+| `metal-enferrujado` | `rusty_metal_02` (1k) | ferrugem e arranhões | a ferrugem só aparece onde a foto tem ferrugem **e** na proporção de `rust` (o `inox` sai quase limpo) |
+| `terra-vermelha` | `red_laterite_soil_stones` (`terra`) e `red_dirt_mud_01` (`estrada`), 2k | solo, pedriscos | nada: uma foto por variante |
+| `estofado` | — (procedural) | — | o estampado azul/cinza em losangos, o mofo e o "podre" não têm equivalente CC0; fica procedural |
+
+A foto dá o **detalhe**; o **estado narrativo** (limpo → mofado → podre, inox → enferrujado, camisa limpa → encardida) segue sendo
+decidido por `materials.json`, para o episódio contar a mesma história com ou sem imagens.
+
 ## Convenções de arquivo
 
 | Mapa (nome do arquivo) | Espaço de cor | Uso |
@@ -128,7 +146,8 @@ do banco (`k-sentar`). Em pé: `EYE_STAND` = 1,62; correndo: `EYE_RUN` = 1,55. A
 
 ## Passo a passo: aplicar imagens
 
-1. Gere/baixe um conjunto PBR *seamless* e salve em `blender/textures/<id>/` (ou `<id>/<variante>/`) com os nomes acima.
+1. Gere/baixe um conjunto PBR *seamless* e salve em `blender/textures/<id>/` (ou `<id>/<variante>/`) com os nomes acima
+   (para um conjunto do Poly Haven, basta trocar o `slug` em `textures_sources.json` e rodar `fetch_textures.py --only <id>`).
    Use só conjuntos cuja **licença** permita o uso (bibliotecas CC0 como ambientCG ou Poly Haven são pontos de
    partida comuns; confira a licença de cada pacote e anote a origem em `blender/textures/<id>/LICENCA.txt`).
 2. Ajuste `tile_m` em `materials.json` para o tamanho real do padrão.
@@ -138,5 +157,7 @@ do banco (`k-sentar`). Em pé: `EYE_STAND` = 1,62; correndo: `EYE_RUN` = 1,55. A
 
 ## Limitações atuais
 
-Texturas procedurais, não fotográficas; sem *displacement* (só *bump*); `normal` só com UV; render em Cycles/CPU
-(uma imagem de prévia leva ~15–25 s). `edge_blur` e `motion_blur` do CSV continuam só como propriedades da câmera.
+O estofado segue procedural (sem foto equivalente); sem *displacement* (só *bump*); `normal` só com UV; render em Cycles.
+Tempo medido em 4 núcleos de CPU, sem GPU: ~6 s por quadro a 270x480 (6 amostras) e ~9 min por quadro a 1080x1920 (64 amostras),
+então o render final (3 x 3600 quadros) pede GPU ou granja de render (`python -m pipeline render --help`). `edge_blur` e
+`motion_blur` do CSV continuam só como propriedades da câmera.

@@ -722,6 +722,7 @@ def analyse_episode(ep_id: str, root: Path = ROOT, audio_dir: Path | None = None
                         pl = placed[i]
                         pl.start, pl.end = round(pl.start + d, 3), round(pl.end + d, 3)
                         pl.pauses = [[round(a + d, 3), round(b + d, 3)] for a, b in pl.pauses]
+                info["offset"] = round(offset + d, 3)                              # onde o ARQUIVO realmente começa (usado na mixagem)
                 report["warnings"].append(f"{tr['path'].name}: a respiração/fala inicial começaria {d:.2f} s antes da janela da "
                                           f"cena; o bloco foi empurrado {d:.2f} s")
         last_clip[tr["scenes"][0]] = speech[-1]

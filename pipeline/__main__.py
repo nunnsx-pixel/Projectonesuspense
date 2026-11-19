@@ -1,4 +1,5 @@
-"""Uso:  python -m pipeline build ep01 [--strict]   |   python -m pipeline audio ep01 [--dry-run] [--strict]"""
+"""Uso:  python -m pipeline build ep01 [--strict]   |   python -m pipeline audio ep01 [--dry-run] [--strict]
+       python -m pipeline mix ep01 [--no-voice]   |   python -m pipeline render ep01 [...]   |   python -m pipeline assemble ep01 [...]"""
 from __future__ import annotations
 
 import argparse
@@ -22,8 +23,49 @@ def main(argv=None) -> int:
     a.add_argument("--min-pause-ms", type=float, help="menor silêncio interno que vira âncora de palavra (padrão 100)")
     a.add_argument("--keep-on-error", action="store_true", help="mantém o measured.json mesmo se o build falhar com ele")
     a.add_argument("--strict", action="store_true", help="falha (exit 1) se houver avisos (da análise ou do build)")
+    m = sub.add_parser("mix", help="mixa voz medida + SFX sintetizados -> ep0X/build/ep0X.mix.wav")
+    m.add_argument("episode", help="id do episódio, ex.: ep01")
+    m.add_argument("--no-voice", action="store_true", help="só os SFX (sem a voz de ep0X/audio)")
+    r = sub.add_parser("render", help="renderiza o episódio em sequência de imagens (Blender; retomável, em lotes, com --bench)")
+    r.add_argument("episode", help="id do episódio, ex.: ep01")
+    r.add_argument("--out", default="renders", help="pasta das sequências (padrão: renders/)")
+    r.add_argument("--width", type=int, default=1080)
+    r.add_argument("--height", type=int, help="padrão: 16/9 da largura (1920 para 1080)")
+    r.add_argument("--samples", type=int, default=96)
+    r.add_argument("--device", default="auto", choices=("auto", "cpu", "gpu"))
+    r.add_argument("--threads", type=int, default=0)
+    r.add_argument("--first", type=int, default=0, help="1º quadro (0 = início do CSV)")
+    r.add_argument("--last", type=int, help="último quadro (padrão: o último do episódio)")
+    r.add_argument("--step", type=int, default=1, help="1 a cada K quadros (prévia)")
+    r.add_argument("--chunks", type=int, help="divide o episódio em N lotes contíguos (granja de render)")
+    r.add_argument("--chunk", type=int, default=0, help="qual lote renderizar (0..chunks-1)")
+    r.add_argument("--bench", type=int, default=0, help="renderiza N quadros espalhados, mede e projeta o tempo total")
+    r.add_argument("--overwrite", action="store_true", help="refaz quadros que já existem (padrão: retoma)")
+    r.add_argument("--textures-dir", help="pasta de texturas (padrão: blender/textures)")
+    r.add_argument("--blender", help="executável do Blender (padrão: $BLENDER ou o do PATH)")
+    r.add_argument("--python", help="Python com o módulo bpy (alternativa ao executável do Blender)")
+    r.add_argument("--dry-run", action="store_true", help="só mostra o comando")
+    v = sub.add_parser("assemble", help="monta o mp4 (renders + mix.wav) com o ffmpeg e confere o arquivo")
+    v.add_argument("episode", help="id do episódio, ex.: ep01")
+    v.add_argument("--renders", default="renders", help="pasta das sequências (padrão: renders/)")
+    v.add_argument("--out", default="out", help="pasta dos vídeos (padrão: out/)")
+    v.add_argument("--audio", help="áudio mixado (padrão: ep0X/build/ep0X.mix.wav)")
+    v.add_argument("--suffix", default="", help="sufixo do nome do arquivo (ex.: .previa -> out/ep01.previa.mp4)")
+    v.add_argument("--allow-partial", action="store_true", help="aceita quadros faltando (segura o último): só prévia")
+    v.add_argument("--upscale", action="store_true", help="amplia quadros pequenos para 1080x1920 (prévia)")
+    v.add_argument("--preset", default="slow", help="preset do x264 (padrão: slow)")
+    v.add_argument("--crf", type=int, default=16, help="qualidade do x264 (padrão: 16)")
     args = ap.parse_args(argv)
 
+    if args.cmd == "render":
+        from .render import run_render
+        return run_render(args)
+    if args.cmd == "assemble":
+        from .render import run_assemble
+        return run_assemble(args)
+    if args.cmd == "mix":
+        from .mix import run as run_mix
+        return run_mix(args)
     if args.cmd == "audio":
         from .audio import run
         return run(args)

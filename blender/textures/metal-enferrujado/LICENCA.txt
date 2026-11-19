@@ -1,0 +1,5 @@
+CC0 1.0 Universal — Poly Haven
+Conjunto: rusty_metal_02 (1k)
+Origem: https://polyhaven.com/a/rusty_metal_02
+Usado em: metal-enferrujado
+Baixado por blender/tools/fetch_textures.py (blender/textures_sources.json).

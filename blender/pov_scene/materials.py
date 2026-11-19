@@ -287,8 +287,42 @@ _PROCEDURAL = {"piso-encerado": _waxed_floor, "piso-emborrachado": _rubber_floor
                "metal-enferrujado": _rust_metal, "terra-vermelha": _red_dirt}
 
 
+def _mean_linear_lum(path) -> float:
+    """Luminância média (linear) do albedo, para trocar o matiz da imagem por uma cor do manifesto sem mudar o brilho médio."""
+    img = bpy.data.images.load(str(path), check_existing=False)
+    try:
+        img.colorspace_settings.name = "Non-Color"                      # valores crus (sRGB codificado), sem conversão
+        t = img.copy()
+        t.scale(16, 16)
+        px = list(t.pixels)
+        bpy.data.images.remove(t)
+    finally:
+        bpy.data.images.remove(img)
+    lin = lambda c: c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4      # noqa: E731
+    n = len(px) // 4
+    lum = sum(0.2126 * lin(px[i * 4]) + 0.7152 * lin(px[i * 4 + 1]) + 0.0722 * lin(px[i * 4 + 2]) for i in range(n)) / max(n, 1)
+    return max(lum, 1e-3)
+
+
+def _tint(b: _B, albedo, files, target):
+    """Imagem em tons de cinza × `target` (cor do manifesto), com o mesmo brilho médio da imagem: o detalhe vem da foto, a cor da variante."""
+    bw = b.n("ShaderNodeRGBToBW")
+    b.link(albedo, bw.inputs["Color"])
+    k = _mean_linear_lum(files["albedo"])
+    m = b.n("ShaderNodeMix", data_type="RGBA", blend_type="MULTIPLY")
+    _sock(m, "Factor_Float").default_value = 1.0
+    b.link(bw.outputs["Val"], _sock(m, "A_Color"))
+    _sock(m, "B_Color").default_value = (*(min(c / k, 4.0) for c in target), 1.0)
+    return _sock(m, "Result_Color", inputs=False)
+
+
 def _from_images(b: _B, vec, p, files: dict, mat_id: str):
-    """Conjunto PBR em imagens, mapeado em caixa (triplanar) em metros."""
+    """Conjunto PBR em imagens, mapeado em caixa (triplanar) em metros.
+
+    A foto dá o DETALHE (trama, juntas, relevo, grão); o ESTADO da variante continua vindo do manifesto, como no procedural:
+    piso-encerado e camisa-social trocam o matiz pela cor da variante, a camisa ganha as manchas de suor (`stain`), o piso do
+    ônibus a terra (`dirt`) e o metal só enferruja onde a foto tem ferrugem E na proporção de `rust` (inox quase limpo).
+    """
     def tex(mapname):
         t = b.n("ShaderNodeTexImage")
         t.image = bpy.data.images.load(str(files[mapname]), check_existing=True)
@@ -297,6 +331,28 @@ def _from_images(b: _B, vec, p, files: dict, mat_id: str):
         b.link(vec, t.inputs["Vector"])
         return t.outputs["Color"]
     color = tex("albedo") if "albedo" in files else tuple(p.get("color", p.get("metal_color", (0.5, 0.5, 0.5))))
+    rough = tex("roughness") if "roughness" in files else None
+    metal = tex("metallic") if "metallic" in files and mat_id == "metal-enferrujado" else None
+    coat = None
+    if "albedo" in files and mat_id in ("piso-encerado", "camisa-social"):
+        color = _tint(b, color, files, p["color"])
+    if mat_id == "piso-encerado" and rough is not None:                  # a foto é fosca; o saguão é encerado e brilha
+        rough = b.rng(rough, 0.0, 1.0, p["roughness"][0], p["roughness"][1] * 1.6)
+        coat = p.get("coat")
+    if mat_id == "camisa-social" and p.get("stain", 0) > 0:
+        t = 0.72 - 0.35 * p["stain"]
+        color = b.mix(b.rng(b.noise(vec, 2.4, detail=6.0), t, t + 0.12), color, tuple(p["stain_color"]))
+    if mat_id == "piso-emborrachado" and p.get("dirt", 0) > 0:
+        t = 0.72 - 0.30 * p["dirt"]
+        color = b.mix(b.rng(b.noise(vec, 3.4, detail=7.0, rough=0.6), t, t + 0.12), color, tuple(p["dirt_color"]))
+    if mat_id == "metal-enferrujado" and "albedo" in files:
+        sep = b.n("ShaderNodeSeparateColor", mode="HSV")
+        b.link(color, sep.inputs["Color"])
+        t = 1.0 - 0.9 * p["rust"]                                        # mais ferrugem => limiar menor sobre a saturação da foto
+        mask = b.rng(sep.outputs[1], t - 0.12, t + 0.12)
+        color = b.mix(mask, tuple(p["metal_color"]), color)
+        metal = b.rng(mask, 0.0, 1.0, 1.0, 0.0)
+        rough = b.rng(mask, 0.0, 1.0, p["metal_roughness"], p["rust_roughness"])
     if "ao" in files:
         m = b.n("ShaderNodeMix", data_type="RGBA", blend_type="MULTIPLY")
         _sock(m, "Factor_Float").default_value = 1.0
@@ -306,10 +362,8 @@ def _from_images(b: _B, vec, p, files: dict, mat_id: str):
             b.link(color, _sock(m, "A_Color"))
         b.link(tex("ao"), _sock(m, "B_Color"))
         color = _sock(m, "Result_Color", inputs=False)
-    rough = tex("roughness") if "roughness" in files else None
-    metal = tex("metallic") if "metallic" in files else None
     normal = b.bump(tex("height"), 0.6, 0.01) if "height" in files else None
-    return b.principled(color=color, rough=rough, metal=metal, normal=normal)
+    return b.principled(color=color, rough=rough, metal=metal, normal=normal, coat=coat)
 
 
 # ---- API ---------------------------------------------------------------------------------------------------------------------
@@ -365,7 +419,9 @@ def ground_fog(parent, variant: str | None = None):
     d2 = b.n("ShaderNodeMath", operation="MULTIPLY")
     b.link(d1.outputs[0], d2.inputs[0])
     d2.inputs[1].default_value = p["density"]
+    d2.name = "densidade"
     vol = b.n("ShaderNodeVolumePrincipled")
+    vol.name = "neblina"
     vol.inputs["Color"].default_value = (*p["color"], 1.0)
     vol.inputs["Emission Strength"].default_value = p["glow"]
     vol.inputs["Emission Color"].default_value = (*p["color"], 1.0)

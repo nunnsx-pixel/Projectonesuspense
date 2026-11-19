@@ -1,0 +1,5 @@
+CC0 1.0 Universal — Poly Haven
+Conjunto: denim_fabric_03 (1k)
+Origem: https://polyhaven.com/a/denim_fabric_03
+Usado em: camisa-social
+Baixado por blender/tools/fetch_textures.py (blender/textures_sources.json).

@@ -7,7 +7,7 @@ em palavras da fala, em *beats* de cena ou uns nos outros. Mudou a fala? Todo o 
 ```
 python -m pipeline build ep01          # regenera ep01/build/
 python -m pipeline build ep01 --strict # sai com erro se houver avisos (ex.: fala que não cabe)
-python -m unittest discover -s tests   # 242 testes (86 exigem o módulo bpy; sem ele são pulados)
+python -m unittest discover -s tests   # 264 testes (93 exigem o módulo bpy; sem ele são pulados)
 ```
 
 ## Arquivos
@@ -132,6 +132,23 @@ python -m pipeline audio ep01               # grava narration.measured.json e ro
 As palavras são redistribuídas dentro do intervalo (e, com `pauses`, em volta delas) e tudo que está ancorado (celular
 entrando, bip da catraca, mochila, bocejo, partida do ônibus, passos de degrau…) se move junto. Itens medidos não podem
 se sobrepor aos vizinhos (o build avisa quais).
+
+## Mixagem, render e vídeo final
+
+```
+python -m pipeline mix ep01               # voz medida + SFX -> ep01/build/ep01.mix.wav (48 kHz estéreo, 60,000 s)
+python -m pipeline render ep01 --bench 6  # mede s/quadro no seu hardware e projeta as horas do episódio
+python -m pipeline render ep01            # sequência de imagens 1080x1920 @60 fps (retomável; --chunks 8 --chunk 3 para granja)
+python -m pipeline assemble ep01          # sequência + mix.wav -> mp4 H.264/AAC (out/ep01.mp4), conferido com o ffprobe
+```
+
+- **Mix:** a voz entra onde o `measured.json` a mediu (`audio.<arquivo>.offset`, já com o empurrão para dentro da janela da
+  cena), nivelada pela fala mais forte; cada cue/passo/batida do `timeline.json` entra no seu instante e ganho. Os sons são
+  **sintetizados** (determinísticos): são o marcador final de timbre e nível, trocáveis por foley de biblioteca em
+  `pipeline/mix.py`. Precisa de numpy e, para mp3, do ffmpeg.
+- **Render:** `blender/render_episode.py` (Cycles; GPU OptiX/CUDA/HIP/Metal/oneAPI se houver, senão CPU). `--step K` rende 1 a cada K
+  quadros (prévia), `--width/--samples` mudam a qualidade, `--blender`/`--python` escolhem o executável.
+- **Montagem:** recusa montar com quadros faltando (`--allow-partial` segura o último quadro renderizado, só para prévia).
 
 ## Premissas que assumi (ajuste se discordar)
 

@@ -24,6 +24,7 @@ def fog(density: float, color=(0.5, 0.35, 0.33), glow: float = 0.0):
         v = nt.nodes.new("ShaderNodeVolumeScatter")
         v.inputs["Color"].default_value = (*color, 1.0)
         v.inputs["Density"].default_value = density
+    v.name = "neblina-mundo"                                            # o preto de tela (fx.py) apaga a névoa por driver
     nt.links.new(v.outputs[0], out.inputs["Volume"])
 
 

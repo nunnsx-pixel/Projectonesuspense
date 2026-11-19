@@ -9,10 +9,12 @@ from __future__ import annotations
 import math
 import re
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+NO_TEXTURES = Path(tempfile.gettempdir()) / "pov-sem-texturas"            # pasta inexistente: os testes da cena valem com ou sem as imagens baixadas
 sys.path.insert(0, str(ROOT / "blender"))
 sys.path.insert(0, str(ROOT))
 
@@ -69,7 +71,7 @@ class Base:
 
     @classmethod
     def setUpClass(cls):
-        cls.env = A.assemble(cls.EP)
+        cls.env = A.assemble(cls.EP, textures_dir=NO_TEXTURES)           # procedural: o contrato de direção não depende de arquivos baixados
         cls.ctx = cls.env.ctx
         cls.obj = bpy.data.objects
 
@@ -128,6 +130,31 @@ class Base:
                                    r["black"], places=2)
             up = self.obj["fx-palpebra-cima"].location.y
             self.assertAlmostEqual(up, 0.30 - 0.19 * r["eyelid"], places=2)
+
+    def test_black_screen_is_really_black_close_to_the_camera_and_clears_the_fog(self):
+        """Regressão: o corte preto do Ep. 3 saía vermelho-escuro (névoa emitindo entre a câmera e o plano, FOV +17% abrindo fresta
+        nas bordas, mão podre passando na frente do plano a 20 cm)."""
+        blk = self.obj["fx-preto"]
+        d = abs(blk.location.z)
+        self.assertLess(d, 0.1)                                                       # mais perto que as pálpebras/vinheta (20 cm)
+        self.assertGreater(d, self.env.cam.data.clip_start)                           # e depois do clip_start
+        self.assertGreaterEqual(blk.dimensions.y / 2 / d, math.tan(math.radians(50)))   # cobre 100° de FOV vertical (o máximo é ~93°)
+        black = [r for r in self.ctx.rows() if r["black"]]
+        clear = next(r for r in self.ctx.rows() if not r["black"] and r["t"] > 2.0)
+        fogs = [(w.node_tree, w.node_tree.nodes.get("neblina-mundo")) for w in [self.env.sc.world]]
+        mat = bpy.data.materials.get("neblina-rasteira")
+        if mat is not None:
+            fogs.append((mat.node_tree, mat.node_tree.nodes["densidade"]))
+        for nt, node in fogs:
+            if node is None:
+                continue
+            sock = node.inputs["Density"] if "Density" in node.inputs else node.inputs[1]
+            if sock.is_linked:
+                continue
+            at(self.env, clear["t"])
+            self.assertGreater(sock.default_value, 0.0)
+            at(self.env, black[len(black) // 2]["t"])
+            self.assertEqual(sock.default_value, 0.0)
 
     def test_timeline_markers_for_every_beat_and_line(self):
         names = {m.name: m.frame for m in self.env.sc.timeline_markers}
@@ -703,6 +730,54 @@ class ImageTextureSets(unittest.TestCase):
     def test_unknown_variant_is_an_error(self):
         with self.assertRaises(KeyError):
             self.materials.get("estofado", "inexistente")
+
+
+TEXTURES = ROOT / "blender" / "textures"
+HAVE_IMAGES = all(any((TEXTURES / d).glob("albedo.*")) or any((TEXTURES / d).glob("*/albedo.*"))
+                  for d in ("piso-encerado", "piso-emborrachado", "camisa-social", "metal-enferrujado", "terra-vermelha"))
+
+
+@unittest.skipUnless(bpy is not None, "módulo bpy não instalado")
+@unittest.skipUnless(HAVE_IMAGES, "texturas não baixadas (python blender/tools/fetch_textures.py)")
+class RepoTextures(unittest.TestCase):
+    """Com as imagens de blender/textures/ (Poly Haven, CC0): a foto dá o detalhe, o manifesto continua mandando no estado."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.env = A.assemble("ep02")                                     # textures_dir padrão
+        cls.mats = {m.name: m for m in bpy.data.materials if "pov_source" in m}
+
+    def test_every_photographed_material_uses_its_images_and_the_upholstery_stays_procedural(self):
+        for name in ("piso-emborrachado.sujo", "metal-enferrujado.enferrujado", "camisa-social.encardida", "terra-vermelha.terra",
+                     "terra-vermelha.estrada"):
+            self.assertTrue(self.mats[name]["pov_source"].startswith("imagens:albedo"), name)
+        for name in ("estofado.mofado", "estofado.podre"):
+            self.assertEqual(self.mats[name]["pov_source"], "procedural", name)
+
+    def test_variant_state_still_comes_from_the_manifest(self):
+        kinds = lambda m: {n.bl_idname for n in self.mats[m].node_tree.nodes}                       # noqa: E731
+        self.assertIn("ShaderNodeSeparateColor", kinds("metal-enferrujado.enferrujado"))            # ferrugem pela saturação da foto
+        self.assertIn("ShaderNodeRGBToBW", kinds("camisa-social.encardida"))                        # matiz trocado pela cor da variante
+        self.assertIn("ShaderNodeTexNoise", kinds("camisa-social.encardida"))                       # manchas de suor (stain)
+        self.assertIn("ShaderNodeTexNoise", kinds("piso-emborrachado.sujo"))                        # terra seca (dirt)
+        self.assertEqual({t.image.name.split(".")[0] for t in self.mats["terra-vermelha.estrada"].node_tree.nodes
+                          if t.bl_idname == "ShaderNodeTexImage"} & {"albedo"}, {"albedo"})
+        a = {t.image.filepath for t in self.mats["terra-vermelha.terra"].node_tree.nodes if t.bl_idname == "ShaderNodeTexImage"}
+        b = {t.image.filepath for t in self.mats["terra-vermelha.estrada"].node_tree.nodes if t.bl_idname == "ShaderNodeTexImage"}
+        self.assertTrue(a and b and not (a & b))                                                    # uma foto por variante
+
+    def test_albedo_is_srgb_and_every_other_map_is_non_color(self):
+        for name, m in self.mats.items():
+            for t in (n for n in m.node_tree.nodes if n.bl_idname == "ShaderNodeTexImage"):
+                want = "sRGB" if Path(t.image.filepath).stem == "albedo" else "Non-Color"
+                self.assertEqual(t.image.colorspace_settings.name, want, f"{name}/{Path(t.image.filepath).name}")
+
+    def test_the_cc0_licence_is_recorded_next_to_every_set(self):
+        for d in ("piso-encerado", "piso-emborrachado", "camisa-social", "metal-enferrujado", "terra-vermelha/terra",
+                  "terra-vermelha/estrada"):
+            txt = (TEXTURES / d / "LICENCA.txt").read_text(encoding="utf-8")
+            self.assertIn("CC0", txt, d)
+            self.assertIn("polyhaven.com/a/", txt, d)
 
 
 if __name__ == "__main__":

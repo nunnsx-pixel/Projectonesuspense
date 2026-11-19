@@ -1,0 +1,5 @@
+CC0 1.0 Universal — Poly Haven
+Conjunto: terrazzo_tiles (2k)
+Origem: https://polyhaven.com/a/terrazzo_tiles
+Usado em: piso-encerado
+Baixado por blender/tools/fetch_textures.py (blender/textures_sources.json).

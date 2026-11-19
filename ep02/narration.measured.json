@@ -2,7 +2,7 @@
   "generated_by": "python -m pipeline audio",
   "audio": {
     "s1.mp3": {
-      "offset": -0.26,
+      "offset": 0.58,
       "duration": 12.76,
       "floor_db": -85.1,
       "speech_db": -12.6,

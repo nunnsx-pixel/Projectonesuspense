@@ -6,3 +6,13 @@ ep*/audio/*
 !ep*/audio/LEIA-ME.md
 !ep*/audio/offsets.json
 !ep*/audio/PROMPTS.md
+
+# render e vídeos (binários, ficam fora do git): sequências de imagens, mp4, áudio mixado e as imagens das texturas
+renders/
+renders_*/
+out/
+ep*/build/*.wav
+blender/textures/**/*.jpg
+blender/textures/**/*.jpeg
+blender/textures/**/*.png
+blender/textures/**/*.exr

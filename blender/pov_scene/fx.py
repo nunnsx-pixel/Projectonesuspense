@@ -9,6 +9,7 @@ from __future__ import annotations
 from . import kit
 
 DIST = 0.20                       # distância dos planos à câmera (m)
+BLACK_DIST = 0.05                 # o plano preto fica a 5 cm da câmera (clip_start = 3 cm)
 H = 0.168                         # meia-altura visível a essa distância (FOV vertical 80°)
 ASPECT = 9 / 16
 
@@ -72,11 +73,39 @@ def build(cam):
     for name, s in (("fx-palpebra-cima", 1), ("fx-palpebra-baixo", -1)):
         m = _overlay_mat(name, False)
         kit.driver(m.node_tree, 'nodes["A"].outputs[0].default_value', "1", cam, "eyelid")   # sempre opaca
-        lid = kit.plane(name, (w, 0.24), (0, s * 0.30, -DIST + 0.002), m, parent=cam)
+        lid = kit.plane(name, (w * 1.6, 0.24), (0, s * 0.30, -DIST + 0.002), m, parent=cam)
         kit.driver(lid, "location", f"{s}*(0.30-0.19*v)", cam, "eyelid", index=1)
         lids.append(lid)
-    blk = kit.plane("fx-preto", (w, h), (0, 0, -DIST + 0.004), _overlay_mat("fx-preto", False), parent=cam)
+    # o preto e as pálpebras são maiores que o campo de visão: o FOV chega a +17% (Ep. 3) e abriria uma fresta nas bordas
+    # e fica MAIS PERTO da câmera (5 cm, logo depois do clip_start de 3 cm): mãos, mochila ou o passageiro que passam entre a
+    # câmera e o plano a 20 cm não furam o preto (o corte seco do Ep. 3 mostrava a mão podre por cima)
+    k = BLACK_DIST / DIST
+    blk = kit.plane("fx-preto", (w * 1.6 * k, h * 1.6 * k), (0, 0, -BLACK_DIST), _overlay_mat("fx-preto", False), parent=cam)
     kit.driver(blk.active_material.node_tree, 'nodes["A"].outputs[0].default_value', "v", cam, "black")
     for ob in (vig, blk, *lids):
         _ghost(ob)
+    _black_clears_fog(cam)
     return {"vignette": vig, "lids": lids, "black": blk}
+
+
+def _black_clears_fog(cam):
+    """Tela preta = PRETO de verdade: a névoa (de mundo e rasteira) emite luz no trecho entre a câmera e o plano preto, então
+    sem isto o corte seco do Ep. 3 saía vermelho-escuro. A densidade e o brilho dela caem a zero enquanto `black` = 1."""
+    import bpy
+    w = bpy.context.scene.world
+    nodes = [(w.node_tree, w.node_tree.nodes.get("neblina-mundo"), ("Density", "Emission Strength"))]
+    mat = bpy.data.materials.get("neblina-rasteira")
+    if mat is not None and mat.node_tree is not None:
+        nt = mat.node_tree
+        nodes += [(nt, nt.nodes.get("neblina"), ("Emission Strength",)), (nt, nt.nodes.get("densidade"), (1,))]
+    for nt, node, sockets in nodes:
+        if node is None:
+            continue
+        for sock in sockets:
+            if isinstance(sock, str) and sock not in node.inputs:                  # névoa só de dispersão (Ep. 1) não emite
+                continue
+            inp = node.inputs[sock]
+            if inp.is_linked:
+                continue
+            idx = next(i for i, s in enumerate(node.inputs) if s == inp)
+            kit.driver(nt, f'nodes["{node.name}"].inputs[{idx}].default_value', f"{inp.default_value:.6f}*(1-v)", cam, "black")

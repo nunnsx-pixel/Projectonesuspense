@@ -1,0 +1,5 @@
+CC0 1.0 Universal — Poly Haven
+Conjunto: red_laterite_soil_stones (2k)
+Origem: https://polyhaven.com/a/red_laterite_soil_stones
+Usado em: terra-vermelha/terra
+Baixado por blender/tools/fetch_textures.py (blender/textures_sources.json).
