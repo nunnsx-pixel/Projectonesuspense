@@ -157,3 +157,13 @@ def curve_from_spec(spec, res: Resolver) -> Curve:
         mode = spec.get("mode", "smooth")
         keys = spec["keys"]
     return Curve([(res.time(t), v) for t, v in keys], mode)
+
+
+def keys_out_of_order(spec, res: Resolver) -> list[tuple[float, float]]:
+    """Pares de chaves vizinhas cujo tempo resolvido anda para trás em relação à ordem escrita.
+
+    A `Curve` reordena por tempo em silêncio; se uma âncora (ex.: fim de uma respiração que a medição do áudio encurtou)
+    cair antes da chave anterior, a curva ganha outro formato (um valor pode ficar preso até o fim do episódio)."""
+    keys = spec["keys"] if isinstance(spec, dict) else spec
+    times = [res.time(t) for t, _v in keys]
+    return [(a, b) for a, b in zip(times, times[1:]) if b < a - 1e-9]

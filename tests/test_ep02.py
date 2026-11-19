@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from pipeline.build import build_episode      # noqa: E402
-from pipeline.timeline import FPS             # noqa: E402
+from pipeline.timeline import FPS, Resolver, keys_out_of_order   # noqa: E402
 
 
 class Ep02(unittest.TestCase):
@@ -169,6 +169,15 @@ class Ep02(unittest.TestCase):
         self.assertLess(pitch, -30)                                       # olhando para baixo
         self.assertLess(look[round(40.4 * FPS)][0], -60)                  # janela (logo após o giro): esquerda
 
+    def test_eyelids_blink_on_the_swallow_and_stay_open_for_the_rest_of_the_episode(self):
+        # regressão: a respiração s2-03 ficou com 0,17 s na medição do áudio e a chave "fim da respiração" caiu antes da chave
+        # "pálpebra fechada"; a pálpebra ficou presa em 0,7 dos 22,5 s até o fim (tela em faixa estreita, barras pretas)
+        swallow = self.items["s2-03"]["start"]
+        blink = [r["eyelid"] for r in self.rows if swallow <= r["t"] <= swallow + 0.6]
+        self.assertGreater(max(blink), 0.6)                                # piscou
+        self.assertTrue(all(r["eyelid"] < 0.01 for r in self.rows if r["t"] >= swallow + 0.6))   # e abriu de vez
+        self.assertTrue(all(r["eyelid"] < 0.01 for r in self.rows if 3.6 <= r["t"] <= 8.0))
+
     def test_phone_is_in_the_left_hand_like_ep1(self):
         self.assertIn("ESQUERDA", self.tl["scenes"][2]["set"]["props"][1]["state"])
 
@@ -176,6 +185,20 @@ class Ep02(unittest.TestCase):
         again = build_episode("ep02", write=False)
         again.pop("_cam")
         self.assertEqual(json.dumps(again, sort_keys=True), json.dumps(self.tl, sort_keys=True))
+
+
+class CurveOrder(unittest.TestCase):
+    def test_detects_an_anchor_that_walked_back_behind_the_previous_key(self):
+        res = Resolver()
+        self.assertEqual(keys_out_of_order([[0.0, 0.0], [1.0, 0.7], [2.0, 0.0]], res), [])
+        self.assertEqual(keys_out_of_order({"mode": "linear", "keys": [[0.0, 0.0], [1.0, 0.7], [0.9, 0.0]]}, res),
+                         [(1.0, 0.9)])
+
+    def test_every_episode_builds_without_warnings_so_no_curve_is_left_stuck(self):
+        for ep in ("ep01", "ep02", "ep03"):
+            tl = build_episode(ep, write=False)
+            tl.pop("_cam")
+            self.assertEqual(tl["warnings"], [], ep)
 
 
 class ExtraColumns(unittest.TestCase):

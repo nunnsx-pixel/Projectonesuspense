@@ -9,7 +9,7 @@ import unicodedata
 from pathlib import Path
 
 from . import camera, narration, overview, sfx
-from .timeline import FPS, ROOT, Resolver, snap, tc, to_frame
+from .timeline import FPS, ROOT, Resolver, keys_out_of_order, snap, tc, to_frame
 
 CSV_COLUMNS = [
     "frame", "t", "scene",
@@ -137,6 +137,11 @@ def build_episode(ep_id: str, root: Path = ROOT, write: bool = True, use_measure
         items, {n["scene"]: n["breath_min_gap"] for n in narr["scenes"] if "breath_min_gap" in n})
     speech_spans = [(i["start"] - 0.3, i["end"]) for i in items if i["kind"] == "speech"]
     cam = camera.build(cam_cfg, res, breath_events, speech_spans, windows, duration)
+    for name, spec in cam_cfg.get("curves", {}).items():
+        if not name.startswith("_"):
+            for a, b in keys_out_of_order(spec, res):
+                warnings.append(f"câmera: curva {name!r} com chaves fora de ordem ({a:.3f}s depois {b:.3f}s) — "
+                                f"a âncora andou para trás (fala medida mais curta?); o valor pode ficar preso")
 
     # ---- SFX (cues + passos da câmera) ----------------------------------------------
     sfx_out = sfx.build(sfx_cfg, res, cam["steps"], cam_cfg.get("seed", 348), windows, cam_cfg.get("gait_table"),
