@@ -26,8 +26,8 @@ import bpy  # noqa: E402
 import assemble_scene as asm  # noqa: E402
 
 
-def pick_device(sc, want: str) -> str:
-    """Liga a melhor GPU disponível; devolve 'CPU' ou 'GPU:<tipo>'."""
+def pick_device(sc, want: str, backend: str = "auto") -> str:
+    """Liga a melhor GPU disponível (ou a do `backend` pedido); devolve 'CPU' ou 'GPU:<tipo>'."""
     sc.cycles.device = "CPU"
     if want == "cpu":
         return "CPU"
@@ -35,7 +35,8 @@ def pick_device(sc, want: str) -> str:
         prefs = bpy.context.preferences.addons["cycles"].preferences
     except KeyError:
         return "CPU"
-    for kind in ("OPTIX", "CUDA", "HIP", "METAL", "ONEAPI"):
+    kinds = ("OPTIX", "CUDA", "HIP", "METAL", "ONEAPI") if backend == "auto" else (backend.upper(),)
+    for kind in kinds:
         try:
             prefs.compute_device_type = kind
             prefs.get_devices()
@@ -50,10 +51,10 @@ def pick_device(sc, want: str) -> str:
     return "CPU"
 
 
-def configure(sc, width, height, samples, device, threads, denoise_gpu=True):
+def configure(sc, width, height, samples, device, threads, backend="auto"):
     sc.render.engine = "CYCLES"
     cy = sc.cycles
-    used = pick_device(sc, device)
+    used = pick_device(sc, device, backend)
     cy.samples = samples
     cy.use_adaptive_sampling = True
     cy.adaptive_threshold = 0.02
@@ -86,6 +87,8 @@ def main(argv=None):
     ap.add_argument("--height", type=int)
     ap.add_argument("--samples", type=int, default=96)
     ap.add_argument("--device", default="auto", choices=("auto", "cpu", "gpu"))
+    ap.add_argument("--backend", default="auto", choices=("auto", "optix", "cuda", "hip", "metal", "oneapi"),
+                    help="API da GPU (auto = a melhor disponível; no Colab, cuda é a aposta segura)")
     ap.add_argument("--threads", type=int, default=0)
     ap.add_argument("--first", type=int, default=0)
     ap.add_argument("--last", type=int)
@@ -97,7 +100,9 @@ def main(argv=None):
     env = asm.assemble(a.episode, textures_dir=a.textures_dir)
     sc = env.sc
     height = a.height or round(a.width * 16 / 9)
-    used = configure(sc, a.width, height, a.samples, a.device, a.threads)
+    used = configure(sc, a.width, height, a.samples, a.device, a.threads, a.backend)
+    if a.device == "gpu" and used == "CPU":
+        sys.exit(f"[RENDER] --device gpu pedido, mas nenhuma GPU com a API {a.backend} foi encontrada (veja nvidia-smi)")
     n = len(env.ctx.rows())
     last = n - 1 if a.last is None else min(a.last, n - 1)
     out = Path(a.out).resolve() / a.episode

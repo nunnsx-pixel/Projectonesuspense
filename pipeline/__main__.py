@@ -33,6 +33,8 @@ def main(argv=None) -> int:
     r.add_argument("--height", type=int, help="padrão: 16/9 da largura (1920 para 1080)")
     r.add_argument("--samples", type=int, default=96)
     r.add_argument("--device", default="auto", choices=("auto", "cpu", "gpu"))
+    r.add_argument("--backend", default="auto", choices=("auto", "optix", "cuda", "hip", "metal", "oneapi"),
+                   help="API da GPU (auto = a melhor disponível; no Colab, cuda é a aposta segura)")
     r.add_argument("--threads", type=int, default=0)
     r.add_argument("--first", type=int, default=0, help="1º quadro (0 = início do CSV)")
     r.add_argument("--last", type=int, help="último quadro (padrão: o último do episódio)")

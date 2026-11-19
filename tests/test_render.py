@@ -16,7 +16,8 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def args(**kw):
     base = dict(episode="ep01", out="renders", width=1080, height=None, samples=96, device="auto", threads=0, first=0, last=None,
-                step=1, chunks=None, chunk=0, bench=0, overwrite=False, textures_dir=None, blender=None, python=None, dry_run=True)
+                step=1, chunks=None, chunk=0, bench=0, overwrite=False, textures_dir=None, blender=None, python=None, dry_run=True,
+                backend="auto")
     base.update(kw)
     return Namespace(**base)
 
@@ -41,6 +42,16 @@ class Lots(unittest.TestCase):
         cmd = render.blender_command(args(python="/x/py"), ROOT)
         self.assertEqual(cmd[0], "/x/py")
         self.assertTrue(cmd[1].endswith("render_episode.py"))
+
+    def test_gpu_backend_is_forwarded_only_when_chosen(self):
+        import contextlib
+        import io
+        for backend, expect in (("auto", False), ("cuda", True)):
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                render.run_render(args(python="/x/py", backend=backend), ROOT)
+            line = buf.getvalue()
+            self.assertEqual("--backend cuda" in line, expect, backend)
 
     def test_blender_executable_is_run_in_background_mode(self):
         cmd = render.blender_command(args(blender="/opt/blender"), ROOT)

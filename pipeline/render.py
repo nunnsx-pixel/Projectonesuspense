@@ -60,6 +60,8 @@ def run_render(args, root: Path = ROOT) -> int:
                                          "--first", str(first), "--last", str(last), "--step", str(args.step)]
     if args.height:
         cmd += ["--height", str(args.height)]
+    if getattr(args, "backend", "auto") != "auto":
+        cmd += ["--backend", args.backend]
     if args.threads:
         cmd += ["--threads", str(args.threads)]
     if args.bench:
